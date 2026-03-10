@@ -1,0 +1,229 @@
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
+    <h1>Requester</h1>
+    <p class="header-subtitle">Send HTTP requests to your WireMock stubs</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-sm btn-outline-secondary" (click)="resetRequesterForm()">
+      <i class="fas fa-redo"></i> Reset
+    </button>
+  </div>
+</header>
+<!-- Content -->
+<div class="requester-container" >
+  <div class="requester-content">
+    <!-- Request Panel -->
+    <div class="requester-panel">
+      <div class="detail-section">
+        <h4><i class="fas fa-arrow-up"></i> HTTP Request</h4>
+
+        <!-- Stub Selector -->
+        <div class="form-group mb-3">
+          <label class="form-label">
+            <i class="fas fa-magic"></i> Pre-fill from stub
+          </label>
+          <select
+            class="form-select"
+            [(ngModel)]="requesterForm.selectedStubId"
+            (change)="onStubSelected()">
+            <option value="">-- Select a stub to pre-fill request --</option>
+            @for (stub of allStubs; track stub) {
+              <option [value]="stub.uuid || stub.id">
+                {{ getStubDisplayName(stub) }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <!-- Base URL -->
+        <div class="form-group mb-3">
+          <label class="form-label">
+            <i class="fas fa-globe"></i> Base URL
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="requesterForm.baseUrl"
+            placeholder="https://api.example.com">
+            <small class="form-text text-muted">
+              Scheme and domain for the request (default: current URL for proxy to WireMock)
+            </small>
+          </div>
+
+          <!-- Method and URL -->
+          <div class="form-group mb-3">
+            <label class="form-label">Request</label>
+            <div class="input-group">
+              <select class="form-select" style="max-width: 150px;" [(ngModel)]="requesterForm.method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="PATCH">PATCH</option>
+                <option value="HEAD">HEAD</option>
+                <option value="OPTIONS">OPTIONS</option>
+              </select>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="requesterForm.url"
+                placeholder="/api/endpoint">
+              </div>
+              <small class="form-text text-muted">
+                Path only (will be combined with Base URL)
+              </small>
+            </div>
+
+            <!-- Headers -->
+            <div class="form-group mb-3">
+              <label class="form-label">
+                Headers
+                <button class="btn btn-link btn-sm" (click)="addRequesterHeader()">
+                  <i class="fas fa-plus"></i> Add
+                </button>
+              </label>
+              @for (header of requesterForm.headers; track header; let i = $index) {
+                <div class="header-row mb-2">
+                  <div class="input-group input-group-sm">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="header.key"
+                      placeholder="Header name">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="header.value"
+                      placeholder="Header value">
+                    <button class="btn btn-outline-danger" (click)="removeRequesterHeader(i)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Body -->
+            <div class="form-group mb-3">
+              <label class="form-label">Request Body</label>
+              <textarea
+                class="form-control json-editor-simple"
+                [(ngModel)]="requesterForm.body"
+                rows="12"
+              placeholder="Request body (JSON, XML, text, etc.)"></textarea>
+            </div>
+
+            <!-- Send Button -->
+            <div class="text-end">
+              <button
+                class="btn btn-primary btn-lg"
+                [disabled]="requesterLoading || !requesterForm.url"
+                (click)="sendHttpRequest()">
+                <i class="fas fa-paper-plane"></i>
+                {{ requesterLoading ? 'Sending...' : 'Send Request' }}
+              </button>
+            </div>
+
+            <!-- Error -->
+            @if (requesterError) {
+              <div class="alert alert-danger mt-3">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ requesterError }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Response Panel -->
+        <div class="response-panel">
+          <!-- No Response Yet -->
+          @if (!requesterResponse && !requesterLoading) {
+            <div class="detail-section">
+              <div class="no-selection">
+                <i class="fas fa-inbox"></i>
+                <p>Send a request to see the response</p>
+              </div>
+            </div>
+          }
+
+          <!-- Loading -->
+          @if (requesterLoading) {
+            <div class="detail-section">
+              <div class="loading-state">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Sending request...</p>
+              </div>
+            </div>
+          }
+
+          <!-- Response -->
+          @if (requesterResponse && !requesterLoading) {
+            <div class="detail-section">
+              <h4>
+                <i class="fas fa-arrow-down"></i> HTTP Response
+            <span class="badge ms-2" [ngClass]="{
+              'bg-success': requesterResponse.status >= 200 && requesterResponse.status < 300,
+              'bg-warning': requesterResponse.status >= 300 && requesterResponse.status < 400,
+              'bg-danger': requesterResponse.status >= 400
+            }">
+                  {{ requesterResponse.status }} {{ requesterResponse.statusText }}
+                </span>
+              </h4>
+              <div class="info-grid mb-3">
+                <div class="info-row">
+                  <span class="info-label">Status</span>
+                  <span class="info-value">
+                <span class="badge" [ngClass]="{
+                  'bg-success': requesterResponse.status >= 200 && requesterResponse.status < 300,
+                  'bg-warning': requesterResponse.status >= 300 && requesterResponse.status < 400,
+                  'bg-danger': requesterResponse.status >= 400
+                }">
+                      {{ requesterResponse.status }} {{ requesterResponse.statusText }}
+                    </span>
+                  </span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Time</span>
+                  <span class="info-value">{{ requesterResponse.timing }} ms</span>
+                </div>
+              </div>
+              <!-- Response Headers -->
+              @if (getResponseHeadersArray().length > 0) {
+                <div class="mb-3">
+                  <h5>Headers</h5>
+                  <div class="headers-list">
+                    @for (header of getResponseHeadersArray(); track header) {
+                      <div class="header-item">
+                        <span class="header-key">{{ header.key }}</span>
+                        <span class="header-value">{{ header.value }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+              <!-- Response Body -->
+              @if (requesterResponse.body) {
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Body</h5>
+                    <button class="btn btn-link btn-sm" (click)="copyRequesterResponse()">
+                      <i class="fas fa-copy"></i> Copy
+                    </button>
+                  </div>
+                  <pre class="json-content">{{ getResponseBodyFormatted() }}</pre>
+                </div>
+              }
+              @if (!requesterResponse.body) {
+                <div class="text-muted">
+                  <em>No response body</em>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- END REQUESTER VIEW -->
