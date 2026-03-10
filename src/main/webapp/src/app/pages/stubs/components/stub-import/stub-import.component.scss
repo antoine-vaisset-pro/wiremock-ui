@@ -52,7 +52,7 @@
 }
 
 .file-selection-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: $color-bg-light;
   border-radius: $radius-sm;
 }
 
@@ -68,7 +68,7 @@
 .file-selection-item {
   padding: $space-2;
   border-bottom: 1px solid $color-gray-border-pale;
-  background: white;
+  background: $color-white;
   margin-bottom: $space-1;
   border-radius: $radius-sm;
   transition: background-color 0.2s;
@@ -111,7 +111,7 @@
 }
 
 .preview-list-scrollable::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: $color-bg-light;
   border-radius: $radius-sm;
 }
 
@@ -130,7 +130,7 @@
   gap: $space-10;
   padding: $space-2 $space-10;
   border-bottom: 1px solid $color-gray-border-pale;
-  background: white;
+  background: $color-white;
   margin-bottom: $space-1;
   border-radius: $radius-sm;
 }
