@@ -1,0 +1,359 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>
+      <i class="fas fa-chart-line"></i>
+      Dashboard
+    </h1>
+
+    <!-- Time Range Picker - Grafana Style -->
+    <div class="time-range-picker" [class.open]="showTimeRangePicker">
+      <button class="time-range-display" (click)="toggleTimeRangePicker()">
+        <i class="fas fa-clock"></i>
+        <span>{{ getTimeRangeLabel() }}</span>
+        <i class="fas fa-chevron-down"></i>
+      </button>
+
+      <!-- Dropdown -->
+      @if (showTimeRangePicker) {
+        <div class="time-range-dropdown">
+          <!-- Quick Ranges -->
+          <div class="quick-ranges">
+            <div class="quick-ranges-header">Quick ranges</div>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '5m'"
+              (click)="selectTimeRange('5m')">
+              Last 5 minutes
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '15m'"
+              (click)="selectTimeRange('15m')">
+              Last 15 minutes
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '30m'"
+              (click)="selectTimeRange('30m')">
+              Last 30 minutes
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '1h'"
+              (click)="selectTimeRange('1h')">
+              Last 1 hour
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '3h'"
+              (click)="selectTimeRange('3h')">
+              Last 3 hours
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '6h'"
+              (click)="selectTimeRange('6h')">
+              Last 6 hours
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '12h'"
+              (click)="selectTimeRange('12h')">
+              Last 12 hours
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '24h'"
+              (click)="selectTimeRange('24h')">
+              Last 24 hours
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '2d'"
+              (click)="selectTimeRange('2d')">
+              Last 2 days
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '7d'"
+              (click)="selectTimeRange('7d')">
+              Last 7 days
+            </button>
+            <button
+              class="quick-range-item"
+              [class.active]="selectedTimeRange === '30d'"
+              (click)="selectTimeRange('30d')">
+              Last 30 days
+            </button>
+          </div>
+          <!-- Absolute Time Range -->
+          <div class="absolute-time-range">
+            <div class="absolute-time-header">Absolute time range</div>
+            <div class="date-input-group">
+              <label>From</label>
+              <input
+                type="datetime-local"
+                [(ngModel)]="customStartDate"
+                class="date-input"
+                placeholder="now-24h">
+            </div>
+            <div class="date-input-group">
+              <label>To</label>
+              <input
+                type="datetime-local"
+                [(ngModel)]="customEndDate"
+                class="date-input"
+                placeholder="now">
+            </div>
+            <div class="dropdown-actions">
+              <button class="action-btn secondary" (click)="closeTimeRangePicker()">
+                Cancel
+              </button>
+              <button class="action-btn primary" (click)="applyCustomDateRange()">
+                Apply time range
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <button class="refresh-button" (click)="refreshDashboard()" [disabled]="loading">
+      <i class="fas fa-sync-alt" [class.spinning]="loading"></i>
+      Refresh
+    </button>
+  </header>
+
+  <!-- Loading State -->
+  @if (loading && !stats) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading dashboard statistics...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error) {
+    <div class="error-container">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button (click)="loadDashboard()">Retry</button>
+    </div>
+  }
+
+  <!-- Dashboard Content -->
+  @if (!loading && !error && stats) {
+    <div class="dashboard-content">
+      <!-- Stats Cards -->
+      <section class="stats-cards">
+        <div class="stat-card stat-card-primary clickable" (click)="onViewAllStubs()">
+          <div class="stat-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{ stats.totalStubs }}</div>
+            <div class="stat-label">Active Stubs</div>
+          </div>
+          <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+        <div class="stat-card stat-card-success clickable" (click)="onViewAllRequests()">
+          <div class="stat-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{ stats.totalRequests }}</div>
+            <div class="stat-label">Total Requests</div>
+          </div>
+          <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+        <div class="stat-card stat-card-warning clickable"
+          [class.stat-card-danger]="stats.unmatchedRequests > 0"
+          (click)="onViewAllRequests()">
+          <div class="stat-icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{ stats.unmatchedRequests }}</div>
+            <div class="stat-label">Unmatched Requests</div>
+          </div>
+          <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+        <div class="stat-card stat-card-info">
+          <div class="stat-icon">
+            <i class="fas fa-circle" [class]="getRecordingStatusClass()"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value status-text">{{ getRecordingStatusText() }}</div>
+            <div class="stat-label">Recording Status</div>
+          </div>
+        </div>
+      </section>
+      <!-- Active Scenarios -->
+      @if (activeScenarios.length > 0) {
+        <section class="scenarios-section">
+          <div class="scenarios-header">
+            <h2>
+              <i class="fas fa-sitemap"></i>
+              Active Scenarios
+            </h2>
+            <button class="btn btn-sm btn-link" (click)="onViewAllScenarios()">
+              View all <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="scenarios-cards">
+            @for (scenario of activeScenarios.slice(0, 5); track scenario) {
+              <div
+                class="scenario-card clickable"
+                (click)="onViewAllScenarios()"
+                >
+                <div class="scenario-card-header">
+                  <i class="fas fa-sitemap"></i>
+                  <span class="scenario-card-name">{{ scenario.name }}</span>
+                </div>
+                <div class="scenario-card-body">
+                  <div class="scenario-current-state">
+                    <span class="badge bg-primary">{{ scenario.state }}</span>
+                  </div>
+                  <div class="scenario-states-count">
+                    {{ scenario.possibleStates.length }} states
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+      <!-- Charts and Lists -->
+      <div class="dashboard-grid">
+        <!-- Requests by Hour Chart -->
+        <section class="dashboard-panel chart-panel">
+          <h2>
+            <i class="fas fa-chart-bar"></i>
+            Requests by Hour ({{ getTimeRangeLabel() }})
+            @if (stats && stats.requestsByHour && stats.requestsByHour.length > 0) {
+              <span class="chart-hint">
+                <i class="fas fa-search-plus"></i>
+                Click and drag to zoom
+              </span>
+            }
+          </h2>
+          <div class="chart-container">
+            <!-- The container must always be present and visible for Highcharts -->
+            <div #chartContainer class="highcharts-container"></div>
+            <!-- Empty state affiché seulement quand il n'y a pas de données -->
+            @if (!stats || !stats.requestsByHour || stats.requestsByHour.length === 0) {
+              <div class="empty-state">
+                <i class="fas fa-chart-bar"></i>
+                <p>No request data available</p>
+              </div>
+            }
+          </div>
+        </section>
+        <!-- Top Endpoints -->
+        <section class="dashboard-panel list-panel">
+          <h2>
+            <i class="fas fa-fire"></i>
+            Top 5 Endpoints
+          </h2>
+          <div class="list-container">
+            @if (stats.topEndpoints.length > 0) {
+              <div class="endpoint-list">
+                @for (endpoint of stats.topEndpoints; track endpoint; let i = $index) {
+                  <div class="endpoint-item clickable"
+                    (click)="onEndpointClick(endpoint.url, endpoint.method)">
+                    <div class="endpoint-rank">{{ i + 1 }}</div>
+                    <div class="endpoint-details">
+                      <div class="endpoint-url">
+                        <span class="method-badge" [class]="getMethodClass(endpoint.method)">
+                          {{ endpoint.method }}
+                        </span>
+                        <span class="url-text">{{ endpoint.url }}</span>
+                      </div>
+                      <div class="endpoint-count">
+                        <i class="fas fa-chart-line"></i>
+                        {{ endpoint.count }} calls
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            @if (stats.topEndpoints.length === 0) {
+              <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No requests recorded yet</p>
+              </div>
+            }
+          </div>
+        </section>
+        <!-- Unused Stubs -->
+        <section class="dashboard-panel list-panel">
+          <h2>
+            <i class="fas fa-ghost"></i>
+            Unused Stubs
+          </h2>
+          <div class="list-container">
+            @if (stats.unusedStubs.length > 0) {
+              <div class="stub-list">
+                @for (stub of stats.unusedStubs; track stub) {
+                  <div class="stub-item clickable"
+                    (click)="onUnusedStubClick(stub.id)">
+                    <div class="stub-icon">
+                      <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="stub-details">
+                      @if (stub.name) {
+                        <div class="stub-name">{{ stub.name }}</div>
+                      }
+                      <div class="stub-url">
+                        <span class="method-badge" [class]="getMethodClass(stub.method)">
+                          {{ stub.method }}
+                        </span>
+                        <span class="url-text">{{ stub.url }}</span>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            @if (stats.unusedStubs.length === 0) {
+              <div class="empty-state success">
+                <i class="fas fa-check-circle"></i>
+                <p>All stubs are being used!</p>
+              </div>
+            }
+          </div>
+        </section>
+        <!-- System Info -->
+        <section class="dashboard-panel info-panel">
+          <h2>
+            <i class="fas fa-info-circle"></i>
+            System Information
+          </h2>
+          <div class="info-container">
+            <div class="info-item">
+              <span class="info-label">WireMock Version</span>
+              <span class="info-value">{{ stats.version }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Auto-refresh</span>
+              <span class="info-value">
+                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                Every 30s
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Total Stubs</span>
+              <span class="info-value">{{ stats.totalStubs }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Total Requests</span>
+              <span class="info-value">{{ stats.totalRequests }}</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  }
+</div>
+
