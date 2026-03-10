@@ -1,0 +1,40 @@
+@use '../../../../../styles/colors' as *;
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/spacing' as *;
+
+.stub-checkbox {
+  padding: 0 $space-2;
+  display: flex;
+  align-items: center;
+}
+
+.stub-checkbox input[type="checkbox"] {
+  width: $size-icon-md;
+  height: $size-icon-md;
+  cursor: pointer;
+}
+
+/* Scenario Badges */
+.bg-indigo {
+  background-color: $color-primary !important;
+}
+
+.scenario-badge-small {
+  font-size: $font-size-xs;
+  padding: $space-1 $space-2;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.stub-scenario {
+  margin-top: $space-6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stub-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $space-6;
+}

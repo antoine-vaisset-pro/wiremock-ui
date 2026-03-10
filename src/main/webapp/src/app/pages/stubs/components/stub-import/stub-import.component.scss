@@ -1,0 +1,161 @@
+@use '../../../../../styles/colors' as *;
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/spacing' as *;
+
+/* Import Drop Zone */
+.import-drop-zone {
+  border: 2px dashed $color-gray-bs;
+  border-radius: $radius-lg;
+  padding: $space-8 $space-5;
+  text-align: center;
+  background: $color-bg-near-white;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+}
+
+.import-drop-zone:hover {
+  border-color: $color-blue-bs;
+  background: $color-bg-blue-tint;
+}
+
+.import-drop-icon {
+  font-size: 2.5rem;
+  color: $color-gray-bs;
+  margin-bottom: $space-5;
+  display: block;
+}
+
+.import-drop-hint {
+  margin: 0 0 $space-1;
+  font-size: $font-size-rem-base;
+  color: $color-slate-500;
+}
+
+.import-drop-or {
+  margin: $space-10 0;
+  font-size: $font-size-rem-base;
+  color: $color-gray-light;
+}
+
+/* File Selection Lists */
+.file-selection-list {
+  max-height: $size-scenarios-panel;
+  overflow-y: auto;
+  border: 1px solid $color-gray-border-light;
+  border-radius: $radius-sm;
+  padding: $space-10;
+  background: $color-bg-near-white;
+}
+
+.file-selection-list::-webkit-scrollbar {
+  width: $size-scrollbar;
+}
+
+.file-selection-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: $radius-sm;
+}
+
+.file-selection-list::-webkit-scrollbar-thumb {
+  background: $color-gray-icon;
+  border-radius: $radius-sm;
+}
+
+.file-selection-list::-webkit-scrollbar-thumb:hover {
+  background: $color-text-dark;
+}
+
+.file-selection-item {
+  padding: $space-2;
+  border-bottom: 1px solid $color-gray-border-pale;
+  background: white;
+  margin-bottom: $space-1;
+  border-radius: $radius-sm;
+  transition: background-color 0.2s;
+}
+
+.file-selection-item:hover {
+  background: $color-bg-softer;
+}
+
+.file-selection-item:last-child {
+  border-bottom: none;
+}
+
+.file-selection-item .form-check {
+  margin: 0;
+}
+
+.file-selection-item .form-check-label {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-em-sm;
+}
+
+/* Import Preview List */
+.preview-list-scrollable {
+  max-height: $size-min-range;
+  overflow-y: auto;
+  border: 1px solid $color-gray-border-light;
+  border-radius: $radius-sm;
+  padding: $space-10;
+  background: $color-bg-near-white;
+}
+
+.preview-list-scrollable::-webkit-scrollbar {
+  width: $size-scrollbar;
+}
+
+.preview-list-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: $radius-sm;
+}
+
+.preview-list-scrollable::-webkit-scrollbar-thumb {
+  background: $color-gray-icon;
+  border-radius: $radius-sm;
+}
+
+.preview-list-scrollable::-webkit-scrollbar-thumb:hover {
+  background: $color-text-dark;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  gap: $space-10;
+  padding: $space-2 $space-10;
+  border-bottom: 1px solid $color-gray-border-pale;
+  background: white;
+  margin-bottom: $space-1;
+  border-radius: $radius-sm;
+}
+
+.preview-item:last-child {
+  border-bottom: none;
+}
+
+.preview-index {
+  color: $color-gray-light;
+  font-size: $font-size-em-sm;
+  min-width: $size-icon-2xl;
+  text-align: right;
+}
+
+.preview-url {
+  flex: 1;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-em-sm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-status {
+  color: $color-text-medium;
+  font-size: $font-size-em-sm;
+}

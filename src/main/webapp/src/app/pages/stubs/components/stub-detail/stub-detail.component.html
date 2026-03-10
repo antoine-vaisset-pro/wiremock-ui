@@ -1,0 +1,359 @@
+@if (!selectedMapping) {
+  <div class="no-selection">
+    <i class="fas fa-mouse-pointer"></i>
+    <p>Select a stub to view details</p>
+  </div>
+}
+
+@if (selectedMapping) {
+  <div class="stub-details">
+    <!-- Details Header -->
+    <div class="details-header">
+      <h3>Stub details</h3>
+      <div class="details-actions">
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="editRequested.emit()">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+        <button class="btn btn-sm btn-outline-secondary me-2" (click)="cloneRequested.emit()">
+          <i class="fas fa-clone"></i> Clone
+        </button>
+        <button class="btn btn-sm btn-outline-danger me-2" (click)="deleteRequested.emit()">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+        <button class="btn btn-sm btn-link" (click)="closeRequested.emit()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- View Tabs (ngb-nav) -->
+    <ul ngbNav #viewNav="ngbNav" [(activeId)]="activeViewTab" class="nav-tabs mt-2 ms-2">
+      <li [ngbNavItem]="'details'">
+        <button ngbNavLink (click)="setViewTab('details')">
+          <i class="fas fa-list-ul"></i> Details
+        </button>
+        <ng-template ngbNavContent>
+          <!-- Name -->
+          <div class="detail-section">
+            <label class="detail-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="selectedMapping.name || 'Unnamed stub'"
+              readonly
+            />
+          </div>
+
+          <!-- Request Section -->
+          <div class="detail-section">
+            <h4>Request</h4>
+            <div class="request-line">
+              <span class="badge method-badge" [ngClass]="'method-' + (selectedMapping.request.method || 'ANY')">
+                {{ selectedMapping.request.method || 'ANY' }}
+              </span>
+              <span class="request-url">{{ getUrl(selectedMapping) }}</span>
+            </div>
+          </div>
+
+          <!-- Response Section with inner tabs -->
+          <div class="detail-section">
+            <h4>Response</h4>
+            <ul ngbNav #responseNav="ngbNav" [(activeId)]="activeResponseTab" class="nav-tabs">
+              <li [ngbNavItem]="'direct'">
+                <button ngbNavLink (click)="setResponseTab('direct')">Direct</button>
+                <ng-template ngbNavContent>
+                  <div class="form-group mt-3">
+                    <label class="detail-label">Status</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [value]="selectedMapping.response?.status || 200"
+                      readonly
+                    />
+                  </div>
+
+                  @if (selectedMapping.response?.headers) {
+                    <div class="form-group mt-3">
+                      <label class="detail-label">Headers</label>
+                      <div class="headers-list">
+                        @for (header of getHeaders(selectedMapping); track header.key) {
+                          <div class="header-item">
+                            <span class="header-key">{{ header.key }}</span>
+                            <span class="header-value">{{ header.value }}</span>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Delay Configuration Display -->
+                  @if (selectedMapping.response?.fixedDelayMilliseconds || selectedMapping.response?.delayDistribution || selectedMapping.response?.chunkedDribbleDelay) {
+                    <div class="form-group mt-3">
+                      <label class="detail-label">
+                        <i class="fas fa-clock"></i> Response Delay
+                      </label>
+
+                      @if (selectedMapping.response?.fixedDelayMilliseconds) {
+                        <div class="alert alert-info mb-0">
+                          <strong>Fixed delay:</strong> {{ selectedMapping.response?.fixedDelayMilliseconds }} ms
+                          <p class="mb-0 mt-1"><small>Response will be delayed by a fixed {{ selectedMapping.response?.fixedDelayMilliseconds }}ms</small></p>
+                        </div>
+                      }
+
+                      @if (selectedMapping.response?.delayDistribution?.type === 'uniform') {
+                        <div class="alert alert-info mb-0">
+                          <strong>Random delay - Uniform distribution</strong>
+                          <p class="mb-0 mt-1">
+                            <small>Lower bound: {{ selectedMapping.response?.delayDistribution?.lower }} ms</small><br>
+                            <small>Upper bound: {{ selectedMapping.response?.delayDistribution?.upper }} ms</small>
+                          </p>
+                          <p class="mb-0 mt-1"><small class="text-muted">Delay randomly chosen between bounds with equal probability</small></p>
+                        </div>
+                      }
+
+                      @if (selectedMapping.response?.delayDistribution?.type === 'lognormal') {
+                        <div class="alert alert-info mb-0">
+                          <strong>Random delay - Log normal distribution</strong>
+                          <p class="mb-0 mt-1">
+                            <small>Median: {{ selectedMapping.response?.delayDistribution?.median }} ms</small><br>
+                            <small>Sigma: {{ selectedMapping.response?.delayDistribution?.sigma }}</small>
+                          </p>
+                          <p class="mb-0 mt-1"><small class="text-muted">Delay follows a log-normal distribution (realistic network delay simulation)</small></p>
+                        </div>
+                      }
+
+                      @if (selectedMapping.response?.chunkedDribbleDelay) {
+                        <div class="alert alert-info mb-0">
+                          <strong>Chunked dribble delay</strong>
+                          <p class="mb-0 mt-1">
+                            <small>Number of chunks: {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }}</small><br>
+                            <small>Total duration: {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }} ms</small>
+                          </p>
+                          <p class="mb-0 mt-1"><small class="text-muted">Response body split into {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }} chunks sent over {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }}ms</small></p>
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  @if (selectedMapping.response?.jsonBody || selectedMapping.response?.body) {
+                    <div class="form-group mt-3">
+                      <label class="detail-label">Body</label>
+                      <div class="body-editor">
+                        <div class="editor-toolbar">
+                          <span class="badge bg-secondary">JSON</span>
+                          <button class="btn btn-link btn-sm" (click)="copyBody()">
+                            <i class="fas fa-copy"></i> Copy
+                          </button>
+                        </div>
+                        <pre class="json-body">{{ getFormattedBody(selectedMapping) }}</pre>
+                      </div>
+                    </div>
+                  }
+                </ng-template>
+              </li>
+
+              <li [ngbNavItem]="'fault'">
+                <button ngbNavLink (click)="setResponseTab('fault')">Fault</button>
+                <ng-template ngbNavContent>
+                  <div class="alert alert-info mt-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Fault Response - Network Error Simulation</strong><br>
+                    WireMock can simulate various network failures and errors to test how your application handles error conditions.
+                  </div>
+
+                  @if (selectedMapping.response?.fault) {
+                    <div class="alert alert-warning mt-3">
+                      <i class="fas fa-bolt"></i>
+                      <strong>Active Fault: {{ selectedMapping.response?.fault }}</strong>
+                    </div>
+
+                    <div class="form-group mt-3">
+                      <label class="detail-label">Fault Type</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control form-control-sm"
+                          [value]="selectedMapping.response?.fault"
+                          readonly
+                        />
+                        <button class="btn btn-sm btn-outline-secondary" (click)="editRequested.emit()">
+                          <i class="fas fa-edit"></i> Edit
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Fault Description -->
+                    <div class="card mt-3">
+                      <div class="card-header">
+                        <i class="fas fa-info-circle"></i> Fault Behavior
+                      </div>
+                      <div class="card-body">
+                        @if (selectedMapping.response?.fault === 'EMPTY_RESPONSE') {
+                          <h6>EMPTY_RESPONSE</h6>
+                          <p>The connection will be closed immediately without sending any response data.</p>
+                          <ul>
+                            <li>Socket closes with no HTTP response</li>
+                            <li>Client receives connection reset or EOF error</li>
+                            <li>Useful for testing connection timeout scenarios</li>
+                          </ul>
+                        }
+                        @if (selectedMapping.response?.fault === 'RANDOM_DATA_THEN_CLOSE') {
+                          <h6>RANDOM_DATA_THEN_CLOSE</h6>
+                          <p>Sends random garbage data instead of valid HTTP response, then closes the connection.</p>
+                          <ul>
+                            <li>Sends malformed/corrupted HTTP data</li>
+                            <li>Client receives unparseable response</li>
+                            <li>Useful for testing response parsing error handling</li>
+                          </ul>
+                        }
+                        @if (selectedMapping.response?.fault === 'MALFORMED_RESPONSE_CHUNK') {
+                          <h6>MALFORMED_RESPONSE_CHUNK</h6>
+                          <p>Starts with a valid HTTP 200 response, then sends corrupted data mid-response.</p>
+                          <ul>
+                            <li>Initial HTTP headers appear valid (200 OK)</li>
+                            <li>Response body contains malformed chunk encoding</li>
+                            <li>Connection closes unexpectedly</li>
+                            <li>Useful for testing partial response scenarios</li>
+                          </ul>
+                        }
+                        @if (selectedMapping.response?.fault === 'CONNECTION_RESET_BY_PEER') {
+                          <h6>CONNECTION_RESET_BY_PEER</h6>
+                          <p>TCP connection is forcefully reset by the server.</p>
+                          <ul>
+                            <li>Simulates abrupt connection termination</li>
+                            <li>Client receives "Connection reset by peer" error</li>
+                            <li>No HTTP response is sent</li>
+                            <li>Useful for testing network failure resilience</li>
+                          </ul>
+                        }
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="card mt-3">
+                      <div class="card-header">
+                        <i class="fas fa-check-circle text-success"></i> No Fault Configured
+                      </div>
+                      <div class="card-body">
+                        <p>This stub returns normal HTTP responses without simulating errors.</p>
+                        <p class="mb-0">To configure a fault response, click the <strong>Edit</strong> button and select a fault type.</p>
+                      </div>
+                    </div>
+
+                    <div class="card mt-3">
+                      <div class="card-header">
+                        <i class="fas fa-book"></i> Available Fault Types
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-3">
+                          <h6><span class="badge bg-danger">EMPTY_RESPONSE</span></h6>
+                          <p class="small mb-0">Close socket with no response - connection terminates immediately</p>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                          <h6><span class="badge bg-danger">RANDOM_DATA_THEN_CLOSE</span></h6>
+                          <p class="small mb-0">Send bad HTTP data then close socket - unparseable garbage response</p>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                          <h6><span class="badge bg-danger">MALFORMED_RESPONSE_CHUNK</span></h6>
+                          <p class="small mb-0">Send 200 response then bad HTTP data - partial valid response followed by corruption</p>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                          <h6><span class="badge bg-danger">CONNECTION_RESET_BY_PEER</span></h6>
+                          <p class="small mb-0">Peer connection reset - TCP connection forcefully terminated</p>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </ng-template>
+              </li>
+
+              <li [ngbNavItem]="'proxy'">
+                <button ngbNavLink (click)="setResponseTab('proxy')">Proxy</button>
+                <ng-template ngbNavContent>
+                  <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Proxy Response</strong><br>
+                    Forwards requests to a real backend server.
+                  </div>
+                  @if (selectedMapping.response?.proxyBaseUrl) {
+                    <div class="form-group mt-3">
+                      <label class="detail-label">Proxy Base URL</label>
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        [value]="selectedMapping.response?.proxyBaseUrl"
+                        readonly
+                      />
+                    </div>
+                  } @else {
+                    <div class="text-muted mt-3">
+                      <em>No proxy response configured for this stub.</em>
+                    </div>
+                  }
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="responseNav" class="mt-2"></div>
+          </div>
+
+          <!-- Scenario Section -->
+          @if (selectedMapping.scenarioName) {
+            <div class="detail-section">
+              <h4>
+                <i class="fas fa-sitemap"></i>
+                Scenario
+              </h4>
+              <div class="scenario-info-display">
+                <div class="scenario-field">
+                  <label class="scenario-field-label">Scenario Name:</label>
+                  <span class="badge bg-indigo scenario-badge">
+                    {{ selectedMapping.scenarioName }}
+                  </span>
+                </div>
+                @if (selectedMapping.requiredScenarioState) {
+                  <div class="scenario-field">
+                    <label class="scenario-field-label">Required State:</label>
+                    <span class="badge bg-warning text-dark">
+                      {{ selectedMapping.requiredScenarioState }}
+                    </span>
+                  </div>
+                }
+                @if (selectedMapping.newScenarioState) {
+                  <div class="scenario-field">
+                    <label class="scenario-field-label">New State:</label>
+                    <span class="badge bg-success">
+                      {{ selectedMapping.newScenarioState }}
+                    </span>
+                  </div>
+                }
+              </div>
+              <p class="text-muted small mt-2">
+                <i class="fas fa-info-circle"></i>
+                This stub participates in stateful behavior. It will only match when the scenario is in the required state.
+              </p>
+            </div>
+          }
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="'json'">
+        <button ngbNavLink (click)="setViewTab('json')">
+          <i class="fas fa-code"></i> Complete Mapping
+        </button>
+        <ng-template ngbNavContent>
+          <div class="detail-section">
+            <div class="json-viewer">
+              <button class="btn btn-link btn-sm" (click)="copyJson()">
+                <i class="fas fa-copy"></i> Copy JSON
+              </button>
+              <pre class="json-content">{{ selectedMapping | json }}</pre>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="viewNav" class="mt-2"></div>
+  </div>
+}

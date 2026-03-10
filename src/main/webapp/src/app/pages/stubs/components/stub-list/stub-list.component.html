@@ -1,0 +1,115 @@
+<!-- Search Bar -->
+<div class="search-bar">
+  <i class="fas fa-search search-icon"></i>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Filter stubs..."
+    [(ngModel)]="localSearchQuery"
+    (ngModelChange)="onSearchInput()"
+  />
+  @if (localSearchQuery) {
+    <i
+      class="fas fa-times search-clear-icon"
+      (click)="clearSearch()"
+      title="Clear search"></i>
+  }
+</div>
+
+<!-- Loading State -->
+@if (loading) {
+  <div class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading stubs...</p>
+  </div>
+}
+
+<!-- Error State -->
+@if (error && !loading) {
+  <div class="error-state">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>{{ error }}</p>
+    <button class="btn btn-sm btn-primary" (click)="refreshRequested.emit()">
+      <i class="fas fa-redo"></i> Retry
+    </button>
+  </div>
+}
+
+<!-- Stubs List -->
+@if (!loading && !error) {
+  <div class="stubs-list">
+    @for (mapping of mappings; track (mapping.uuid ?? mapping.id)) {
+      <div
+        class="stub-item"
+        [class.selected]="selectedMapping?.uuid === mapping.uuid"
+        (click)="onStubClick(mapping)"
+      >
+        <!-- Checkbox always visible -->
+        <div class="stub-checkbox">
+          <input
+            type="checkbox"
+            [checked]="isStubSelected(mapping.uuid || mapping.id!)"
+            (click)="onSelectionToggle(mapping.uuid || mapping.id!, $event)"
+          />
+        </div>
+
+        <div class="stub-method">
+          <span class="badge method-badge" [ngClass]="'method-' + (mapping.request.method || 'ANY')">
+            {{ mapping.request.method || 'ANY' }}
+          </span>
+        </div>
+        <div class="stub-info">
+          <div class="stub-url">{{ getUrl(mapping) }}</div>
+          @if (mapping.name) {
+            <div class="stub-name">{{ mapping.name }}</div>
+          }
+        </div>
+        <div class="stub-status">
+          <span class="status-code">{{ mapping.response?.status || 200 }}</span>
+          @if (mapping.scenarioName) {
+            <div class="stub-scenario">
+              <span class="badge bg-indigo scenario-badge-small">
+                <i class="fas fa-sitemap"></i>
+                {{ mapping.scenarioName }}
+                @if (mapping.requiredScenarioState) {
+                  <span>: {{ mapping.requiredScenarioState }}</span>
+                }
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (mappings.length === 0) {
+      <div class="empty-state">
+        <i class="fas fa-inbox"></i>
+        <p>No stubs found</p>
+        <button class="btn btn-sm btn-primary" (click)="createNewRequested.emit()">
+          <i class="fas fa-plus"></i> Create your first stub
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- Pagination -->
+@if (!loading && !error && mappings.length > 0) {
+  <div class="pagination-container">
+    <ngb-pagination
+      [(page)]="currentPage"
+      [pageSize]="pageSize"
+      [collectionSize]="totalMappings"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="onPageChange($event)"
+    ></ngb-pagination>
+    <div class="pagination-info">
+      Showing {{ (currentPage - 1) * pageSize + 1 }} - {{ Math.min(currentPage * pageSize, totalMappings) }} of {{ totalMappings }}
+    </div>
+  </div>
+}
