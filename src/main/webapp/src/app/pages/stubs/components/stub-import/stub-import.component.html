@@ -1,0 +1,278 @@
+<ng-template #importModalTpl let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Import Stubs</h3>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    @if (!importPreview && !showZipFileSelection && !zipSelectionLoading) {
+      <!-- Single input managed dynamically on the TS side -->
+      <input
+        #importInput
+        type="file"
+        class="d-none"
+        (change)="onFileSelected($event)"
+      />
+
+      <!-- Drop zone + buttons -->
+      <div
+        class="import-drop-zone"
+        (dragover)="$event.preventDefault()"
+        (drop)="onDropFile($event)"
+      >
+        <i class="fas fa-cloud-upload-alt import-drop-icon"></i>
+        <p class="import-drop-hint">Drop a <strong>.json</strong> or <strong>.zip</strong> file here</p>
+        <p class="import-drop-or">or select</p>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-outline-primary" (click)="openImportInput('file')">
+            <i class="fas fa-file-archive me-2"></i>ZIP / JSON file
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="openImportInput('directory')">
+            <i class="fas fa-folder-open me-2"></i>Directory
+          </button>
+        </div>
+      </div>
+
+      @if (importError) {
+        <div class="alert alert-danger mt-3" style="white-space: pre-wrap;">
+          <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+        </div>
+      }
+    }
+
+    <!-- Loading Spinner for ZIP structure -->
+    @if (zipSelectionLoading) {
+      <div class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading ZIP structure...</p>
+      </div>
+    }
+
+    <!-- ZIP File Selection Screen -->
+    @if (showZipFileSelection && zipStructure && !zipSelectionLoading) {
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        Select the files you want to import from the ZIP archive
+      </div>
+
+      <!-- Mapping Files Selection -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <label class="form-label mb-0">
+            <strong>Mapping Files</strong> ({{ getSelectedMappingsCount() }}/{{ zipStructure.mappingFiles.length }} selected)
+          </label>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary" (click)="toggleAllMappings(true)">
+              <i class="fas fa-check-square"></i> All
+            </button>
+            <button class="btn btn-outline-secondary" (click)="toggleAllMappings(false)">
+              <i class="fas fa-square"></i> None
+            </button>
+          </div>
+        </div>
+        <div class="file-selection-list">
+          @for (file of zipStructure.mappingFiles; track file.path) {
+            <div class="file-selection-item">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="file.selected"
+                  [id]="'mapping-' + file.path"
+                />
+                <label class="form-check-label" [for]="'mapping-' + file.path">
+                  <i class="fas fa-file-code text-primary me-2"></i>
+                  {{ file.name }}
+                </label>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Body Files Selection -->
+      @if (zipStructure.bodyFiles.length > 0) {
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0">
+              <strong>Body Files</strong> ({{ getSelectedBodyFilesCount() }}/{{ zipStructure.bodyFiles.length }} selected)
+            </label>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(true)">
+                <i class="fas fa-check-square"></i> All
+              </button>
+              <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(false)">
+                <i class="fas fa-square"></i> None
+              </button>
+            </div>
+          </div>
+          <div class="file-selection-list">
+            @for (file of zipStructure.bodyFiles; track file.path) {
+              <div class="file-selection-item">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [(ngModel)]="file.selected"
+                    [id]="'body-' + file.path"
+                  />
+                  <label class="form-check-label" [for]="'body-' + file.path">
+                    <i class="fas fa-file text-info me-2"></i>
+                    {{ file.name }}
+                  </label>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Process Button -->
+      <div class="d-grid">
+        <button
+          class="btn btn-primary"
+          (click)="processSelectedZipFiles()"
+          [disabled]="importLoading || getSelectedMappingsCount() === 0"
+        >
+          @if (importLoading) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          } @else {
+            <i class="fas fa-arrow-right me-2"></i>
+          }
+          {{ importLoading ? 'Processing...' : 'Process Selected Files' }}
+        </button>
+      </div>
+    }
+
+    <!-- Loading Spinner for Processing -->
+    @if (importLoading && !importPreview) {
+      <div class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Processing selected files...</p>
+      </div>
+    }
+
+    <!-- Error Message -->
+    @if (importError) {
+      <div class="alert alert-danger" style="white-space: pre-wrap;">
+        <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+      </div>
+    }
+
+    <!-- Warnings -->
+    @if (importWarnings.length > 0) {
+      <div class="alert alert-warning">
+        <i class="fas fa-exclamation-circle"></i> <strong>Warnings:</strong>
+        <ul class="mb-0 mt-2">
+          @for (warning of importWarnings; track warning) {
+            <li>{{ warning }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Preview -->
+    @if (importPreview && !importError && !showZipFileSelection) {
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        Ready to import <strong>{{ importPreview.count }}</strong> stub@if (importPreview.count > 1) {s}
+        @if (importValidationInfo) {
+          <br>
+          <small>
+            <i class="fas fa-file me-1"></i>
+            {{ importValidationInfo.substitutedFiles }} file@if (importValidationInfo.substitutedFiles !== 1) {s} substituted
+            ({{ importValidationInfo.totalFiles }} total selected)
+          </small>
+        }
+      </div>
+
+      <!-- Back to Selection Button (for ZIP / directory) -->
+      @if ((importDetectedType === 'zip' || importDetectedType === 'directory') && zipStructure) {
+        <div class="mb-3">
+          <button class="btn btn-sm btn-outline-secondary" (click)="backToFileSelection()">
+            <i class="fas fa-arrow-left me-2"></i>Back to File Selection
+          </button>
+        </div>
+      }
+
+      <!-- Import Mode Selection -->
+      <div class="mb-3">
+        <label class="form-label">Import Mode</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="importMode"
+            id="importModeAdd"
+            [value]="'add'"
+            [(ngModel)]="importMode"
+          />
+          <label class="form-check-label" for="importModeAdd">
+            <strong>Add to existing</strong> - Keep existing stubs and add new ones
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="importMode"
+            id="importModeReplace"
+            [value]="'replace'"
+            [(ngModel)]="importMode"
+          />
+          <label class="form-check-label" for="importModeReplace">
+            <strong>Replace all</strong> - Delete all existing stubs first
+          </label>
+        </div>
+      </div>
+
+      <!-- Preview of ALL mappings (scrollable) -->
+      <div class="mb-3">
+        <label class="form-label">Preview (all {{ importPreview.count }} stubs)</label>
+        <div class="preview-list-scrollable">
+          @for (mapping of importPreview.mappings; track $index; let i = $index) {
+            <div class="preview-item">
+              <span class="preview-index">{{ i + 1 }}.</span>
+              <span class="badge method-badge" [ngClass]="'method-' + (mapping.request?.method || 'ANY')">
+                {{ mapping.request?.method || 'ANY' }}
+              </span>
+              <span class="preview-url">
+                {{ mapping.request?.url || mapping.request?.urlPattern || mapping.request?.urlPath || '/' }}
+              </span>
+              <span class="preview-status">→ {{ mapping.response?.status || 200 }}</span>
+              @if (importPreview.processedStubs && importPreview.processedStubs[i]?.hasSubstitutedFile) {
+                <span
+                  class="badge bg-info ms-2"
+                  [title]="'Body file: ' + importPreview.processedStubs[i]?.originalFileName"
+                >
+                  <i class="fas fa-file"></i> {{ importPreview.processedStubs[i]?.originalFileName }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" [disabled]="importLoading">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="executeImport()"
+      [disabled]="!importPreview || importLoading"
+    >
+      @if (importLoading) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      } @else {
+        <i class="fas fa-upload me-2"></i>
+      }
+      {{ importLoading ? 'Importing...' : 'Import' }}
+    </button>
+  </div>
+</ng-template>

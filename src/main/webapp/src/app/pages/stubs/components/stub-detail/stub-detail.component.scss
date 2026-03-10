@@ -1,0 +1,36 @@
+@use '../../../../../styles/colors' as *;
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/spacing' as *;
+
+/* Scenario Badges */
+.bg-indigo {
+  background-color: $color-primary !important;
+}
+
+.scenario-info-display {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-3-5;
+  background: $color-bg-near-white;
+  border-radius: $radius-lg;
+  border: 1px solid $color-gray-border-pale;
+}
+
+.scenario-field {
+  display: flex;
+  align-items: center;
+  gap: $space-10;
+}
+
+.scenario-field-label {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-500;
+  font-size: $font-size-base;
+  min-width: $size-max-config;
+}
+
+.scenario-badge {
+  font-size: $font-size-base;
+  padding: $space-6 $space-3;
+}

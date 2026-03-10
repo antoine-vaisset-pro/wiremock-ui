@@ -1,0 +1,773 @@
+<ng-template #createModalTpl let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">{{ editMode === 'create' || editMode === 'clone' ? 'Create New Stub' : 'Edit Stub' }}</h3>
+    <div class="mode-toggle">
+      <button
+        class="btn btn-sm"
+        [class.btn-primary]="editorMode === 'simple'"
+        [class.btn-outline-secondary]="editorMode !== 'simple'"
+        (click)="editorMode = 'simple'">
+        <i class="fas fa-list"></i> Simple
+      </button>
+      <button
+        class="btn btn-sm"
+        [class.btn-primary]="editorMode === 'advanced'"
+        [class.btn-outline-secondary]="editorMode !== 'advanced'"
+        (click)="toggleEditorMode()">
+        <i class="fas fa-code"></i> Advanced
+      </button>
+    </div>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Simple Mode -->
+    @if (editorMode === 'simple') {
+      <div class="simple-editor">
+
+        <!-- SECTION: STUB INFO (full width) -->
+        <div class="form-section mb-2">
+          <div class="section-header" [class.expanded]="isStubInfoExpanded" (click)="toggleStubInfoSection()">
+            <span class="section-title"><i class="fas fa-tag me-1"></i> STUB INFO</span>
+            <i class="fas" [class.fa-chevron-down]="!isStubInfoExpanded" [class.fa-chevron-up]="isStubInfoExpanded"></i>
+          </div>
+          @if (isStubInfoExpanded) {
+            <div class="section-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mb-2">
+                    <label class="form-label">Name <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.name" placeholder="My API Stub">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mb-2">
+                    <label class="form-label">
+                      Priority
+                      <i class="fas fa-info-circle text-muted ms-1" title="1 = highest priority. When multiple stubs match the same request, the one with the lowest priority number wins."></i>
+                    </label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.priority" min="1" placeholder="5">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mb-2">
+                    <label class="form-label d-block">
+                      Persistent
+                      <i class="fas fa-info-circle text-muted ms-1" title="If checked, this stub survives a 'Reset all stubs' action."></i>
+                    </label>
+                    <div class="form-check form-switch mt-1">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.persistent" id="persistentCheck">
+                      <label class="form-check-label" for="persistentCheck">{{ simpleForm.persistent ? 'Yes' : 'No' }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- TWO-PANEL LAYOUT: REQUEST + RESPONSE -->
+        <div class="two-panel-layout mb-2">
+
+          <!-- PANEL: REQUEST MATCHING -->
+          <div class="side-panel" [class.collapsed]="isRequestPanelCollapsed">
+            <div class="side-panel-header" [class.collapsed]="isRequestPanelCollapsed">
+              <button class="panel-collapse-btn" (click)="isRequestPanelCollapsed = !isRequestPanelCollapsed" [title]="isRequestPanelCollapsed ? 'Expand Request' : 'Collapse Request'">
+                <i class="fas" [class.fa-chevron-left]="!isRequestPanelCollapsed" [class.fa-chevron-right]="isRequestPanelCollapsed"></i>
+              </button>
+              <span class="side-panel-title"><i class="fas fa-arrow-right me-1"></i> REQUEST MATCHING</span>
+            </div>
+            @if (!isRequestPanelCollapsed) {
+              <div class="side-panel-body">
+                <div class="row mb-2">
+                  <div class="col-md-2">
+                    <label class="form-label">Method</label>
+                    <select class="form-select form-select-sm" [(ngModel)]="simpleForm.method">
+                      <option value="GET">GET</option>
+                      <option value="POST">POST</option>
+                      <option value="PUT">PUT</option>
+                      <option value="DELETE">DELETE</option>
+                      <option value="PATCH">PATCH</option>
+                      <option value="HEAD">HEAD</option>
+                      <option value="OPTIONS">OPTIONS</option>
+                      <option value="TRACE">TRACE</option>
+                      <option value="ANY">ANY</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">URL Type</label>
+                    <select class="form-select form-select-sm" [(ngModel)]="simpleForm.urlType">
+                      <option value="url">Exact URL (path + query)</option>
+                      <option value="urlPath">Exact Path (ignores query)</option>
+                      <option value="urlPattern">URL Pattern (regex)</option>
+                      <option value="urlPathPattern">Path Pattern (regex)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-7">
+                    <label class="form-label">URL</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [ngClass]="getUrlValidationClass()"
+                      [(ngModel)]="simpleForm.url"
+                      placeholder="/api/users">
+                    @if (simpleForm.url && (simpleForm.urlType === 'urlPattern' || simpleForm.urlType === 'urlPathPattern')) {
+                      @if (isValidRegex(simpleForm.url)) {
+                        <small class="text-success"><i class="fas fa-check"></i> Valid regex</small>
+                      } @else {
+                        <small class="text-danger"><i class="fas fa-times"></i> Invalid regex</small>
+                      }
+                    }
+                  </div>
+                </div>
+
+                <!-- Subsection: Query Parameters -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isQueryParamsExpanded" (click)="toggleQueryParamsSection()">
+                    <span>
+                      Query Parameters
+                      @if (simpleForm.queryParameters.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.queryParameters.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addQueryParam(); $event.stopPropagation(); isQueryParamsExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isQueryParamsExpanded" [class.fa-chevron-up]="isQueryParamsExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isQueryParamsExpanded) {
+                    <div class="subsection-body">
+                      @for (param of simpleForm.queryParameters; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(param.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeQueryParam(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.queryParameters.length === 0) {
+                        <div class="text-muted small">No query parameters. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Request Headers -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isRequestHeadersExpanded" (click)="toggleRequestHeadersSection()">
+                    <span>
+                      Request Headers
+                      @if (simpleForm.requestHeaders.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.requestHeaders.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addRequestHeader(); $event.stopPropagation(); isRequestHeadersExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isRequestHeadersExpanded" [class.fa-chevron-up]="isRequestHeadersExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isRequestHeadersExpanded) {
+                    <div class="subsection-body">
+                      @for (header of simpleForm.requestHeaders; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="header.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(header.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeRequestHeader(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.requestHeaders.length === 0) {
+                        <div class="text-muted small">No request headers. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Body Patterns -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isBodyPatternsExpanded" (click)="toggleBodyPatternsSection()">
+                    <span>
+                      Body Patterns
+                      @if (simpleForm.bodyPatterns.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.bodyPatterns.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addBodyPattern(); $event.stopPropagation(); isBodyPatternsExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isBodyPatternsExpanded" [class.fa-chevron-up]="isBodyPatternsExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isBodyPatternsExpanded) {
+                    <div class="subsection-body">
+                      @for (pattern of simpleForm.bodyPatterns; track $index; let i = $index) {
+                        <div class="mb-2">
+                          <div class="d-flex gap-1 mb-1">
+                            <select class="form-select form-select-sm" [(ngModel)]="pattern.predicate" style="flex: 2">
+                              <option value="contains">contains</option>
+                              <option value="doesNotContain">doesNotContain</option>
+                              <option value="equalTo">equalTo</option>
+                              <option value="equalToJson">equalToJson</option>
+                              <option value="equalToXml">equalToXml</option>
+                              <option value="matches">matches (regex)</option>
+                              <option value="matchesJsonPath">matchesJsonPath</option>
+                              <option value="matchesXPath">matchesXPath</option>
+                            </select>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="pattern.value" placeholder="Value" style="flex: 5">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeBodyPattern(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                          @if (pattern.predicate === 'equalToJson') {
+                            <div class="d-flex gap-3 ms-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreArrayOrder" [id]="'ignoreArrayOrder-' + i">
+                                <label class="form-check-label small" [for]="'ignoreArrayOrder-' + i">Ignore array order</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreExtraElements" [id]="'ignoreExtraEl-' + i">
+                                <label class="form-check-label small" [for]="'ignoreExtraEl-' + i">Ignore extra elements</label>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (simpleForm.bodyPatterns.length === 0) {
+                        <div class="text-muted small">No body patterns. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Cookies -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isCookiesExpanded" (click)="toggleCookiesSection()">
+                    <span>
+                      Cookies
+                      @if (simpleForm.cookies.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.cookies.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addCookie(); $event.stopPropagation(); isCookiesExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isCookiesExpanded" [class.fa-chevron-up]="isCookiesExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isCookiesExpanded) {
+                    <div class="subsection-body">
+                      @for (cookie of simpleForm.cookies; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="cookie.key" placeholder="Cookie name" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="cookie.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(cookie.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="cookie.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeCookie(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.cookies.length === 0) {
+                        <div class="text-muted small">No cookies. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Basic Auth -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isBasicAuthExpanded" (click)="toggleBasicAuthSection()">
+                    <span>Basic Authentication</span>
+                    <i class="fas" [class.fa-chevron-down]="!isBasicAuthExpanded" [class.fa-chevron-up]="isBasicAuthExpanded"></i>
+                  </div>
+                  @if (isBasicAuthExpanded) {
+                    <div class="subsection-body">
+                      <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.basicAuthEnabled" id="basicAuthCheck">
+                        <label class="form-check-label" for="basicAuthCheck">Require Basic Auth</label>
+                      </div>
+                      @if (simpleForm.basicAuthEnabled) {
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="form-label small">Username</label>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthUsername" placeholder="username">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label small">Password</label>
+                            <input type="password" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthPassword" placeholder="password">
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Form Parameters (POST/PUT/PATCH only) -->
+                @if (isFormMethodWithBody()) {
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isFormParamsExpanded" (click)="toggleFormParamsSection()">
+                      <span>
+                        Form Parameters
+                        @if (simpleForm.formParameters.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.formParameters.length }}</span>
+                        }
+                        <small class="text-muted ms-1">(application/x-www-form-urlencoded)</small>
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addFormParam(); $event.stopPropagation(); isFormParamsExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isFormParamsExpanded" [class.fa-chevron-up]="isFormParamsExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isFormParamsExpanded) {
+                      <div class="subsection-body">
+                        @for (param of simpleForm.formParameters; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
+                            <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
+                              <option value="equalTo">equalTo</option>
+                              <option value="equalToCI">equalTo (case insensitive)</option>
+                              <option value="contains">contains</option>
+                              <option value="doesNotContain">doesNotContain</option>
+                              <option value="matches">matches (regex)</option>
+                              <option value="doesNotMatch">doesNotMatch (regex)</option>
+                              <option value="absent">absent</option>
+                            </select>
+                            @if (predicateNeedsValue(param.predicate)) {
+                              <input type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
+                            }
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeFormParam(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.formParameters.length === 0) {
+                          <div class="text-muted small">No form parameters. Click <strong>Add</strong> to add one.</div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div><!-- /side-panel-body request -->
+            }
+          </div><!-- /side-panel request -->
+
+          <!-- PANEL DIVIDER -->
+          <div class="panel-divider"></div>
+
+          <!-- PANEL: RESPONSE -->
+          <div class="side-panel" [class.collapsed]="isResponsePanelCollapsed">
+            <div class="side-panel-header" [class.collapsed]="isResponsePanelCollapsed">
+              <button class="panel-collapse-btn" (click)="isResponsePanelCollapsed = !isResponsePanelCollapsed" [title]="isResponsePanelCollapsed ? 'Expand Response' : 'Collapse Response'">
+                <i class="fas" [class.fa-chevron-right]="!isResponsePanelCollapsed" [class.fa-chevron-left]="isResponsePanelCollapsed"></i>
+              </button>
+              <span class="side-panel-title"><i class="fas fa-arrow-left me-1"></i> RESPONSE</span>
+            </div>
+            @if (!isResponsePanelCollapsed) {
+              <div class="side-panel-body">
+
+                <!-- Response Mode -->
+                <div class="form-group mb-3">
+                  <label class="form-label">Response Mode</label>
+                  <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" name="responseMode" id="modeDirect" value="direct" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-primary" for="modeDirect"><i class="fas fa-reply me-1"></i>Direct</label>
+                    <input type="radio" class="btn-check" name="responseMode" id="modeProxy" value="proxy" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-primary" for="modeProxy"><i class="fas fa-exchange-alt me-1"></i>Proxy</label>
+                    <input type="radio" class="btn-check" name="responseMode" id="modeFault" value="fault" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-danger" for="modeFault"><i class="fas fa-exclamation-triangle me-1"></i>Fault</label>
+                  </div>
+                </div>
+
+                <!-- DIRECT MODE -->
+                @if (simpleForm.responseMode === 'direct') {
+                  <div class="row mb-2">
+                    <div class="col-md-3">
+                      <label class="form-label">HTTP Status</label>
+                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.status" min="100" max="599" placeholder="200">
+                    </div>
+                    <div class="col-md-9">
+                      <label class="form-label">Status Message <small class="text-muted">(optional)</small></label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.statusMessage" placeholder="OK">
+                    </div>
+                  </div>
+
+                  <!-- Body Type -->
+                  <div class="form-group mb-2">
+                    <label class="form-label">Body Type</label>
+                    <div class="btn-group" role="group">
+                      <input type="radio" class="btn-check" name="bodyType" id="btText" value="text" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btText">Text</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btJson" value="json" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btJson">JSON</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btHtml" value="html" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btHtml">HTML</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btXml" value="xml" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btXml">XML</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btBase64" value="base64" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btBase64">Base64</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btFile" value="file" [(ngModel)]="simpleForm.bodyType">
+                      <label class="btn btn-sm btn-outline-secondary" for="btFile">File</label>
+                    </div>
+                  </div>
+
+                  <!-- File body -->
+                  @if (simpleForm.bodyType === 'file') {
+                    <div class="form-group mb-2">
+                      <label class="form-label">Body File Name</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.bodyFileName" placeholder="response.json">
+                      <small class="text-muted">Path relative to WireMock's __files directory</small>
+                    </div>
+                  }
+
+                  <!-- Body textarea -->
+                  @if (simpleForm.bodyType !== 'file') {
+                    <div class="form-group mb-2">
+                      <label class="form-label">Response Body</label>
+                      <textarea class="form-control json-editor-simple" [(ngModel)]="simpleForm.body" rows="8" placeholder="Response body content"></textarea>
+                    </div>
+                  }
+
+                  <!-- Subsection: Response Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isResponseHeadersExpanded" (click)="toggleResponseHeadersSection()">
+                      <span>
+                        Response Headers
+                        @if (simpleForm.responseHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.responseHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addHeader(); $event.stopPropagation(); isResponseHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isResponseHeadersExpanded" [class.fa-chevron-up]="isResponseHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isResponseHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.responseHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeHeader(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Subsection: Delay -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isDelayExpanded" (click)="toggleDelaySection()">
+                      <span><i class="fas fa-clock me-1"></i> Delay</span>
+                      <i class="fas" [class.fa-chevron-down]="!isDelayExpanded" [class.fa-chevron-up]="isDelayExpanded"></i>
+                    </div>
+                    @if (isDelayExpanded) {
+                      <div class="subsection-body">
+                        <div class="form-group mb-2">
+                          <select class="form-select form-select-sm" [(ngModel)]="simpleForm.delayType">
+                            <option value="">No delay</option>
+                            <option value="fixed">Fixed delay</option>
+                            <option value="uniform">Random - Uniform distribution</option>
+                            <option value="lognormal">Random - Log normal distribution</option>
+                            <option value="chunked">Chunked dribble delay</option>
+                          </select>
+                        </div>
+                        @if (simpleForm.delayType === 'fixed') {
+                          <div class="form-group mb-2">
+                            <label class="form-label small">Delay (ms)</label>
+                            <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.fixedDelay" min="0">
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'uniform') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Lower (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformLower" min="0">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Upper (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformUpper" min="0">
+                            </div>
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'lognormal') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Median (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalMedian" min="0">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Sigma</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalSigma" step="0.01" min="0">
+                            </div>
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'chunked') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Chunks</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedChunks" min="1">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Total duration (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedDuration" min="0">
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Templating -->
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.enableTemplating" id="enableTemplating">
+                    <label class="form-check-label" for="enableTemplating">
+                      Enable Response Templating (Handlebars)
+                    </label>
+                  </div>
+                  @if (simpleForm.enableTemplating) {
+                    <div class="subsection mb-2">
+                      <div class="subsection-header" [class.expanded]="isTemplatingHelpExpanded" (click)="toggleTemplatingHelp()">
+                        <span><i class="fas fa-book me-1"></i> Handlebars Reference</span>
+                        <i class="fas" [class.fa-chevron-down]="!isTemplatingHelpExpanded" [class.fa-chevron-up]="isTemplatingHelpExpanded"></i>
+                      </div>
+                      @if (isTemplatingHelpExpanded) {
+                        <div class="subsection-body">
+                          <ul class="list-unstyled small mb-0" ngNonBindable>
+                            <li><code>&#123;&#123;request.url&#125;&#125;</code> - Request URL</li>
+                            <li><code>&#123;&#123;request.method&#125;&#125;</code> - HTTP method</li>
+                            <li><code>&#123;&#123;request.headers.Authorization&#125;&#125;</code> - Header value</li>
+                            <li><code>&#123;&#123;request.query.id&#125;&#125;</code> - Query parameter</li>
+                            <li><code>&#123;&#123;request.body&#125;&#125;</code> - Request body</li>
+                            <li><code>&#123;&#123;jsonPath request.body '$.id'&#125;&#125;</code> - JSONPath from body</li>
+                            <li><code>&#123;&#123;now&#125;&#125;</code> - Current timestamp</li>
+                            <li><code>&#123;&#123;randomValue length=10 type='ALPHANUMERIC'&#125;&#125;</code> - Random value</li>
+                          </ul>
+                        </div>
+                      }
+                    </div>
+                  }
+                }
+
+                <!-- PROXY MODE -->
+                @if (simpleForm.responseMode === 'proxy') {
+                  <div class="form-group mb-2">
+                    <label class="form-label">Proxy Base URL <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyBaseUrl" placeholder="https://api.example.com">
+                  </div>
+                  <div class="form-group mb-2">
+                    <label class="form-label">URL Prefix to Remove <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyUrlPrefixToRemove" placeholder="/api/v1">
+                  </div>
+
+                  <!-- Additional Proxy Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isProxyAdditionalHeadersExpanded" (click)="toggleProxyAdditionalHeadersSection()">
+                      <span>
+                        Additional Proxy Request Headers
+                        @if (simpleForm.additionalProxyRequestHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.additionalProxyRequestHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addProxyAdditionalHeader(); $event.stopPropagation(); isProxyAdditionalHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isProxyAdditionalHeadersExpanded" [class.fa-chevron-up]="isProxyAdditionalHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isProxyAdditionalHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.additionalProxyRequestHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeProxyAdditionalHeader(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.additionalProxyRequestHeaders.length === 0) {
+                          <div class="text-muted small">No additional headers.</div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Remove Proxy Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isProxyRemoveHeadersExpanded" (click)="toggleProxyRemoveHeadersSection()">
+                      <span>
+                        Remove Proxy Request Headers
+                        @if (simpleForm.removeProxyRequestHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.removeProxyRequestHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addProxyHeaderToRemove(); $event.stopPropagation(); isProxyRemoveHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isProxyRemoveHeadersExpanded" [class.fa-chevron-up]="isProxyRemoveHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isProxyRemoveHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.removeProxyRequestHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [ngModel]="header" (ngModelChange)="simpleForm.removeProxyRequestHeaders[i] = $event" placeholder="Header name to remove" style="flex: 1">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeProxyHeaderToRemove(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.removeProxyRequestHeaders.length === 0) {
+                          <div class="text-muted small">No headers to remove.</div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- FAULT MODE -->
+                @if (simpleForm.responseMode === 'fault') {
+                  <div class="alert alert-warning mb-2">
+                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    <strong>Fault simulation</strong> — The server will simulate a network error instead of returning a normal response.
+                  </div>
+                  <div class="form-group mb-2">
+                    <label class="form-label">Fault Type</label>
+                    <div class="d-flex flex-column gap-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="CONNECTION_RESET_BY_PEER" [(ngModel)]="simpleForm.faultType" id="faultReset">
+                        <label class="form-check-label" for="faultReset">
+                          <strong>CONNECTION_RESET_BY_PEER</strong> — TCP connection forcefully terminated
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="EMPTY_RESPONSE" [(ngModel)]="simpleForm.faultType" id="faultEmpty">
+                        <label class="form-check-label" for="faultEmpty">
+                          <strong>EMPTY_RESPONSE</strong> — Close socket with no response
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="MALFORMED_RESPONSE_CHUNK" [(ngModel)]="simpleForm.faultType" id="faultMalformed">
+                        <label class="form-check-label" for="faultMalformed">
+                          <strong>MALFORMED_RESPONSE_CHUNK</strong> — Send 200 response then bad HTTP data
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="RANDOM_DATA_THEN_CLOSE" [(ngModel)]="simpleForm.faultType" id="faultRandom">
+                        <label class="form-check-label" for="faultRandom">
+                          <strong>RANDOM_DATA_THEN_CLOSE</strong> — Send bad HTTP data then close socket
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                }
+
+              </div><!-- /side-panel-body response -->
+            }
+          </div><!-- /side-panel response -->
+
+        </div><!-- /two-panel-layout -->
+
+        <!-- SECTION: SCENARIO STATE (full width) -->
+        <div class="form-section mb-2">
+          <div class="section-header" [class.expanded]="isScenarioSectionExpanded" (click)="toggleScenarioSection()">
+            <span class="section-title"><i class="fas fa-sitemap me-1"></i> SCENARIO STATE <small class="text-muted">(optional)</small></span>
+            <i class="fas" [class.fa-chevron-down]="!isScenarioSectionExpanded" [class.fa-chevron-up]="isScenarioSectionExpanded"></i>
+          </div>
+          @if (isScenarioSectionExpanded) {
+            <div class="section-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">Scenario Name</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.scenarioName" list="scenarioNames" placeholder="e.g. user-login-flow">
+                    <datalist id="scenarioNames">
+                      @for (scenario of availableScenarios; track scenario) {
+                        <option [value]="scenario">
+                      }
+                    </datalist>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">Required State</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.requiredScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. Started">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">New State After Match</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.newScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. LoggedIn">
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+      </div><!-- /simple-editor -->
+    }
+
+    <!-- Advanced Mode -->
+    @if (editorMode === 'advanced') {
+      <div class="advanced-editor">
+        <p class="text-muted mb-3">
+          <i class="fas fa-info-circle"></i>
+          Enter the complete stub configuration in JSON format
+        </p>
+        <textarea
+          class="form-control json-editor"
+          [(ngModel)]="newStubJson"
+          rows="25"
+          placeholder="Enter JSON..."></textarea>
+      </div>
+    }
+
+    @if (createStubError) {
+      <div class="alert alert-danger mt-3">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ createStubError }}
+      </div>
+    }
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">
+      Cancel
+    </button>
+    <button class="btn btn-primary" (click)="submitNewStub()">
+      <i class="fas fa-save"></i> {{ editMode === 'create' || editMode === 'clone' ? 'Create' : 'Update' }} Stub
+    </button>
+  </div>
+</ng-template>
