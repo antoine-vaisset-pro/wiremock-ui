@@ -1,0 +1,324 @@
+<div class="generator-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">
+        <i class="fas fa-magic"></i>
+        OpenAPI → WireMock Generator
+      </h1>
+      <p class="page-subtitle">Generate WireMock stub mappings from an OpenAPI specification</p>
+    </div>
+    <button *ngIf="parsedSpec || rawSpec" class="btn-reset" (click)="resetAll()" title="Start over">
+      <i class="fas fa-redo"></i> Reset
+    </button>
+  </div>
+
+  <!-- Step 1: Input -->
+  <section class="step-card" [class.step-done]="!!parsedSpec">
+    <div class="step-header">
+      <span class="step-badge">1</span>
+      <h2>Import OpenAPI Specification</h2>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="input-tabs">
+      <button class="tab-btn" [class.active]="inputMode === 'paste'" (click)="inputMode = 'paste'">
+        <i class="fas fa-paste"></i> Paste content
+      </button>
+      <button class="tab-btn" [class.active]="inputMode === 'upload'" (click)="inputMode = 'upload'">
+        <i class="fas fa-upload"></i> Upload file
+      </button>
+    </div>
+
+    <!-- Paste mode -->
+    <div *ngIf="inputMode === 'paste'" class="input-section">
+      <textarea
+        class="spec-textarea"
+        [(ngModel)]="rawSpec"
+        placeholder="Paste your OpenAPI/Swagger spec here (JSON or YAML)..."
+        rows="12"
+        spellcheck="false">
+      </textarea>
+    </div>
+
+    <!-- Upload mode -->
+    <div *ngIf="inputMode === 'upload'" class="input-section">
+      <div
+        class="drop-zone"
+        (dragover)="onDragOver($event)"
+        (drop)="onFileDrop($event)"
+        (click)="fileInput.click()">
+        <i class="fas fa-cloud-upload-alt drop-icon"></i>
+        <p *ngIf="!uploadedFileName">Drag &amp; drop your .json or .yaml file here, or click to browse</p>
+        <p *ngIf="uploadedFileName" class="file-name">
+          <i class="fas fa-file-code"></i> {{ uploadedFileName }}
+        </p>
+        <input #fileInput type="file" accept=".json,.yaml,.yml" style="display:none" (change)="onFileSelected($event)">
+      </div>
+      <!-- Show pasted content when file loaded -->
+      <textarea
+        *ngIf="rawSpec"
+        class="spec-textarea spec-textarea--preview"
+        [value]="rawSpec"
+        readonly
+        rows="6">
+      </textarea>
+    </div>
+
+    <div class="step-actions">
+      <button
+        class="btn-primary"
+        [disabled]="!rawSpec.trim() || isParsing"
+        (click)="parseSpec()">
+        <i class="fas" [class.fa-spinner]="isParsing" [class.fa-spin]="isParsing" [class.fa-code-branch]="!isParsing"></i>
+        {{ isParsing ? 'Parsing…' : 'Parse Specification' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Parse error -->
+  <div *ngIf="parseError" class="alert alert-error">
+    <i class="fas fa-exclamation-triangle"></i>
+    <pre>{{ parseError }}</pre>
+  </div>
+
+  <!-- Spec summary + warnings -->
+  <div *ngIf="parsedSpec" class="spec-summary">
+    <div class="summary-info">
+      <span class="summary-badge">{{ parsedSpec.specVersion }}</span>
+      <strong>{{ parsedSpec.title }}</strong>
+      <span class="summary-version">v{{ parsedSpec.version }}</span>
+      <span class="summary-ops">{{ parsedSpec.operations.length }} operations found</span>
+    </div>
+    <div *ngIf="parsedSpec.errors.length > 0" class="alert alert-warning">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ parsedSpec.errors.length }} warning(s) during parsing — some operations may be incomplete.</span>
+    </div>
+  </div>
+
+  <!-- Step 2: Configure -->
+  <section *ngIf="endpoints.length > 0" class="step-card">
+    <div class="step-header">
+      <span class="step-badge">2</span>
+      <h2>Configure Endpoints</h2>
+      <span class="step-count">{{ getEnabledCount() }} / {{ endpoints.length }} selected</span>
+    </div>
+
+    <!-- Global options -->
+    <div class="global-options">
+      <div class="option-group">
+        <label class="option-label">URL prefix (applied to all)</label>
+        <div class="option-input-row">
+          <input
+            type="text"
+            class="text-input"
+            [(ngModel)]="globalUrlPrefix"
+            placeholder="/api/v1"
+            (blur)="applyGlobalPrefix()">
+          <button class="btn-secondary btn-sm" (click)="applyGlobalPrefix()">Apply</button>
+        </div>
+      </div>
+      <div class="option-group option-group--checkbox">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="generateErrorCases" (change)="applyGlobalErrorCases()">
+          Generate a WireMock fault variant for each endpoint
+        </label>
+      </div>
+    </div>
+
+    <!-- Select all / table header -->
+    <div class="table-header">
+      <label class="checkbox-label">
+        <input type="checkbox" [checked]="allSelected" (change)="toggleAll()">
+        Select all
+      </label>
+    </div>
+
+    <!-- Endpoints table -->
+    <div class="endpoints-table">
+      <div class="endpoint-row endpoint-row--header">
+        <div class="col-check"></div>
+        <div class="col-method">Method</div>
+        <div class="col-path">Path</div>
+        <div class="col-summary">Summary</div>
+        <div class="col-status">Status</div>
+        <div class="col-example">Req. Example</div>
+        <div class="col-example">Resp. Example</div>
+        <div class="col-prefix">URL Prefix</div>
+        <div class="col-errors">Fault</div>
+      </div>
+      <div
+        *ngFor="let entry of endpoints"
+        class="endpoint-row"
+        [class.disabled]="!entry.enabled"
+        [class.has-fault]="!!entry.faultType">
+        <div class="col-check">
+          <input type="checkbox" [(ngModel)]="entry.enabled" (change)="updateAllSelected()">
+        </div>
+        <div class="col-method">
+          <span class="method-badge" [class]="getMethodClass(entry.operation.method)">
+            {{ entry.operation.method }}
+          </span>
+        </div>
+        <div class="col-path" [title]="entry.operation.path">{{ entry.operation.path }}</div>
+        <div class="col-summary" [title]="entry.operation.summary">{{ entry.operation.summary ?? '—' }}</div>
+        <!-- Status: hidden if fault selected -->
+        <div class="col-status" [class.col-muted]="!!entry.faultType">
+          <select class="select-input" [(ngModel)]="entry.statusCode"
+            (ngModelChange)="onStatusCodeChange(entry)"
+            [disabled]="!!entry.faultType">
+            <option *ngFor="let code of STATUS_CODES" [value]="code">{{ code }}</option>
+          </select>
+        </div>
+        <!-- Request example: hidden if fault selected -->
+        <div class="col-example" [class.col-muted]="!!entry.faultType">
+          <ng-container *ngIf="!entry.faultType">
+            <select *ngIf="entry.requestExampleKeys.length > 0; else noReqExample"
+              class="select-input select-input--sm"
+              [(ngModel)]="entry.selectedRequestExample">
+              <option [ngValue]="undefined">— default —</option>
+              <option *ngFor="let key of entry.requestExampleKeys" [value]="key">{{ key }}</option>
+            </select>
+            <ng-template #noReqExample><span class="text-muted small">—</span></ng-template>
+          </ng-container>
+          <span *ngIf="entry.faultType" class="text-muted small">—</span>
+        </div>
+        <!-- Response example: hidden if fault selected -->
+        <div class="col-example" [class.col-muted]="!!entry.faultType">
+          <ng-container *ngIf="!entry.faultType">
+            <select *ngIf="entry.allResponseExamples.length > 0; else noRespExample"
+              class="select-input select-input--sm"
+              [(ngModel)]="entry.selectedResponseExample"
+              (ngModelChange)="onResponseExampleChange(entry)">
+              <option [ngValue]="undefined">— default —</option>
+              <option *ngFor="let ex of entry.allResponseExamples" [value]="ex.key">
+                {{ ex.key }} ({{ ex.statusCode }})
+              </option>
+            </select>
+            <ng-template #noRespExample><span class="text-muted small">—</span></ng-template>
+          </ng-container>
+          <span *ngIf="entry.faultType" class="text-muted small">—</span>
+        </div>
+        <div class="col-prefix">
+          <input type="text" class="text-input text-input--sm" [(ngModel)]="entry.urlPrefix" placeholder="/">
+        </div>
+        <!-- Fault combobox (single select) -->
+        <div class="col-errors">
+          <select class="select-input select-input--sm"
+            [(ngModel)]="entry.faultType">
+            <option value="">— none —</option>
+            <option *ngFor="let f of WIREMOCK_FAULTS" [value]="f.value">{{ f.label }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button
+        class="btn-primary"
+        [disabled]="getEnabledCount() === 0 || isGenerating"
+        (click)="generate()">
+        <i class="fas" [class.fa-spinner]="isGenerating" [class.fa-spin]="isGenerating" [class.fa-bolt]="!isGenerating"></i>
+        {{ isGenerating ? 'Generating…' : 'Generate Stubs' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Step 3: Preview & Export -->
+  <section *ngIf="generatedStubs.length > 0" class="step-card">
+    <div class="step-header">
+      <span class="step-badge">3</span>
+      <h2>Preview &amp; Export</h2>
+      <span class="step-count">{{ generatedStubs.length }} stub(s) generated</span>
+    </div>
+
+    <!-- Export actions -->
+    <div class="export-actions">
+      <button
+        class="btn-import-wm"
+        [disabled]="isImporting"
+        (click)="importIntoWiremock()">
+        <i class="fas" [class.fa-spinner]="isImporting" [class.fa-spin]="isImporting" [class.fa-cloud-upload-alt]="!isImporting"></i>
+        {{ isImporting ? 'Importing…' : 'Import into WireMock' }}
+      </button>
+      <button
+        class="btn-export"
+        [disabled]="isExporting"
+        (click)="exportZip()">
+        <i class="fas" [class.fa-spinner]="isExporting" [class.fa-spin]="isExporting" [class.fa-file-archive]="!isExporting"></i>
+        {{ isExporting ? 'Generating ZIP…' : 'Download ZIP Archive' }}
+      </button>
+      <span *ngIf="importSuccess" class="export-success">
+        <i class="fas fa-check-circle"></i> {{ importedCount }} stub(s) imported!
+      </span>
+      <span *ngIf="importError" class="import-error">
+        <i class="fas fa-exclamation-circle"></i> {{ importError }}
+      </span>
+      <span *ngIf="exportSuccess" class="export-success">
+        <i class="fas fa-check-circle"></i> Downloaded!
+      </span>
+    </div>
+
+    <div class="zip-structure-hint">
+      <code>
+        mock-server/<br>
+        &nbsp;&nbsp;mappings/ &nbsp;← stub files (.json)<br>
+        &nbsp;&nbsp;__files/ &nbsp;&nbsp;← large body files
+      </code>
+    </div>
+
+    <!-- Stubs list -->
+    <div class="stubs-list">
+      <div *ngFor="let stub of generatedStubs" class="stub-item">
+        <div class="stub-info">
+          <span class="method-badge" [class]="getMethodClass(stub.mapping.request.method)">
+            {{ stub.mapping.request.method }}
+          </span>
+          <span class="stub-path">{{ stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern }}</span>
+          <span class="stub-status status-{{ stub.mapping.response.status }}">
+            {{ stub.mapping.response.status }}
+          </span>
+          <span *ngIf="stub.bodyFileName" class="stub-file-hint" title="Response body stored in __files/">
+            <i class="fas fa-file-alt"></i> {{ stub.bodyFileName }}
+          </span>
+        </div>
+        <div class="stub-actions">
+          <button class="btn-icon" (click)="openPreview(stub)" title="Preview JSON">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="btn-icon" (click)="exportSingle(stub)" title="Download this stub">
+            <i class="fas fa-download"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Preview modal -->
+<div *ngIf="previewStub" class="modal-backdrop" (click)="closePreview()">
+  <div class="modal-panel" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>
+        <span class="method-badge" [class]="getMethodClass(previewStub.mapping.request.method)">
+          {{ previewStub.mapping.request.method }}
+        </span>
+        {{ previewStub.mapping.request.urlPath ?? previewStub.mapping.request.urlPattern }}
+        <span class="stub-status status-{{ previewStub.mapping.response.status }}">{{ previewStub.mapping.response.status }}</span>
+      </h3>
+      <div class="modal-header-actions">
+        <button class="btn-icon" (click)="copyPreviewJson()" title="Copy JSON">
+          <i class="fas fa-copy"></i>
+        </button>
+        <button class="btn-icon btn-close-modal" (click)="closePreview()" title="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <pre class="json-preview">{{ getPreviewJson() }}</pre>
+    </div>
+  </div>
+</div>
