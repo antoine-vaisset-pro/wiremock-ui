@@ -1,3 +1,5 @@
+@use '../../../styles/colors' as *;
+
 .settings-container {
   padding: 2rem;
   width: 100%;
@@ -10,24 +12,24 @@
 .settings-header h1 {
   font-size: 2rem;
   font-weight: 600;
-  color: #333;
+  color: $color-text-darkest;
   margin-bottom: 0.5rem;
 }
 
 .settings-header h1 i {
   margin-right: 0.5rem;
-  color: #007bff;
+  color: $color-blue-legacy;
 }
 
 .settings-header p {
-  color: #666;
+  color: $color-text-medium;
   font-size: 1rem;
 }
 
 .settings-content {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px $color-shadow;
 }
 
 .settings-section {
@@ -37,12 +39,12 @@
 .settings-section h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #333;
+  color: $color-text-darkest;
   margin-bottom: 0.5rem;
 }
 
 .section-description {
-  color: #666;
+  color: $color-text-medium;
   margin-bottom: 1.5rem;
 }
 
@@ -58,21 +60,21 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $color-gray-border-md;
   border-radius: 6px;
-  background: #fafafa;
+  background: $color-bg-near-white;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .endpoint-item:hover {
-  border-color: #90c0f8;
-  background: #f5faff;
+  border-color: $color-legacy-blue-light;
+  background: $color-bg-field-hover;
 }
 
 .endpoint-item.active {
-  border-color: #007bff;
-  background: #f0f8ff;
+  border-color: $color-blue-legacy;
+  background: $color-blue-bg-hover;
 }
 
 .endpoint-item input[type="radio"] {
@@ -82,7 +84,7 @@
 
 .endpoint-label {
   font-weight: 600;
-  color: #333;
+  color: $color-text-darkest;
   font-size: 0.9rem;
   white-space: nowrap;
 }
@@ -94,7 +96,7 @@
 .endpoint-url {
   font-family: monospace;
   font-size: 0.82rem;
-  color: #555;
+  color: $color-text-dark;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -118,21 +120,21 @@
 }
 
 .badge-env {
-  background-color: #e6f4ea;
-  color: #1a7f37;
-  border: 1px solid #a8d5b5;
+  background-color: $color-badge-green-bg;
+  color: $color-success-green;
+  border: 1px solid $color-badge-green-border;
 }
 
 .badge-custom {
-  background-color: #fff3e0;
-  color: #b45309;
-  border: 1px solid #fcd09a;
+  background-color: $color-warning-bg-orange;
+  color: $color-warning-amber-dark;
+  border: 1px solid $color-badge-orange-border;
 }
 
 .custom-url-input {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid $color-gray-border-dull;
   border-radius: 4px;
   font-size: 0.9rem;
   font-family: monospace;
@@ -142,25 +144,25 @@
 
 .custom-url-input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  border-color: $color-blue-legacy;
+  box-shadow: 0 0 0 3px $color-blue-legacy-shadow;
 }
 
 .mock-description {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  color: #666;
+  color: $color-text-medium;
   font-size: 0.95rem;
   line-height: 1.5;
   padding: 0.75rem;
-  background: #fff;
+  background: $color-white;
   border-radius: 4px;
-  border-left: 3px solid #007bff;
+  border-left: 3px solid $color-blue-legacy;
 }
 
 .mock-description i {
-  color: #007bff;
+  color: $color-blue-legacy;
   margin-top: 0.25rem;
 }
 
@@ -169,7 +171,7 @@
   justify-content: flex-end;
   gap: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid $color-gray-border-md;
 }
 
 .btn {
@@ -186,14 +188,14 @@
 }
 
 .btn-primary {
-  background: #007bff;
+  background: $color-blue-legacy;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #0056b3;
+  background: $color-blue-legacy-dark;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 8px $color-blue-legacy-shadow-lg;
 }
 
 .btn-primary:active {
@@ -203,7 +205,7 @@
 /* ---- Custom Backends Management ---- */
 
 .settings-section-border-top {
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid $color-gray-border-md;
 }
 
 .custom-backends-list {
@@ -214,9 +216,9 @@
 }
 
 .custom-backend-item {
-  border: 1px solid #e0e0e0;
+  border: 1px solid $color-gray-border-md;
   border-radius: 8px;
-  background: #fafafa;
+  background: $color-bg-near-white;
   padding: 0.75rem 1rem;
 }
 
@@ -257,54 +259,54 @@
 }
 
 .btn-secondary {
-  background: #6c757d;
+  background: $color-gray-bs;
   color: white;
 }
 
 .btn-secondary:hover {
-  background: #5a6268;
+  background: $color-bs-secondary-alt;
 }
 
 .btn-icon {
   background: transparent;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $color-gray-border-md;
   border-radius: 6px;
   padding: 0.3rem 0.5rem;
-  color: #555;
+  color: $color-text-dark;
   transition: all 0.2s;
 }
 
 .btn-icon:hover {
-  background: #f0f0f0;
-  border-color: #bbb;
+  background: $color-gray-border-subtle;
+  border-color: $color-gray-separator;
 }
 
 .btn-icon-danger {
-  color: #dc3545;
+  color: $color-danger-legacy;
 }
 
 .btn-icon-danger:hover {
-  background: #fff0f0;
-  border-color: #dc3545;
+  background: $color-danger-bg-very-light;
+  border-color: $color-danger-legacy;
 }
 
 .no-custom-backends {
-  color: #999;
+  color: $color-gray-subtle;
   font-style: italic;
   margin-bottom: 1.5rem;
 }
 
 .add-custom-backend {
   padding: 1rem;
-  border: 1px dashed #c0c0c0;
+  border: 1px dashed $color-gray-scroll;
   border-radius: 8px;
-  background: #fafafa;
+  background: $color-bg-near-white;
 }
 
 .add-custom-backend h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #555;
+  color: $color-text-dark;
   margin-bottom: 0.75rem;
 }
 

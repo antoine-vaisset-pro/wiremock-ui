@@ -1,3 +1,5 @@
+@use '../../../styles/colors' as *;
+
 /* Styles are inherited from app.component.css for now */
 /* This approach avoids duplication during the refactoring phase */
 
@@ -7,7 +9,7 @@
 }
 
 .stub-item.select-mode:hover {
-  background-color: #f0f8ff;
+  background-color: $color-blue-bg-hover;
 }
 
 .stub-checkbox {
@@ -24,23 +26,23 @@
 
 /* Import Drop Zone */
 .import-drop-zone {
-  border: 2px dashed #6c757d;
+  border: 2px dashed $color-gray-bs;
   border-radius: 8px;
   padding: 32px 20px;
   text-align: center;
-  background: #f9fafb;
+  background: $color-bg-subtle;
   transition: border-color 0.2s, background 0.2s;
   cursor: default;
 }
 
 .import-drop-zone:hover {
-  border-color: #0d6efd;
-  background: #f0f4ff;
+  border-color: $color-blue-bs;
+  background: $color-bg-blue-tint;
 }
 
 .import-drop-icon {
   font-size: 2.5rem;
-  color: #6c757d;
+  color: $color-gray-bs;
   margin-bottom: 10px;
   display: block;
 }
@@ -48,13 +50,13 @@
 .import-drop-hint {
   margin: 0 0 4px;
   font-size: 0.95rem;
-  color: #374151;
+  color: $color-slate-500;
 }
 
 .import-drop-or {
   margin: 10px 0;
   font-size: 0.85rem;
-  color: #9ca3af;
+  color: $color-gray-light;
 }
 
 /* Import Modal Styles */
@@ -78,17 +80,17 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0;
-  color: #1f2937;
+  color: $color-slate-600;
 }
 
 /* File Selection Lists */
 .file-selection-list {
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #dee2e6;
+  border: 1px solid $color-gray-border-light;
   border-radius: 4px;
   padding: 10px;
-  background: #f9fafb;
+  background: $color-bg-subtle;
 }
 
 .file-selection-list::-webkit-scrollbar {
@@ -101,17 +103,17 @@
 }
 
 .file-selection-list::-webkit-scrollbar-thumb {
-  background: #888;
+  background: $color-gray-icon;
   border-radius: 4px;
 }
 
 .file-selection-list::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: $color-text-dark;
 }
 
 .file-selection-item {
   padding: 8px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid $color-gray-border-pale;
   background: white;
   margin-bottom: 4px;
   border-radius: 4px;
@@ -119,7 +121,7 @@
 }
 
 .file-selection-item:hover {
-  background: #f3f4f6;
+  background: $color-bg-softer;
 }
 
 .file-selection-item:last-child {
@@ -143,7 +145,7 @@
 .preview-list {
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #dee2e6;
+  border: 1px solid $color-gray-border-light;
   border-radius: 4px;
   padding: 10px;
 }
@@ -152,10 +154,10 @@
 .preview-list-scrollable {
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid #dee2e6;
+  border: 1px solid $color-gray-border-light;
   border-radius: 4px;
   padding: 10px;
-  background: #f9fafb;
+  background: $color-bg-subtle;
 }
 
 .preview-list-scrollable::-webkit-scrollbar {
@@ -168,12 +170,12 @@
 }
 
 .preview-list-scrollable::-webkit-scrollbar-thumb {
-  background: #888;
+  background: $color-gray-icon;
   border-radius: 4px;
 }
 
 .preview-list-scrollable::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: $color-text-dark;
 }
 
 .preview-item {
@@ -181,7 +183,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 10px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid $color-gray-border-pale;
   background: white;
   margin-bottom: 4px;
   border-radius: 4px;
@@ -192,7 +194,7 @@
 }
 
 .preview-index {
-  color: #9ca3af;
+  color: $color-gray-light;
   font-size: 0.85em;
   min-width: 30px;
   text-align: right;
@@ -208,20 +210,20 @@
 }
 
 .preview-status {
-  color: #666;
+  color: $color-text-medium;
   font-size: 0.9em;
 }
 
 .preview-more {
   text-align: center;
   padding: 10px;
-  color: #666;
+  color: $color-text-medium;
   font-style: italic;
 }
 
 /* Scenario Badges */
 .bg-indigo {
-  background-color: #6366f1 !important;
+  background-color: $color-primary !important;
 }
 
 .scenario-badge-small {
@@ -249,9 +251,9 @@
   flex-direction: column;
   gap: 12px;
   padding: 15px;
-  background: #f9fafb;
+  background: $color-bg-subtle;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid $color-gray-border-pale;
 }
 
 .scenario-field {
@@ -262,7 +264,7 @@
 
 .scenario-field-label {
   font-weight: 600;
-  color: #6b7280;
+  color: $color-gray-500;
   font-size: 13px;
   min-width: 120px;
 }
@@ -273,16 +275,16 @@
 }
 
 .scenario-section {
-  background: #f0f4ff;
-  border: 1px solid #c7d2fe;
+  background: $color-bg-blue-tint;
+  border: 1px solid $color-primary-bg-c7;
 }
 
 /* Section Scenario Collapsible */
 .scenario-section-collapsible {
-  border: 1px solid #e5e7eb;
+  border: 1px solid $color-gray-border-pale;
   border-radius: 8px;
   overflow: hidden;
-  background: #f9fafb;
+  background: $color-bg-subtle;
 }
 
 .scenario-header {
@@ -290,33 +292,33 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: #f3f4f6;
+  background: $color-bg-softer;
   cursor: pointer;
   transition: background 0.2s ease;
   user-select: none;
 }
 
 .scenario-header:hover {
-  background: #e5e7eb;
+  background: $color-gray-border-pale;
 }
 
 .scenario-header h5 {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #374151;
+  color: $color-slate-500;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .scenario-header i.fa-sitemap {
-  color: #6366f1;
+  color: $color-primary;
 }
 
 .scenario-header i.fa-chevron-down,
 .scenario-header i.fa-chevron-up {
-  color: #9ca3af;
+  color: $color-gray-light;
   font-size: 12px;
   transition: transform 0.3s ease;
 }
@@ -336,7 +338,7 @@
 
 /* Form sections */
 .form-section {
-  border: 1px solid #dee2e6;
+  border: 1px solid $color-gray-border-light;
   border-radius: 6px;
 }
 
@@ -345,10 +347,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background-color: #f8f9fa;
+  background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid $color-gray-border-light;
   border-radius: 6px;
 }
 
@@ -357,7 +359,7 @@
 }
 
 .section-header:hover {
-  background-color: #e9ecef;
+  background-color: $color-gray-divider;
 }
 
 .section-title {
@@ -365,7 +367,7 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #495057;
+  color: $color-text-muted-bs;
 }
 
 .section-body {
@@ -374,7 +376,7 @@
 
 /* Subsections */
 .subsection {
-  border: 1px solid #e9ecef;
+  border: 1px solid $color-gray-divider;
   border-radius: 4px;
 }
 
@@ -383,7 +385,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 10px;
-  background-color: #f8f9fa;
+  background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
   font-size: 0.875rem;
@@ -396,7 +398,7 @@
 }
 
 .subsection-header:hover {
-  background-color: #e9ecef;
+  background-color: $color-gray-divider;
 }
 
 .subsection-body {
@@ -432,7 +434,7 @@
 .two-panel-layout {
   display: flex;
   gap: 0;
-  border: 1px solid #dee2e6;
+  border: 1px solid $color-gray-border-light;
   border-radius: 6px;
   overflow: hidden;
   flex: 1;
@@ -460,8 +462,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background-color: $color-bg-light;
+  border-bottom: 1px solid $color-gray-border-light;
   user-select: none;
   flex-shrink: 0;
   min-height: 38px;
@@ -473,7 +475,7 @@
   padding: 8px 6px;
   gap: 12px;
   border-bottom: none;
-  border-right: 1px solid #dee2e6;
+  border-right: 1px solid $color-gray-border-light;
   height: 100%;
   cursor: pointer;
 }
@@ -484,7 +486,7 @@
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #495057;
+  color: $color-text-muted-bs;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -507,11 +509,11 @@
   width: 22px;
   height: 22px;
   padding: 0;
-  background: #e9ecef;
-  border: 1px solid #ced4da;
+  background: $color-gray-divider;
+  border: 1px solid $color-gray-border-bs;
   border-radius: 4px;
   cursor: pointer;
-  color: #6c757d;
+  color: $color-gray-bs;
   font-size: 10px;
   flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
@@ -519,8 +521,8 @@
 }
 
 .panel-collapse-btn:hover {
-  background: #dee2e6;
-  color: #343a40;
+  background: $color-gray-border-light;
+  color: $color-bs-dark;
 }
 
 /* Corps scrollable du panneau */
@@ -536,30 +538,30 @@
 }
 
 .side-panel-body::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: $color-bg-light;
 }
 
 .side-panel-body::-webkit-scrollbar-thumb {
-  background: #ced4da;
+  background: $color-gray-border-bs;
   border-radius: 3px;
 }
 
 .side-panel-body::-webkit-scrollbar-thumb:hover {
-  background: #adb5bd;
+  background: $color-gray-pale;
 }
 
 /* Vertical separator between the two panels */
 .panel-divider {
   width: 1px;
-  background-color: #dee2e6;
+  background-color: $color-gray-border-light;
   flex-shrink: 0;
 }
 
 /* Different background color to distinguish Request / Response */
 .side-panel:first-child {
-  background: #fafbff;
+  background: $color-bg-request;
 }
 
 .side-panel:last-child {
-  background: #fafff9;
+  background: $color-bg-response;
 }

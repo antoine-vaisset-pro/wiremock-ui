@@ -1,10 +1,12 @@
+@use '../../../styles/colors' as *;
+
 /* Styles are inherited from app.component.css for now */
 
 /* Filters Section */
 .filters-section {
   padding: 6px 10px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background: $color-bg-light;
+  border-bottom: 1px solid $color-gray-border-light;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -20,7 +22,7 @@
 .filter-label {
   font-size: 10px;
   font-weight: 600;
-  color: #495057;
+  color: $color-text-muted-bs;
   margin: 0;
   min-width: 48px;
   flex-shrink: 0;
@@ -42,42 +44,42 @@
   padding: 2px 7px;
   font-size: 12px;
   font-weight: 500;
-  background: #fff;
-  border: 1px solid #dee2e6;
+  background: $color-white;
+  border: 1px solid $color-gray-border-light;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #495057;
+  color: $color-text-muted-bs;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .filter-chip:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: $color-gray-divider;
+  border-color: $color-gray-pale;
 }
 
 .filter-chip.active {
-  background: #0d6efd;
+  background: $color-blue-bs;
   color: white;
-  border-color: #0d6efd;
+  border-color: $color-blue-bs;
 }
 
 .filter-chip-success.active {
-  background: #198754;
-  border-color: #198754;
+  background: $color-success-bs;
+  border-color: $color-success-bs;
 }
 
 .filter-chip-warning.active {
-  background: #ffc107;
-  border-color: #ffc107;
-  color: #000;
+  background: $color-warning-legacy;
+  border-color: $color-warning-legacy;
+  color: $color-black;
 }
 
 .filter-chip-info.active {
-  background: #0dcaf0;
-  border-color: #0dcaf0;
-  color: #000;
+  background: $color-cyan;
+  border-color: $color-cyan;
+  color: $color-black;
 }
 
 .filter-chip i {
@@ -107,12 +109,12 @@
 }
 
 .filter-chips::-webkit-scrollbar-thumb {
-  background: #adb5bd;
+  background: $color-gray-pale;
   border-radius: 2px;
 }
 
 .filter-chips::-webkit-scrollbar-thumb:hover {
-  background: #6c757d;
+  background: $color-gray-bs;
 }
 
 /* Response Code Badge */

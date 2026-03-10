@@ -1,3 +1,5 @@
+@use '../../../styles/colors' as *;
+
 .backend-selector {
   display: flex;
   align-items: center;
@@ -5,7 +7,7 @@
 }
 
 .backend-selector-icon {
-  color: #94a3b8;
+  color: $color-gray-muted;
   font-size: 0.875rem;
   flex-shrink: 0;
 }
@@ -13,11 +15,11 @@
 .backend-selector-select {
   appearance: auto;
   padding: 0.35rem 0.6rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid $color-gray-border-blue;
   border-radius: 6px;
   font-size: 0.8125rem;
-  color: #1e293b;
-  background: #f8f9fa;
+  color: $color-slate-800;
+  background: $color-bg-light;
   cursor: pointer;
   min-width: 160px;
   max-width: 260px;
@@ -26,10 +28,10 @@
 
 .backend-selector-select:focus {
   outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px $color-primary-shadow-md;
 }
 
 .backend-selector-select:hover {
-  border-color: #94a3b8;
+  border-color: $color-gray-muted;
 }

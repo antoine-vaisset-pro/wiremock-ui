@@ -1,3 +1,5 @@
+@use '../../../styles/colors' as *;
+
 .generator-page {
   padding: 30px;
   max-width: 1400px;
@@ -54,7 +56,7 @@
 .step-card {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px $color-shadow-md;
   padding: 24px;
   margin-bottom: 20px;
   border: 1px solid var(--border-color);
@@ -138,7 +140,7 @@
   border-radius: 8px;
   padding: 14px;
   resize: vertical;
-  background: #fafafa;
+  background: $color-bg-near-white;
   color: var(--text-primary);
   transition: border-color 0.2s;
 }
@@ -151,7 +153,7 @@
 
 .spec-textarea--preview {
   margin-top: 12px;
-  background: #f0f0f0;
+  background: $color-gray-border-subtle;
   color: var(--text-secondary);
 }
 
@@ -168,7 +170,7 @@
 
 .drop-zone:hover {
   border-color: var(--primary-color);
-  background: #f0f0ff;
+  background: $color-primary-bg-subtle;
 }
 
 .drop-icon {
@@ -249,7 +251,7 @@
 }
 
 .btn-export:hover:not(:disabled) {
-  background: #16a34a;
+  background: $color-success-deeper;
 }
 
 .btn-icon {
@@ -293,9 +295,9 @@
 }
 
 .alert-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
+  background: $color-danger-bg-subtle;
+  border: 1px solid $color-danger-bg;
+  color: $color-danger-dark;
 }
 
 .alert-error pre {
@@ -306,9 +308,9 @@
 }
 
 .alert-warning {
-  background: #fffbeb;
+  background: $color-warning-bg-light;
   border: 1px solid #fde68a;
-  color: #b45309;
+  color: $color-warning-amber-dark;
 }
 
 /* Spec summary */
@@ -437,7 +439,7 @@
 }
 
 .endpoint-row:not(.endpoint-row--header):hover {
-  background: #f8f8ff;
+  background: $color-bg-blue-subtle;
 }
 
 .endpoint-row.disabled {
@@ -542,8 +544,8 @@
   font-size: 10px;
   padding: 1px 4px;
   border-radius: 3px;
-  background: #fef9c3;
-  color: #a16207;
+  background: $color-warning-bg-amber;
+  color: $color-warning-amber-text;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -552,8 +554,8 @@
 }
 
 .error-type-tag--fault {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: $color-danger-bg-light;
+  color: $color-danger-deep;
 }
 
 /* Import WireMock button */
@@ -562,7 +564,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: var(--success-color, #16a34a);
+  background: var(--success-color, $color-success-deeper);
   color: white;
   border: none;
   border-radius: 8px;
@@ -583,7 +585,7 @@
 }
 
 .import-error {
-  color: var(--danger-color, #dc2626);
+  color: var(--danger-color, $color-danger-dark);
   font-size: 13px;
   font-weight: 600;
   display: flex;
@@ -610,14 +612,14 @@
   white-space: nowrap;
 }
 
-.method-get    { background: #dbeafe; color: #1d4ed8; }
-.method-post   { background: #dcfce7; color: #15803d; }
-.method-put    { background: #fef9c3; color: #a16207; }
-.method-delete { background: #fee2e2; color: #b91c1c; }
-.method-patch  { background: #ede9fe; color: #6d28d9; }
+.method-get    { background: $color-blue-bg; color: $color-blue-darker; }
+.method-post   { background: $color-success-bg-light; color: $color-success-dark; }
+.method-put    { background: $color-warning-bg-amber; color: $color-warning-amber-text; }
+.method-delete { background: $color-danger-bg-light; color: $color-danger-deep; }
+.method-patch  { background: $color-purple-bg; color: $color-purple-deep; }
 .method-options,
 .method-head,
-.method-default { background: #f1f5f9; color: #475569; }
+.method-default { background: $color-bg-card; color: $color-slate-400; }
 
 /* Export */
 .export-actions {
@@ -637,8 +639,8 @@
 }
 
 .zip-structure-hint {
-  background: #1e293b;
-  color: #94a3b8;
+  background: $color-slate-800;
+  color: $color-gray-muted;
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 13px;
@@ -648,7 +650,7 @@
 
 .zip-structure-hint code {
   background: transparent;
-  color: #94a3b8;
+  color: $color-gray-muted;
   font-family: 'Courier New', Courier, monospace;
   line-height: 1.8;
 }
@@ -704,19 +706,19 @@
 }
 
 .status-200, .status-201, .status-204 {
-  background: #dcfce7; color: #15803d;
+  background: $color-success-bg-light; color: $color-success-dark;
 }
 
 .status-400, .status-404, .status-422 {
-  background: #fef9c3; color: #a16207;
+  background: $color-warning-bg-amber; color: $color-warning-amber-text;
 }
 
 .status-401, .status-403 {
-  background: #fef3c7; color: #92400e;
+  background: $color-warning-bg; color: $color-warning-amber-deep;
 }
 
 .status-500 {
-  background: #fee2e2; color: #b91c1c;
+  background: $color-danger-bg-light; color: $color-danger-deep;
 }
 
 .stub-file-hint {
@@ -738,7 +740,7 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: $color-overlay-dark;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -754,7 +756,7 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px $color-overlay-medium;
   overflow: hidden;
 }
 
@@ -793,7 +795,7 @@
   font-size: 13px;
   line-height: 1.6;
   color: var(--text-primary);
-  background: #fafafa;
+  background: $color-bg-near-white;
   padding: 20px;
   margin: 0;
   white-space: pre-wrap;

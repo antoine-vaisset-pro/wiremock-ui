@@ -1,3 +1,5 @@
+@use '../../../styles/colors' as *;
+
 .dashboard-container {
   padding: 2rem;
   background-color: var(--bg-secondary);
@@ -37,11 +39,11 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid $color-gray-border-blue;
   border-radius: 4px;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1e293b;
+  color: $color-slate-800;
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 200px;
@@ -49,7 +51,7 @@
 
 .time-range-display:hover {
   border-color: var(--primary-color);
-  background: #f8fafc;
+  background: $color-bg-primary-hover;
 }
 
 .time-range-display .fa-clock {
@@ -60,7 +62,7 @@
 .time-range-display .fa-chevron-down {
   margin-left: auto;
   font-size: 0.75rem;
-  color: #64748b;
+  color: $color-gray-text;
   transition: transform 0.2s ease;
 }
 
@@ -73,9 +75,9 @@
   top: calc(100% + 0.5rem);
   right: 0;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid $color-gray-border-blue;
   border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 40px $color-shadow-lg;
   min-width: 400px;
   max-height: 600px;
   overflow-y: auto;
@@ -98,7 +100,7 @@
 /* Quick Ranges */
 .quick-ranges {
   flex: 1;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid $color-gray-border-blue;
   padding: 0.75rem 0;
 }
 
@@ -106,7 +108,7 @@
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #64748b;
+  color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -118,19 +120,19 @@
   border: none;
   text-align: left;
   font-size: 0.875rem;
-  color: #1e293b;
+  color: $color-slate-800;
   cursor: pointer;
   transition: all 0.15s ease;
   position: relative;
 }
 
 .quick-range-item:hover {
-  background: #f1f5f9;
+  background: $color-bg-card;
   color: var(--primary-color);
 }
 
 .quick-range-item.active {
-  background: #e0e7ff;
+  background: $color-primary-bg;
   color: var(--primary-color);
   font-weight: 500;
 }
@@ -155,7 +157,7 @@
 .absolute-time-header {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #64748b;
+  color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1rem;
@@ -171,15 +173,15 @@
 .date-input-group label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #475569;
+  color: $color-slate-400;
 }
 
 .date-input {
   padding: 0.5rem 0.75rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid $color-gray-mid;
   border-radius: 4px;
   font-size: 0.875rem;
-  color: #1e293b;
+  color: $color-slate-800;
   background: white;
   transition: all 0.2s ease;
 }
@@ -187,11 +189,11 @@
 .date-input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px $color-primary-shadow;
 }
 
 .date-input::placeholder {
-  color: #94a3b8;
+  color: $color-gray-muted;
   font-size: 0.8125rem;
 }
 
@@ -201,7 +203,7 @@
   justify-content: flex-end;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid $color-gray-border-blue;
 }
 
 .action-btn {
@@ -216,13 +218,13 @@
 
 .action-btn.secondary {
   background: transparent;
-  border-color: #cbd5e1;
-  color: #475569;
+  border-color: $color-gray-mid;
+  color: $color-slate-400;
 }
 
 .action-btn.secondary:hover {
-  background: #f1f5f9;
-  border-color: #94a3b8;
+  background: $color-bg-card;
+  border-color: $color-gray-muted;
 }
 
 .action-btn.primary {
@@ -322,7 +324,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px $color-shadow-md;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
@@ -333,7 +335,7 @@
 
 .stat-card.clickable:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px $color-shadow-lg;
 }
 
 .stat-card.clickable .card-arrow {
@@ -362,28 +364,28 @@
 }
 
 .stat-card-primary .stat-icon {
-  background-color: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
+  background-color: $color-primary-shadow;
+  color: $color-primary;
 }
 
 .stat-card-success .stat-icon {
-  background-color: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
+  background-color: $color-success-shadow;
+  color: $color-success;
 }
 
 .stat-card-warning .stat-icon {
-  background-color: rgba(251, 146, 60, 0.1);
-  color: #fb923c;
+  background-color: $color-warning-shadow;
+  color: $color-warning;
 }
 
 .stat-card-danger .stat-icon {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background-color: $color-danger-shadow;
+  color: $color-danger;
 }
 
 .stat-card-info .stat-icon {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background-color: $color-blue-shadow;
+  color: $color-blue;
 }
 
 .stat-info {
@@ -411,16 +413,16 @@
 
 /* Recording Status Icons */
 .status-recording {
-  color: #ef4444 !important;
+  color: $color-danger !important;
   animation: pulse 2s ease-in-out infinite;
 }
 
 .status-stopped {
-  color: #94a3b8 !important;
+  color: $color-gray-muted !important;
 }
 
 .status-never-started {
-  color: #cbd5e1 !important;
+  color: $color-gray-mid !important;
 }
 
 @keyframes pulse {
@@ -439,7 +441,7 @@
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px $color-shadow-md;
 }
 
 .dashboard-panel h2 {
@@ -461,7 +463,7 @@
   margin-left: auto;
   font-size: 0.75rem;
   font-weight: 400;
-  color: #94a3b8;
+  color: $color-gray-muted;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -470,7 +472,7 @@
 
 .chart-hint i {
   font-size: 0.7rem;
-  color: #94a3b8;
+  color: $color-gray-muted;
 }
 
 /* Chart Panel */
@@ -513,14 +515,14 @@
 }
 
 .endpoint-item:hover {
-  background-color: #e2e8f0;
+  background-color: $color-gray-border-blue;
   transform: translateX(4px);
 }
 
 .endpoint-item.clickable:hover {
-  background-color: #dbeafe;
+  background-color: $color-blue-bg;
   transform: translateX(6px);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 2px 8px $color-primary-shadow-md;
 }
 
 .endpoint-rank {
@@ -559,33 +561,33 @@
 }
 
 .method-get {
-  background-color: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
+  background-color: $color-success-shadow;
+  color: $color-success;
 }
 
 .method-post {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background-color: $color-blue-shadow;
+  color: $color-blue;
 }
 
 .method-put {
-  background-color: rgba(251, 146, 60, 0.1);
-  color: #fb923c;
+  background-color: $color-warning-shadow;
+  color: $color-warning;
 }
 
 .method-delete {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background-color: $color-danger-shadow;
+  color: $color-danger;
 }
 
 .method-patch {
-  background-color: rgba(168, 85, 247, 0.1);
-  color: #a855f7;
+  background-color: $color-purple-shadow;
+  color: $color-purple;
 }
 
 .method-any {
-  background-color: rgba(100, 116, 139, 0.1);
-  color: #64748b;
+  background-color: $color-slate-shadow;
+  color: $color-gray-text;
 }
 
 .url-text {
@@ -622,21 +624,21 @@
 }
 
 .stub-item:hover {
-  background-color: #e2e8f0;
+  background-color: $color-gray-border-blue;
   transform: translateX(4px);
 }
 
 .stub-item.clickable:hover {
-  background-color: #fef3c7;
+  background-color: $color-warning-bg;
   transform: translateX(6px);
-  box-shadow: 0 2px 8px rgba(251, 146, 60, 0.15);
+  box-shadow: 0 2px 8px $color-warning-shadow-md;
 }
 
 .stub-icon {
   width: 36px;
   height: 36px;
-  background-color: rgba(100, 116, 139, 0.1);
-  color: #64748b;
+  background-color: $color-slate-shadow;
+  color: $color-gray-text;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -727,7 +729,7 @@
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px $color-shadow;
 }
 
 .scenarios-header {
@@ -748,7 +750,7 @@
 }
 
 .scenarios-header h2 i {
-  color: #6366f1;
+  color: $color-primary;
 }
 
 .scenarios-cards {
@@ -758,8 +760,8 @@
 }
 
 .scenario-card {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: $color-bg-subtle;
+  border: 1px solid $color-gray-border-pale;
   border-radius: 8px;
   padding: 1rem;
   cursor: pointer;
@@ -767,9 +769,9 @@
 }
 
 .scenario-card:hover {
-  border-color: #6366f1;
-  background: #eef2ff;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+  border-color: $color-primary;
+  background: $color-primary-bg-light;
+  box-shadow: 0 2px 8px $color-primary-shadow-md;
 }
 
 .scenario-card-header {
@@ -780,13 +782,13 @@
 }
 
 .scenario-card-header i {
-  color: #6366f1;
+  color: $color-primary;
   font-size: 1rem;
 }
 
 .scenario-card-name {
   font-weight: 600;
-  color: #1f2937;
+  color: $color-slate-600;
   font-size: 0.9rem;
 }
 
@@ -808,7 +810,7 @@
 
 .scenario-states-count {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: $color-gray-500;
 }
 
 /* Responsive */
