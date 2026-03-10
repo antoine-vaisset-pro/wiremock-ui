@@ -28,7 +28,7 @@
   top: 0;
   z-index: 100;
   background: $color-white;
-  border-bottom: 1px solid $color-gray-border-md;
+  border-bottom: 1px solid $color-gray-border-pale;
   padding: $space-3 $space-6;
   box-shadow: 0 2px 6px $color-shadow-md;
 }
@@ -52,7 +52,7 @@
 .search-input {
   width: 100%;
   padding: $space-2 $space-10 $space-2 $space-8;
-  border: 2px solid $color-gray-border-md;
+  border: 2px solid $color-gray-border-pale;
   border-radius: $radius-3xl;
   font-size: $font-size-rem-base;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -94,7 +94,7 @@
   height: calc(100vh - #{$size-toc-top});
   overflow-y: auto;
   padding: $space-6 $space-3-5 $space-10;
-  border-right: 1px solid $color-gray-border-md;
+  border-right: 1px solid $color-gray-border-pale;
   background: $color-white;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .toc-external {
-  border-top: 1px solid $color-gray-divider-light;
+  border-top: 1px solid $color-gray-border-subtle;
   padding-top: $space-6;
 }
 
@@ -196,7 +196,7 @@
 .help-section {
   background: $color-white;
   border-radius: $radius-xl;
-  border: 1px solid $color-gray-divider-alt;
+  border: 1px solid $color-gray-divider;
   padding: $space-7 $space-10;
   margin-bottom: $space-5;
   scroll-margin-top: $size-scroll-offset; /* offset for sticky search bar */
@@ -286,7 +286,7 @@
    Option table
 ───────────────────────────────────────── */
 .option-table {
-  border: 1px solid $color-gray-divider-alt;
+  border: 1px solid $color-gray-divider;
   border-radius: $radius-lg;
   overflow: hidden;
   margin: $space-2 0 $space-6;
@@ -306,7 +306,7 @@
 }
 
 .option-row:nth-child(even) {
-  background: $color-bg-fafbfc;
+  background: $color-bg-near-white;
 }
 
 .option-label {
@@ -349,7 +349,7 @@
   align-items: flex-start;
   gap: $space-10;
   padding: $space-3-5 $space-6;
-  background: $color-warning-bg-light;
+  background: $color-warning-bg-orange;
   border: 1px solid $color-warning-border;
   border-radius: $radius-lg;
   margin-top: $space-6;
@@ -369,7 +369,7 @@
 ───────────────────────────────────────── */
 .subsection {
   padding-left: $space-3;
-  border-left: 3px solid $color-gray-divider-alt;
+  border-left: 3px solid $color-gray-divider;
   margin-bottom: $space-2;
 }
 
@@ -407,7 +407,7 @@
   font-weight: $font-weight-semibold;
   padding: $space-0-5 $space-2;
   border-radius: $radius-xl;
-  background: $color-warning-bg-legacy;
+  background: $color-warning-bg-orange;
   color: $color-warning-text;
   border: 1px solid $color-warning-border-legacy;
 }
@@ -431,7 +431,7 @@
   padding: $space-0-5 $space-2;
   border-radius: $radius-sm;
   background: $color-badge-green-bg;
-  color: $color-success-green;
+  color: $color-success-dark;
   border: 1px solid $color-badge-green-border;
   text-transform: uppercase;
   letter-spacing: 0.03em;

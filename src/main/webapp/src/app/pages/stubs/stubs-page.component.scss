@@ -32,7 +32,7 @@
   border-radius: $radius-lg;
   padding: $space-8 $space-5;
   text-align: center;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   transition: border-color 0.2s, background 0.2s;
   cursor: default;
 }
@@ -92,7 +92,7 @@
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
   padding: $space-10;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
 }
 
 .file-selection-list::-webkit-scrollbar {
@@ -159,7 +159,7 @@
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
   padding: $space-10;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
 }
 
 .preview-list-scrollable::-webkit-scrollbar {
@@ -253,7 +253,7 @@
   flex-direction: column;
   gap: $space-3;
   padding: $space-3-5;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border-radius: $radius-lg;
   border: 1px solid $color-gray-border-pale;
 }
@@ -286,7 +286,7 @@
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   overflow: hidden;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
 }
 
 .scenario-header {
@@ -512,7 +512,7 @@
   height: $size-icon-xl;
   padding: 0;
   background: $color-gray-divider;
-  border: 1px solid $color-gray-border-bs;
+  border: 1px solid $color-gray-border;
   border-radius: $radius-sm;
   cursor: pointer;
   color: $color-gray-bs;
@@ -544,7 +544,7 @@
 }
 
 .side-panel-body::-webkit-scrollbar-thumb {
-  background: $color-gray-border-bs;
+  background: $color-gray-border;
   border-radius: $space-1;
 }
 

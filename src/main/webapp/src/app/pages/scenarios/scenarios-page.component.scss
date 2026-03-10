@@ -8,7 +8,7 @@
   border-right: 1px solid $color-gray-border-pale;
   display: flex;
   flex-direction: column;
-  background: $color-bg-fafbfc;
+  background: $color-bg-near-white;
 }
 
 .scenarios-header {
@@ -110,7 +110,7 @@
 
 /* Flow Diagram */
 .flow-diagram-container {
-  background: linear-gradient(135deg, $color-bg-subtle 0%, $color-bg-softer 100%);
+  background: linear-gradient(135deg, $color-bg-near-white 0%, $color-bg-softer 100%);
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-2xl;
   padding: $space-7-5;
@@ -161,7 +161,7 @@
 }
 
 .node-circle.node-started.node-inactive {
-  fill: $color-bg-subtle;
+  fill: $color-bg-near-white;
   stroke: $color-gray-border;
 }
 
@@ -175,7 +175,7 @@
 
 /* Inactive states */
 .node-circle.node-inactive:not(.node-started) {
-  fill: $color-bg-subtle;
+  fill: $color-bg-near-white;
   stroke: $color-gray-border;
   stroke-width: 2;
 }
@@ -310,10 +310,10 @@
 }
 
 .legend-started {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 2px solid $color-gray-border;
   position: relative;
-  box-shadow: inset 0 0 0 8px $color-bg-subtle, inset 0 0 0 10px $color-gray-border;
+  box-shadow: inset 0 0 0 8px $color-bg-near-white, inset 0 0 0 10px $color-gray-border;
 }
 
 .legend-started::after {
@@ -353,7 +353,7 @@
 }
 
 .stub-item-compact {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-md;
   padding: $space-3;
@@ -372,7 +372,7 @@
 
 .stub-item-compact.stub-highlighted {
   border-color: $color-warning-amber;
-  background: $color-warning-bg-light;
+  background: $color-warning-bg-orange;
   box-shadow: 0 0 0 2px $color-warning-amber-shadow, 0 4px 12px $color-warning-amber-shadow-sm;
   animation: pulse-highlight 1.5s ease-in-out 2;
 }

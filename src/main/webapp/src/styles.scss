@@ -12,9 +12,9 @@
   --info-color: #{$color-blue};
   --text-primary: #{$color-slate-800};
   --text-secondary: #{$color-gray-text};
-  --bg-primary: #{$color-bg-white};
+  --bg-primary: #{$color-white};
   --bg-secondary: #{$color-bg-light};
-  --border-color: #{$color-gray-border-blue};
+  --border-color: #{$color-gray-border-pale};
 }
 
 /* Hidden attribute support */
@@ -66,7 +66,7 @@ button:disabled {
 input[type="text"],
 input[type="search"] {
   padding: $space-2 $space-3;
-  border: 1px solid $color-gray-border-dull;
+  border: 1px solid $color-gray-border;
   border-radius: $radius-sm;
   font-size: $font-size-md;
   width: 100%;
@@ -133,7 +133,7 @@ pre {
 }
 
 .btn-danger {
-  background-color: $color-danger-bs;
+  background-color: $color-legacy-red;
   color: white;
 }
 
@@ -152,7 +152,7 @@ pre {
   color: white;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid $color-dark-editor;
+  border-right: 1px solid $color-slate-900;
   flex-shrink: 0;
   min-height: 100vh; /* Takes up full height */
   height: 100%;
@@ -261,7 +261,7 @@ pre {
 /* App Top Bar */
 .app-top-bar {
   background: white;
-  border-bottom: 1px solid $color-gray-border-blue;
+  border-bottom: 1px solid $color-gray-border-pale;
   padding: $space-2 $space-6;
   display: flex;
   justify-content: flex-end;
@@ -445,7 +445,7 @@ pre {
 }
 
 .stub-item:hover {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
 }
 
 .stub-item.selected {
@@ -629,7 +629,7 @@ pre {
 
 .view-tab:hover:not(.active) {
   color: $color-slate-500;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
 }
 
 .detail-section {
@@ -662,7 +662,7 @@ pre {
   align-items: center;
   gap: $space-3;
   padding: $space-3;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border-radius: $radius-md;
   border: 1px solid $color-gray-border-pale;
 }
@@ -701,7 +701,7 @@ pre {
 }
 
 .headers-list {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border-radius: $radius-md;
   border: 1px solid $color-gray-border-pale;
   overflow: hidden;
@@ -734,7 +734,7 @@ pre {
 }
 
 .body-editor {
-  background: $color-dark-editor;
+  background: $color-slate-900;
   border-radius: $radius-md;
   overflow: hidden;
   border: 1px solid $color-slate-800;
@@ -745,7 +745,7 @@ pre {
   justify-content: space-between;
   align-items: center;
   padding: $space-2 $space-3;
-  background: $color-dark-editor-deep;
+  background: $color-slate-sidebar;
   border-bottom: 1px solid $color-slate-800;
 }
 
@@ -758,7 +758,7 @@ pre {
   max-height: $size-min-range;
   overflow: auto;
   line-height: $line-height-normal;
-  background: $color-dark-editor;
+  background: $color-slate-900;
 }
 
 .json-viewer {
@@ -775,7 +775,7 @@ pre {
 .json-content {
   font-family: $font-family-mono;
   font-size: $font-size-sm;
-  background: $color-dark-editor;
+  background: $color-slate-900;
   color: $color-bg-card;
   padding: $space-4;
   border-radius: $radius-md;
@@ -878,7 +878,7 @@ pre {
 }
 
 ::ng-deep .page-link:hover {
-  background-color: $color-bg-subtle;
+  background-color: $color-bg-near-white;
   border-color: $color-gray-border;
   color: $color-slate-600;
 }
@@ -917,7 +917,7 @@ pre {
 .details-panel::-webkit-scrollbar-track,
 .json-body::-webkit-scrollbar-track,
 .json-content::-webkit-scrollbar-track {
-  background: $color-scrollbar-track;
+  background: $color-bg-code;
 }
 
 .stubs-list::-webkit-scrollbar-thumb,
@@ -1036,7 +1036,7 @@ pre {
 .json-editor {
   font-family: $font-family-mono;
   font-size: $font-size-base;
-  background: $color-dark-editor;
+  background: $color-slate-900;
   color: $color-bg-card;
   border: 1px solid $color-slate-800;
   border-radius: $radius-md;
@@ -1065,7 +1065,7 @@ pre {
 }
 
 .editor-section {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   padding: $space-5;
@@ -1125,7 +1125,7 @@ input[type="number"] {
 .json-editor-simple {
   font-family: $font-family-mono;
   font-size: $font-size-base;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 1px solid $color-gray-border;
   border-radius: $radius-md;
   padding: $space-3;
@@ -1202,7 +1202,7 @@ input[type="number"] {
   padding: $space-3 $space-5;
   font-size: $font-size-sm;
   color: $color-gray-500;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border-bottom: 1px solid $color-gray-border-pale;
 }
 
@@ -1388,7 +1388,7 @@ input[type="number"] {
   align-items: center;
   justify-content: space-between;
   padding: $space-3 $space-4;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   cursor: pointer;
   user-select: none;
   transition: background 0.2s;
@@ -1530,7 +1530,7 @@ input[type="number"] {
   padding: $space-10 $space-5;
   font-size: $font-size-sm;
   color: $color-gray-500;
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border-bottom: 1px solid $color-gray-border-pale;
 }
 
@@ -1563,7 +1563,7 @@ input[type="number"] {
 }
 
 .near-miss-inline-item {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   padding: $space-3-5;

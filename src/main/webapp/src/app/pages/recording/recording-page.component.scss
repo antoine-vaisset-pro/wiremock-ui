@@ -15,7 +15,7 @@
   border-radius: $radius-lg;
   padding: $space-5;
   margin-bottom: $space-7-5;
-  box-shadow: 0 4px 8px $color-warning-orange-shadow;
+  box-shadow: 0 4px 8px $color-warning-amber-shadow;
 }
 
 .wip-content {
@@ -63,7 +63,7 @@
   gap: $space-3-5;
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
-  color: $color-dark-nav;
+  color: $color-slate-700;
   margin: 0 0 $space-10 0;
 }
 
@@ -87,11 +87,11 @@
 
 .status-banner.status-never-started {
   background-color: $color-bg-hover;
-  border-color: $color-gray-border-dull;
+  border-color: $color-gray-border;
 }
 
 .status-banner.status-recording {
-  background-color: $color-warning-bg-legacy;
+  background-color: $color-warning-bg-orange;
   border-color: $color-warning-legacy;
   animation: pulse 2s infinite;
 }
@@ -172,7 +172,7 @@
 .section-header h2 {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
-  color: $color-dark-nav;
+  color: $color-slate-700;
   margin: 0;
 }
 
@@ -205,7 +205,7 @@
 .form-control {
   width: 100%;
   padding: $space-10 $space-3;
-  border: 1px solid $color-gray-border-bs;
+  border: 1px solid $color-gray-border;
   border-radius: $radius-sm;
   font-size: $font-size-md;
   font-family: inherit;
@@ -214,7 +214,7 @@
 .form-control:focus {
   outline: none;
   border-color: $color-blue-legacy;
-  box-shadow: 0 0 0 3px $color-blue-legacy-shadow;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
 }
 
 .form-control:disabled {
@@ -305,7 +305,7 @@
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: $color-bs-secondary-alt;
+  background-color: $color-bs-secondary-dark;
 }
 
 .btn-danger {

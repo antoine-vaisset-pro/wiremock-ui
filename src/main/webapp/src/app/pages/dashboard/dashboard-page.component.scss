@@ -43,7 +43,7 @@ $gap: $space-5;
   gap: $space-1;
   padding: $space-2 $space-6;
   background: white;
-  border: 1px solid $color-gray-border-blue;
+  border: 1px solid $color-gray-border-pale;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
@@ -55,7 +55,7 @@ $gap: $space-5;
 
 .time-range-display:hover {
   border-color: var(--primary-color);
-  background: $color-bg-primary-hover;
+  background: $color-bg-light;
 }
 
 .time-range-display .fa-clock {
@@ -79,7 +79,7 @@ $gap: $space-5;
   top: calc(100% + 0.5rem);
   right: 0;
   background: white;
-  border: 1px solid $color-gray-border-blue;
+  border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   box-shadow: 0 10px 40px $color-shadow-lg;
   min-width: $size-min-range;
@@ -104,7 +104,7 @@ $gap: $space-5;
 /* Quick Ranges */
 .quick-ranges {
   flex: 1;
-  border-right: 1px solid $color-gray-border-blue;
+  border-right: 1px solid $color-gray-border-pale;
   padding: $space-3 0;
 }
 
@@ -207,7 +207,7 @@ $gap: $space-5;
   justify-content: flex-end;
   margin-top: $space-6;
   padding-top: $space-6;
-  border-top: 1px solid $color-gray-border-blue;
+  border-top: 1px solid $color-gray-border-pale;
 }
 
 .action-btn {
@@ -527,7 +527,7 @@ $gap: $space-5;
 }
 
 .endpoint-item:hover {
-  background-color: $color-gray-border-blue;
+  background-color: $color-gray-border-pale;
   transform: translateX(4px);
 }
 
@@ -636,7 +636,7 @@ $gap: $space-5;
 }
 
 .stub-item:hover {
-  background-color: $color-gray-border-blue;
+  background-color: $color-gray-border-pale;
   transform: translateX(4px);
 }
 
@@ -772,7 +772,7 @@ $gap: $space-5;
 }
 
 .scenario-card {
-  background: $color-bg-subtle;
+  background: $color-bg-near-white;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   padding: $space-6;

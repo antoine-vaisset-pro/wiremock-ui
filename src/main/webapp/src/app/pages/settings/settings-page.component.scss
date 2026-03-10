@@ -62,7 +62,7 @@
   align-items: center;
   gap: $space-10;
   padding: $space-2 $space-3;
-  border: 1px solid $color-gray-border-md;
+  border: 1px solid $color-gray-border-pale;
   border-radius: $radius-md;
   background: $color-bg-near-white;
   cursor: pointer;
@@ -123,7 +123,7 @@
 
 .badge-env {
   background-color: $color-badge-green-bg;
-  color: $color-success-green;
+  color: $color-success-dark;
   border: 1px solid $color-badge-green-border;
 }
 
@@ -136,7 +136,7 @@
 .custom-url-input {
   width: 100%;
   padding: $space-2 $space-3;
-  border: 1px solid $color-gray-border-dull;
+  border: 1px solid $color-gray-border;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
   font-family: monospace;
@@ -147,7 +147,7 @@
 .custom-url-input:focus {
   outline: none;
   border-color: $color-blue-legacy;
-  box-shadow: 0 0 0 3px $color-blue-legacy-shadow;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
 }
 
 .mock-description {
@@ -173,7 +173,7 @@
   justify-content: flex-end;
   gap: $space-6;
   padding-top: $space-6;
-  border-top: 1px solid $color-gray-border-md;
+  border-top: 1px solid $color-gray-border-pale;
 }
 
 .btn {
@@ -197,7 +197,7 @@
 .btn-primary:hover {
   background: $color-blue-legacy-dark;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px $color-blue-legacy-shadow-lg;
+  box-shadow: 0 4px 8px $color-blue-shadow-lg;
 }
 
 .btn-primary:active {
@@ -207,7 +207,7 @@
 /* ---- Custom Backends Management ---- */
 
 .settings-section-border-top {
-  border-top: 1px solid $color-gray-border-md;
+  border-top: 1px solid $color-gray-border-pale;
 }
 
 .custom-backends-list {
@@ -218,7 +218,7 @@
 }
 
 .custom-backend-item {
-  border: 1px solid $color-gray-border-md;
+  border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
   background: $color-bg-near-white;
   padding: $space-3 $space-6;
@@ -266,12 +266,12 @@
 }
 
 .btn-secondary:hover {
-  background: $color-bs-secondary-alt;
+  background: $color-bs-secondary-dark;
 }
 
 .btn-icon {
   background: transparent;
-  border: 1px solid $color-gray-border-md;
+  border: 1px solid $color-gray-border-pale;
   border-radius: $radius-md;
   padding: $space-1 $space-2;
   color: $color-text-dark;
@@ -280,7 +280,7 @@
 
 .btn-icon:hover {
   background: $color-gray-border-subtle;
-  border-color: $color-gray-separator;
+  border-color: $color-gray-scroll;
 }
 
 .btn-icon-danger {
