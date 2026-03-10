@@ -2,8 +2,10 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/spacing' as *;
 
+$gap: $space-5;
+
 .dashboard-container {
-  padding: $space-28;
+  padding: $space-10;
   background-color: var(--bg-secondary);
   min-height: 100vh;
 }
@@ -12,18 +14,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-28;
-  gap: $space-14;
+  margin-bottom: $space-5;
+  gap: $gap;
   flex-wrap: wrap;
 }
 
 .dashboard-header h1 {
-  font-size: $font-size-rem-base;
+  font-size: $font-size-rem-2xl;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: $space-10;
+  gap: $gap;
 }
 
 .dashboard-header h1 i {
@@ -38,8 +40,8 @@
 .time-range-display {
   display: flex;
   align-items: center;
-  gap: $space-6;
-  padding: $space-0-5 $space-14;
+  gap: $space-1;
+  padding: $space-2 $space-6;
   background: white;
   border: 1px solid $color-gray-border-blue;
   border-radius: $radius-sm;
@@ -103,11 +105,11 @@
 .quick-ranges {
   flex: 1;
   border-right: 1px solid $color-gray-border-blue;
-  padding: $space-0-75 0;
+  padding: $space-3 0;
 }
 
 .quick-ranges-header {
-  padding: $space-0-5 $space-14;
+  padding: $space-2 $space-6;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
   color: $color-gray-text;
@@ -117,7 +119,7 @@
 
 .quick-range-item {
   width: 100%;
-  padding: $space-0-5 $space-14;
+  padding: $space-2 $space-6;
   background: transparent;
   border: none;
   text-align: left;
@@ -152,7 +154,7 @@
 /* Absolute Time Range */
 .absolute-time-range {
   flex: 1;
-  padding: $space-14;
+  padding: $space-6;
   min-width: $size-min-date;
 }
 
@@ -162,14 +164,14 @@
   color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: $space-14;
+  margin-bottom: $space-6;
 }
 
 .date-input-group {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
-  margin-bottom: $space-14;
+  gap: $space-1;
+  margin-bottom: $space-6;
 }
 
 .date-input-group label {
@@ -179,7 +181,7 @@
 }
 
 .date-input {
-  padding: $space-0-5 $space-0-75;
+  padding: $space-2 $space-3;
   border: 1px solid $color-gray-mid;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
@@ -201,15 +203,15 @@
 
 .dropdown-actions {
   display: flex;
-  gap: $space-6;
+  gap: $space-1;
   justify-content: flex-end;
-  margin-top: $space-14;
-  padding-top: $space-14;
+  margin-top: $space-6;
+  padding-top: $space-6;
   border-top: 1px solid $color-gray-border-blue;
 }
 
 .action-btn {
-  padding: $space-0-5 $space-14;
+  padding: $space-2 $space-6;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
@@ -241,7 +243,7 @@
 }
 
 .refresh-button {
-  padding: $space-0-75 $space-1-5;
+  padding: $space-3 $space-6;
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -250,7 +252,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
   transition: all 0.2s ease;
 }
 
@@ -280,7 +282,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $space-64 $space-28;
+  padding: $space-1 $space-10;
   text-align: center;
 }
 
@@ -291,18 +293,18 @@
   border-top-color: var(--primary-color);
   border-radius: $radius-full;
   animation: spin 1s linear infinite;
-  margin-bottom: $space-14;
+  margin-bottom: $space-6;
 }
 
 .error-container i {
   font-size: 3rem;
   color: var(--danger-color);
-  margin-bottom: $space-14;
+  margin-bottom: $space-6;
 }
 
 .error-container button {
-  margin-top: $space-14;
-  padding: $space-0-75 $space-1-5;
+  margin-top: $space-6;
+  padding: $space-3 $space-6;
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -315,17 +317,17 @@
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: $space-20;
-  margin-bottom: $space-28;
+  gap: $gap;
+  margin-bottom: $space-5;
 }
 
 .stat-card {
   background: white;
   border-radius: $radius-2xl;
-  padding: $space-20;
+  padding: $space-1;
   display: flex;
   align-items: center;
-  gap: $space-20;
+  gap: $space-2;
   box-shadow: 0 2px 8px $color-shadow-md;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
@@ -362,7 +364,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: $font-size-rem-base;
+  font-size: $font-size-rem-xl;
 }
 
 .stat-card-primary .stat-icon {
@@ -399,7 +401,7 @@
   font-weight: $font-weight-bold;
   color: var(--text-primary);
   line-height: $line-height-tight;
-  margin-bottom: $space-0-5;
+  margin-bottom: $space-2;
 }
 
 .stat-value.status-text {
@@ -436,24 +438,32 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: $space-20;
+  gap: $space-1;
 }
 
 .dashboard-panel {
   background: white;
   border-radius: $radius-2xl;
-  padding: $space-20;
+  padding: $space-1;
   box-shadow: 0 2px 8px $color-shadow-md;
+
+  &.chart-panel {
+    margin-bottom: $space-5;
+  }
+
+  &:not(.chart-panel) {
+    margin-right: $space-5;
+  }
 }
 
 .dashboard-panel h2 {
-  font-size: $font-size-rem-base;
+  font-size: $font-size-rem-lg;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  margin-bottom: $space-1-5;
+  margin-bottom: $space-6;
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .dashboard-panel h2 i {
@@ -468,7 +478,7 @@
   color: $color-gray-muted;
   display: flex;
   align-items: center;
-  gap: $space-2;
+  gap: $space-1;
   font-style: italic;
 }
 
@@ -484,7 +494,7 @@
 
 .chart-container {
   min-height: $size-h-spinner;
-  padding: $space-14 0;
+  padding: $space-6 0;
 }
 
 .highcharts-container {
@@ -497,7 +507,7 @@
 .stub-list {
   display: flex;
   flex-direction: column;
-  gap: $space-14;
+  gap: $space-6;
 }
 
 /* Clickable items */
@@ -509,8 +519,8 @@
 .endpoint-item {
   display: flex;
   align-items: center;
-  gap: $space-14;
-  padding: $space-14;
+  gap: $space-6;
+  padding: $space-6;
   background-color: var(--bg-secondary);
   border-radius: $radius-lg;
   transition: all 0.2s ease;
@@ -549,12 +559,12 @@
 .endpoint-url {
   display: flex;
   align-items: center;
-  gap: $space-6;
-  margin-bottom: $space-0-25;
+  gap: $space-1;
+  margin-bottom: $space-1;
 }
 
 .method-badge {
-  padding: $space-0-25 $space-0-5;
+  padding: $space-1 $space-2;
   border-radius: $radius-sm;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-bold;
@@ -607,7 +617,7 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
-  gap: $space-2;
+  gap: $space-1;
 }
 
 .endpoint-count i {
@@ -618,8 +628,8 @@
 .stub-item {
   display: flex;
   align-items: center;
-  gap: $space-14;
-  padding: $space-14;
+  gap: $space-6;
+  padding: $space-6;
   background-color: var(--bg-secondary);
   border-radius: $radius-lg;
   transition: all 0.2s ease;
@@ -656,7 +666,7 @@
 .stub-name {
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  margin-bottom: $space-0-25;
+  margin-bottom: $space-1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -665,21 +675,21 @@
 .stub-url {
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 /* Info Panel */
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: $space-14;
+  gap: $space-6;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $space-10;
+  padding: $space-6;
   background-color: var(--bg-secondary);
   border-radius: $radius-md;
 }
@@ -696,7 +706,7 @@
   font-size: $font-size-rem-base;
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 /* Empty State */
@@ -705,14 +715,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $space-48 $space-14;
+  padding: $space-3-5 $space-6;
   text-align: center;
   color: var(--text-secondary);
 }
 
 .empty-state i {
   font-size: 3rem;
-  margin-bottom: $space-14;
+  margin-bottom: $space-6;
   opacity: 0.5;
 }
 
@@ -727,10 +737,10 @@
 
 /* Active Scenarios Section */
 .scenarios-section {
-  margin-bottom: $space-28;
+  margin-bottom: $space-5;
   background: white;
   border-radius: $radius-2xl;
-  padding: $space-20;
+  padding: $space-1;
   box-shadow: 0 1px 3px $color-shadow;
 }
 
@@ -738,7 +748,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-14;
+  margin-bottom: $space-6;
 }
 
 .scenarios-header h2 {
@@ -748,7 +758,7 @@
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .scenarios-header h2 i {
@@ -758,14 +768,14 @@
 .scenarios-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: $space-14;
+  gap: $space-6;
 }
 
 .scenario-card {
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
-  padding: $space-14;
+  padding: $space-6;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -779,8 +789,8 @@
 .scenario-card-header {
   display: flex;
   align-items: center;
-  gap: $space-6;
-  margin-bottom: $space-0-75;
+  gap: $space-1;
+  margin-bottom: $space-3;
 }
 
 .scenario-card-header i {
@@ -797,7 +807,7 @@
 .scenario-card-body {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .scenario-current-state {
@@ -807,7 +817,7 @@
 
 .scenario-current-state .badge {
   font-size: $font-size-rem-base;
-  padding: $space-0-25 $space-0-75;
+  padding: $space-1 $space-3;
 }
 
 .scenario-states-count {
@@ -818,7 +828,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: $space-14;
+    padding: $space-6;
   }
 
   .dashboard-header h1 {
@@ -838,7 +848,7 @@
   }
 
   .bar-chart {
-    gap: $space-px-4;
+    gap: $space-1;
   }
 
   .bar {

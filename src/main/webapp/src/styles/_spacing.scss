@@ -1,84 +1,41 @@
 // ============================================================
 // WireMock UI - Spacing & sizing tokens
-// All padding, margin, gap, border-radius and fixed
-// component sizes must be defined here and referenced
-// by variable. No hardcoded spacing value in components.
+//
+// Scale: base-4 grid — 1 unit = 4px
+//   $space-1  =  4px   $space-2  =  8px   $space-3  = 12px
+//   $space-4  = 16px   $space-5  = 20px   $space-6  = 24px
+//   $space-7  = 28px   $space-8  = 32px   $space-10 = 40px
+//   $space-12 = 48px   $space-15 = 60px   $space-16 = 64px
+//
+// Half-steps: $space-0-5=2px  $space-1-5=6px  $space-2-5=10px
+//             $space-3-5=14px $space-7-5=30px
+//
+// No hardcoded spacing values allowed in component files.
 // ============================================================
 
-// ── Base spacing scale (rem) ──────────────────────────────────
-// Follows a 4-point grid: 0.25rem = 4px @ 16px root
-$space-1:   0.2rem;    //  ~3px  – hairline
-$space-2:   0.25rem;   //  4px
-$space-3:   0.35rem;   //  ~6px
-$space-4:   0.4rem;    //  ~6px
-$space-5:   0.45rem;   //  ~7px
-$space-6:   0.5rem;    //  8px
-$space-7:   0.55rem;   //  ~9px
-$space-8:   0.6rem;    // 10px
-$space-9:   0.65rem;   // ~10px
-$space-10:  0.75rem;   // 12px
-$space-12:  0.85rem;   // ~14px
-$space-14:  1rem;      // 16px
-$space-16:  1.25rem;   // 20px
-$space-18:  1.4rem;    // ~22px
-$space-20:  1.5rem;    // 24px
-$space-24:  1.75rem;   // 28px
-$space-28:  2rem;      // 32px
-$space-32:  2.5rem;    // 40px
-$space-48:  3rem;      // 48px
-$space-64:  4rem;      // 64px
+// ── Spacing scale ─────────────────────────────────────────────
+$space-0-5:  2px;   //  2px – hairline, border offset
+$space-1:    4px;   //  4px – micro gap, badge padding
+$space-1-5:  6px;   //  6px – tight badge / icon gap
+$space-2:    8px;   //  8px – compact inner padding
+$space-2-5:  10px;  // 10px – compact gap
+$space-3:    12px;  // 12px – small padding
+$space-3-5:  14px;  // 14px – form element padding
+$space-4:    16px;  // 16px – standard base unit
+$space-5:    20px;  // 20px – medium padding
+$space-6:    24px;  // 24px – section inner padding
+$space-7:    28px;  // 28px – card padding
+$space-7-5:  30px;  // 30px – page padding
+$space-8:    32px;  // 32px – large padding
+$space-10:   40px;  // 40px – XL padding
+$space-12:   48px;  // 48px – 2XL
+$space-15:   60px;  // 60px – empty state / hero padding
+$space-16:   64px;  // 64px – hero section
 
-// ── Spacing scale (px) ────────────────────────────────────────
-$space-px-1:   1px;
-$space-px-2:   2px;
-$space-px-3:   3px;
-$space-px-4:   4px;
-$space-px-5:   5px;
-$space-px-6:   6px;
-$space-px-8:   8px;
-$space-px-10:  10px;
-$space-px-12:  12px;
-$space-px-14:  14px;
-$space-px-15:  15px;
-$space-px-16:  16px;
-$space-px-18:  18px;
-$space-px-20:  20px;
-$space-px-24:  24px;
-$space-px-25:  25px;
-$space-px-30:  30px;
-$space-px-32:  32px;
-$space-px-48:  48px;
-$space-px-60:  60px;
-$space-px-7:   7px;    // badge padding
-
-// ── Small/micro spacing (rem) ─────────────────────────────────
-$space-0-05:  0.05rem;  // padding-top hairline offset
-$space-0-1:   0.1rem;   // margin-top offset
-$space-0-15:  0.15rem;  // badge vertical padding
-$space-0-2:   0.2rem;   // ~3px hairline
-$space-0-25:  0.25rem;  // 4px
-$space-0-3:   0.3rem;   // ~5px
-$space-0-35:  0.35rem;  // ~6px
-$space-0-4:   0.4rem;   // ~6px
-$space-0-45:  0.45rem;  // ~7px
-$space-0-5:   0.5rem;   // 8px
-$space-0-55:  0.55rem;  // ~9px
-$space-0-6:   0.6rem;   // 10px
-$space-0-65:  0.65rem;  // ~10px
-$space-0-75:  0.75rem;  // 12px
-$space-0-85:  0.85rem;  // ~14px
-$space-1-25:  1.25rem;  // 20px
-$space-1-4:   1.4rem;   // ~22px
-$space-1-5:   1.5rem;   // 24px
-$space-1-75:  1.75rem;  // 28px
-$space-2-25:  2.25rem;  // 36px
-$space-2-5:   2.5rem;   // 40px
-$space-3:     3rem;     // 48px
-
-// ── Layout fixed heights/offsets ──────────────────────────────
-$size-toc-top: 57px;   // sticky TOC top offset (search bar height)
-$size-scroll-offset: 70px; // scroll-margin-top offset for anchored sections
-$size-header-offset: 80px; // header height for calc(100vh - 80px)
+// ── Sticky / scroll offsets ───────────────────────────────────
+$size-toc-top:       57px;
+$size-scroll-offset: 70px;
+$size-header-offset: 80px;
 
 // ── Border radius ─────────────────────────────────────────────
 $radius-xs:   2px;
@@ -175,4 +132,3 @@ $size-min-height-200: 200px;
 
 // ── Additional modal/layout aliases ───────────────────────────
 $size-modal-preview: 760px;   // requester + openapi preview panel
-

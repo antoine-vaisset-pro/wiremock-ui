@@ -3,23 +3,23 @@
 @use '../../../styles/spacing' as *;
 
 .settings-container {
-  padding: $space-28;
+  padding: $space-10;
   width: 100%;
 }
 
 .settings-header {
-  margin-bottom: $space-28;
+  margin-bottom: $space-5;
 }
 
 .settings-header h1 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
-  margin-bottom: $space-0-5;
+  margin-bottom: $space-2;
 }
 
 .settings-header h1 i {
-  margin-right: $space-0-5;
+  margin-right: $space-2;
   color: $color-blue-legacy;
 }
 
@@ -35,33 +35,33 @@
 }
 
 .settings-section {
-  padding: $space-28;
+  padding: $space-10;
 }
 
 .settings-section h2 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
-  margin-bottom: $space-0-5;
+  margin-bottom: $space-2;
 }
 
 .section-description {
   color: $color-text-medium;
-  margin-bottom: $space-1-5;
+  margin-bottom: $space-6;
 }
 
 .endpoint-list {
   display: flex;
   flex-direction: column;
-  gap: $space-2;
-  margin-bottom: $space-28;
+  gap: $space-1;
+  margin-bottom: $space-5;
 }
 
 .endpoint-item {
   display: flex;
   align-items: center;
-  gap: $space-8;
-  padding: $space-0-5 $space-0-75;
+  gap: $space-10;
+  padding: $space-2 $space-3;
   border: 1px solid $color-gray-border-md;
   border-radius: $radius-md;
   background: $color-bg-near-white;
@@ -114,7 +114,7 @@
   font-size: $font-size-rem-xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: $space-0-15 $space-0-45;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-sm;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -135,7 +135,7 @@
 
 .custom-url-input {
   width: 100%;
-  padding: $space-0-5 $space-0-75;
+  padding: $space-2 $space-3;
   border: 1px solid $color-gray-border-dull;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
@@ -153,11 +153,11 @@
 .mock-description {
   display: flex;
   align-items: flex-start;
-  gap: $space-6;
+  gap: $space-1;
   color: $color-text-medium;
   font-size: $font-size-rem-base;
   line-height: $line-height-snug;
-  padding: $space-10;
+  padding: $space-6;
   background: $color-white;
   border-radius: $radius-sm;
   border-left: 3px solid $color-blue-legacy;
@@ -165,19 +165,19 @@
 
 .mock-description i {
   color: $color-blue-legacy;
-  margin-top: $space-0-25;
+  margin-top: $space-1;
 }
 
 .settings-actions {
   display: flex;
   justify-content: flex-end;
-  gap: $space-14;
-  padding-top: $space-14;
+  gap: $space-6;
+  padding-top: $space-6;
   border-top: 1px solid $color-gray-border-md;
 }
 
 .btn {
-  padding: $space-0-75 $space-1-5;
+  padding: $space-3 $space-6;
   border: none;
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
@@ -186,7 +186,7 @@
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .btn-primary {
@@ -213,22 +213,22 @@
 .custom-backends-list {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
-  margin-bottom: $space-1-5;
+  gap: $space-1;
+  margin-bottom: $space-6;
 }
 
 .custom-backend-item {
   border: 1px solid $color-gray-border-md;
   border-radius: $radius-lg;
   background: $color-bg-near-white;
-  padding: $space-0-75 $space-14;
+  padding: $space-3 $space-6;
 }
 
 .custom-backend-view {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $space-14;
+  gap: $space-6;
 }
 
 .custom-backend-info {
@@ -240,23 +240,23 @@
 
 .custom-backend-actions {
   display: flex;
-  gap: $space-4;
+  gap: $space-6;
   flex-shrink: 0;
 }
 
 .custom-backend-edit {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .custom-backend-edit-actions {
   display: flex;
-  gap: $space-6;
+  gap: $space-1;
 }
 
 .btn-sm {
-  padding: $space-0-35 $space-0-75;
+  padding: $space-1-5 $space-3;
   font-size: $font-size-rem-base;
 }
 
@@ -273,7 +273,7 @@
   background: transparent;
   border: 1px solid $color-gray-border-md;
   border-radius: $radius-md;
-  padding: $space-0-3 $space-0-5;
+  padding: $space-1 $space-2;
   color: $color-text-dark;
   transition: all 0.2s;
 }
@@ -295,11 +295,11 @@
 .no-custom-backends {
   color: $color-gray-subtle;
   font-style: italic;
-  margin-bottom: $space-1-5;
+  margin-bottom: $space-6;
 }
 
 .add-custom-backend {
-  padding: $space-14;
+  padding: $space-6;
   border: 1px dashed $color-gray-scroll;
   border-radius: $radius-lg;
   background: $color-bg-near-white;
@@ -309,12 +309,12 @@
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-dark;
-  margin-bottom: $space-0-75;
+  margin-bottom: $space-3;
 }
 
 .add-custom-backend-form {
   display: flex;
-  gap: $space-6;
+  gap: $space-1;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -326,6 +326,6 @@
 
 .add-custom-backend-form .btn {
   flex-shrink: 0;
-  padding: $space-0-5 $space-14;
+  padding: $space-2 $space-6;
   font-size: $font-size-rem-base;
 }

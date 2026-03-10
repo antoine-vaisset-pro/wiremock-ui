@@ -3,7 +3,7 @@
 @use '../../../styles/spacing' as *;
 
 .recording-page {
-  padding: $space-px-30;
+  padding: $space-7-5;
   max-width: $size-max-container;
   margin: 0 auto;
 }
@@ -13,15 +13,15 @@
   background: linear-gradient(135deg, $color-warning-orange 0%, $color-warning-orange-dark 100%);
   border: 3px solid $color-warning-orange-deep;
   border-radius: $radius-lg;
-  padding: $space-px-20;
-  margin-bottom: $space-px-30;
+  padding: $space-5;
+  margin-bottom: $space-7-5;
   box-shadow: 0 4px 8px $color-warning-orange-shadow;
 }
 
 .wip-content {
   display: flex;
   align-items: center;
-  gap: $space-px-20;
+  gap: $space-5;
   color: white;
 }
 
@@ -42,7 +42,7 @@
 .wip-text strong {
   display: block;
   font-size: $font-size-xl;
-  margin-bottom: $space-px-8;
+  margin-bottom: $space-2;
   text-shadow: 1px 1px 2px $color-overlay-light;
 }
 
@@ -54,17 +54,17 @@
 
 /* Header */
 .page-header {
-  margin-bottom: $space-px-30;
+  margin-bottom: $space-7-5;
 }
 
 .page-header h1 {
   display: flex;
   align-items: center;
-  gap: $space-px-15;
+  gap: $space-3-5;
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-dark-nav;
-  margin: 0 0 $space-px-10 0;
+  margin: 0 0 $space-10 0;
 }
 
 .page-header .icon {
@@ -79,9 +79,9 @@
 
 /* Status Banner */
 .status-banner {
-  padding: $space-px-20;
+  padding: $space-5;
   border-radius: $radius-lg;
-  margin-bottom: $space-px-30;
+  margin-bottom: $space-7-5;
   border: 2px solid;
 }
 
@@ -113,7 +113,7 @@
 .status-content {
   display: flex;
   align-items: center;
-  gap: $space-px-15;
+  gap: $space-3-5;
 }
 
 .status-icon {
@@ -127,17 +127,17 @@
 
 .status-actions {
   display: flex;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 /* Alert */
 .alert {
-  padding: $space-px-15 $space-px-20;
+  padding: $space-3-5 $space-5;
   border-radius: $radius-md;
-  margin-bottom: $space-px-20;
+  margin-bottom: $space-5;
   display: flex;
   align-items: center;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 .alert-error {
@@ -155,8 +155,8 @@
 .results-section {
   background: white;
   border-radius: $radius-lg;
-  padding: $space-px-25;
-  margin-bottom: $space-px-20;
+  padding: $space-6;
+  margin-bottom: $space-5;
   box-shadow: 0 2px 4px $color-shadow;
 }
 
@@ -164,8 +164,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-px-20;
-  padding-bottom: $space-px-15;
+  margin-bottom: $space-5;
+  padding-bottom: $space-3-5;
   border-bottom: 2px solid $color-gray-divider;
 }
 
@@ -178,7 +178,7 @@
 
 .header-actions {
   display: flex;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 /* Form */
@@ -187,13 +187,13 @@
 }
 
 .form-group {
-  margin-bottom: $space-px-20;
+  margin-bottom: $space-5;
 }
 
 .form-group label {
   display: block;
   font-weight: $font-weight-medium;
-  margin-bottom: $space-px-8;
+  margin-bottom: $space-2;
   color: $color-text-darkest;
 }
 
@@ -204,7 +204,7 @@
 
 .form-control {
   width: 100%;
-  padding: $space-px-10 $space-px-12;
+  padding: $space-10 $space-3;
   border: 1px solid $color-gray-border-bs;
   border-radius: $radius-sm;
   font-size: $font-size-md;
@@ -224,7 +224,7 @@
 
 .form-text {
   display: block;
-  margin-top: $space-px-5;
+  margin-top: $space-1;
   font-size: $font-size-base;
   color: $color-gray-bs;
 }
@@ -232,30 +232,30 @@
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $space-px-20;
+  gap: $space-5;
 }
 
 .form-group input[type="checkbox"] {
   width: auto;
-  margin-right: $space-px-8;
+  margin-right: $space-2;
 }
 
 /* Advanced Config */
 .advanced-config-toggle {
-  margin: $space-px-20 0;
+  margin: $space-5 0;
 }
 
 .advanced-config {
   border-top: 1px solid $color-gray-divider;
-  padding-top: $space-px-20;
-  margin-top: $space-px-10;
+  padding-top: $space-5;
+  margin-top: $space-10;
 }
 
 .advanced-config h3 {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
-  margin: $space-px-20 0 $space-px-15 0;
+  margin: $space-5 0 $space-3-5 0;
 }
 
 .advanced-config h3:first-child {
@@ -264,16 +264,16 @@
 
 /* Form Actions */
 .form-actions {
-  margin-top: $space-px-30;
-  padding-top: $space-px-20;
+  margin-top: $space-7-5;
+  padding-top: $space-5;
   border-top: 1px solid $color-gray-divider;
   display: flex;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 /* Buttons */
 .btn {
-  padding: $space-px-10 $space-px-20;
+  padding: $space-10 $space-5;
   border: none;
   border-radius: $radius-sm;
   font-size: $font-size-md;
@@ -282,7 +282,7 @@
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .btn:disabled {
@@ -339,7 +339,7 @@
   background: none;
   color: $color-blue-legacy;
   border: none;
-  padding: $space-px-5;
+  padding: $space-1;
   text-decoration: none;
 }
 
@@ -348,12 +348,12 @@
 }
 
 .btn-sm {
-  padding: $space-px-6 $space-px-12;
+  padding: $space-6 $space-3;
   font-size: $font-size-base;
 }
 
 .btn-lg {
-  padding: $space-px-12 $space-px-24;
+  padding: $space-3 $space-6;
   font-size: $font-size-xl;
 }
 
@@ -361,15 +361,15 @@
 .mappings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: $space-px-15;
-  margin-top: $space-px-20;
+  gap: $space-3-5;
+  margin-top: $space-5;
 }
 
 .mapping-card {
   background: white;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-md;
-  padding: $space-px-15;
+  padding: $space-3-5;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -383,12 +383,12 @@
 .mapping-header {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
-  margin-bottom: $space-px-10;
+  gap: $space-10;
+  margin-bottom: $space-5;
 }
 
 .method-badge {
-  padding: $space-px-4 $space-px-8;
+  padding: $space-1 $space-2;
   border-radius: $radius-sm;
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
@@ -426,38 +426,38 @@
 }
 
 .mapping-body {
-  margin: $space-px-10 0;
+  margin: $space-10 0;
 }
 
 .info-item {
   font-size: $font-size-base;
   color: $color-text-medium;
-  margin: $space-px-5 0;
+  margin: $space-1 0;
 }
 
 .mapping-actions {
-  margin-top: $space-px-10;
-  padding-top: $space-px-10;
+  margin-top: $space-10;
+  padding-top: $space-10;
   border-top: 1px solid $color-gray-divider;
 }
 
 /* Empty Results */
 .empty-results {
   text-align: center;
-  padding: $space-px-60 $space-px-20;
+  padding: $space-15 $space-5;
   color: $color-gray-bs;
 }
 
 .empty-results .icon {
   font-size: $font-size-xl;
   display: block;
-  margin-bottom: $space-px-20;
+  margin-bottom: $space-5;
 }
 
 .empty-results p {
   font-size: $font-size-xl;
   font-weight: $font-weight-medium;
-  margin-bottom: $space-px-10;
+  margin-bottom: $space-5;
 }
 
 .empty-results small {
@@ -490,7 +490,7 @@
 }
 
 .modal-header {
-  padding: $space-px-20 $space-px-25;
+  padding: $space-5 $space-6;
   border-bottom: 1px solid $color-gray-border-light;
   display: flex;
   justify-content: space-between;
@@ -520,24 +520,24 @@
 }
 
 .modal-body {
-  padding: $space-px-25;
+  padding: $space-6;
   overflow-y: auto;
   flex: 1;
 }
 
 .modal-footer {
-  padding: $space-px-15 $space-px-25;
+  padding: $space-3-5 $space-6;
   border-top: 1px solid $color-gray-border-light;
   display: flex;
   justify-content: flex-end;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 .json-preview {
   background: $color-bg-light;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
-  padding: $space-px-15;
+  padding: $space-3-5;
   font-family: $font-family-mono-alt;
   font-size: $font-size-base;
   overflow-x: auto;
@@ -548,14 +548,14 @@
 .saved-configs-list {
   display: flex;
   flex-direction: column;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 .saved-config-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $space-px-15;
+  padding: $space-3-5;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-md;
   transition: all 0.2s;
@@ -572,7 +572,7 @@
 
 .config-info strong {
   display: block;
-  margin-bottom: $space-px-5;
+  margin-bottom: $space-1;
   color: $color-text-darkest;
 }
 
@@ -583,13 +583,13 @@
 
 .config-actions {
   display: flex;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .recording-page {
-    padding: $space-px-20;
+    padding: $space-5;
   }
 
   .page-header h1 {

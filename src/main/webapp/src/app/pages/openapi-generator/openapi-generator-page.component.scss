@@ -3,7 +3,7 @@
 @use '../../../styles/spacing' as *;
 
 .generator-page {
-  padding: $space-px-30;
+  padding: $space-7-5;
   max-width: $size-max-container;
   margin: 0 auto;
 }
@@ -13,17 +13,17 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: $space-px-30;
+  margin-bottom: $space-7-5;
 }
 
 .page-title {
   display: flex;
   align-items: center;
-  gap: $space-px-12;
+  gap: $space-3;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   color: var(--text-primary);
-  margin: 0 0 $space-px-6 0;
+  margin: 0 0 $space-6 0;
 }
 
 .page-title i {
@@ -40,12 +40,12 @@
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  padding: $space-px-8 $space-px-16;
+  padding: $space-2 $space-4;
   border-radius: $radius-md;
   font-size: $font-size-md;
   display: flex;
   align-items: center;
-  gap: $space-px-6;
+  gap: $space-6;
   transition: all 0.2s;
 }
 
@@ -59,8 +59,8 @@
   background: white;
   border-radius: $radius-2xl;
   box-shadow: 0 2px 8px $color-shadow-md;
-  padding: $space-px-24;
-  margin-bottom: $space-px-20;
+  padding: $space-6;
+  margin-bottom: $space-5;
   border: 1px solid var(--border-color);
   transition: border-color 0.2s;
 }
@@ -72,8 +72,8 @@
 .step-header {
   display: flex;
   align-items: center;
-  gap: $space-px-12;
-  margin-bottom: $space-px-20;
+  gap: $space-3;
+  margin-bottom: $space-5;
 }
 
 .step-badge {
@@ -102,27 +102,27 @@
   font-size: $font-size-base;
   color: var(--text-secondary);
   background: var(--bg-secondary);
-  padding: $space-px-4 $space-px-10;
+  padding: $space-1 $space-10;
   border-radius: $radius-2xl;
 }
 
 /* Input tabs */
 .input-tabs {
   display: flex;
-  gap: $space-px-8;
-  margin-bottom: $space-px-16;
+  gap: $space-2;
+  margin-bottom: $space-4;
 }
 
 .tab-btn {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  padding: $space-px-8 $space-px-16;
+  padding: $space-2 $space-4;
   border-radius: $radius-lg;
   font-size: $font-size-base;
   display: flex;
   align-items: center;
-  gap: $space-px-6;
+  gap: $space-6;
   transition: all 0.2s;
 }
 
@@ -140,7 +140,7 @@
   line-height: $line-height-snug;
   border: 1px solid var(--border-color);
   border-radius: $radius-lg;
-  padding: $space-px-14;
+  padding: $space-3-5;
   resize: vertical;
   background: $color-bg-near-white;
   color: var(--text-primary);
@@ -154,7 +154,7 @@
 }
 
 .spec-textarea--preview {
-  margin-top: $space-px-12;
+  margin-top: $space-3;
   background: $color-gray-border-subtle;
   color: var(--text-secondary);
 }
@@ -163,7 +163,7 @@
 .drop-zone {
   border: 2px dashed var(--border-color);
   border-radius: $radius-2xl;
-  padding: $space-px-48 $space-px-24;
+  padding: $space-12 $space-6;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
@@ -178,7 +178,7 @@
 .drop-icon {
   font-size: $font-size-xl;
   color: var(--primary-color);
-  margin-bottom: $space-px-12;
+  margin-bottom: $space-3;
   display: block;
 }
 
@@ -195,9 +195,9 @@
 
 /* Step actions */
 .step-actions {
-  margin-top: $space-px-20;
+  margin-top: $space-5;
   display: flex;
-  gap: $space-px-12;
+  gap: $space-3;
   align-items: center;
 }
 
@@ -205,13 +205,13 @@
 .btn-primary {
   background: var(--primary-color);
   color: white;
-  padding: $space-px-10 $space-px-24;
+  padding: $space-10 $space-6;
   border-radius: $radius-lg;
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   display: inline-flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
   transition: all 0.2s;
   border: none;
 }
@@ -224,7 +224,7 @@
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  padding: $space-px-8 $space-px-16;
+  padding: $space-2 $space-4;
   border-radius: $radius-md;
   font-size: $font-size-md;
   transition: all 0.2s;
@@ -235,20 +235,20 @@
 }
 
 .btn-sm {
-  padding: $space-px-6 $space-px-12;
+  padding: $space-6 $space-3;
   font-size: $font-size-base;
 }
 
 .btn-export {
   background: var(--success-color);
   color: white;
-  padding: $space-px-10 $space-px-24;
+  padding: $space-10 $space-6;
   border-radius: $radius-lg;
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   display: inline-flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
   transition: all 0.2s;
 }
 
@@ -284,15 +284,15 @@
 .alert {
   display: flex;
   align-items: flex-start;
-  gap: $space-px-12;
-  padding: $space-px-14 $space-px-18;
+  gap: $space-3;
+  padding: $space-3-5 $space-4;
   border-radius: $radius-lg;
-  margin-bottom: $space-px-16;
+  margin-bottom: $space-4;
   font-size: $font-size-md;
 }
 
 .alert i {
-  margin-top: $space-px-2;
+  margin-top: $space-2;
   flex-shrink: 0;
 }
 
@@ -319,15 +319,15 @@
 .spec-summary {
   background: white;
   border-radius: $radius-2xl;
-  padding: $space-px-16 $space-px-20;
-  margin-bottom: $space-px-20;
+  padding: $space-4 $space-5;
+  margin-bottom: $space-5;
   border: 1px solid var(--border-color);
 }
 
 .summary-info {
   display: flex;
   align-items: center;
-  gap: $space-px-12;
+  gap: $space-3;
   flex-wrap: wrap;
 }
 
@@ -336,7 +336,7 @@
   color: white;
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
-  padding: $space-px-3 $space-px-8;
+  padding: $space-1 $space-2;
   border-radius: $radius-sm;
   text-transform: uppercase;
 }
@@ -355,18 +355,18 @@
 /* Global options */
 .global-options {
   display: flex;
-  gap: $space-px-24;
+  gap: $space-6;
   flex-wrap: wrap;
   background: var(--bg-secondary);
   border-radius: $radius-lg;
-  padding: $space-px-16;
-  margin-bottom: $space-px-16;
+  padding: $space-4;
+  margin-bottom: $space-4;
 }
 
 .option-group {
   display: flex;
   flex-direction: column;
-  gap: $space-px-6;
+  gap: $space-6;
   min-width: $size-icon-3xl;
 }
 
@@ -384,14 +384,14 @@
 
 .option-input-row {
   display: flex;
-  gap: $space-px-8;
+  gap: $space-2;
   align-items: center;
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
   font-size: $font-size-base;
   color: var(--text-primary);
   cursor: pointer;
@@ -401,9 +401,9 @@
 .table-header {
   display: flex;
   align-items: center;
-  gap: $space-px-12;
-  margin-bottom: $space-px-8;
-  padding: 0 $space-px-8;
+  gap: $space-3;
+  margin-bottom: $space-2;
+  padding: 0 $space-2;
 }
 
 .endpoints-table {
@@ -416,8 +416,8 @@
   display: grid;
   grid-template-columns: 40px 90px 1fr 1fr 90px 110px 110px 120px 160px;
   align-items: center;
-  gap: $space-px-8;
-  padding: $space-px-8 $space-px-14;
+  gap: $space-2;
+  padding: $space-2 $space-3-5;
   border-bottom: 1px solid var(--border-color);
   transition: background 0.15s;
 }
@@ -468,7 +468,7 @@
 /* Form inputs in table */
 .select-input {
   width: 100%;
-  padding: $space-px-5 $space-px-8;
+  padding: $space-1 $space-2;
   border: 1px solid var(--border-color);
   border-radius: $radius-md;
   font-size: $font-size-base;
@@ -478,7 +478,7 @@
 
 .text-input {
   width: 100%;
-  padding: $space-px-6 $space-px-10;
+  padding: $space-6 $space-10;
   border: 1px solid var(--border-color);
   border-radius: $radius-md;
   font-size: $font-size-base;
@@ -492,12 +492,12 @@
 }
 
 .text-input--sm {
-  padding: $space-px-4 $space-px-8;
+  padding: $space-1 $space-2;
   font-size: $font-size-sm;
 }
 
 .select-input--sm {
-  padding: $space-px-4 $space-px-6;
+  padding: $space-1 $space-6;
   font-size: $font-size-sm;
 }
 
@@ -505,9 +505,9 @@
 .error-cases-options {
   display: flex;
   flex-direction: column;
-  gap: $space-px-4;
-  margin-top: $space-px-8;
-  padding: $space-px-10 $space-px-12;
+  gap: $space-1;
+  margin-top: $space-2;
+  padding: $space-10 $space-3;
   background: var(--bg-secondary);
   border-radius: $radius-md;
   border: 1px solid var(--border-color);
@@ -519,17 +519,17 @@
   text-transform: uppercase;
   color: var(--text-secondary);
   letter-spacing: 0.5px;
-  margin-top: $space-px-4;
+  margin-top: $space-1;
 }
 
 .checkbox-label--sm {
   font-size: $font-size-base;
-  gap: $space-px-6;
+  gap: $space-6;
 }
 
 .checkbox-label--xs {
   font-size: $font-size-sm;
-  gap: $space-px-4;
+  gap: $space-1;
   display: flex;
   align-items: center;
 }
@@ -538,14 +538,14 @@
 .error-cases-inline {
   display: flex;
   flex-direction: column;
-  gap: $space-px-2;
-  margin-top: $space-px-4;
+  gap: $space-2;
+  margin-top: $space-1;
 }
 
 .error-type-tag {
   font-size: $font-size-xs;
-  padding: $space-px-1 $space-px-4;
-  border-radius: $space-px-3;
+  padding: $space-2 $space-1;
+  border-radius: $space-1;
   background: $color-warning-bg-amber;
   color: $color-warning-amber-text;
   white-space: nowrap;
@@ -564,8 +564,8 @@
 .btn-import-wm {
   display: inline-flex;
   align-items: center;
-  gap: $space-px-8;
-  padding: $space-px-10 $space-px-20;
+  gap: $space-2;
+  padding: $space-10 $space-5;
   background: var(--success-color, $color-success-deeper);
   color: white;
   border: none;
@@ -592,7 +592,7 @@
   font-weight: $font-weight-semibold;
   display: flex;
   align-items: center;
-  gap: $space-px-6;
+  gap: $space-6;
 }
 
 
@@ -605,7 +605,7 @@
 /* Method badges */
 .method-badge {
   display: inline-block;
-  padding: $space-px-3 $space-px-8;
+  padding: $space-1 $space-2;
   border-radius: $radius-sm;
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
@@ -627,8 +627,8 @@
 .export-actions {
   display: flex;
   align-items: center;
-  gap: $space-px-16;
-  margin-bottom: $space-px-16;
+  gap: $space-4;
+  margin-bottom: $space-4;
 }
 
 .export-success {
@@ -637,16 +637,16 @@
   font-weight: $font-weight-semibold;
   display: flex;
   align-items: center;
-  gap: $space-px-6;
+  gap: $space-6;
 }
 
 .zip-structure-hint {
   background: $color-slate-800;
   color: $color-gray-muted;
   border-radius: $radius-lg;
-  padding: $space-px-12 $space-px-16;
+  padding: $space-3 $space-4;
   font-size: $font-size-base;
-  margin-bottom: $space-px-16;
+  margin-bottom: $space-4;
   display: inline-block;
 }
 
@@ -661,15 +661,15 @@
 .stubs-list {
   display: flex;
   flex-direction: column;
-  gap: $space-px-6;
+  gap: $space-6;
 }
 
 .stub-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $space-px-12;
-  padding: $space-px-10 $space-px-14;
+  gap: $space-3;
+  padding: $space-10 $space-3-5;
   border: 1px solid var(--border-color);
   border-radius: $radius-lg;
   background: white;
@@ -683,7 +683,7 @@
 .stub-info {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
+  gap: $space-10;
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -702,7 +702,7 @@
 .stub-status {
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
-  padding: $space-px-2 $space-px-8;
+  padding: $space-2 $space-2;
   border-radius: $radius-sm;
   white-space: nowrap;
 }
@@ -728,13 +728,13 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
-  gap: $space-px-4;
+  gap: $space-1;
   white-space: nowrap;
 }
 
 .stub-actions {
   display: flex;
-  gap: $space-px-6;
+  gap: $space-6;
   flex-shrink: 0;
 }
 
@@ -747,7 +747,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $space-px-20;
+  padding: $space-5;
 }
 
 .modal-panel {
@@ -765,8 +765,8 @@
 .modal-header {
   display: flex;
   align-items: center;
-  gap: $space-px-12;
-  padding: $space-px-16 $space-px-20;
+  gap: $space-3;
+  padding: $space-4 $space-5;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -775,7 +775,7 @@
   font-size: $font-size-lg;
   display: flex;
   align-items: center;
-  gap: $space-px-10;
+  gap: $space-10;
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -783,7 +783,7 @@
 
 .modal-header-actions {
   display: flex;
-  gap: $space-px-6;
+  gap: $space-6;
   flex-shrink: 0;
 }
 
@@ -798,7 +798,7 @@
   line-height: $line-height-normal;
   color: var(--text-primary);
   background: $color-bg-near-white;
-  padding: $space-px-20;
+  padding: $space-5;
   margin: 0;
   white-space: pre-wrap;
   word-break: break-word;
@@ -819,11 +819,11 @@
 
 @media (max-width: 600px) {
   .generator-page {
-    padding: $space-px-16;
+    padding: $space-4;
   }
   .page-header {
     flex-direction: column;
-    gap: $space-px-12;
+    gap: $space-3;
   }
   .global-options {
     flex-direction: column;

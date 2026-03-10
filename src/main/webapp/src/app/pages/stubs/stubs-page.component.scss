@@ -15,7 +15,7 @@
 }
 
 .stub-checkbox {
-  padding: 0 $space-px-10;
+  padding: 0 $space-2;
   display: flex;
   align-items: center;
 }
@@ -30,7 +30,7 @@
 .import-drop-zone {
   border: 2px dashed $color-gray-bs;
   border-radius: $radius-lg;
-  padding: $space-px-32 $space-px-20;
+  padding: $space-8 $space-5;
   text-align: center;
   background: $color-bg-subtle;
   transition: border-color 0.2s, background 0.2s;
@@ -45,18 +45,18 @@
 .import-drop-icon {
   font-size: 2.5rem;
   color: $color-gray-bs;
-  margin-bottom: $space-px-10;
+  margin-bottom: $space-5;
   display: block;
 }
 
 .import-drop-hint {
-  margin: 0 0 $space-px-4;
+  margin: 0 0 $space-1;
   font-size: $font-size-rem-base;
   color: $color-slate-500;
 }
 
 .import-drop-or {
-  margin: $space-px-10 0;
+  margin: $space-10 0;
   font-size: $font-size-rem-base;
   color: $color-gray-light;
 }
@@ -91,7 +91,7 @@
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
-  padding: $space-px-10;
+  padding: $space-10;
   background: $color-bg-subtle;
 }
 
@@ -114,10 +114,10 @@
 }
 
 .file-selection-item {
-  padding: $space-px-8;
+  padding: $space-2;
   border-bottom: 1px solid $color-gray-border-pale;
   background: white;
-  margin-bottom: $space-px-4;
+  margin-bottom: $space-1;
   border-radius: $radius-sm;
   transition: background-color 0.2s;
 }
@@ -149,7 +149,7 @@
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
-  padding: $space-px-10;
+  padding: $space-10;
 }
 
 /* Liste scrollable pour tous les stubs (import) */
@@ -158,7 +158,7 @@
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
   border-radius: $radius-sm;
-  padding: $space-px-10;
+  padding: $space-10;
   background: $color-bg-subtle;
 }
 
@@ -183,11 +183,11 @@
 .preview-item {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
-  padding: $space-px-8 $space-px-10;
+  gap: $space-10;
+  padding: $space-2 $space-10;
   border-bottom: 1px solid $color-gray-border-pale;
   background: white;
-  margin-bottom: $space-px-4;
+  margin-bottom: $space-1;
   border-radius: $radius-sm;
 }
 
@@ -218,7 +218,7 @@
 
 .preview-more {
   text-align: center;
-  padding: $space-px-10;
+  padding: $space-10;
   color: $color-text-medium;
   font-style: italic;
 }
@@ -230,13 +230,13 @@
 
 .scenario-badge-small {
   font-size: $font-size-xs;
-  padding: $space-px-3 $space-px-8;
+  padding: $space-1 $space-2;
   display: inline-block;
   white-space: nowrap;
 }
 
 .stub-scenario {
-  margin-top: $space-px-6;
+  margin-top: $space-6;
   display: flex;
   justify-content: flex-end;
 }
@@ -245,14 +245,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: $space-px-6;
+  gap: $space-6;
 }
 
 .scenario-info-display {
   display: flex;
   flex-direction: column;
-  gap: $space-px-12;
-  padding: $space-px-15;
+  gap: $space-3;
+  padding: $space-3-5;
   background: $color-bg-subtle;
   border-radius: $radius-lg;
   border: 1px solid $color-gray-border-pale;
@@ -261,7 +261,7 @@
 .scenario-field {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 .scenario-field-label {
@@ -273,7 +273,7 @@
 
 .scenario-badge {
   font-size: $font-size-base;
-  padding: $space-px-6 $space-px-12;
+  padding: $space-6 $space-3;
 }
 
 .scenario-section {
@@ -293,7 +293,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $space-px-12 $space-px-16;
+  padding: $space-3 $space-4;
   background: $color-bg-softer;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -311,7 +311,7 @@
   color: $color-slate-500;
   display: flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .scenario-header i.fa-sitemap {
@@ -329,12 +329,12 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  padding: 0 $space-px-16;
+  padding: 0 $space-4;
 }
 
 .scenario-content.expanded {
   max-height: $size-modal-sm;
-  padding: $space-px-16;
+  padding: $space-4;
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
@@ -348,7 +348,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $space-px-8 $space-px-12;
+  padding: $space-2 $space-3;
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
@@ -373,7 +373,7 @@
 }
 
 .section-body {
-  padding: $space-px-12;
+  padding: $space-3;
 }
 
 /* Subsections */
@@ -386,7 +386,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $space-px-6 $space-px-10;
+  padding: $space-6 $space-10;
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
@@ -404,7 +404,7 @@
 }
 
 .subsection-body {
-  padding: $space-px-8 $space-px-10;
+  padding: $space-2 $space-10;
 }
 
 /* =============================================
@@ -462,8 +462,8 @@
 .side-panel-header {
   display: flex;
   align-items: center;
-  gap: $space-px-8;
-  padding: $space-px-8 $space-px-12;
+  gap: $space-2;
+  padding: $space-2 $space-3;
   background-color: $color-bg-light;
   border-bottom: 1px solid $color-gray-border-light;
   user-select: none;
@@ -474,8 +474,8 @@
 .side-panel-header.collapsed {
   flex-direction: column;
   justify-content: flex-start;
-  padding: $space-px-8 $space-px-6;
-  gap: $space-px-12;
+  padding: $space-2 $space-6;
+  gap: $space-3;
   border-bottom: none;
   border-right: 1px solid $color-gray-border-light;
   height: 100%;
@@ -531,7 +531,7 @@
 .side-panel-body {
   flex: 1;
   overflow-y: auto;
-  padding: $space-px-12;
+  padding: $space-3;
   min-height: 0;
 }
 
@@ -545,7 +545,7 @@
 
 .side-panel-body::-webkit-scrollbar-thumb {
   background: $color-gray-border-bs;
-  border-radius: $space-px-3;
+  border-radius: $space-1;
 }
 
 .side-panel-body::-webkit-scrollbar-thumb:hover {
@@ -554,7 +554,7 @@
 
 /* Vertical separator between the two panels */
 .panel-divider {
-  width: $space-px-1;
+  width: $space-2;
   background-color: $color-gray-border-light;
   flex-shrink: 0;
 }

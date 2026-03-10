@@ -12,7 +12,7 @@
 }
 
 .scenarios-header {
-  padding: $space-px-20;
+  padding: $space-5;
   border-bottom: 1px solid $color-gray-border-pale;
   background: $color-white;
 }
@@ -27,7 +27,7 @@
 .scenarios-list {
   flex: 1;
   overflow-y: auto;
-  padding: $space-px-10;
+  padding: $space-10;
 }
 
 /* Scenario Item */
@@ -35,8 +35,8 @@
   background: $color-white;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-lg;
-  padding: $space-px-15;
-  margin-bottom: $space-px-10;
+  padding: $space-3-5;
+  margin-bottom: $space-5;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -56,7 +56,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-px-8;
+  margin-bottom: $space-2;
 }
 
 .scenario-name {
@@ -65,7 +65,7 @@
   font-size: $font-size-md;
   display: flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .scenario-name i {
@@ -74,13 +74,13 @@
 
 .state-badge {
   font-size: $font-size-sm;
-  padding: $space-px-4 $space-px-10;
+  padding: $space-1 $space-10;
   font-weight: $font-weight-medium;
 }
 
 .state-badge-large {
   font-size: $font-size-md;
-  padding: $space-px-8 $space-px-16;
+  padding: $space-2 $space-4;
   font-weight: $font-weight-semibold;
 }
 
@@ -92,20 +92,20 @@
 .scenario-states-count {
   display: flex;
   align-items: center;
-  gap: $space-px-5;
+  gap: $space-1;
 }
 
 /* States List */
 .states-list {
   display: flex;
   flex-wrap: wrap;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .current-state-display {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
+  gap: $space-10;
 }
 
 /* Flow Diagram */
@@ -113,7 +113,7 @@
   background: linear-gradient(135deg, $color-bg-subtle 0%, $color-bg-softer 100%);
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-2xl;
-  padding: $space-px-30;
+  padding: $space-7-5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,8 +290,8 @@
 
 .flow-legend {
   display: flex;
-  gap: $space-px-20;
-  margin-top: $space-px-15;
+  gap: $space-5;
+  margin-top: $space-3-5;
   font-size: $font-size-sm;
   color: $color-gray-500;
 }
@@ -299,7 +299,7 @@
 .legend-item {
   display: flex;
   align-items: center;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .legend-icon {
@@ -349,17 +349,17 @@
 .stubs-list-compact {
   display: flex;
   flex-direction: column;
-  gap: $space-px-8;
+  gap: $space-2;
 }
 
 .stub-item-compact {
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border-pale;
   border-radius: $radius-md;
-  padding: $space-px-12;
+  padding: $space-3;
   display: flex;
   align-items: center;
-  gap: $space-px-12;
+  gap: $space-3;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -398,12 +398,12 @@
 .stub-item-compact .stub-name {
   font-size: $font-size-sm;
   color: $color-gray-500;
-  margin-top: $space-px-2;
+  margin-top: $space-2;
 }
 
 .stub-item-compact .stub-transition {
   font-size: $font-size-sm;
-  margin-top: $space-px-4;
+  margin-top: $space-1;
 }
 
 .stub-item-compact .stub-status {
@@ -414,8 +414,8 @@
 .loading-state-small {
   display: flex;
   align-items: center;
-  gap: $space-px-10;
-  padding: $space-px-10;
+  gap: $space-10;
+  padding: $space-10;
   color: $color-gray-500;
   font-size: $font-size-md;
 }

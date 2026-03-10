@@ -29,7 +29,7 @@
   z-index: 100;
   background: $color-white;
   border-bottom: 1px solid $color-gray-border-md;
-  padding: $space-0-75 $space-1-5;
+  padding: $space-3 $space-6;
   box-shadow: 0 2px 6px $color-shadow-md;
 }
 
@@ -51,7 +51,7 @@
 
 .search-input {
   width: 100%;
-  padding: $space-0-55 $space-2-5 $space-0-55 $space-2-25;
+  padding: $space-2 $space-10 $space-2 $space-8;
   border: 2px solid $color-gray-border-md;
   border-radius: $radius-3xl;
   font-size: $font-size-rem-base;
@@ -73,7 +73,7 @@
   border: none;
   color: $color-gray-icon;
   cursor: pointer;
-  padding: $space-0-2 $space-0-4;
+  padding: $space-1 $space-1-5;
   font-size: $font-size-rem-base;
   line-height: $line-height-tight;
   transition: color 0.15s;
@@ -93,7 +93,7 @@
   top: $size-toc-top; /* height of search bar */
   height: calc(100vh - #{$size-toc-top});
   overflow-y: auto;
-  padding: $space-1-5 $space-0-85 $space-28;
+  padding: $space-6 $space-3-5 $space-10;
   border-right: 1px solid $color-gray-border-md;
   background: $color-white;
 }
@@ -104,23 +104,23 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: $color-gray-subtle;
-  margin-bottom: $space-0-5;
-  padding-left: $space-0-5;
+  margin-bottom: $space-2;
+  padding-left: $space-2;
 }
 
 .help-toc nav ul,
 .toc-external ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 $space-1-5;
+  margin: 0 0 $space-6;
 }
 
 .help-toc nav ul li a,
 .toc-external ul li a {
   display: flex;
   align-items: center;
-  gap: $space-6;
-  padding: $space-0-45 $space-0-6;
+  gap: $space-1;
+  padding: $space-2 $space-2-5;
   border-radius: $radius-md;
   font-size: $font-size-rem-base;
   color: $color-text-nav;
@@ -150,7 +150,7 @@
 
 .toc-external {
   border-top: 1px solid $color-gray-divider-light;
-  padding-top: $space-14;
+  padding-top: $space-6;
 }
 
 .help-toc nav li.hidden,
@@ -163,25 +163,25 @@
 ───────────────────────────────────────── */
 .help-content {
   flex: 1;
-  padding: $space-28 $space-2-5;
+  padding: $space-10 $space-10;
   overflow-y: auto;
   max-width: $size-max-content;
 }
 
 .help-intro {
-  margin-bottom: $space-3;
+  margin-bottom: $space-6;
 }
 
 .help-intro h1 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-bold;
   color: $color-slate-navy;
-  margin-bottom: $space-0-5;
+  margin-bottom: $space-2;
 }
 
 .help-intro h1 i {
   color: $color-blue-legacy;
-  margin-right: $space-0-5;
+  margin-right: $space-2;
 }
 
 .help-intro p {
@@ -197,8 +197,8 @@
   background: $color-white;
   border-radius: $radius-xl;
   border: 1px solid $color-gray-divider-alt;
-  padding: $space-1-75 $space-28;
-  margin-bottom: $space-28;
+  padding: $space-7 $space-10;
+  margin-bottom: $space-5;
   scroll-margin-top: $size-scroll-offset; /* offset for sticky search bar */
   transition: box-shadow 0.2s;
 }
@@ -214,9 +214,9 @@
 .section-heading {
   display: flex;
   align-items: center;
-  gap: $space-9;
-  margin-bottom: $space-14;
-  padding-bottom: $space-0-75;
+  gap: $space-10;
+  margin-bottom: $space-6;
+  padding-bottom: $space-3;
   border-bottom: 2px solid $color-bg-blue-tint;
 }
 
@@ -236,15 +236,15 @@
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-section;
-  margin: $space-1-4 0 $space-0-6;
+  margin: $space-6 0 $space-2-5;
 }
 
 .help-section h4 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-subsection;
-  margin: $space-1-4 0 $space-0-5;
-  padding-left: $space-0-75;
+  margin: $space-6 0 $space-2;
+  padding-left: $space-3;
   border-left: 3px solid $color-blue-legacy;
 }
 
@@ -252,7 +252,7 @@
   font-size: 0.88rem;
   font-weight: $font-weight-semibold;
   color: $color-text-dark;
-  margin: $space-14 0 $space-0-4;
+  margin: $space-6 0 $space-1-5;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -261,7 +261,7 @@
   color: $color-text-body;
   font-size: $font-size-rem-base;
   line-height: $line-height-relaxed;
-  margin-bottom: $space-0-75;
+  margin-bottom: $space-3;
 }
 
 .help-section a {
@@ -277,7 +277,7 @@
   font-size: $font-size-rem-base;
   background: $color-bg-code;
   color: $color-danger-carmine;
-  padding: $space-0-15 $space-0-4;
+  padding: $space-0-5 $space-1-5;
   border-radius: $radius-sm;
   font-family: $font-family-code;
 }
@@ -289,14 +289,14 @@
   border: 1px solid $color-gray-divider-alt;
   border-radius: $radius-lg;
   overflow: hidden;
-  margin: $space-0-5 0 $space-14;
+  margin: $space-2 0 $space-6;
 }
 
 .option-row {
   display: grid;
   grid-template-columns: 200px 1fr;
-  gap: $space-14;
-  padding: $space-0-75 $space-14;
+  gap: $space-6;
+  padding: $space-3 $space-6;
   border-bottom: 1px solid $color-bg-muted;
   align-items: start;
 }
@@ -313,10 +313,10 @@
   font-weight: $font-weight-semibold;
   font-size: $font-size-rem-base;
   color: $color-text-section;
-  padding-top: $space-0-05;
+  padding-top: $space-0-5;
   display: flex;
   align-items: center;
-  gap: $space-4;
+  gap: $space-6;
   flex-wrap: wrap;
 }
 
@@ -330,15 +330,15 @@
    Help list
 ───────────────────────────────────────── */
 .help-list {
-  padding-left: $space-1-5;
-  margin: $space-0-5 0 $space-0-75;
+  padding-left: $space-6;
+  margin: $space-2 0 $space-3;
 }
 
 .help-list li {
   font-size: $font-size-rem-base;
   color: $color-text-body;
   line-height: $line-height-relaxed;
-  margin-bottom: $space-0-3;
+  margin-bottom: $space-1;
 }
 
 /* ─────────────────────────────────────────
@@ -347,12 +347,12 @@
 .help-tip {
   display: flex;
   align-items: flex-start;
-  gap: $space-9;
-  padding: $space-0-85 $space-14;
+  gap: $space-10;
+  padding: $space-3-5 $space-6;
   background: $color-warning-bg-light;
   border: 1px solid $color-warning-border;
   border-radius: $radius-lg;
-  margin-top: $space-14;
+  margin-top: $space-6;
   font-size: $font-size-rem-base;
   color: $color-warning-text-deep;
   line-height: $line-height-normal;
@@ -360,7 +360,7 @@
 
 .help-tip i {
   color: $color-warning-gold;
-  margin-top: $space-0-1;
+  margin-top: $space-0-5;
   flex-shrink: 0;
 }
 
@@ -368,9 +368,9 @@
    Subsection indent
 ───────────────────────────────────────── */
 .subsection {
-  padding-left: $space-0-75;
+  padding-left: $space-3;
   border-left: 3px solid $color-gray-divider-alt;
-  margin-bottom: $space-0-5;
+  margin-bottom: $space-2;
 }
 
 /* ─────────────────────────────────────────
@@ -379,13 +379,13 @@
 .badge-optional {
   font-size: $font-size-rem-xs;
   font-weight: $font-weight-semibold;
-  padding: $space-0-15 $space-0-5;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-xl;
   background: $color-badge-teal-bg;
   color: $color-badge-teal-text;
   border: 1px solid $color-badge-teal-border;
   vertical-align: middle;
-  margin-left: $space-0-35;
+  margin-left: $space-1-5;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -394,7 +394,7 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: $space-0-15 $space-0-5;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-xl;
   background: $color-success-bg;
   color: $color-success-text;
@@ -405,7 +405,7 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: $space-0-15 $space-0-5;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-xl;
   background: $color-warning-bg-legacy;
   color: $color-warning-text;
@@ -416,7 +416,7 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: $space-0-15 $space-0-5;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-xl;
   background: $color-badge-blue-bg;
   color: $color-badge-blue-text;
@@ -428,7 +428,7 @@
   font-size: $font-size-rem-xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: $space-0-15 $space-0-45;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-sm;
   background: $color-badge-green-bg;
   color: $color-success-green;
@@ -442,7 +442,7 @@
   font-size: $font-size-rem-xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: $space-0-15 $space-0-45;
+  padding: $space-0-5 $space-2;
   border-radius: $radius-sm;
   background: $color-warning-bg-orange;
   color: $color-warning-amber-dark;
@@ -464,7 +464,7 @@
 :host ::ng-deep mark.search-highlight {
   background: $color-search-highlight;
   color: inherit;
-  padding: 0 $space-px-1;
+  padding: 0 $space-2;
   border-radius: $radius-xs;
 }
 
@@ -477,13 +477,13 @@
   }
 
   .help-content {
-    padding: $space-1-25 $space-14;
+    padding: $space-5 $space-6;
     max-width: 100%;
   }
 
   .option-row {
     grid-template-columns: 1fr;
-    gap: $space-2;
+    gap: $space-1;
   }
 
   .option-label {
@@ -504,13 +504,13 @@
   border-radius: $radius-full;
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
-  margin-right: $space-px-6;
+  margin-right: $space-6;
   flex-shrink: 0;
   vertical-align: middle;
 }
 
 .help-ordered-list {
-  margin: $space-0-5 0 $space-0-75 $space-1-25;
+  margin: $space-2 0 $space-3 $space-5;
   padding: 0;
   line-height: $line-height-loose;
   font-size: $font-size-rem-base;
@@ -518,5 +518,5 @@
 }
 
 .help-ordered-list li {
-  margin-bottom: $space-0-25;
+  margin-bottom: $space-1;
 }
