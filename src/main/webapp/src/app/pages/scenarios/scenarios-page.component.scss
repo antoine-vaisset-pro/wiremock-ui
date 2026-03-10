@@ -19,7 +19,7 @@
 
 .scenarios-header h2 {
   margin: 0;
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-slate-600;
 }
@@ -73,7 +73,7 @@
 }
 
 .state-badge {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   padding: $space-px-4 $space-px-10;
   font-weight: $font-weight-medium;
 }
@@ -402,7 +402,7 @@
 }
 
 .stub-item-compact .stub-transition {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   margin-top: $space-px-4;
 }
 

@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   gap: $space-px-12;
-  font-size: $font-size-5xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   color: var(--text-primary);
   margin: 0 0 $space-px-6 0;
@@ -92,7 +92,7 @@
 
 .step-header h2 {
   margin: 0;
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
 }
@@ -176,7 +176,7 @@
 }
 
 .drop-icon {
-  font-size: $font-size-7xl;
+  font-size: $font-size-xl;
   color: var(--primary-color);
   margin-bottom: $space-px-12;
   display: block;
@@ -334,7 +334,7 @@
 .summary-badge {
   background: var(--primary-color);
   color: white;
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-bold;
   padding: $space-px-3 $space-px-8;
   border-radius: $radius-sm;
@@ -433,7 +433,7 @@
 
 .endpoint-row--header {
   background: var(--bg-secondary);
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -514,7 +514,7 @@
 }
 
 .error-cases-label {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -528,7 +528,7 @@
 }
 
 .checkbox-label--xs {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   gap: $space-px-4;
   display: flex;
   align-items: center;
@@ -597,7 +597,7 @@
 
 
 .hint-text {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   color: var(--text-secondary);
   font-style: italic;
 }
@@ -607,7 +607,7 @@
   display: inline-block;
   padding: $space-px-3 $space-px-8;
   border-radius: $radius-sm;
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -724,7 +724,7 @@
 }
 
 .stub-file-hint {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   color: var(--text-secondary);
   display: flex;
   align-items: center;

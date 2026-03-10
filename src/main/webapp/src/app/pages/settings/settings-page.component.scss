@@ -12,7 +12,7 @@
 }
 
 .settings-header h1 {
-  font-size: $font-size-rem-10xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
   margin-bottom: $space-0-5;
@@ -25,7 +25,7 @@
 
 .settings-header p {
   color: $color-text-medium;
-  font-size: $font-size-rem-3xl;
+  font-size: $font-size-rem-base;
 }
 
 .settings-content {
@@ -39,7 +39,7 @@
 }
 
 .settings-section h2 {
-  font-size: $font-size-rem-8xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
   margin-bottom: $space-0-5;
@@ -87,7 +87,7 @@
 .endpoint-label {
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
   white-space: nowrap;
 }
 
@@ -97,7 +97,7 @@
 
 .endpoint-url {
   font-family: monospace;
-  font-size: $font-size-rem-md;
+  font-size: $font-size-rem-base;
   color: $color-text-dark;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -111,7 +111,7 @@
 }
 
 .badge {
-  font-size: $font-size-rem-2xs;
+  font-size: $font-size-rem-xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
   padding: $space-0-15 $space-0-45;
@@ -138,7 +138,7 @@
   padding: $space-0-5 $space-0-75;
   border: 1px solid $color-gray-border-dull;
   border-radius: $radius-sm;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
   font-family: monospace;
   transition: border-color 0.2s ease;
   background: white;
@@ -155,7 +155,7 @@
   align-items: flex-start;
   gap: $space-6;
   color: $color-text-medium;
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
   line-height: $line-height-snug;
   padding: $space-10;
   background: $color-white;
@@ -180,7 +180,7 @@
   padding: $space-0-75 $space-1-5;
   border: none;
   border-radius: $radius-sm;
-  font-size: $font-size-rem-3xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -257,7 +257,7 @@
 
 .btn-sm {
   padding: $space-0-35 $space-0-75;
-  font-size: $font-size-rem-normal;
+  font-size: $font-size-rem-base;
 }
 
 .btn-secondary {
@@ -306,7 +306,7 @@
 }
 
 .add-custom-backend h3 {
-  font-size: $font-size-rem-3xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: $color-text-dark;
   margin-bottom: $space-0-75;
@@ -327,5 +327,5 @@
 .add-custom-backend-form .btn {
   flex-shrink: 0;
   padding: $space-0-5 $space-14;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
 }

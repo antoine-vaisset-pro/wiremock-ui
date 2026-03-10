@@ -18,7 +18,7 @@
 }
 
 .dashboard-header h1 {
-  font-size: $font-size-rem-10xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
   display: flex;
@@ -43,7 +43,7 @@
   background: white;
   border: 1px solid $color-gray-border-blue;
   border-radius: $radius-sm;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
   color: $color-slate-800;
   cursor: pointer;
@@ -58,7 +58,7 @@
 
 .time-range-display .fa-clock {
   color: var(--primary-color);
-  font-size: $font-size-rem-3xl;
+  font-size: $font-size-rem-base;
 }
 
 .time-range-display .fa-chevron-down {
@@ -121,7 +121,7 @@
   background: transparent;
   border: none;
   text-align: left;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   color: $color-slate-800;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -173,7 +173,7 @@
 }
 
 .date-input-group label {
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
   color: $color-slate-400;
 }
@@ -182,7 +182,7 @@
   padding: $space-0-5 $space-0-75;
   border: 1px solid $color-gray-mid;
   border-radius: $radius-sm;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   color: $color-slate-800;
   background: white;
   transition: all 0.2s ease;
@@ -211,7 +211,7 @@
 .action-btn {
   padding: $space-0-5 $space-14;
   border-radius: $radius-sm;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -246,7 +246,7 @@
   color: white;
   border: none;
   border-radius: $radius-md;
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -308,7 +308,7 @@
   border: none;
   border-radius: $radius-md;
   cursor: pointer;
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
 }
 
 /* Stats Cards */
@@ -362,7 +362,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: $font-size-rem-9xl;
+  font-size: $font-size-rem-base;
 }
 
 .stat-card-primary .stat-icon {
@@ -395,7 +395,7 @@
 }
 
 .stat-value {
-  font-size: $font-size-rem-10xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-bold;
   color: var(--text-primary);
   line-height: $line-height-tight;
@@ -403,12 +403,12 @@
 }
 
 .stat-value.status-text {
-  font-size: $font-size-rem-6xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
 }
 
 .stat-label {
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
   color: var(--text-secondary);
   font-weight: $font-weight-medium;
 }
@@ -447,7 +447,7 @@
 }
 
 .dashboard-panel h2 {
-  font-size: $font-size-rem-6xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
   margin-bottom: $space-1-5;
@@ -458,7 +458,7 @@
 
 .dashboard-panel h2 i {
   color: var(--primary-color);
-  font-size: $font-size-rem-5xl;
+  font-size: $font-size-rem-base;
 }
 
 .chart-hint {
@@ -537,7 +537,7 @@
   align-items: center;
   justify-content: center;
   font-weight: $font-weight-bold;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
   flex-shrink: 0;
 }
 
@@ -595,7 +595,7 @@
 .url-text {
   flex: 1;
   font-family: $font-family-mono-alt;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
   color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -603,7 +603,7 @@
 }
 
 .endpoint-count {
-  font-size: $font-size-rem-normal;
+  font-size: $font-size-rem-base;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
@@ -687,13 +687,13 @@
 .info-label {
   font-weight: $font-weight-medium;
   color: var(--text-secondary);
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
 }
 
 .info-value {
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
   display: flex;
   align-items: center;
   gap: $space-6;
@@ -722,7 +722,7 @@
 }
 
 .empty-state p {
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
 }
 
 /* Active Scenarios Section */
@@ -743,7 +743,7 @@
 
 .scenarios-header h2 {
   margin: 0;
-  font-size: $font-size-rem-6xl;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
   display: flex;
@@ -785,13 +785,13 @@
 
 .scenario-card-header i {
   color: $color-primary;
-  font-size: $font-size-rem-3xl;
+  font-size: $font-size-rem-base;
 }
 
 .scenario-card-name {
   font-weight: $font-weight-semibold;
   color: $color-slate-600;
-  font-size: $font-size-rem-xl;
+  font-size: $font-size-rem-base;
 }
 
 .scenario-card-body {
@@ -806,7 +806,7 @@
 }
 
 .scenario-current-state .badge {
-  font-size: $font-size-rem-md;
+  font-size: $font-size-rem-base;
   padding: $space-0-25 $space-0-75;
 }
 
@@ -822,7 +822,7 @@
   }
 
   .dashboard-header h1 {
-    font-size: $font-size-rem-8xl;
+    font-size: $font-size-rem-base;
   }
 
   .stats-cards {
@@ -846,7 +846,7 @@
   }
 
   .bar-label {
-    font-size: $font-size-rem-2xs;
+    font-size: $font-size-rem-xs;
   }
 }
 

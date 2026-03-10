@@ -26,7 +26,7 @@
 }
 
 .wip-icon {
-  font-size: $font-size-7xl;
+  font-size: $font-size-xl;
   animation: blink 2s infinite;
 }
 
@@ -41,7 +41,7 @@
 
 .wip-text strong {
   display: block;
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-8;
   text-shadow: 1px 1px 2px $color-overlay-light;
 }
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: $space-px-15;
-  font-size: $font-size-6xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-dark-nav;
   margin: 0 0 $space-px-10 0;
@@ -117,12 +117,12 @@
 }
 
 .status-icon {
-  font-size: $font-size-6xl;
+  font-size: $font-size-xl;
 }
 
 .status-info {
   flex: 1;
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
 }
 
 .status-actions {
@@ -147,7 +147,7 @@
 }
 
 .alert .icon {
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
 }
 
 /* Sections */
@@ -170,7 +170,7 @@
 }
 
 .section-header h2 {
-  font-size: $font-size-4xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-dark-nav;
   margin: 0;
@@ -252,7 +252,7 @@
 }
 
 .advanced-config h3 {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
   margin: $space-px-20 0 $space-px-15 0;
@@ -449,13 +449,13 @@
 }
 
 .empty-results .icon {
-  font-size: $font-size-8xl;
+  font-size: $font-size-xl;
   display: block;
   margin-bottom: $space-px-20;
 }
 
 .empty-results p {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-medium;
   margin-bottom: $space-px-10;
 }
@@ -499,14 +499,14 @@
 
 .modal-header h3 {
   margin: 0;
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
 }
 
 .btn-close {
   background: none;
   border: none;
-  font-size: $font-size-5xl;
+  font-size: $font-size-xl;
   line-height: $line-height-tight;
   cursor: pointer;
   color: $color-gray-bs;
@@ -593,7 +593,7 @@
   }
 
   .page-header h1 {
-    font-size: $font-size-4xl;
+    font-size: $font-size-xl;
   }
 
   .status-content {

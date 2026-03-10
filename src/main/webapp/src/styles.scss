@@ -84,7 +84,7 @@ input[type="search"]:focus {
 .modal-content input[type="password"],
 .modal-content input[type="search"] {
   padding: $space-0-25 $space-0-5;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   border-radius: $radius-bs-sm;
 }
 
@@ -101,7 +101,7 @@ input[type="search"]:focus {
   justify-content: center;
   align-items: center;
   min-height: $size-stubs-panel;
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   color: $color-text-medium;
 }
 
@@ -171,12 +171,12 @@ pre {
 }
 
 .sidebar-logo {
-  font-size: $font-size-4xl;
+  font-size: $font-size-xl;
   color: $color-primary;
 }
 
 .sidebar-title {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: white;
   display: none; /* Hidden in compact mode */
@@ -220,7 +220,7 @@ pre {
 }
 
 .sidebar-item i {
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
   width: $size-icon-lg;
 }
 
@@ -304,7 +304,7 @@ pre {
 }
 
 .header-left h1 {
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
@@ -458,7 +458,7 @@ pre {
 }
 
 .method-badge {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
   padding: $space-px-4 $space-px-8;
   border-radius: $radius-sm;
@@ -565,7 +565,7 @@ pre {
 }
 
 .no-selection i {
-  font-size: $font-size-8xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-16;
   opacity: 0.3;
 }
@@ -587,7 +587,7 @@ pre {
 }
 
 .details-header h3 {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
@@ -812,7 +812,7 @@ pre {
 }
 
 .error-state i {
-  font-size: $font-size-7xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-16;
   opacity: 0.5;
 }
@@ -834,7 +834,7 @@ pre {
 }
 
 .empty-state i {
-  font-size: $font-size-8xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-16;
   opacity: 0.3;
 }
@@ -996,7 +996,7 @@ pre {
 }
 
 .modal-header h3 {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
@@ -1223,7 +1223,7 @@ input[type="number"] {
 }
 
 .empty-details i {
-  font-size: $font-size-7xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-16;
   opacity: 0.5;
 }
@@ -1337,7 +1337,7 @@ input[type="number"] {
 }
 
 .response-panel .no-selection i {
-  font-size: $font-size-8xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-16;
   opacity: 0.3;
 }
@@ -1468,12 +1468,12 @@ input[type="number"] {
 }
 
 .request-item-compact .stub-date {
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-medium;
 }
 
 .request-item-compact .badge-compact {
-  font-size: $font-size-2xs;
+  font-size: $font-size-xs;
   padding: $space-px-2 $space-px-5;
 }
 
@@ -1617,7 +1617,7 @@ input[type="number"] {
 .near-miss-stub-info i {
   color: $color-gray-500;
   margin-right: $space-px-5;
-  font-size: $font-size-xxs;
+  font-size: $font-size-sm;
 }
 
 .near-miss-pattern {
@@ -1652,7 +1652,7 @@ input[type="number"] {
 }
 
 .no-near-misses i {
-  font-size: $font-size-6xl;
+  font-size: $font-size-xl;
   margin-bottom: $space-px-10;
   color: $color-gray-border;
 }

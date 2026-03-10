@@ -51,13 +51,13 @@
 
 .import-drop-hint {
   margin: 0 0 $space-px-4;
-  font-size: $font-size-rem-2xl;
+  font-size: $font-size-rem-base;
   color: $color-slate-500;
 }
 
 .import-drop-or {
   margin: $space-px-10 0;
-  font-size: $font-size-rem-normal;
+  font-size: $font-size-rem-base;
   color: $color-gray-light;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .modal-import .modal-header h3 {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
@@ -141,7 +141,7 @@
   align-items: center;
   width: 100%;
   font-family: $font-family-mono-alt;
-  font-size: $font-size-em-md;
+  font-size: $font-size-em-sm;
 }
 
 .preview-list {
@@ -205,7 +205,7 @@
 .preview-url {
   flex: 1;
   font-family: $font-family-mono-alt;
-  font-size: $font-size-em-md;
+  font-size: $font-size-em-sm;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -213,7 +213,7 @@
 
 .preview-status {
   color: $color-text-medium;
-  font-size: $font-size-em-md;
+  font-size: $font-size-em-sm;
 }
 
 .preview-more {
@@ -366,7 +366,7 @@
 
 .section-title {
   font-weight: $font-weight-semibold;
-  font-size: $font-size-rem-normal;
+  font-size: $font-size-rem-base;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: $color-text-muted-bs;
@@ -390,7 +390,7 @@
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
-  font-size: $font-size-rem-lg;
+  font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
   border-radius: $radius-sm;
 }
@@ -485,7 +485,7 @@
 /* Titre du panneau */
 .side-panel-title {
   font-weight: $font-weight-semibold;
-  font-size: $font-size-rem-md;
+  font-size: $font-size-rem-base;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: $color-text-muted-bs;
