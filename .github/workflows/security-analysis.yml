@@ -1,15 +1,9 @@
 name: Security Analysis
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
-  schedule:
-    # Run weekly on Monday at 08:00 UTC
-    - cron: '0 8 * * 1'
   workflow_dispatch:
 
 permissions:
