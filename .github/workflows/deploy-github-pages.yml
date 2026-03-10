@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Angular app
         working-directory: src/main/webapp
-        run: npm run build -- --base-href=/wiremock-ui-ia-gerenated/
+        run: npm run build -- --base-href=/wiremock-ui/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

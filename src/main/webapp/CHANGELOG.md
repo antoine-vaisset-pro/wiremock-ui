@@ -24,41 +24,41 @@
 * WireMock scenario service ([ad39df4](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/ad39df462c51ee08cab91484b4e7918267a94928))
 * ZIP and directory stub import with bodyFileName substitution ([3e59692](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3e596924eb9e977d7f16576171d870a360f3d8db))
 
-## [0.5.4](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/compare/v0.5.3...v0.5.4) (2026-03-09)
+## [0.5.4](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.5.3...v0.5.4) (2026-03-09)
 
 
 ### Features
 
-* Add 'Create Stub from Request' feature with complete navigation ([f54255e](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/f54255e43d243b4888e4e6eb046902b58dd50c04))
-* Add fault type support in stub editor ([812a2c9](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/812a2c9b5d96949c371f98a3da22d3ee71619004))
-* Add near-miss stubs display for unmatched requests ([5c69507](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/5c69507093b7da4c3493f8425c0aa9d04adc436c))
-* Add response delay configuration support ([ec161d2](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/ec161d2581c16debd7af1389e9e1c2abeb8f0d82))
-* Ajout écran Recording Studio (mode read-only WIP) ([aac0895](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/aac0895a078515b06b8ffdb30e92fc138b7a6c5b))
-* **changelog:** add initial changelog for WireMock UI with version history and credits ([2581000](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/25810006c1aed914b0d423b2aef7a937c607fede))
-* Dashboard avec graphique Highcharts et filtrage temporel (v1.2.9.1) ([e74a2eb](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/e74a2eb6a6696fca7ab248d882c0be8781674053))
-* **help:** add Help page with search functionality and navigation ([#42](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/42)) ([d1feb26](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/d1feb26ebaafee0c23b8fc12af900470d60e66bc))
-* Import ZIP avec sélection de fichiers et support format bulk WireMock ([1ad9431](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/1ad9431196f2c947110597b62fc5f644836a109d))
-* **import:** drop zone unifiée avec détection automatique ZIP/JSON/répertoire ([31d6485](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/31d6485de2fdab2781ddfd9c4212bbfeb58690ef))
-* **license:** add License & Credits section to Help page and include AGPL license file ([9ef3694](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/9ef36940d37afbf2206395692a819682cad23e0d))
-* **navigation:** Implémentation complète de l'historique de navigation avec Router Angular (v1.4.0) ([9eaf7a8](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/9eaf7a843ed401714c0ccf47c2990d7409963469))
-* OpenAPI → WireMock stub generator page ([#51](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/51)) ([e8657ee](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/e8657ee667cf276e0c17f22ee96ba7c165cac769))
-* Refactorisation complète de l'architecture frontend Angular ([12b746e](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/12b746ea405a598e06d7fb1c2cf37638bf7d552d))
-* **release:** implement release-please pipeline for automated versioning and changelog management ([57ff32e](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/57ff32eb11958505b8532717d52d6dc557015ddd))
-* Remove obsolete files after refactorization ([0a32155](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/0a32155fc993dc588c0f77aa734359dd1209b750))
-* **requester:** ajout du champ Base URL pour usage comme client REST générique ([eb3b936](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/eb3b9362718224afbdaff44398e81f7947f44934))
-* **requests:** Filtres avancés, optimisations UI et améliorations UX (v1.3.1 → v1.3.1.9) ([e436658](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/e4366580e9eb3931534bf96cc583b9962afe7856))
-* **settings:** enhance WireMock backend configuration and UI options ([#41](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/41)) ([8812bb3](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/8812bb330e4673ea02a88f4d4e9ab41c85a640d6))
-* **stubs:** implement full WireMock matching capabilities in simple editor ([#40](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/40)) ([152f420](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/152f420f1af64894389acc5f09048c3b7a1868dc))
-* Support complet des scénarios WireMock ([8f6bc55](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/8f6bc557623b1e96cf1eaf3866a089453b0a8987))
+* Add 'Create Stub from Request' feature with complete navigation ([f54255e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f54255e43d243b4888e4e6eb046902b58dd50c04))
+* Add fault type support in stub editor ([812a2c9](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/812a2c9b5d96949c371f98a3da22d3ee71619004))
+* Add near-miss stubs display for unmatched requests ([5c69507](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/5c69507093b7da4c3493f8425c0aa9d04adc436c))
+* Add response delay configuration support ([ec161d2](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/ec161d2581c16debd7af1389e9e1c2abeb8f0d82))
+* Ajout écran Recording Studio (mode read-only WIP) ([aac0895](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/aac0895a078515b06b8ffdb30e92fc138b7a6c5b))
+* **changelog:** add initial changelog for WireMock UI with version history and credits ([2581000](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/25810006c1aed914b0d423b2aef7a937c607fede))
+* Dashboard avec graphique Highcharts et filtrage temporel (v1.2.9.1) ([e74a2eb](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e74a2eb6a6696fca7ab248d882c0be8781674053))
+* **help:** add Help page with search functionality and navigation ([#42](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/42)) ([d1feb26](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/d1feb26ebaafee0c23b8fc12af900470d60e66bc))
+* Import ZIP avec sélection de fichiers et support format bulk WireMock ([1ad9431](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/1ad9431196f2c947110597b62fc5f644836a109d))
+* **import:** drop zone unifiée avec détection automatique ZIP/JSON/répertoire ([31d6485](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/31d6485de2fdab2781ddfd9c4212bbfeb58690ef))
+* **license:** add License & Credits section to Help page and include AGPL license file ([9ef3694](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9ef36940d37afbf2206395692a819682cad23e0d))
+* **navigation:** Implémentation complète de l'historique de navigation avec Router Angular (v1.4.0) ([9eaf7a8](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9eaf7a843ed401714c0ccf47c2990d7409963469))
+* OpenAPI → WireMock stub generator page ([#51](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/51)) ([e8657ee](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e8657ee667cf276e0c17f22ee96ba7c165cac769))
+* Refactorisation complète de l'architecture frontend Angular ([12b746e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/12b746ea405a598e06d7fb1c2cf37638bf7d552d))
+* **release:** implement release-please pipeline for automated versioning and changelog management ([57ff32e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/57ff32eb11958505b8532717d52d6dc557015ddd))
+* Remove obsolete files after refactorization ([0a32155](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/0a32155fc993dc588c0f77aa734359dd1209b750))
+* **requester:** ajout du champ Base URL pour usage comme client REST générique ([eb3b936](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/eb3b9362718224afbdaff44398e81f7947f44934))
+* **requests:** Filtres avancés, optimisations UI et améliorations UX (v1.3.1 → v1.3.1.9) ([e436658](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e4366580e9eb3931534bf96cc583b9962afe7856))
+* **settings:** enhance WireMock backend configuration and UI options ([#41](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/41)) ([8812bb3](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/8812bb330e4673ea02a88f4d4e9ab41c85a640d6))
+* **stubs:** implement full WireMock matching capabilities in simple editor ([#40](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/40)) ([152f420](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/152f420f1af64894389acc5f09048c3b7a1868dc))
+* Support complet des scénarios WireMock ([8f6bc55](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/8f6bc557623b1e96cf1eaf3866a089453b0a8987))
 
 
 ### Bug Fixes
 
-* Add delay properties to StubMapping model and correct TypeScript errors ([d0e570b](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/d0e570be328de65b51ef6fae152fe83884bfa8ab))
-* corrections mineures post-import ([df01001](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/df01001b9de306fbc1cfaa37782aab71c809ac39))
-* remove all client-specific references from test data ([#62](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/62)) ([e273eb5](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/e273eb599ee6a5c2b3f5a16808dbe49b46e55ff2))
-* **requester:** ne plus forcer Content-Type application/json et corriger le chargement du body XML ([b77b08a](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/b77b08a1fd2a1113a355d4864b9fb749f8a6ec00))
-* **test:** update HelpPageComponent sections count to match added License & Credits section ([#47](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/issues/47)) ([dfd1020](https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated/commit/dfd10206eb60917ae86145d58993804f5ba65428))
+* Add delay properties to StubMapping model and correct TypeScript errors ([d0e570b](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/d0e570be328de65b51ef6fae152fe83884bfa8ab))
+* corrections mineures post-import ([df01001](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/df01001b9de306fbc1cfaa37782aab71c809ac39))
+* remove all client-specific references from test data ([#62](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/62)) ([e273eb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e273eb599ee6a5c2b3f5a16808dbe49b46e55ff2))
+* **requester:** ne plus forcer Content-Type application/json et corriger le chargement du body XML ([b77b08a](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/b77b08a1fd2a1113a355d4864b9fb749f8a6ec00))
+* **test:** update HelpPageComponent sections count to match added License & Credits section ([#47](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/47)) ([dfd1020](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/dfd10206eb60917ae86145d58993804f5ba65428))
 
 ## [Version 0.5.0-beta] - 2026-03-07
 

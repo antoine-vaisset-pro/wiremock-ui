@@ -34,7 +34,7 @@ services:
 
   # Angular UI - image publiée sur GitHub Container Registry
   ui-from-github:
-    image: ghcr.io/antoine-vaisset-pro/wiremock-ui-ia-gerenated:latest
+    image: ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
     pull_policy: always
     ports:
       - "4200:8080"

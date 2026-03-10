@@ -85,8 +85,8 @@ A modern web interface for managing and testing [WireMock](https://wiremock.org/
 
 ```bash
 # Clone the repository
-git clone https://github.com/antoine-vaisset-pro/wiremock-ui-ia-gerenated.git
-cd wiremock-ui-ia-gerenated
+git clone https://github.com/antoine-vaisset-pro/wiremock-ui.git
+cd wiremock-ui
 
 # Install npm dependencies
 make install
