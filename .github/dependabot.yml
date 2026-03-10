@@ -1,0 +1,23 @@
+version: 2
+
+updates:
+  # Dépendances npm (Angular app)
+  - package-ecosystem: npm
+    directory: /src/main/webapp
+    schedule:
+      interval: weekly
+      day: monday
+    labels:
+      - dependencies
+      - npm
+    open-pull-requests-limit: 10
+
+  # Actions GitHub
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    labels:
+      - dependencies
+      - github-actions

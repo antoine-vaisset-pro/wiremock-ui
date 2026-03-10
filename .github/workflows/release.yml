@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    name: Build · Archive · Attach Asset
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: src/main/webapp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/main/webapp
+        run: npm ci
+
+      - name: Run tests
+        working-directory: src/main/webapp
+        run: npm run test -- --no-progress --browsers=ChromeHeadless --watch=false
+
+      - name: Build (production)
+        working-directory: src/main/webapp
+        run: npm run build
+
+      - name: Create release archive
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          ARCHIVE="wiremock-ui-${VERSION}.tar.gz"
+          tar -czf "${ARCHIVE}" -C src/main/webapp/dist/wiremock-ui/browser .
+          echo "ARCHIVE=${ARCHIVE}" >> $GITHUB_ENV
+
+      - name: Attach archive to GitHub Release
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const archive = process.env.ARCHIVE;
+            const releaseId = context.payload.release.id;
+
+            const archiveData = fs.readFileSync(archive);
+            await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: releaseId,
+              name: archive,
+              data: archiveData,
+            });
+            console.log(`✅ Attached ${archive} to release ${releaseId}`);
+

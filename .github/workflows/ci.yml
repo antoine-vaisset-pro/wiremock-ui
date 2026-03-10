@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Lint · Test · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: src/main/webapp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/main/webapp
+        run: npm ci
+
+      - name: Lint
+        working-directory: src/main/webapp
+        run: npm run lint --if-present
+
+      - name: Security audit (high+)
+        working-directory: src/main/webapp
+        run: npm audit --audit-level=high
+
+      - name: Unit tests with coverage
+        working-directory: src/main/webapp
+        run: npm run test -- --no-progress --browsers=ChromeHeadless --watch=false --code-coverage
+
+      - name: Coverage job summary
+        if: always()
+        working-directory: src/main/webapp
+        run: |
+          SUMMARY_FILE="coverage/coverage-summary.json"
+          if [ ! -f "$SUMMARY_FILE" ]; then
+            echo "⚠️ Coverage summary file not found – skipping report." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          node - <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+
+          const summary = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+          const total = summary.total;
+
+          const fmt  = (v) => v && v.pct != null ? `${v.pct.toFixed(1)}%` : 'N/A';
+          const bar  = (pct) => {
+            if (pct == null) return '░'.repeat(10);
+            const filled = Math.round(pct / 10);
+            return '█'.repeat(filled) + '░'.repeat(10 - filled);
+          };
+          const icon = (pct) => pct == null ? '⚪' : pct >= 80 ? '🟢' : pct >= 60 ? '🟡' : '🔴';
+          const row  = (label, v) =>
+            `| ${icon(v.pct)} **${label}** | \`${bar(v.pct)}\` ${fmt(v)} | ${v.covered} / ${v.total} |`;
+
+          const lines = [
+            '## 📊 Test Coverage Report',
+            '',
+            '| Category | Coverage | Covered / Total |',
+            '|----------|----------|-----------------|',
+            row('Statements', total.statements),
+            row('Branches',   total.branches),
+            row('Functions',  total.functions),
+            row('Lines',      total.lines),
+          ];
+
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          console.log(lines.join('\n'));
+          EOF
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: src/main/webapp/coverage/
+          retention-days: 30
+
+      - name: Build (production)
+        working-directory: src/main/webapp
+        run: npm run build
+

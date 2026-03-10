@@ -1,0 +1,250 @@
+name: Security Analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  schedule:
+    # Run weekly on Monday at 08:00 UTC
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+
+jobs:
+  security:
+    name: Security scan & report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Node.js & npm audit ─────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: src/main/webapp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/main/webapp
+        run: npm ci
+
+      - name: Run npm audit
+        id: npm-audit
+        working-directory: src/main/webapp
+        run: |
+          set +e
+          npm audit --json > /tmp/npm-audit.json 2>/dev/null
+          set -e
+
+          TOTAL=$(jq '.metadata.vulnerabilities.total // 0' /tmp/npm-audit.json)
+          CRITICAL=$(jq '.metadata.vulnerabilities.critical // 0' /tmp/npm-audit.json)
+          HIGH=$(jq '.metadata.vulnerabilities.high // 0' /tmp/npm-audit.json)
+          MODERATE=$(jq '.metadata.vulnerabilities.moderate // 0' /tmp/npm-audit.json)
+          LOW=$(jq '.metadata.vulnerabilities.low // 0' /tmp/npm-audit.json)
+
+          echo "total=$TOTAL"       >> "$GITHUB_OUTPUT"
+          echo "critical=$CRITICAL" >> "$GITHUB_OUTPUT"
+          echo "high=$HIGH"         >> "$GITHUB_OUTPUT"
+          echo "moderate=$MODERATE" >> "$GITHUB_OUTPUT"
+          echo "low=$LOW"           >> "$GITHUB_OUTPUT"
+
+      # ── Trivy – Docker image scan ───────────────────────────────────────
+      - name: Build Docker image for scanning
+        run: docker build -t wiremock-ui:scan -f docker/Dockerfile .
+
+      - name: Trivy – image scan (SARIF → Security tab)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: wiremock-ui:scan
+          format: sarif
+          output: trivy-image.sarif
+          severity: CRITICAL,HIGH,MEDIUM
+          exit-code: '0'
+        continue-on-error: true
+
+      - name: Trivy – image scan (table → PR comment)
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v /tmp:/tmp \
+            aquasec/trivy:latest image \
+            --format table \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --no-progress \
+            wiremock-ui:scan > /tmp/trivy-image-table.txt 2>&1 || true
+
+      - name: Trivy – IaC / config scan
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/workspace" \
+            aquasec/trivy:latest config \
+            --format table \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --no-progress \
+            /workspace > /tmp/trivy-iac-table.txt 2>&1 || true
+
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-image.sarif
+        continue-on-error: true
+
+      # ── Post PR comment ─────────────────────────────────────────────────
+      - name: Post security report as PR comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        env:
+          NPM_TOTAL:    ${{ steps.npm-audit.outputs.total }}
+          NPM_CRITICAL: ${{ steps.npm-audit.outputs.critical }}
+          NPM_HIGH:     ${{ steps.npm-audit.outputs.high }}
+          NPM_MODERATE: ${{ steps.npm-audit.outputs.moderate }}
+          NPM_LOW:      ${{ steps.npm-audit.outputs.low }}
+        with:
+          script: |
+            const fs = require('fs');
+
+            // ── npm audit section ─────────────────────────────────────
+            const total    = parseInt(process.env.NPM_TOTAL    || '0');
+            const critical = parseInt(process.env.NPM_CRITICAL || '0');
+            const high     = parseInt(process.env.NPM_HIGH     || '0');
+            const moderate = parseInt(process.env.NPM_MODERATE || '0');
+            const low      = parseInt(process.env.NPM_LOW      || '0');
+
+            let npmSection;
+            if (total === 0) {
+              npmSection = '✅ **0 vulnerabilities** found across all npm dependencies.';
+            } else {
+              const badges = [
+                critical > 0 ? `🔴 **${critical} critical**` : '',
+                high     > 0 ? `🟠 **${high} high**`         : '',
+                moderate > 0 ? `🟡 **${moderate} moderate**`  : '',
+                low      > 0 ? `🔵 **${low} low**`            : '',
+              ].filter(Boolean).join(' · ');
+
+              let rows = '';
+              try {
+                const rawAudit = fs.readFileSync('/tmp/npm-audit.json', 'utf8');
+                const report   = JSON.parse(rawAudit);
+                rows = Object.entries(report.vulnerabilities || {})
+                  .map(([pkg, v]) => {
+                    const via = (v.via || [])
+                      .map(x => typeof x === 'string' ? x : (x.name || ''))
+                      .filter(Boolean).join(', ');
+                    const fix = v.fixAvailable ? '✅' : '❌';
+                    return `| \`${pkg}\` | **${v.severity}** | ${via || '-'} | ${fix} |`;
+                  }).join('\n');
+              } catch (_) {}
+
+              npmSection = [
+                badges,
+                '',
+                '| Package | Severity | Via | Fix Available |',
+                '|---------|----------|-----|---------------|',
+                rows || '| (see full report) | - | - | - |',
+              ].join('\n');
+            }
+
+            // ── Trivy sections ────────────────────────────────────────
+            let trivyImage = '';
+            let trivyIac   = '';
+            try {
+              trivyImage = fs.readFileSync('/tmp/trivy-image-table.txt', 'utf8').trim();
+              if (trivyImage.length > 3000) trivyImage = trivyImage.slice(0, 3000) + '\n… (truncated)';
+            } catch (_) { trivyImage = '_Could not read image scan output._'; }
+            try {
+              trivyIac = fs.readFileSync('/tmp/trivy-iac-table.txt', 'utf8').trim();
+              if (trivyIac.length > 3000) trivyIac = trivyIac.slice(0, 3000) + '\n… (truncated)';
+            } catch (_) { trivyIac = '_Could not read IaC scan output._'; }
+
+            // ── assemble full comment ─────────────────────────────────
+            const sha    = context.payload.pull_request.head.sha.slice(0, 7);
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const secTab = `https://github.com/${context.repo.owner}/${context.repo.repo}/security/code-scanning`;
+
+            const body = [
+              '## 🔒 Security Analysis Report',
+              '',
+              `> Commit \`${sha}\` · [Full workflow run](${runUrl})`,
+              '',
+              '---',
+              '',
+              '### 📦 npm Dependency Audit',
+              '',
+              npmSection,
+              '',
+              '---',
+              '',
+              '### 🐳 Docker Image Vulnerabilities (Trivy)',
+              '',
+              `> Full results also in the [Security tab](${secTab}) (SARIF upload).`,
+              '',
+              '<details><summary>Show image scan output</summary>',
+              '',
+              '```',
+              trivyImage,
+              '```',
+              '',
+              '</details>',
+              '',
+              '---',
+              '',
+              '### 🏗️ IaC / Configuration Issues (Trivy)',
+              '',
+              '<details><summary>Show IaC scan output</summary>',
+              '',
+              '```',
+              trivyIac,
+              '```',
+              '',
+              '</details>',
+              '',
+              '---',
+              '',
+              '### 📋 Manual Security Findings',
+              '',
+              '| # | Finding | Severity | Status |',
+              '|---|---------|----------|--------|',
+              '| 1 | **CDN external resources removed** – Bootstrap & FontAwesome now served from local npm packages (eliminates CDN supply-chain & SRI risk) | Medium | ✅ Fixed |',
+              '| 2 | **HTTP security headers added** – `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Content-Security-Policy` (script-src `self` only, no `unsafe-inline`) added to nginx | Medium | ✅ Fixed |',
+              '| 3 | **Wildcard CORS removed** – `Access-Control-Allow-Origin: *` removed from Netlify edge function | Low | ✅ Fixed |',
+              '| 4 | **No authentication on WireMock admin API** – All admin endpoints are unauthenticated; must be deployed on private/trusted networks only | High | ℹ️ By design – restrict at deployment level |',
+              '| 5 | **Unpinned Docker base images** – `node:22-alpine` and `nginx:alpine` not pinned to a SHA digest | Low | ℹ️ Consider digest-pinning for reproducible builds |',
+              '| 6 | **GitHub Actions use version tags** – Actions reference `@v4`/`@v6` tags, not SHA digests | Low | ℹ️ Consider pinning to SHA for supply-chain security |',
+              '',
+            ].join('\n');
+
+            // Find existing comment (if re-running) and update it, or create new
+            const marker = '## 🔒 Security Analysis Report';
+            const { data: comments } = await github.rest.issues.listComments({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner:      context.repo.owner,
+                repo:       context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body,
+              });
+            }
