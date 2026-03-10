@@ -1,0 +1,377 @@
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
+    <h1><i class="fas fa-sitemap"></i> Scenarios</h1>
+    <p class="header-subtitle">Stateful behavior management</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-sm btn-outline-danger" (click)="resetAllScenarios()">
+      <i class="fas fa-undo"></i> Reset All
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="loadScenarios()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+  </div>
+</header>
+
+<!-- Content -->
+<div class="wiremock-content">
+  <!-- Left Panel: Scenarios List -->
+  <div class="scenarios-panel">
+    <div class="scenarios-header">
+      <h2>Scenarios</h2>
+    </div>
+
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="loading-state">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading scenarios...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error && !loading) {
+      <div class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{ error }}</p>
+        <button class="btn btn-sm btn-primary" (click)="loadScenarios()">
+          <i class="fas fa-redo"></i> Retry
+        </button>
+      </div>
+    }
+
+    <!-- Scenarios List -->
+    @if (!loading && !error) {
+      <div class="scenarios-list">
+        @for (scenario of scenarios; track scenario) {
+          <div
+            class="scenario-item"
+            [class.selected]="selectedScenario?.name === scenario.name"
+            (click)="selectScenario(scenario)"
+            >
+            <div class="scenario-header">
+              <div class="scenario-name">
+                <i class="fas fa-sitemap"></i>
+                {{ scenario.name }}
+              </div>
+              <span class="badge state-badge bg-primary">{{ scenario.state }}</span>
+            </div>
+            <div class="scenario-info">
+              <span class="scenario-states-count">
+                <i class="fas fa-stream"></i>
+                {{ scenario.possibleStates.length }} states
+              </span>
+            </div>
+          </div>
+        }
+        <!-- Empty State -->
+        @if (scenarios.length === 0) {
+          <div class="empty-state">
+            <i class="fas fa-sitemap"></i>
+            <p>No scenarios found</p>
+            <small class="text-muted">Scenarios are created when you assign a scenarioName to a stub</small>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Right Panel: Scenario Details -->
+  <div class="details-panel">
+    @if (!selectedScenario) {
+      <div class="no-selection">
+        <i class="fas fa-mouse-pointer"></i>
+        <p>Select a scenario to view details</p>
+      </div>
+    }
+
+    @if (selectedScenario) {
+      <div class="scenario-details">
+        <!-- Details Header -->
+        <div class="details-header">
+          <h3>
+            <i class="fas fa-sitemap"></i>
+            {{ selectedScenario.name }}
+          </h3>
+          <div class="details-actions">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="openChangeStateModal()">
+              <i class="fas fa-exchange-alt"></i> Change State
+            </button>
+            <button class="btn btn-sm btn-link" (click)="closeDetails()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Current State -->
+        <div class="detail-section">
+          <label class="detail-label">Current State</label>
+          <div class="current-state-display">
+            <span class="badge bg-primary state-badge-large">
+              <i class="fas fa-check-circle"></i>
+              {{ selectedScenario.state }}
+            </span>
+          </div>
+        </div>
+        <!-- Possible States -->
+        <div class="detail-section">
+          <label class="detail-label">All Possible States</label>
+          <div class="states-list">
+            @for (state of selectedScenario.possibleStates; track state) {
+              <span
+                class="badge state-badge"
+                [class.bg-primary]="state === selectedScenario.state"
+                [class.bg-secondary]="state !== selectedScenario.state"
+                >
+                {{ state }}
+              </span>
+            }
+          </div>
+        </div>
+        <!-- Flow Diagram -->
+        <div class="detail-section">
+          <label class="detail-label">
+            <i class="fas fa-project-diagram"></i>
+            State Flow Diagram
+          </label>
+          <div class="flow-diagram-container">
+            <svg width="700" height="560" class="flow-diagram" viewBox="0 0 700 560">
+              <!-- Definitions: gradients and markers -->
+              <defs>
+                <!-- Gradient for the current state -->
+                <linearGradient id="currentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+                </linearGradient>
+                <!-- Gradient pour Started -->
+                <linearGradient id="startedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+                </linearGradient>
+                <!-- Shadow filter -->
+                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                  <feOffset dx="0" dy="2" result="offsetblur"/>
+                  <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.3"/>
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <!-- Marker for arrows -->
+                <marker
+                  id="arrowhead"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                  >
+                  <path d="M 0 0 L 12 6 L 0 12 z" fill="#6366f1" />
+                </marker>
+                <marker
+                  id="arrowhead-inactive"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                  >
+                  <path d="M 0 0 L 12 6 L 0 12 z" fill="#9ca3af" />
+                </marker>
+              </defs>
+              <!-- Transitions (lines) - drawn first to be under nodes -->
+              <g class="transitions">
+                @for (transition of flowTransitions; track transition) {
+                  <path
+                    [attr.d]="getTransitionPath(transition)"
+                    class="transition-path"
+                    [class.transition-active]="transition.from === selectedScenario?.state || transition.to === selectedScenario?.state"
+                    [class.transition-selected]="isTransitionSelected(transition)"
+                    [attr.marker-end]="(transition.from === selectedScenario?.state) ? 'url(#arrowhead)' : 'url(#arrowhead-inactive)'"
+                    (click)="onTransitionClick(transition)"
+                    style="cursor: pointer;"
+                    >
+                    <title>{{ transition.from }} → {{ transition.to }}{{ transition.stubName ? '\n(' + transition.stubName + ')' : '' }}</title>
+                  </path>
+                }
+              </g>
+              <!-- Nodes (states) -->
+              <g class="nodes">
+                @for (node of flowNodes; track node) {
+                  <g class="node" [class.node-started]="isStartedState(node.state)">
+                    <!-- Cercle principal -->
+                    <circle
+                      [attr.cx]="node.x"
+                      [attr.cy]="node.y"
+                      [attr.r]="40"
+                      class="node-circle"
+                      [class.node-current]="node.isCurrent"
+                      [class.node-started]="isStartedState(node.state)"
+                      [class.node-inactive]="!node.isCurrent"
+                      filter="url(#shadow)"
+                      />
+                    <!-- Inner circle for "Started" (double circle) -->
+                    @if (isStartedState(node.state)) {
+                      <circle
+                        [attr.cx]="node.x"
+                        [attr.cy]="node.y"
+                        [attr.r]="30"
+                        class="node-circle-inner"
+                        [class.node-current]="node.isCurrent"
+                        />
+                    }
+                    <!-- Play icon for Started state -->
+                    @if (isStartedState(node.state)) {
+                      <text
+                        [attr.x]="node.x"
+                        [attr.y]="node.y - 8"
+                        class="node-icon"
+                        text-anchor="middle"
+                        dominant-baseline="middle"
+                        >
+                        ▶
+                      </text>
+                    }
+                    <!-- State name text -->
+                    <text
+                      [attr.x]="node.x"
+                      [attr.y]="isStartedState(node.state) ? node.y + 10 : node.y"
+                      class="node-text"
+                      [class.node-text-started]="isStartedState(node.state)"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      >
+                      {{ node.state }}
+                    </text>
+                  </g>
+                }
+              </g>
+            </svg>
+            <div class="flow-legend">
+              <div class="legend-item">
+                <span class="legend-icon legend-started"></span>
+                <span>Started (initial state)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-icon legend-current"></span>
+                <span>Current state</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-icon legend-inactive"></span>
+                <span>Other states</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-arrow">→</span>
+                <span>Transitions (from stubs)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Associated Stubs -->
+        <div class="detail-section">
+          <label class="detail-label">
+            <i class="fas fa-layer-group"></i>
+            Associated Stubs ({{ scenarioStubs.length }})
+          </label>
+          @if (loadingStubs) {
+            <div class="loading-state-small">
+              <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+              <span>Loading stubs...</span>
+            </div>
+          }
+          @if (!loadingStubs && scenarioStubs.length === 0) {
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i>
+              No stubs are currently using this scenario
+            </div>
+          }
+          @if (!loadingStubs && scenarioStubs.length > 0) {
+            <div class="stubs-list-compact">
+              @for (stub of scenarioStubs; track stub) {
+                <div
+                  [id]="'stub-' + (stub.uuid || stub.id)"
+                  class="stub-item-compact"
+                  [class.stub-highlighted]="isStubHighlighted(stub)"
+                  (click)="navigateToStub(stub.uuid || stub.id!)"
+                  >
+                  <div class="stub-method">
+                    <span class="badge method-badge" [ngClass]="'method-' + (stub.request?.method || 'ANY')">
+                      {{ stub.request?.method || 'ANY' }}
+                    </span>
+                  </div>
+                  <div class="stub-info">
+                    <div class="stub-url">{{ getStubUrl(stub) }}</div>
+                    @if (stub.name) {
+                      <div class="stub-name">{{ stub.name }}</div>
+                    }
+                    <div class="stub-transition">
+                      <span class="text-muted">
+                        <i class="fas fa-arrow-right"></i>
+                        {{ stub.requiredScenarioState || 'any' }} → {{ stub.newScenarioState || 'unchanged' }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="stub-status">
+                    <span class="status-code">{{ stub.response?.status || 200 }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Change State Modal -->
+@if (showChangeStateModal) {
+  <div class="modal-backdrop" (click)="closeChangeStateModal()"></div>
+}
+@if (showChangeStateModal) {
+  <div class="modal-dialog modal-sm" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Change Scenario State</h3>
+        <button type="button" class="btn btn-sm btn-link" (click)="closeChangeStateModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-3">
+          Change the state of scenario <strong>{{ selectedScenario?.name }}</strong>
+        </p>
+        <div class="form-group mb-3">
+          <label class="form-label">New State</label>
+          <select class="form-select" [(ngModel)]="newStateValue">
+            @for (state of selectedScenario?.possibleStates; track state) {
+              <option [value]="state">
+                {{ state }}
+              </option>
+            }
+          </select>
+        </div>
+        @if (changeStateError) {
+          <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ changeStateError }}
+          </div>
+        }
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeChangeStateModal()">
+          Cancel
+        </button>
+        <button class="btn btn-primary" (click)="submitStateChange()">
+          <i class="fas fa-check"></i> Change State
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
