@@ -1,0 +1,1051 @@
+<div class="help-container">
+
+  <!-- ── STICKY SEARCH BAR ── -->
+  <div class="help-search-bar">
+    <div class="help-search-inner">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search documentation…"
+        aria-label="Search documentation"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+        autocomplete="off"
+      />
+      <button
+        *ngIf="searchQuery"
+        class="search-clear"
+        (click)="clearSearch()"
+        title="Clear"
+        aria-label="Clear search"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="help-layout">
+
+    <!-- ── LEFT TOC ── -->
+    <aside class="help-toc">
+      <p class="toc-title">Contents</p>
+      <nav>
+        <ul>
+          <li *ngFor="let section of sections" [class.hidden]="section.hidden">
+            <a
+              [class.active]="activeSection === section.id"
+              href="#"
+              (click)="$event.preventDefault(); scrollTo(section.id)">
+              <i [class]="section.icon"></i>
+              {{ section.title }}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="toc-external">
+        <p class="toc-title">WireMock Docs</p>
+        <ul>
+          <li><a href="https://wiremock.org/docs/stubbing/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Stubbing</a></li>
+          <li><a href="https://wiremock.org/docs/request-matching/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Request Matching</a></li>
+          <li><a href="https://wiremock.org/docs/response-templating/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Response Templating</a></li>
+          <li><a href="https://wiremock.org/docs/record-playback/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Record & Playback</a></li>
+          <li><a href="https://wiremock.org/docs/scenarios/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Scenarios</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="help-content">
+
+      <div class="help-intro">
+        <h1><i class="fas fa-book-open"></i> User Documentation</h1>
+        <p>
+          WireMock UI is a visual interface for managing a
+          <a href="https://wiremock.org/" target="_blank" rel="noopener">WireMock OSS</a> server.
+          Use the table of contents on the left (or the search bar above) to find what you need.
+        </p>
+      </div>
+
+      <!-- ════════════════════════════════════ DASHBOARD ════════════════════════════════════ -->
+      <section class="help-section" id="dashboard" [class.hidden]="sections[0].hidden">
+        <div class="section-heading">
+          <i class="fas fa-chart-line"></i>
+          <h2>Dashboard</h2>
+        </div>
+        <p>
+          The Dashboard gives you a real-time overview of your WireMock instance's activity.
+          Data refreshes automatically every <strong>30 seconds</strong>; you can also force
+          a refresh with the <i class="fas fa-sync-alt icon-inline"></i> button.
+        </p>
+
+        <h3>Statistics cards</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-layer-group"></i> Active Stubs</div>
+            <div class="option-desc">Total number of stub mappings currently registered in WireMock.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-history"></i> Total Requests</div>
+            <div class="option-desc">Number of HTTP requests received during the selected time range.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-exclamation-triangle"></i> Unmatched</div>
+            <div class="option-desc">Requests that did not match any stub in the selected time range. Click the card to navigate to the Requests page pre-filtered to unmatched requests.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-circle"></i> Recording</div>
+            <div class="option-desc">Current recording status: <em>Never Started</em>, <em>Recording</em> or <em>Stopped</em>. Click to navigate to the Recording Studio.</div>
+          </div>
+        </div>
+
+        <h3>Time Range selector</h3>
+        <p>
+          Choose the period over which requests and statistics are computed.
+          Available presets: <code>5m</code>, <code>15m</code>, <code>30m</code>,
+          <code>1h</code>, <code>3h</code>, <code>6h</code>, <code>12h</code>,
+          <code>24h</code>, <code>2d</code>, <code>7d</code>, <code>30d</code>,
+          and a <strong>Custom</strong> date/time range.
+          The granularity of the chart adapts automatically to the selected range.
+        </p>
+
+        <h3>Requests Over Time chart</h3>
+        <p>
+          An interactive line/bar chart (Highcharts) showing the volume of requests per time
+          unit. Hover over a data point to see the exact count. The granularity adapts to the
+          selected time range (e.g., per minute for short ranges, per hour or day for longer ones).
+        </p>
+
+        <h3>Top 5 Endpoints</h3>
+        <p>
+          The five most frequently called URL paths during the selected period, with their call
+          counts. Clicking an endpoint navigates to the Requests page filtered on that path.
+        </p>
+
+        <h3>Unused Stubs</h3>
+        <p>
+          Stubs that have never been matched in the selected time range. Use this list to
+          identify dead stubs that may be cleaned up. Clicking a stub opens its details in the
+          Stubs page.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════ STUBS ════════════════════════════════════ -->
+      <section class="help-section" id="stubs" [class.hidden]="sections[1].hidden">
+        <div class="section-heading">
+          <i class="fas fa-layer-group"></i>
+          <h2>Stubs</h2>
+        </div>
+        <p>
+          The Stubs page is the central place to manage all your
+          <a href="https://wiremock.org/docs/stubbing/" target="_blank" rel="noopener">WireMock stub mappings</a>.
+          It is split into a list panel on the left and a details panel on the right.
+        </p>
+
+        <h3>Browsing & searching stubs</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Filter stubs…</div>
+            <div class="option-desc">Real-time search across URL, HTTP method, stub name and JSON body. The list updates as you type.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Pagination</div>
+            <div class="option-desc">20 stubs per page. Use the <code>&lt;</code> / <code>&gt;</code> arrows or click a page number to navigate.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Select all / Deselect all</div>
+            <div class="option-desc">Checkbox buttons in the toolbar to batch-select stubs for export or deletion.</div>
+          </div>
+        </div>
+
+        <h3>Stub detail panel</h3>
+        <p>Click any stub in the list to open its details on the right. The panel shows:</p>
+        <ul class="help-list">
+          <li><strong>Details tab</strong> — formatted view of the request matcher and response configuration.</li>
+          <li><strong>JSON tab</strong> — raw JSON as WireMock stores it.</li>
+          <li><strong>Edit</strong> — opens the creation/edition modal pre-filled with this stub's data.</li>
+          <li><strong>Clone</strong> — creates a duplicate of the stub (UUID is regenerated).</li>
+          <li><strong>Delete</strong> — deletes the stub after confirmation.</li>
+        </ul>
+
+        <h3>Creating &amp; editing a stub</h3>
+        <p>Click <strong>+ Create Stub</strong> in the top-right corner, or <strong>Edit</strong> on an existing stub.
+        The modal offers two modes:</p>
+
+        <h4>Simple mode (guided form)</h4>
+
+        <div class="subsection">
+          <h5>Stub Info</h5>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Name</div>
+              <div class="option-desc">Optional human-readable label shown in the list.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Priority</div>
+              <div class="option-desc">Integer (default <code>5</code>). Lower number = higher priority. When multiple stubs match the same request, the one with the lowest priority wins. See <a href="https://wiremock.org/docs/stubbing/#stub-priority" target="_blank" rel="noopener">WireMock docs → Stub Priority</a>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Persistent</div>
+              <div class="option-desc">If checked, the stub survives a "Reset all stubs" operation and is written to disk.</div>
+            </div>
+          </div>
+
+          <h5>Request Matching</h5>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Method</div>
+              <div class="option-desc">HTTP verb: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code>, <code>ANY</code>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">URL — Exact</div>
+              <div class="option-desc">Full path + query string must match exactly. Maps to <code>url</code> in the WireMock JSON.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">URL — Path</div>
+              <div class="option-desc">Only the path is matched exactly (query string is ignored). Maps to <code>urlPath</code>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">URL — Pattern</div>
+              <div class="option-desc">Path matched as a regular expression. Maps to <code>urlPathPattern</code>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">URL — Regex</div>
+              <div class="option-desc">Full URL (path + query) matched as a regular expression. Maps to <code>urlPattern</code>.</div>
+            </div>
+          </div>
+
+          <h5>Query Parameters <span class="badge-optional">optional</span></h5>
+          <p>Add one or more query parameter matchers. Each matcher has:</p>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Name</div>
+              <div class="option-desc">The query parameter key (e.g. <code>page</code>).</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Match type</div>
+              <div class="option-desc"><code>equalTo</code>, <code>contains</code>, <code>matches</code> (regex), <code>doesNotMatch</code>, <code>absent</code>. See <a href="https://wiremock.org/docs/request-matching/#query-parameter-matching" target="_blank" rel="noopener">WireMock docs → Query Parameter Matching</a>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Value</div>
+              <div class="option-desc">Expected value (or regex pattern for <code>matches</code>/<code>doesNotMatch</code>). Not required for <code>absent</code>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Case insensitive</div>
+              <div class="option-desc">When checked, comparison ignores letter case.</div>
+            </div>
+          </div>
+
+          <h5>Request Headers <span class="badge-optional">optional</span></h5>
+          <p>Match specific HTTP request headers using the same match types as query parameters.</p>
+
+          <h5>Body Patterns <span class="badge-optional">optional</span></h5>
+          <p>
+            Match the request body using one or more patterns. Multiple patterns are combined with AND logic.
+            See <a href="https://wiremock.org/docs/request-matching/#request-body-matching" target="_blank" rel="noopener">WireMock docs → Body Matching</a>.
+          </p>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">equalToJson</div>
+              <div class="option-desc">Structural JSON comparison. Options: <em>Ignore array order</em> and <em>Ignore extra elements</em>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">matchesJsonPath</div>
+              <div class="option-desc">A JSONPath expression that must match a value in the body.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">equalToXml</div>
+              <div class="option-desc">Structural XML comparison.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">matchesXPath</div>
+              <div class="option-desc">An XPath expression that must match.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">contains</div>
+              <div class="option-desc">The body must contain the given substring.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">matches / doesNotMatch</div>
+              <div class="option-desc">The body must (or must not) match the given regular expression.</div>
+            </div>
+          </div>
+
+          <h5>Cookies <span class="badge-optional">optional</span></h5>
+          <p>Match request cookies by name using the same match types.</p>
+
+          <h5>Basic Auth <span class="badge-optional">optional</span></h5>
+          <p>Match HTTP Basic Authentication credentials (username + password).</p>
+
+          <h5>Form Parameters <span class="badge-optional">optional</span></h5>
+          <p>Match <code>application/x-www-form-urlencoded</code> body parameters by key.</p>
+
+          <h5>Response — Direct mode</h5>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Status</div>
+              <div class="option-desc">HTTP response status code (e.g. <code>200</code>, <code>404</code>).</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Body Type</div>
+              <div class="option-desc"><code>JSON</code>, <code>XML</code>, <code>Text</code>, <code>Binary (Base64)</code> or <code>None</code>.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Body</div>
+              <div class="option-desc">The response body content. For JSON/XML, basic syntax validation is applied.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Response Headers</div>
+              <div class="option-desc">Add arbitrary response headers (key/value). <code>Content-Type</code> is auto-set based on Body Type.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Delay</div>
+              <div class="option-desc">
+                Fixed delay in milliseconds, or a <strong>Random</strong> delay (uniform distribution between min/max ms),
+                or a <strong>Chunked Dribble</strong> delay to simulate slow transfer.
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Response Templating</div>
+              <div class="option-desc">
+                Enables <a href="https://wiremock.org/docs/response-templating/" target="_blank" rel="noopener">Handlebars templating</a>
+                in the response body and headers. Use <code>{{ '{' }}{{ '{' }}request.url{{ '}' }}{{ '}' }}</code>,
+                <code>{{ '{' }}{{ '{' }}request.headers.Authorization{{ '}' }}{{ '}' }}</code>,
+                <code>{{ '{' }}{{ '{' }}jsonPath request.body '$.id'{{ '}' }}{{ '}' }}</code>, etc.
+              </div>
+            </div>
+          </div>
+
+          <h5>Response — Proxy mode</h5>
+          <p>
+            Forward matching requests to a real upstream API.
+            See <a href="https://wiremock.org/docs/proxying/" target="_blank" rel="noopener">WireMock docs → Proxying</a>.
+          </p>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Proxy Base URL</div>
+              <div class="option-desc">The upstream server to forward requests to (e.g. <code>https://api.example.com</code>).</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Additional Proxy Headers</div>
+              <div class="option-desc">Headers added to the proxied request.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Remove Proxy Headers</div>
+              <div class="option-desc">Headers removed from the proxied request before forwarding.</div>
+            </div>
+          </div>
+
+          <h5>Response — Fault mode</h5>
+          <p>
+            Simulate network-level faults. Available faults:
+            <code>CONNECTION_RESET_BY_PEER</code>, <code>EMPTY_RESPONSE</code>,
+            <code>MALFORMED_RESPONSE_CHUNK</code>, <code>RANDOM_DATA_THEN_CLOSE</code>.
+            See <a href="https://wiremock.org/docs/simulating-faults/" target="_blank" rel="noopener">WireMock docs → Simulating Faults</a>.
+          </p>
+
+          <h5>Scenario State <span class="badge-optional">optional</span></h5>
+          <p>
+            Bind this stub to a
+            <a href="https://wiremock.org/docs/scenarios/" target="_blank" rel="noopener">WireMock scenario</a>
+            for stateful behaviour.
+          </p>
+          <div class="option-table">
+            <div class="option-row">
+              <div class="option-label">Scenario Name</div>
+              <div class="option-desc">Identifies the scenario this stub belongs to. All stubs in the same scenario share state.</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">Required State</div>
+              <div class="option-desc">The state the scenario must be in for this stub to be matched (e.g. <code>Started</code>).</div>
+            </div>
+            <div class="option-row">
+              <div class="option-label">New State</div>
+              <div class="option-desc">The state to transition the scenario to after this stub is matched.</div>
+            </div>
+          </div>
+        </div><!-- /subsection -->
+
+        <h4>Advanced mode (raw JSON)</h4>
+        <p>
+          Toggle to <strong>Advanced</strong> to edit the WireMock stub JSON directly.
+          The JSON must conform to the
+          <a href="https://wiremock.org/docs/stubbing/" target="_blank" rel="noopener">WireMock admin API schema</a>.
+          Switching back to Simple mode will attempt to parse the JSON back into the form.
+        </p>
+
+        <h3>Export &amp; Import</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Export selected</div>
+            <div class="option-desc">Downloads a <code>.json</code> file containing only the checked stubs.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Export all</div>
+            <div class="option-desc">Downloads all stubs as a single JSON file (WireMock <em>mappings</em> format).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Import stubs</div>
+            <div class="option-desc">Upload a <code>.json</code> or <code>.zip</code> file. Stubs in the file are merged with existing ones (existing UUIDs are updated, new ones are added).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Delete selected</div>
+            <div class="option-desc">Permanently removes all checked stubs after confirmation.</div>
+          </div>
+        </div>
+
+        <h3>Deep linking</h3>
+        <p>
+          The URL reflects the current selection and search query, e.g.
+          <code>/ui/stubs/&lt;uuid&gt;?q=search</code>.
+          You can share or bookmark these URLs.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════ SCENARIOS ════════════════════════════════════ -->
+      <section class="help-section" id="scenarios" [class.hidden]="sections[2].hidden">
+        <div class="section-heading">
+          <i class="fas fa-sitemap"></i>
+          <h2>Scenarios</h2>
+        </div>
+        <p>
+          WireMock <a href="https://wiremock.org/docs/scenarios/" target="_blank" rel="noopener">Scenarios</a>
+          let you model stateful behaviour: different stubs respond based on the current "state" of a named scenario.
+          A common use case is simulating a REST resource that can be created, updated and deleted in sequence.
+        </p>
+
+        <h3>Scenario list</h3>
+        <p>
+          Each row shows a scenario name, its current state, and the list of stubs attached to it.
+          The initial state is always <code>Started</code>.
+        </p>
+
+        <h3>Available actions</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-redo icon-inline"></i> Reset</div>
+            <div class="option-desc">Resets a single scenario back to <code>Started</code>.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Reset all</div>
+            <div class="option-desc">Resets every scenario to its initial state at once.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">View stubs</div>
+            <div class="option-desc">Navigates to the Stubs page pre-filtered on the stubs belonging to the scenario.</div>
+          </div>
+        </div>
+
+        <div class="help-tip">
+          <i class="fas fa-lightbulb"></i>
+          <span>
+            Define scenario stubs in the <strong>Stub creation modal → Scenario State</strong> section.
+            All stubs sharing the same <em>Scenario Name</em> participate in the same state machine.
+          </span>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════ REQUESTS ════════════════════════════════════ -->
+      <section class="help-section" id="requests" [class.hidden]="sections[3].hidden">
+        <div class="section-heading">
+          <i class="fas fa-history"></i>
+          <h2>Requests</h2>
+        </div>
+        <p>
+          The Requests page shows all HTTP requests received by WireMock, with filtering,
+          match details, and navigation to related stubs.
+        </p>
+
+        <h3>Filters</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Status</div>
+            <div class="option-desc">
+              <span class="badge-matched">Matched</span> — request was handled by a stub.<br>
+              <span class="badge-unmatched">Unmatched</span> — no stub matched (WireMock returned 404).<br>
+              <span class="badge-nearmiss">Near-miss ≥ 90 %</span> — no exact match but at least one stub scored ≥ 90 % similarity.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Method</div>
+            <div class="option-desc">Multi-select: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code>.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Response code</div>
+            <div class="option-desc">Filter by HTTP status class: <code>2xx</code>, <code>3xx</code>, <code>4xx</code>, <code>5xx</code>.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Time range</div>
+            <div class="option-desc">Last Hour, Last 24h, Today, Last 7 days, or a Custom date/time interval.</div>
+          </div>
+        </div>
+
+        <h3>Request detail</h3>
+        <p>Click any request to expand its details:</p>
+        <ul class="help-list">
+          <li><strong>Request</strong> — method, URL, headers (expandable), body.</li>
+          <li><strong>Response</strong> — status code, response headers, body.</li>
+          <li><strong>Matched stub</strong> — link to the stub that handled this request (if matched).</li>
+          <li><strong>Near-misses</strong> — for unmatched requests, the closest stubs with their similarity score.</li>
+        </ul>
+
+        <h3>Actions</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Create stub from request</div>
+            <div class="option-desc">Opens the Stub creation modal pre-filled with the request's method, URL and headers.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Select multiple</div>
+            <div class="option-desc">Check requests and delete them in bulk.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Delete all</div>
+            <div class="option-desc">Clears the entire WireMock request log.</div>
+          </div>
+        </div>
+
+        <h3>Deep linking</h3>
+        <p>
+          Active filters and the selected request are encoded in the URL
+          (e.g. <code>/ui/requests/&lt;requestId&gt;?status=unmatched</code>),
+          making the view bookmarkable and shareable.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════ REQUESTER ════════════════════════════════════ -->
+      <section class="help-section" id="requester" [class.hidden]="sections[4].hidden">
+        <div class="section-heading">
+          <i class="fas fa-paper-plane"></i>
+          <h2>Requester</h2>
+        </div>
+        <p>
+          The built-in HTTP client lets you send requests directly to your WireMock instance
+          (or any other server) to verify that your stubs behave as expected — without leaving the UI.
+        </p>
+
+        <h3>Request form</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Pre-fill from stub</div>
+            <div class="option-desc">Select any existing stub to auto-populate Method, URL, headers and body from the stub's request definition.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Base URL</div>
+            <div class="option-desc">The server root (e.g. <code>http://localhost:8080</code>). Defaults to the WireMock URL configured in Settings.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Method</div>
+            <div class="option-desc">HTTP verb: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code>.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">URL path</div>
+            <div class="option-desc">Path appended to the Base URL (e.g. <code>/api/users</code>).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Headers</div>
+            <div class="option-desc">Add/remove arbitrary request headers. Click <strong>+ Add Header</strong> to add a row; click <i class="fas fa-times icon-inline"></i> to remove one.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Body</div>
+            <div class="option-desc">Free-text request body (JSON, XML, plain text, etc.). Shown only for methods that support a body (<code>POST</code>, <code>PUT</code>, <code>PATCH</code>).</div>
+          </div>
+        </div>
+
+        <h3>Response panel</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Status</div>
+            <div class="option-desc">HTTP status code and reason phrase returned by the server.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Timing</div>
+            <div class="option-desc">Round-trip time in milliseconds measured by the browser.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Response headers</div>
+            <div class="option-desc">All headers returned by the server.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Body</div>
+            <div class="option-desc">Response body with syntax highlighting. Use the <i class="fas fa-clipboard icon-inline"></i> <strong>Copy</strong> button to copy it to the clipboard.</div>
+          </div>
+        </div>
+
+        <div class="help-tip">
+          <i class="fas fa-lightbulb"></i>
+          <span>
+            You can also reach the Requester pre-filled from a request log entry:
+            click <strong>Send to Requester</strong> in the Requests page detail panel.
+          </span>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════ RECORDING ════════════════════════════════════ -->
+      <section class="help-section" id="recording" [class.hidden]="sections[5].hidden">
+        <div class="section-heading">
+          <i class="fas fa-circle"></i>
+          <h2>Recording Studio</h2>
+        </div>
+        <p>
+          The Recording Studio captures real HTTP interactions against a target API and
+          automatically converts them into WireMock stubs.
+          See <a href="https://wiremock.org/docs/record-playback/" target="_blank" rel="noopener">WireMock docs → Record &amp; Playback</a>.
+        </p>
+
+        <h3>Status banner</h3>
+        <p>
+          Displays the current recording state (<em>Never Started</em>, <em>Recording…</em> or <em>Stopped</em>)
+          and provides contextual action buttons while recording is active:
+        </p>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-camera icon-inline"></i> Snapshot</div>
+            <div class="option-desc">Saves the stubs recorded so far without stopping the recording session.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-stop icon-inline"></i> Stop</div>
+            <div class="option-desc">Stops the recording and saves all captured stubs into WireMock.</div>
+          </div>
+        </div>
+
+        <h3>Basic configuration</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Target Base URL</div>
+            <div class="option-desc">The real upstream API to record from (e.g. <code>https://api.example.com</code>). WireMock will proxy requests to this URL while recording.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Persist stubs to disk</div>
+            <div class="option-desc">When enabled, generated stubs are written to the WireMock <code>mappings/</code> folder (they survive server restarts).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Manage repeats as scenarios</div>
+            <div class="option-desc">When the same endpoint is called multiple times with different responses, WireMock automatically creates a scenario to replay them in order.</div>
+          </div>
+        </div>
+
+        <h3>Advanced configuration</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">URL Filter Pattern</div>
+            <div class="option-desc">A regex applied to request URLs. Only matching requests are recorded (e.g. <code>/api/.*</code>).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Method Filter</div>
+            <div class="option-desc">Only record requests for the selected HTTP method (leave blank for all).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Capture Headers</div>
+            <div class="option-desc">Comma-separated list of request headers to include as matchers in the generated stubs (e.g. <code>Authorization, Content-Type</code>).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Text Size Threshold</div>
+            <div class="option-desc">Maximum size (bytes) of a text response body to capture inline. Larger bodies are stored as body files.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Binary Size Threshold</div>
+            <div class="option-desc">Same as above for binary (non-text) response bodies.</div>
+          </div>
+        </div>
+
+        <h3>Saved configurations</h3>
+        <p>
+          Recording configurations can be saved locally (in the browser's
+          <code>localStorage</code>) for reuse. Use the
+          <strong>Save As…</strong> button to name and persist the current configuration,
+          <strong>Load</strong> to restore it, and <strong>Delete</strong> to remove it.
+        </p>
+
+        <h3>Recorded stubs</h3>
+        <p>
+          After stopping (or taking a snapshot), the captured stubs are displayed as cards.
+          Click <strong>View</strong> on a card to inspect the full JSON. Use
+          <strong>Export All to JSON</strong> to download all recorded stubs.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════ OPENAPI GENERATOR ══════════════════════════════ -->
+      <section class="help-section" id="openapi-generator" [class.hidden]="sections[6].hidden">
+        <div class="section-heading">
+          <i class="fas fa-magic"></i>
+          <h2>OpenAPI Generator</h2>
+        </div>
+        <p>
+          The OpenAPI Generator converts an OpenAPI / Swagger specification into
+          ready-to-use WireMock stub mappings in three steps: import the spec,
+          configure each endpoint, then preview and export.
+        </p>
+
+        <!-- ── Step 1 ── -->
+        <h3><span class="step-pill">1</span> Import OpenAPI Specification</h3>
+        <p>Provide your OpenAPI spec (JSON or YAML, versions 2.0, 3.0 and 3.1 are supported) in one of two ways:</p>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-paste"></i> Paste content</div>
+            <div class="option-desc">Paste the raw JSON or YAML directly into the text area.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-upload"></i> Upload file</div>
+            <div class="option-desc">Drag &amp; drop or browse for a <code>.json</code>, <code>.yaml</code> or <code>.yml</code> file. The parsed content is displayed in a read-only preview below the drop zone.</div>
+          </div>
+        </div>
+        <p>Click <strong>Parse Specification</strong> to analyse the spec. A summary banner shows the spec version, API title, version number and the number of operations found. Any parsing warnings are displayed below the banner.</p>
+
+        <!-- ── Step 2 ── -->
+        <h3><span class="step-pill">2</span> Configure Endpoints</h3>
+        <p>
+          Each operation found in the spec appears as a row in the endpoint table.
+          Use the checkboxes on the left to include or exclude individual endpoints
+          (or use <strong>Select all</strong> at the top).
+        </p>
+
+        <h3>Global options</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">URL Prefix</div>
+            <div class="option-desc">
+              A prefix prepended to every path when generating the stub URL matcher (e.g. <code>/api/v1</code>).
+              Type the value and click <strong>Apply</strong> — it is propagated to all endpoints immediately.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Generate a WireMock fault variant</div>
+            <div class="option-desc">
+              When checked, each endpoint will also generate a fault stub (using the fault type
+              chosen in the <em>Fault</em> column). The fault type can still be overridden per endpoint.
+            </div>
+          </div>
+        </div>
+
+        <h3>Per-endpoint columns</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Method</div>
+            <div class="option-desc">HTTP method badge (GET, POST, PUT, DELETE, PATCH…).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Path</div>
+            <div class="option-desc">The operation path as defined in the spec. Paths with <code>&#123;param&#125;</code> placeholders are automatically converted to WireMock <code>urlPattern</code> regex matchers.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Summary</div>
+            <div class="option-desc">The <code>summary</code> field from the spec, used as the stub name.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Status</div>
+            <div class="option-desc">
+              HTTP response status code for the generated stub.
+              Defaults to the first 2xx response defined in the spec.
+              <em>Automatically updated</em> when you choose a response example that belongs to a specific status code.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Req. Example</div>
+            <div class="option-desc">
+              Optionally select a named request body example defined in the spec
+              (<code>requestBody.content.*.examples</code>).
+              When selected, the generated stub will include a
+              <code>bodyPatterns: [&#123; equalToJson: … &#125;]</code> matcher so that only requests
+              with that exact body will match.
+              Shows <strong>—</strong> if the operation has no named examples.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Resp. Example</div>
+            <div class="option-desc">
+              Optionally select a named response example defined in the spec
+              (<code>responses.*.content.*.examples</code>).
+              The dropdown shows <em>key (statusCode)</em> for each example across all response codes.
+              Choosing an example automatically updates the <strong>Status</strong> column to match
+              and uses that example's <code>value</code> as the response body.
+              Shows <strong>—</strong> if no named examples exist.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">URL Prefix</div>
+            <div class="option-desc">Per-endpoint URL prefix override (same as the global prefix but editable individually).</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">Fault</div>
+            <div class="option-desc">
+              Combobox for generating an additional <strong>WireMock fault stub</strong> for this endpoint.
+              Select <em>— none —</em> (default) to skip, or pick one of the four fault types:
+              <code>CONNECTION_RESET_BY_PEER</code>, <code>EMPTY_RESPONSE</code>,
+              <code>MALFORMED_RESPONSE_CHUNK</code>, <code>RANDOM_DATA_THEN_CLOSE</code>.
+              When a fault is selected, the Status, Req. Example and Resp. Example columns are greyed out
+              (they are irrelevant for fault stubs).
+            </div>
+          </div>
+        </div>
+
+        <div class="help-tip">
+          <i class="fas fa-info-circle"></i>
+          <span>
+            Path parameters (<code>/users/&#123;id&#125;</code>) are matched with a regex pattern
+              (<code>urlPattern: ^/users/[^/]+(\?.*)?$</code>).
+            These stubs are automatically assigned a lower priority (<code>5</code>) so that
+            more specific stubs take precedence.
+          </span>
+        </div>
+
+        <!-- ── Step 3 ── -->
+        <h3><span class="step-pill">3</span> Preview &amp; Export</h3>
+        <p>
+          Click <strong>Generate Stubs</strong> to produce the WireMock JSON mappings.
+          The result list shows each stub with its method, URL and status code.
+        </p>
+
+        <h3>Actions on the stub list</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-eye"></i> Preview</div>
+            <div class="option-desc">Opens a modal with the full WireMock JSON mapping for that stub. The JSON can be copied to the clipboard from the modal header.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-download"></i> Download</div>
+            <div class="option-desc">Downloads the individual stub as a <code>.json</code> file.</div>
+          </div>
+        </div>
+
+        <h3>Export &amp; Import actions</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-cloud-upload-alt"></i> Import into WireMock</div>
+            <div class="option-desc">
+              Sends each generated stub directly to the configured WireMock Admin API
+              (<code>POST /__admin/mappings</code>), one by one.
+              A success banner shows the number of stubs imported.
+              Partial failures are reported with the first error message.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-file-archive"></i> Download ZIP Archive</div>
+            <div class="option-desc">
+              Packages all generated stubs into a ZIP file with the WireMock directory structure:
+              <code>mappings/</code> for the JSON stub files and <code>__files/</code> for large
+              response bodies that exceed the inline limit (2 KB).
+            </div>
+          </div>
+        </div>
+
+        <h3>Body generation rules</h3>
+        <p>The response body is filled using the following priority order:</p>
+        <ol class="help-ordered-list">
+          <li>The <strong>selected named example</strong> (<code>examples[key].value</code>) if one is chosen in the Resp. Example column.</li>
+          <li>The first entry of the <code>examples</code> object in the media type.</li>
+          <li>The <code>example</code> field of the media type entry.</li>
+          <li>The <code>example</code> or <code>default</code> field of the JSON schema.</li>
+          <li>A <strong>minimal generated object</strong> derived from the schema definition (types, properties, enums, formats).</li>
+        </ol>
+        <p>
+          Stubs with a response body smaller than <strong>2 KB</strong> use inline
+          <code>jsonBody</code>; larger bodies are stored in <code>__files/</code>
+          and referenced via <code>bodyFileName</code>.
+        </p>
+
+        <div class="help-tip">
+          <i class="fas fa-info-circle"></i>
+          <span>
+            Use <strong>Reset</strong> (top-right of the page) to clear the current spec and start over.
+            All generated stubs, configurations and previews are discarded.
+          </span>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════ SETTINGS ════════════════════════════════════ -->
+      <section class="help-section" id="settings" [class.hidden]="sections[7].hidden">
+        <div class="section-heading">
+          <i class="fas fa-cog"></i>
+          <h2>Settings</h2>
+        </div>
+        <p>
+          The Settings page configures which WireMock Admin API endpoint the UI communicates with.
+          The active endpoint is also selectable at any time from the
+          <i class="fas fa-server icon-inline"></i> <strong>server selector</strong> in the top-right corner of the app —
+          changing it reloads the current page with data from the new backend.
+        </p>
+
+        <h3>WireMock API Endpoint</h3>
+        <p>
+          The endpoint list is displayed in a compact format:
+          <strong>Name :</strong> <code>URL</code> <span class="badge-env-label">badge</span>.
+          Options are always shown in the following order: <em>Local → ENV → Custom</em>.
+          Select any row with the radio button to activate it; the choice is persisted in
+          <code>localStorage</code>.
+        </p>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label">Local</div>
+            <div class="option-desc">
+              The built-in local endpoint that proxies to WireMock running on the same host
+              (path <code>/__admin</code> resolved relative to the UI server).
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><span class="badge-env-label">ENV</span> Environment endpoints</div>
+            <div class="option-desc">
+              URLs injected at build/deploy time via the <code>WIREMOCK_BACKEND</code> environment variable
+              (semicolon-separated list of base URLs, e.g. <code>https://staging.example.com;http://localhost:8080</code>).
+              These appear with an <span class="badge-env-label">ENV</span> badge and cannot be edited from the UI.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><span class="badge-custom-label">custom</span> Custom backends</div>
+            <div class="option-desc">
+              Backends you have saved in the <strong>Custom Backends</strong> section below.
+              Each entry appears in the list with a <span class="badge-custom-label">custom</span> badge
+              and is instantly selectable.
+            </div>
+          </div>
+        </div>
+
+        <div class="help-tip">
+          <i class="fas fa-info-circle"></i>
+          <span>
+            Enter URLs <strong>without</strong> the <code>/__admin</code> suffix —
+            e.g. <code>http://my-server:9090</code> instead of <code>http://my-server:9090/__admin</code>.
+            The UI appends <code>/__admin</code> automatically to all Admin API calls.
+          </span>
+        </div>
+
+        <h3>Custom Backends</h3>
+        <p>
+          Use this section to save, edit or delete named WireMock backend URLs for later reuse.
+          Each entry requires a <strong>label</strong> (displayed in the endpoint list and the header selector)
+          and a <strong>base URL</strong> (without <code>/__admin</code>).
+        </p>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-plus icon-inline"></i> Add</div>
+            <div class="option-desc">Fill in the label and URL fields, then click <strong>Add</strong>. The new backend immediately appears in the endpoint list and the header selector.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-pencil-alt icon-inline"></i> Edit</div>
+            <div class="option-desc">Inline editing of label and URL. If the edited backend was active, the active URL is updated automatically.</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-trash-alt icon-inline"></i> Delete</div>
+            <div class="option-desc">Removes the backend. If it was the active endpoint, the UI falls back to the first available option.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════ LICENSE & CREDITS ════════════════════════════════════ -->
+      <section class="help-section" id="license" [class.hidden]="sections[8].hidden">
+        <div class="section-heading">
+          <i class="fas fa-balance-scale"></i>
+          <h2>License &amp; Credits</h2>
+        </div>
+
+        <h3>License</h3>
+        <p>
+          WireMock UI is free software distributed under the
+          <strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong>.
+        </p>
+        <p>
+          This means you are free to use, study, modify and distribute this software,
+          provided that any modified or derived version that is made available over a network
+          also makes its source code available under the same license.
+        </p>
+        <div class="help-tip">
+          <i class="fas fa-info-circle"></i>
+          <span>
+            The full license text is available in the
+            <a href="https://github.com/wiremock-ui/wiremock-ui/blob/main/LICENSE" target="_blank" rel="noopener">
+              LICENSE
+            </a>
+            file at the root of the repository, and at
+            <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">
+              gnu.org/licenses/agpl-3.0
+            </a>.
+          </span>
+        </div>
+
+        <h3>Built on WireMock OSS</h3>
+        <p>
+          This project is a graphical interface built on top of
+          <a href="https://wiremock.org/" target="_blank" rel="noopener"><strong>WireMock OSS</strong></a>,
+          an open-source HTTP mock server originally created by
+          <strong>Tom Akehurst</strong> and now maintained by the
+          <a href="https://github.com/wiremock/wiremock" target="_blank" rel="noopener">WireMock community</a>.
+          WireMock OSS is licensed under the <strong>Apache License 2.0</strong>.
+        </p>
+        <p>
+          WireMock UI communicates exclusively with WireMock's Admin API and does not include
+          or redistribute any WireMock server code.
+        </p>
+
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><i class="fas fa-external-link-alt"></i> WireMock OSS</div>
+            <div class="option-desc">
+              <a href="https://wiremock.org/" target="_blank" rel="noopener">wiremock.org</a>
+              — Apache License 2.0
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><i class="fab fa-github"></i> Source code</div>
+            <div class="option-desc">
+              <a href="https://github.com/wiremock/wiremock" target="_blank" rel="noopener">
+                github.com/wiremock/wiremock
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <h3>Inspired by MockServer</h3>
+        <p>
+          The idea of generating WireMock stubs from an OpenAPI specification was inspired by
+          <a href="https://www.mock-server.com/" target="_blank" rel="noopener"><strong>MockServer</strong></a>,
+          another open-source mock server that is no longer actively maintained.
+          We credit the MockServer project and its contributors for pioneering this approach.
+        </p>
+
+        <h3>Third-party dependencies</h3>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><a href="https://angular.dev/" target="_blank" rel="noopener">Angular</a></div>
+            <div class="option-desc">MIT — UI framework</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><a href="https://ng-bootstrap.github.io/" target="_blank" rel="noopener">ng-bootstrap</a></div>
+            <div class="option-desc">MIT — Bootstrap components for Angular</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><a href="https://rxjs.dev/" target="_blank" rel="noopener">RxJS</a></div>
+            <div class="option-desc">Apache 2.0 — Reactive extensions library</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><a href="https://stuk.github.io/jszip/" target="_blank" rel="noopener">JSZip</a></div>
+            <div class="option-desc">MIT — ZIP file creation / reading</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome Free</a></div>
+            <div class="option-desc">MIT (code) / CC BY 4.0 (icons) — Icon library</div>
+          </div>
+          <div class="option-row">
+            <div class="option-label">
+              <a href="https://www.highcharts.com/" target="_blank" rel="noopener">Highcharts</a>
+              <span class="badge-env-label" style="margin-left:6px">⚠ proprietary</span>
+            </div>
+            <div class="option-desc">
+              Highcharts is distributed under a <strong>proprietary license</strong>. It is
+              free for non-commercial open-source projects under the
+              <a href="https://www.highcharts.com/blog/products/highcharts/" target="_blank" rel="noopener">
+                Highcharts open-source license exception
+              </a>.
+              A commercial license is required for any commercial use.
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:0.75rem">
+          Full dependency details are available in <code>package.json</code>.
+        </p>
+      </section>
+
+    </main>
+  </div>
+</div>
+
