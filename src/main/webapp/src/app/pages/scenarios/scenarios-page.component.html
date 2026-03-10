@@ -300,8 +300,8 @@
                   (click)="navigateToStub(stub.uuid || stub.id!)"
                   >
                   <div class="stub-method">
-                    <span class="badge method-badge" [ngClass]="'method-' + (stub.request?.method || 'ANY')">
-                      {{ stub.request?.method || 'ANY' }}
+                    <span class="badge method-badge" [ngClass]="'method-' + (stub.request.method || 'ANY')">
+                      {{ stub.request.method || 'ANY' }}
                     </span>
                   </div>
                   <div class="stub-info">

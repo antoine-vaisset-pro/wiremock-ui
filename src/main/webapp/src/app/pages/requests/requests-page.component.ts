@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,7 +9,8 @@ import {NearMiss, RequestService, WiremockRequest} from '../../services/request.
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './requests-page.component.html',
-  styleUrls: ['./requests-page.component.scss']
+  styleUrls: ['./requests-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestsPageComponent implements OnInit {
   @Output() createStubRequest = new EventEmitter<WiremockRequest>();
@@ -24,7 +25,6 @@ export class RequestsPageComponent implements OnInit {
   requestHeadersExpanded = false;
   selectedRequestIds: Set<string> = new Set();
   selectAllRequests = false;
-  searchQuery = '';
   loading = false;
   error: string | null = null;
   activeRequestViewTab: 'details' | 'json' = 'details';
@@ -38,11 +38,48 @@ export class RequestsPageComponent implements OnInit {
   customDateTo: string = '';
   availableMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];
 
+  // Derived / cached state for template binding (avoids ExpressionChangedAfterChecked)
+  filteredRequests: WiremockRequest[] = [];
+  activeFiltersCount = 0;
+  selectedRequestHeaders: Array<{key: string, value: string}> = [];
+  selectedResponseHeaders: Array<{key: string, value: string}> = [];
+  selectedRequestBody = '';
+  selectedResponseBody = '';
+  selectedResponseStatus: number | null = null;
+
+  get searchQuery(): string { return this._searchQuery; }
+  set searchQuery(value: string) {
+    this._searchQuery = value;
+    this.refreshDerivedState();
+  }
+  private _searchQuery = '';
+
   constructor(
     private requestService: RequestService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
+
+  /** Recomputes all derived state used by the template. Must be called after any state mutation. */
+  private refreshDerivedState(): void {
+    this.filteredRequests = this.computeFilteredRequests();
+    this.activeFiltersCount = this.computeActiveFiltersCount();
+    if (this.selectedRequest) {
+      this.selectedRequestHeaders = this.computeRequestHeaders(this.selectedRequest);
+      this.selectedResponseHeaders = this.computeResponseHeaders(this.selectedRequest);
+      this.selectedRequestBody = this.computeRequestBody(this.selectedRequest);
+      this.selectedResponseBody = this.computeResponseBody(this.selectedRequest);
+      this.selectedResponseStatus = this.computeResponseStatus(this.selectedRequest);
+    } else {
+      this.selectedRequestHeaders = [];
+      this.selectedResponseHeaders = [];
+      this.selectedRequestBody = '';
+      this.selectedResponseBody = '';
+      this.selectedResponseStatus = null;
+    }
+    this.cdr.markForCheck();
+  }
 
   ngOnInit(): void {
     // Load requests first
@@ -80,6 +117,7 @@ export class RequestsPageComponent implements OnInit {
       if (params['dateTo']) {
         this.customDateTo = params['dateTo'];
       }
+      this.refreshDerivedState();
     });
   }
 
@@ -96,12 +134,14 @@ export class RequestsPageComponent implements OnInit {
 
           // Load near-misses for all unmatched requests
           this.loadNearMissesForAllUnmatched();
+          this.refreshDerivedState();
           resolve();
         },
         error: (err) => {
           this.error = 'Failed to load requests.';
           console.error('Error loading requests:', err);
           this.loading = false;
+          this.refreshDerivedState();
           reject(err);
         }
       });
@@ -121,10 +161,12 @@ export class RequestsPageComponent implements OnInit {
       this.requestService.getNearMissesForRequest(request).subscribe({
         next: (response) => {
           this.nearMissCache.set(request.id, response.nearMisses);
+          this.refreshDerivedState();
         },
         error: (err) => {
           console.error(`Error loading near-misses for request ${request.id}:`, err);
           this.nearMissCache.set(request.id, []); // Set empty array on error
+          this.refreshDerivedState();
         }
       });
     });
@@ -147,6 +189,7 @@ export class RequestsPageComponent implements OnInit {
         queryParamsHandling: 'preserve'
       });
     }
+    this.refreshDerivedState();
   }
 
   loadNearMisses(request: WiremockRequest): void {
@@ -159,10 +202,12 @@ export class RequestsPageComponent implements OnInit {
         // Cache the near-misses for filtering
         this.nearMissCache.set(request.id, response.nearMisses);
         this.loadingNearMisses = false;
+        this.refreshDerivedState();
       },
       error: (err) => {
         console.error('Error loading near-misses:', err);
         this.loadingNearMisses = false;
+        this.refreshDerivedState();
       }
     });
   }
@@ -172,6 +217,7 @@ export class RequestsPageComponent implements OnInit {
     this.selectedRequest = null;
     this.nearMisses = [];
     this.requestHeadersExpanded = false;
+    this.refreshDerivedState();
   }
 
   clearRequests(): void {
@@ -182,6 +228,7 @@ export class RequestsPageComponent implements OnInit {
     this.requestService.clearRequests().subscribe({
       next: () => {
         this.selectedRequest = null;
+        this.refreshDerivedState();
         this.loadRequests();
         console.log('Requests cleared successfully');
       },
@@ -203,10 +250,11 @@ export class RequestsPageComponent implements OnInit {
   toggleSelectAll(): void {
     this.selectAllRequests = !this.selectAllRequests;
     if (this.selectAllRequests) {
-      this.getFilteredRequests().forEach(req => this.selectedRequestIds.add(req.id));
+      this.filteredRequests.forEach(req => this.selectedRequestIds.add(req.id));
     } else {
       this.selectedRequestIds.clear();
     }
+    this.cdr.markForCheck();
   }
 
   toggleRequestSelection(requestId: string): void {
@@ -215,10 +263,12 @@ export class RequestsPageComponent implements OnInit {
     } else {
       this.selectedRequestIds.add(requestId);
     }
+    this.cdr.markForCheck();
   }
 
-  getFilteredRequests(): WiremockRequest[] {
+  private computeFilteredRequests(): WiremockRequest[] {
     let filtered = [...this.requests];
+
 
     // Search query filter
     if (this.searchQuery) {
@@ -315,6 +365,11 @@ export class RequestsPageComponent implements OnInit {
     return filtered;
   }
 
+  /** Public accessor kept for backward compatibility with tests; template uses filteredRequests property */
+  getFilteredRequests(): WiremockRequest[] {
+    return this.computeFilteredRequests();
+  }
+
   formatDate(timestamp: number | string | undefined): string {
     if (!timestamp) return '';
     const date = typeof timestamp === 'string' ? new Date(timestamp) : new Date(timestamp);
@@ -334,7 +389,7 @@ export class RequestsPageComponent implements OnInit {
     });
   }
 
-  getRequestHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
+  private computeRequestHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
     const headers: Array<{key: string, value: string}> = [];
     if (request.request?.headers) {
       Object.keys(request.request.headers).forEach(key => {
@@ -348,7 +403,7 @@ export class RequestsPageComponent implements OnInit {
     return headers;
   }
 
-  getResponseHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
+  private computeResponseHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
     const headers: Array<{key: string, value: string}> = [];
     const responseHeaders = request.response?.headers || request.responseDefinition?.headers;
 
@@ -364,7 +419,7 @@ export class RequestsPageComponent implements OnInit {
     return headers;
   }
 
-  getRequestBody(request: WiremockRequest): string {
+  private computeRequestBody(request: WiremockRequest): string {
     if (request.request?.body) {
       try {
         const parsed = JSON.parse(request.request.body);
@@ -376,7 +431,7 @@ export class RequestsPageComponent implements OnInit {
     return '';
   }
 
-  getResponseBody(request: WiremockRequest): string {
+  private computeResponseBody(request: WiremockRequest): string {
     const body = request.response?.body || request.responseDefinition?.body;
     const jsonBody = request.responseDefinition?.jsonBody;
 
@@ -396,10 +451,12 @@ export class RequestsPageComponent implements OnInit {
 
   setRequestViewTab(tab: 'details' | 'json'): void {
     this.activeRequestViewTab = tab;
+    this.cdr.markForCheck();
   }
 
   toggleRequestHeaders(): void {
     this.requestHeadersExpanded = !this.requestHeadersExpanded;
+    this.cdr.markForCheck();
   }
 
   copyRequestJson(): void {
@@ -429,6 +486,7 @@ export class RequestsPageComponent implements OnInit {
   // Filter methods
   setStatusFilter(status: 'all' | 'matched' | 'unmatched' | 'near-miss-90'): void {
     this.statusFilter = status;
+    this.refreshDerivedState();
   }
 
   toggleMethodFilter(method: string): void {
@@ -437,14 +495,17 @@ export class RequestsPageComponent implements OnInit {
     } else {
       this.methodFilters.add(method);
     }
+    this.refreshDerivedState();
   }
 
   setResponseCodeFilter(filter: 'all' | '2xx' | '3xx' | '4xx' | '5xx'): void {
     this.responseCodeFilter = filter;
+    this.refreshDerivedState();
   }
 
   setDateRangeFilter(filter: 'all' | 'last-hour' | 'last-24h' | 'last-7d' | 'today' | 'custom'): void {
     this.dateRangeFilter = filter;
+    this.refreshDerivedState();
   }
 
   clearAllFilters(): void {
@@ -454,10 +515,11 @@ export class RequestsPageComponent implements OnInit {
     this.dateRangeFilter = 'all';
     this.customDateFrom = '';
     this.customDateTo = '';
-    this.searchQuery = '';
+    this._searchQuery = '';
+    this.refreshDerivedState();
   }
 
-  getActiveFiltersCount(): number {
+  private computeActiveFiltersCount(): number {
     let count = 0;
     if (this.statusFilter !== 'all') count++;
     if (this.methodFilters.size > 0) count++;
@@ -481,8 +543,12 @@ export class RequestsPageComponent implements OnInit {
     return this.getBestNearMissScore(requestId) >= 0.9;
   }
 
-  getResponseStatus(request: WiremockRequest): number | null {
+  private computeResponseStatus(request: WiremockRequest): number | null {
     return request.response?.status || request.responseDefinition?.status || null;
+  }
+
+  getResponseStatus(request: WiremockRequest): number | null {
+    return this.computeResponseStatus(request);
   }
 
   getResponseCodeClass(status: number | null): string {
