@@ -201,6 +201,10 @@ export class StubsPageComponent implements OnInit {
     this.selectedMapping = null;
   }
 
+  navigateToScenario(scenarioName: string): void {
+    this.router.navigate(['/ui/scenarios'], { queryParams: { scenario: scenarioName } });
+  }
+
   refreshStubs(): void {
     this.loadMappings();
   }

@@ -178,7 +178,7 @@
           </div>
           <i class="fas fa-chevron-right card-arrow"></i>
         </div>
-        <div class="stat-card stat-card-info">
+        <div class="stat-card stat-card-info clickable" (click)="onNavigateToRecording()">
           <div class="stat-icon">
             <i class="fas fa-circle" [class]="getRecordingStatusClass()"></i>
           </div>
@@ -186,6 +186,7 @@
             <div class="stat-value status-text">{{ getRecordingStatusText() }}</div>
             <div class="stat-label">Recording Status</div>
           </div>
+          <i class="fas fa-chevron-right card-arrow"></i>
         </div>
       </section>
       <!-- Active Scenarios -->
@@ -204,7 +205,7 @@
             @for (scenario of activeScenarios.slice(0, 5); track scenario) {
               <div
                 class="scenario-card clickable"
-                (click)="onViewAllScenarios()"
+                (click)="onScenarioClick(scenario.name)"
                 >
                 <div class="scenario-card-header">
                   <i class="fas fa-sitemap"></i>
