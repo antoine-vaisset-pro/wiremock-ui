@@ -1,0 +1,34 @@
+<div class="backend-selector">
+  <i class="fas fa-server backend-selector-icon"></i>
+  <select
+    class="backend-selector-select"
+    [(ngModel)]="selectedValue"
+    (change)="onSelectionChange()"
+    title="Select WireMock backend">
+
+    @if (envOptions.length > 0) {
+      <optgroup label="ENV">
+        @for (opt of envOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </optgroup>
+    }
+
+    @if (localOptions.length > 0) {
+      <optgroup label="Local">
+        @for (opt of localOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </optgroup>
+    }
+
+    @if (customOptions.length > 0) {
+      <optgroup label="Custom">
+        @for (opt of customOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </optgroup>
+    }
+
+  </select>
+</div>
