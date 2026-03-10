@@ -146,8 +146,9 @@
         <div class="col-example">Resp. Example</div>
         <div class="col-prefix">URL Prefix</div>
         <div class="col-errors">Fault</div>
+        <div class="col-actions"></div>
       </div>
-      @for (entry of endpoints; track entry.operation.path + entry.operation.method) {
+      @for (entry of endpoints; track entry.variantId; let i = $index) {
         <div
           class="endpoint-row"
           [class.disabled]="!entry.enabled"
@@ -220,6 +221,17 @@
               }
             </select>
           </div>
+          <!-- Row actions: add variant + remove -->
+          <div class="col-actions">
+            <button class="btn-icon btn-icon--sm" (click)="addEndpointVariant(entry, i)" title="Add a stub variant for this endpoint">
+              <i class="fas fa-plus"></i>
+            </button>
+            @if (endpoints.length > 1) {
+              <button class="btn-icon btn-icon--sm btn-icon--danger" (click)="removeEndpointEntry(i)" title="Remove this row">
+                <i class="fas fa-times"></i>
+              </button>
+            }
+          </div>
         </div>
       }
     </div>
@@ -287,7 +299,7 @@
 
     <!-- Stubs list -->
     <div class="stubs-list">
-      @for (stub of generatedStubs; track stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern) {
+      @for (stub of generatedStubs; track $index; let i = $index) {
         <div class="stub-item">
           <div class="stub-info">
             <span class="method-badge" [class]="getMethodClass(stub.mapping.request.method)">
@@ -306,6 +318,9 @@
           <div class="stub-actions">
             <button class="btn-icon" (click)="openPreview(stub)" title="Preview JSON">
               <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn-icon" (click)="editGeneratedStub(stub, i)" title="Edit this stub">
+              <i class="fas fa-edit"></i>
             </button>
             <button class="btn-icon" (click)="exportSingle(stub)" title="Download this stub">
               <i class="fas fa-download"></i>
@@ -345,5 +360,8 @@
     </div>
     <div class="modal-backdrop fade show"></div>
   }
+
+  <!-- Stub editor (local mode: edits generated stubs without saving to WireMock) -->
+  <app-stub-editor [localOnly]="true" (mappingReady)="onStubEdited($event)"></app-stub-editor>
 
 </div>

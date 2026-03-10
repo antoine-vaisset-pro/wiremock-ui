@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { OpenApiGeneratorPageComponent } from './openapi-generator-page.component';
 import { ConfigService } from '../../services/config.service';
+import { MappingService } from '../../services/mapping.service';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -49,20 +51,24 @@ describe('OpenApiGeneratorPageComponent', () => {
   let component: OpenApiGeneratorPageComponent;
   let fixture: ComponentFixture<OpenApiGeneratorPageComponent>;
   let configServiceSpy: jasmine.SpyObj<ConfigService>;
+  let mappingServiceSpy: jasmine.SpyObj<MappingService>;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     configServiceSpy = jasmine.createSpyObj('ConfigService', ['loadConfig', 'getAppConfig'], {
       wiremockApiUrl: 'http://localhost:8080/__admin'
     });
+    mappingServiceSpy = jasmine.createSpyObj('MappingService', ['createMapping', 'updateMapping', 'deleteMapping']);
 
     await TestBed.configureTestingModule({
       imports: [OpenApiGeneratorPageComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ConfigService, useValue: configServiceSpy }
-      ]
+        { provide: ConfigService, useValue: configServiceSpy },
+        { provide: MappingService, useValue: mappingServiceSpy }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpenApiGeneratorPageComponent);
@@ -444,6 +450,109 @@ describe('OpenApiGeneratorPageComponent', () => {
       expect(values).toContain('EMPTY_RESPONSE');
       expect(values).toContain('MALFORMED_RESPONSE_CHUNK');
       expect(values).toContain('RANDOM_DATA_THEN_CLOSE');
+    });
+  });
+
+  // ── Endpoint variants ─────────────────────────────────────────────────────
+
+  describe('addEndpointVariant()', () => {
+    beforeEach(fakeAsync(() => {
+      component.rawSpec = SIMPLE_SPEC;
+      component.parseSpec();
+      tick(20);
+    }));
+
+    it('should insert a new entry after the given index', () => {
+      const initialLength = component.endpoints.length;
+      component.addEndpointVariant(component.endpoints[0], 0);
+      expect(component.endpoints.length).toBe(initialLength + 1);
+    });
+
+    it('new variant should be placed right after the source entry', () => {
+      const firstEntry = component.endpoints[0];
+      component.addEndpointVariant(firstEntry, 0);
+      expect(component.endpoints[1].operation.path).toBe(firstEntry.operation.path);
+      expect(component.endpoints[1].operation.method).toBe(firstEntry.operation.method);
+    });
+
+    it('new variant should have a unique variantId', () => {
+      const firstEntry = component.endpoints[0];
+      const originalId = firstEntry.variantId;
+      component.addEndpointVariant(firstEntry, 0);
+      expect(component.endpoints[1].variantId).not.toBe(originalId);
+    });
+
+    it('should copy the statusCode from the source entry', () => {
+      component.endpoints[0].statusCode = '404';
+      component.addEndpointVariant(component.endpoints[0], 0);
+      expect(component.endpoints[1].statusCode).toBe('404');
+    });
+  });
+
+  describe('removeEndpointEntry()', () => {
+    beforeEach(fakeAsync(() => {
+      component.rawSpec = SIMPLE_SPEC;
+      component.parseSpec();
+      tick(20);
+    }));
+
+    it('should remove the entry at the given index', () => {
+      const initialLength = component.endpoints.length;
+      component.removeEndpointEntry(0);
+      expect(component.endpoints.length).toBe(initialLength - 1);
+    });
+
+    it('should remove the correct entry', () => {
+      const secondPath = component.endpoints[1].operation.path;
+      component.removeEndpointEntry(0);
+      expect(component.endpoints[0].operation.path).toBe(secondPath);
+    });
+
+    it('should update allSelected after removing disabled entry', () => {
+      component.endpoints[0].enabled = false;
+      component.updateAllSelected();
+      expect(component.allSelected).toBeFalse();
+      component.removeEndpointEntry(0);
+      expect(component.allSelected).toBeTrue();
+    });
+  });
+
+  // ── Edit generated stub ───────────────────────────────────────────────────
+
+  describe('onStubEdited()', () => {
+    beforeEach(fakeAsync(() => {
+      component.rawSpec = SIMPLE_SPEC;
+      component.parseSpec();
+      tick(20);
+      component.generate();
+      tick(20);
+    }));
+
+    it('should update the mapping at editingStubIndex', () => {
+      const newMapping = { request: { method: 'GET', urlPath: '/edited' }, response: { status: 999 } };
+      component.editingStubIndex = 0;
+      component.onStubEdited(newMapping);
+      expect(component.generatedStubs[0].mapping).toEqual(newMapping as any);
+    });
+
+    it('should preserve other stubs when editing one', () => {
+      const originalSecond = component.generatedStubs[1];
+      component.editingStubIndex = 0;
+      component.onStubEdited({ request: { method: 'GET', urlPath: '/x' }, response: { status: 200 } });
+      expect(component.generatedStubs[1]).toBe(originalSecond);
+    });
+
+    it('should clear editingStubIndex after edit', () => {
+      component.editingStubIndex = 0;
+      component.onStubEdited({ request: { method: 'GET', urlPath: '/x' }, response: { status: 200 } });
+      expect(component.editingStubIndex).toBeNull();
+    });
+
+    it('should do nothing when editingStubIndex is null', () => {
+      const originalStubs = [...component.generatedStubs];
+      component.editingStubIndex = null;
+      component.onStubEdited({ request: { method: 'GET', urlPath: '/x' }, response: { status: 200 } });
+      expect(component.generatedStubs).toEqual(originalStubs);
     });
   });
 });

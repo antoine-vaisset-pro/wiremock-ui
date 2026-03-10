@@ -1,11 +1,13 @@
-import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import * as jsyaml from 'js-yaml';
 import { OpenApiParserService, ParsedSpec } from '../../services/openapi-parser.service';
 import { StubGeneratorService, StubConfig, GeneratedStub, WireMockFault } from '../../services/stub-generator.service';
 import { ConfigService } from '../../services/config.service';
+import { StubEditorComponent } from '../stubs/components/stub-editor/stub-editor.component';
 
 interface EndpointEntry extends StubConfig {
   preview?: any;
@@ -15,12 +17,14 @@ interface EndpointEntry extends StubConfig {
   requestExampleKeys: string[];
   /** Single WireMock fault type to generate as additional stub ('' = none) */
   faultType: string;
+  /** Unique identifier used for stable @for tracking */
+  variantId: number;
 }
 
 @Component({
   selector: 'app-openapi-generator-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbModule, StubEditorComponent],
   templateUrl: './openapi-generator-page.component.html',
   styleUrls: ['./openapi-generator-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,11 +48,15 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
   // Endpoint list
   endpoints: EndpointEntry[] = [];
   allSelected = true;
+  private _variantCounter = 0;
 
   // Generated stubs
   generatedStubs: GeneratedStub[] = [];
   isGenerating = false;
   previewStub: GeneratedStub | null = null;
+  editingStubIndex: number | null = null;
+
+  @ViewChild(StubEditorComponent) stubEditor!: StubEditorComponent;
 
   // Export
   isExporting = false;
@@ -167,6 +175,7 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
       }
     } catch { /* ignore */ }
 
+    this._variantCounter = 0;
     this.endpoints = spec.operations.map(op => {
       const statusCode = this.generatorService.getDefaultStatusCode(op);
       return {
@@ -180,7 +189,8 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
         allResponseExamples: this.parserService.getAllResponseExamples(op, fullSpec),
         requestExampleKeys: this.parserService.getRequestBodyExampleKeys(op, fullSpec),
         selectedRequestExample: undefined,
-        selectedResponseExample: undefined
+        selectedResponseExample: undefined,
+        variantId: ++this._variantCounter
       };
     });
     this.allSelected = true;
@@ -334,6 +344,55 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
     }
   }
 
+  // ─── Edit Generated Stub ──────────────────────────────────────────────────
+
+  editGeneratedStub(stub: GeneratedStub, index: number): void {
+    this.editingStubIndex = index;
+    this.stubEditor.open({ editMode: 'edit', mapping: stub.mapping as any });
+  }
+
+  onStubEdited(mapping: any): void {
+    if (this.editingStubIndex !== null && this.editingStubIndex >= 0 && this.editingStubIndex < this.generatedStubs.length) {
+      const existing = this.generatedStubs[this.editingStubIndex];
+      this.generatedStubs = [
+        ...this.generatedStubs.slice(0, this.editingStubIndex),
+        { ...existing, mapping },
+        ...this.generatedStubs.slice(this.editingStubIndex + 1)
+      ];
+      this.editingStubIndex = null;
+      this.cdr.markForCheck();
+    }
+  }
+
+  // ─── Endpoint Variants ────────────────────────────────────────────────────
+
+  addEndpointVariant(entry: EndpointEntry, index: number): void {
+    const newEntry: EndpointEntry = {
+      operation: entry.operation,
+      enabled: entry.enabled,
+      statusCode: entry.statusCode,
+      urlPrefix: entry.urlPrefix,
+      generateErrorCases: entry.generateErrorCases,
+      faultType: entry.faultType,
+      allResponseExamples: entry.allResponseExamples,
+      requestExampleKeys: entry.requestExampleKeys,
+      selectedRequestExample: entry.selectedRequestExample,
+      selectedResponseExample: entry.selectedResponseExample,
+      fullSpec: entry.fullSpec,
+      variantId: ++this._variantCounter
+    };
+    this.endpoints = [
+      ...this.endpoints.slice(0, index + 1),
+      newEntry,
+      ...this.endpoints.slice(index + 1)
+    ];
+  }
+
+  removeEndpointEntry(index: number): void {
+    this.endpoints = this.endpoints.filter((_, i) => i !== index);
+    this.updateAllSelected();
+  }
+
   // ─── Helpers ───────────────────────────────────────────────────────────────
 
   getSpecVersionLabel(specVersion: string): string {
@@ -379,6 +438,7 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
     this.endpoints = [];
     this.generatedStubs = [];
     this.previewStub = null;
+    this.editingStubIndex = null;
     this.exportSuccess = false;
     this.importSuccess = false;
     this.importError = null;

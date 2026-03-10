@@ -44,9 +44,13 @@ export interface StubSavedEvent {
 })
 export class StubEditorComponent {
   @Input() availableScenarios: string[] = [];
+  /** When true, Save does not call the WireMock API — instead it emits the mapping via mappingReady. */
+  @Input() localOnly: boolean = false;
 
   @Output() saved = new EventEmitter<StubSavedEvent>();
   @Output() cancelled = new EventEmitter<void>();
+  /** Emitted instead of saved when localOnly is true. */
+  @Output() mappingReady = new EventEmitter<any>();
 
   @ViewChild('createModalTpl') createModalTpl!: TemplateRef<any>;
 
@@ -295,6 +299,12 @@ export class StubEditorComponent {
       if (this.editMode === 'create' || this.editMode === 'clone') {
         delete mappingData.uuid;
         delete mappingData.id;
+      }
+
+      if (this.localOnly) {
+        this.close();
+        this.mappingReady.emit(mappingData);
+        return;
       }
 
       const isCreate = this.editMode === 'create' || this.editMode === 'clone';
