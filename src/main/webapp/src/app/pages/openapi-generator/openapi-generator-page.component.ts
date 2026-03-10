@@ -8,6 +8,7 @@ import { OpenApiParserService, ParsedSpec } from '../../services/openapi-parser.
 import { StubGeneratorService, StubConfig, GeneratedStub, WireMockFault } from '../../services/stub-generator.service';
 import { ConfigService } from '../../services/config.service';
 import { StubEditorComponent } from '../stubs/components/stub-editor/stub-editor.component';
+import { StubMapping } from '../../models/stub-mapping.model';
 
 interface EndpointEntry extends StubConfig {
   preview?: any;
@@ -348,7 +349,7 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
   editGeneratedStub(stub: GeneratedStub, index: number): void {
     this.editingStubIndex = index;
-    this.stubEditor.open({ editMode: 'edit', mapping: stub.mapping as any });
+    this.stubEditor.open({ editMode: 'edit', mapping: stub.mapping as unknown as StubMapping });
   }
 
   onStubEdited(mapping: any): void {
