@@ -520,3 +520,30 @@
 .help-ordered-list li {
   margin-bottom: $space-1;
 }
+
+/* ─────────────────────────────────────────
+   Spec-version inline badges (help page)
+───────────────────────────────────────── */
+.spec-version-badge {
+  display: inline-block;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-bold;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-sm;
+  color: $color-white;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+}
+
+.spec-version-badge--swagger {
+  background: $color-blue;
+}
+
+.spec-version-badge--openapi30 {
+  background: $color-success-teal;
+}
+
+.spec-version-badge--openapi31 {
+  background: $color-primary;
+}

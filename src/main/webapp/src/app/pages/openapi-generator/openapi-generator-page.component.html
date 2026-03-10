@@ -85,7 +85,7 @@
   <!-- Spec summary + warnings -->
   <div *ngIf="parsedSpec" class="spec-summary">
     <div class="summary-info">
-      <span class="summary-badge">{{ parsedSpec.specVersion }}</span>
+      <span class="summary-badge" [class]="getSpecVersionBadgeClass(parsedSpec.specVersion)">{{ getSpecVersionLabel(parsedSpec.specVersion) }}</span>
       <strong>{{ parsedSpec.title }}</strong>
       <span class="summary-version">v{{ parsedSpec.version }}</span>
       <span class="summary-ops">{{ parsedSpec.operations.length }} operations found</span>

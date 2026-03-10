@@ -255,6 +255,23 @@
   text-transform: uppercase;
 }
 
+.summary-badge.spec-version-swagger {
+  background: $color-blue;
+}
+
+.summary-badge.spec-version-openapi30 {
+  background: $color-success-teal;
+}
+
+.summary-badge.spec-version-openapi31 {
+  background: $color-primary;
+}
+
+.summary-badge.spec-version-unknown {
+  background: $color-warning-amber;
+  color: $color-text-darkest;
+}
+
 .summary-version {
   color: var(--text-secondary);
   font-size: $font-size-base;
