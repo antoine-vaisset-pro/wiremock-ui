@@ -41,101 +41,119 @@
     </button>
   </div>
 </header>
+
 <!-- Content -->
 <div class="wiremock-content">
-    <!-- Left Panel: Stubs List -->
-    <div class="stubs-panel">
-      <div class="stubs-header">
-        <h2>Stubs</h2>
-        <button class="btn btn-link btn-sm" (click)="refreshStubs()">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-      </div>
+  <!-- Left Panel: Stubs List -->
+  <div class="stubs-panel">
+    <div class="stubs-header">
+      <h2>Stubs</h2>
+      <button class="btn btn-link btn-sm" (click)="refreshStubs()">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
 
-      <!-- Search Bar -->
-      <div class="search-bar">
-        <i class="fas fa-search search-icon"></i>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Filter stubs..."
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="onSearchChange()"
-        />
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter stubs..."
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+      />
+      @if (searchQuery) {
         <i
-          *ngIf="searchQuery"
           class="fas fa-times search-clear-icon"
           (click)="searchQuery = ''; onSearchChange()"
           title="Clear search"></i>
-      </div>
+      }
+    </div>
 
-      <!-- Loading State -->
-      <div *ngIf="loading" class="loading-state">
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="loading-state">
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
         <p>Loading stubs...</p>
       </div>
+    }
 
-      <!-- Error State -->
-      <div *ngIf="error && !loading" class="error-state">
+    <!-- Error State -->
+    @if (error && !loading) {
+      <div class="error-state">
         <i class="fas fa-exclamation-triangle"></i>
         <p>{{ error }}</p>
         <button class="btn btn-sm btn-primary" (click)="loadMappings()">
           <i class="fas fa-redo"></i> Retry
         </button>
       </div>
+    }
 
-      <!-- Stubs List -->
-      <div *ngIf="!loading && !error" class="stubs-list">
-        <div
-          *ngFor="let mapping of mappings"
-          class="stub-item"
-          [class.selected]="selectedMapping?.uuid === mapping.uuid"
-          (click)="selectStub(mapping)"
-        >
-          <!-- Checkbox toujours visible -->
-          <div class="stub-checkbox">
-            <input
-              type="checkbox"
-              [checked]="isStubSelected(mapping.uuid || mapping.id!)"
-              (click)="toggleStubSelection(mapping.uuid || mapping.id!, $event)"
-            />
-          </div>
+    <!-- Stubs List -->
+    @if (!loading && !error) {
+      <div class="stubs-list">
+        @for (mapping of mappings; track (mapping.uuid ?? mapping.id)) {
+          <div
+            class="stub-item"
+            [class.selected]="selectedMapping?.uuid === mapping.uuid"
+            (click)="selectStub(mapping)"
+          >
+            <!-- Checkbox always visible -->
+            <div class="stub-checkbox">
+              <input
+                type="checkbox"
+                [checked]="isStubSelected(mapping.uuid || mapping.id!)"
+                (click)="toggleStubSelection(mapping.uuid || mapping.id!, $event)"
+              />
+            </div>
 
-          <div class="stub-method">
-            <span class="badge method-badge" [ngClass]="'method-' + (mapping.request?.method || 'ANY')">
-              {{ mapping.request?.method || 'ANY' }}
-            </span>
-          </div>
-          <div class="stub-info">
-            <div class="stub-url">{{ getUrl(mapping) }}</div>
-            <div class="stub-name" *ngIf="mapping.name">{{ mapping.name }}</div>
-          </div>
-          <div class="stub-status">
-            <span class="status-code">{{ mapping.response?.status || 200 }}</span>
-            <div class="stub-scenario" *ngIf="mapping.scenarioName">
-              <span class="badge bg-indigo scenario-badge-small">
-                <i class="fas fa-sitemap"></i>
-                {{ mapping.scenarioName }}
-                <span *ngIf="mapping.requiredScenarioState">: {{ mapping.requiredScenarioState }}</span>
+            <div class="stub-method">
+              <span class="badge method-badge" [ngClass]="'method-' + (mapping.request.method || 'ANY')">
+                {{ mapping.request.method || 'ANY' }}
               </span>
             </div>
+            <div class="stub-info">
+              <div class="stub-url">{{ getUrl(mapping) }}</div>
+              @if (mapping.name) {
+                <div class="stub-name">{{ mapping.name }}</div>
+              }
+            </div>
+            <div class="stub-status">
+              <span class="status-code">{{ mapping.response?.status || 200 }}</span>
+              @if (mapping.scenarioName) {
+                <div class="stub-scenario">
+                  <span class="badge bg-indigo scenario-badge-small">
+                    <i class="fas fa-sitemap"></i>
+                    {{ mapping.scenarioName }}
+                    @if (mapping.requiredScenarioState) {
+                      <span>: {{ mapping.requiredScenarioState }}</span>
+                    }
+                  </span>
+                </div>
+              }
+            </div>
           </div>
-        </div>
+        }
 
         <!-- Empty State -->
-        <div *ngIf="mappings.length === 0" class="empty-state">
-          <i class="fas fa-inbox"></i>
-          <p>No stubs found</p>
-          <button class="btn btn-sm btn-primary" (click)="createNewStub()">
-            <i class="fas fa-plus"></i> Create your first stub
-          </button>
-        </div>
+        @if (mappings.length === 0) {
+          <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <p>No stubs found</p>
+            <button class="btn btn-sm btn-primary" (click)="createNewStub()">
+              <i class="fas fa-plus"></i> Create your first stub
+            </button>
+          </div>
+        }
       </div>
+    }
 
-      <!-- Pagination -->
-      <div *ngIf="!loading && !error && mappings.length > 0" class="pagination-container">
+    <!-- Pagination -->
+    @if (!loading && !error && mappings.length > 0) {
+      <div class="pagination-container">
         <ngb-pagination
           [(page)]="currentPage"
           [pageSize]="pageSize"
@@ -149,16 +167,20 @@
           Showing {{ (currentPage - 1) * pageSize + 1 }} - {{ Math.min(currentPage * pageSize, totalMappings) }} of {{ totalMappings }}
         </div>
       </div>
-    </div>
+    }
+  </div>
 
-    <!-- Right Panel: Stub Details -->
-    <div class="details-panel">
-      <div *ngIf="!selectedMapping" class="no-selection">
+  <!-- Right Panel: Stub Details -->
+  <div class="details-panel">
+    @if (!selectedMapping) {
+      <div class="no-selection">
         <i class="fas fa-mouse-pointer"></i>
         <p>Select a stub to view details</p>
       </div>
+    }
 
-      <div *ngIf="selectedMapping" class="stub-details">
+    @if (selectedMapping) {
+      <div class="stub-details">
         <!-- Details Header -->
         <div class="details-header">
           <h3>Stub details</h3>
@@ -178,326 +200,346 @@
           </div>
         </div>
 
-        <!-- View Tabs -->
-        <div class="view-tabs">
-          <span class="view-tab" [class.active]="activeViewTab === 'details'" (click)="setViewTab('details')">
-            <i class="fas fa-list-ul"></i> Details
-          </span>
-          <span class="view-tab" [class.active]="activeViewTab === 'json'" (click)="setViewTab('json')">
-            <i class="fas fa-code"></i> Complete Mapping
-          </span>
-        </div>
+        <!-- View Tabs (ngb-nav) -->
+        <ul ngbNav #viewNav="ngbNav" [(activeId)]="activeViewTab" class="nav-tabs mt-2 ms-2">
+          <li [ngbNavItem]="'details'">
+            <button ngbNavLink (click)="setViewTab('details')">
+              <i class="fas fa-list-ul"></i> Details
+            </button>
+            <ng-template ngbNavContent>
+              <!-- Name -->
+              <div class="detail-section">
+                <label class="detail-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [value]="selectedMapping.name || 'Unnamed stub'"
+                  readonly
+                />
+              </div>
 
-        <!-- Details View -->
-        <div *ngIf="activeViewTab === 'details'">
-          <!-- Name -->
-          <div class="detail-section">
-          <label class="detail-label">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="selectedMapping.name || 'Unnamed stub'"
-            readonly
-          />
-        </div>
-
-        <!-- Request Section -->
-        <div class="detail-section">
-          <h4>Request</h4>
-          <div class="request-line">
-            <span class="badge method-badge" [ngClass]="'method-' + (selectedMapping.request?.method || 'ANY')">
-              {{ selectedMapping.request?.method || 'ANY' }}
-            </span>
-            <span class="request-url">{{ getUrl(selectedMapping) }}</span>
-          </div>
-        </div>
-
-        <!-- Response Section -->
-        <div class="detail-section">
-          <h4>Response</h4>
-          <div class="response-tabs">
-            <span class="tab" [class.active]="activeResponseTab === 'direct'" (click)="setResponseTab('direct')">Direct</span>
-            <span class="tab" [class.active]="activeResponseTab === 'fault'" (click)="setResponseTab('fault')">Fault</span>
-            <span class="tab" [class.active]="activeResponseTab === 'proxy'" (click)="setResponseTab('proxy')">Proxy</span>
-          </div>
-
-          <!-- Direct Response Tab -->
-          <div *ngIf="activeResponseTab === 'direct'">
-            <div class="form-group mt-3">
-              <label class="detail-label">Status</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                [value]="selectedMapping.response?.status || 200"
-                readonly
-              />
-            </div>
-
-            <div class="form-group mt-3" *ngIf="selectedMapping.response?.headers">
-              <label class="detail-label">Headers</label>
-              <div class="headers-list">
-                <div *ngFor="let header of getHeaders(selectedMapping)" class="header-item">
-                  <span class="header-key">{{ header.key }}</span>
-                  <span class="header-value">{{ header.value }}</span>
+              <!-- Request Section -->
+              <div class="detail-section">
+                <h4>Request</h4>
+                <div class="request-line">
+                  <span class="badge method-badge" [ngClass]="'method-' + (selectedMapping.request.method || 'ANY')">
+                    {{ selectedMapping.request.method || 'ANY' }}
+                  </span>
+                  <span class="request-url">{{ getUrl(selectedMapping) }}</span>
                 </div>
               </div>
-            </div>
 
-            <!-- Delay Configuration Display -->
-            <div class="form-group mt-3" *ngIf="selectedMapping.response?.fixedDelayMilliseconds || selectedMapping.response?.delayDistribution || selectedMapping.response?.chunkedDribbleDelay">
-              <label class="detail-label">
-                <i class="fas fa-clock"></i> Response Delay
-              </label>
+              <!-- Response Section with inner tabs -->
+              <div class="detail-section">
+                <h4>Response</h4>
+                <ul ngbNav #responseNav="ngbNav" [(activeId)]="activeResponseTab" class="nav-tabs">
+                  <li [ngbNavItem]="'direct'">
+                    <button ngbNavLink (click)="setResponseTab('direct')">Direct</button>
+                    <ng-template ngbNavContent>
+                      <div class="form-group mt-3">
+                        <label class="detail-label">Status</label>
+                        <input
+                          type="text"
+                          class="form-control form-control-sm"
+                          [value]="selectedMapping.response?.status || 200"
+                          readonly
+                        />
+                      </div>
 
-              <!-- Fixed Delay -->
-              <div *ngIf="selectedMapping.response?.fixedDelayMilliseconds" class="alert alert-info mb-0">
-                <strong>Fixed delay:</strong> {{ selectedMapping.response?.fixedDelayMilliseconds }} ms
-                <p class="mb-0 mt-1"><small>Response will be delayed by a fixed {{ selectedMapping.response?.fixedDelayMilliseconds }}ms</small></p>
+                      @if (selectedMapping.response?.headers) {
+                        <div class="form-group mt-3">
+                          <label class="detail-label">Headers</label>
+                          <div class="headers-list">
+                            @for (header of getHeaders(selectedMapping); track header.key) {
+                              <div class="header-item">
+                                <span class="header-key">{{ header.key }}</span>
+                                <span class="header-value">{{ header.value }}</span>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      }
+
+                      <!-- Delay Configuration Display -->
+                      @if (selectedMapping.response?.fixedDelayMilliseconds || selectedMapping.response?.delayDistribution || selectedMapping.response?.chunkedDribbleDelay) {
+                        <div class="form-group mt-3">
+                          <label class="detail-label">
+                            <i class="fas fa-clock"></i> Response Delay
+                          </label>
+
+                          @if (selectedMapping.response?.fixedDelayMilliseconds) {
+                            <div class="alert alert-info mb-0">
+                              <strong>Fixed delay:</strong> {{ selectedMapping.response?.fixedDelayMilliseconds }} ms
+                              <p class="mb-0 mt-1"><small>Response will be delayed by a fixed {{ selectedMapping.response?.fixedDelayMilliseconds }}ms</small></p>
+                            </div>
+                          }
+
+                          @if (selectedMapping.response?.delayDistribution?.type === 'uniform') {
+                            <div class="alert alert-info mb-0">
+                              <strong>Random delay - Uniform distribution</strong>
+                              <p class="mb-0 mt-1">
+                                <small>Lower bound: {{ selectedMapping.response?.delayDistribution?.lower }} ms</small><br>
+                                <small>Upper bound: {{ selectedMapping.response?.delayDistribution?.upper }} ms</small>
+                              </p>
+                              <p class="mb-0 mt-1"><small class="text-muted">Delay randomly chosen between bounds with equal probability</small></p>
+                            </div>
+                          }
+
+                          @if (selectedMapping.response?.delayDistribution?.type === 'lognormal') {
+                            <div class="alert alert-info mb-0">
+                              <strong>Random delay - Log normal distribution</strong>
+                              <p class="mb-0 mt-1">
+                                <small>Median: {{ selectedMapping.response?.delayDistribution?.median }} ms</small><br>
+                                <small>Sigma: {{ selectedMapping.response?.delayDistribution?.sigma }}</small>
+                              </p>
+                              <p class="mb-0 mt-1"><small class="text-muted">Delay follows a log-normal distribution (realistic network delay simulation)</small></p>
+                            </div>
+                          }
+
+                          @if (selectedMapping.response?.chunkedDribbleDelay) {
+                            <div class="alert alert-info mb-0">
+                              <strong>Chunked dribble delay</strong>
+                              <p class="mb-0 mt-1">
+                                <small>Number of chunks: {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }}</small><br>
+                                <small>Total duration: {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }} ms</small>
+                              </p>
+                              <p class="mb-0 mt-1"><small class="text-muted">Response body split into {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }} chunks sent over {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }}ms</small></p>
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      @if (selectedMapping.response?.jsonBody || selectedMapping.response?.body) {
+                        <div class="form-group mt-3">
+                          <label class="detail-label">Body</label>
+                          <div class="body-editor">
+                            <div class="editor-toolbar">
+                              <span class="badge bg-secondary">JSON</span>
+                              <button class="btn btn-link btn-sm" (click)="copyBody()">
+                                <i class="fas fa-copy"></i> Copy
+                              </button>
+                            </div>
+                            <pre class="json-body">{{ getFormattedBody(selectedMapping) }}</pre>
+                          </div>
+                        </div>
+                      }
+                    </ng-template>
+                  </li>
+
+                  <li [ngbNavItem]="'fault'">
+                    <button ngbNavLink (click)="setResponseTab('fault')">Fault</button>
+                    <ng-template ngbNavContent>
+                      <div class="alert alert-info mt-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Fault Response - Network Error Simulation</strong><br>
+                        WireMock can simulate various network failures and errors to test how your application handles error conditions.
+                      </div>
+
+                      @if (selectedMapping.response?.fault) {
+                        <div class="alert alert-warning mt-3">
+                          <i class="fas fa-bolt"></i>
+                          <strong>Active Fault: {{ selectedMapping.response?.fault }}</strong>
+                        </div>
+
+                        <div class="form-group mt-3">
+                          <label class="detail-label">Fault Type</label>
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control form-control-sm"
+                              [value]="selectedMapping.response?.fault"
+                              readonly
+                            />
+                            <button class="btn btn-sm btn-outline-secondary" (click)="editStub()">
+                              <i class="fas fa-edit"></i> Edit
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Fault Description -->
+                        <div class="card mt-3">
+                          <div class="card-header">
+                            <i class="fas fa-info-circle"></i> Fault Behavior
+                          </div>
+                          <div class="card-body">
+                            @if (selectedMapping.response?.fault === 'EMPTY_RESPONSE') {
+                              <h6>EMPTY_RESPONSE</h6>
+                              <p>The connection will be closed immediately without sending any response data.</p>
+                              <ul>
+                                <li>Socket closes with no HTTP response</li>
+                                <li>Client receives connection reset or EOF error</li>
+                                <li>Useful for testing connection timeout scenarios</li>
+                              </ul>
+                            }
+                            @if (selectedMapping.response?.fault === 'RANDOM_DATA_THEN_CLOSE') {
+                              <h6>RANDOM_DATA_THEN_CLOSE</h6>
+                              <p>Sends random garbage data instead of valid HTTP response, then closes the connection.</p>
+                              <ul>
+                                <li>Sends malformed/corrupted HTTP data</li>
+                                <li>Client receives unparseable response</li>
+                                <li>Useful for testing response parsing error handling</li>
+                              </ul>
+                            }
+                            @if (selectedMapping.response?.fault === 'MALFORMED_RESPONSE_CHUNK') {
+                              <h6>MALFORMED_RESPONSE_CHUNK</h6>
+                              <p>Starts with a valid HTTP 200 response, then sends corrupted data mid-response.</p>
+                              <ul>
+                                <li>Initial HTTP headers appear valid (200 OK)</li>
+                                <li>Response body contains malformed chunk encoding</li>
+                                <li>Connection closes unexpectedly</li>
+                                <li>Useful for testing partial response scenarios</li>
+                              </ul>
+                            }
+                            @if (selectedMapping.response?.fault === 'CONNECTION_RESET_BY_PEER') {
+                              <h6>CONNECTION_RESET_BY_PEER</h6>
+                              <p>TCP connection is forcefully reset by the server.</p>
+                              <ul>
+                                <li>Simulates abrupt connection termination</li>
+                                <li>Client receives "Connection reset by peer" error</li>
+                                <li>No HTTP response is sent</li>
+                                <li>Useful for testing network failure resilience</li>
+                              </ul>
+                            }
+                          </div>
+                        </div>
+                      } @else {
+                        <div class="card mt-3">
+                          <div class="card-header">
+                            <i class="fas fa-check-circle text-success"></i> No Fault Configured
+                          </div>
+                          <div class="card-body">
+                            <p>This stub returns normal HTTP responses without simulating errors.</p>
+                            <p class="mb-0">To configure a fault response, click the <strong>Edit</strong> button and select a fault type.</p>
+                          </div>
+                        </div>
+
+                        <div class="card mt-3">
+                          <div class="card-header">
+                            <i class="fas fa-book"></i> Available Fault Types
+                          </div>
+                          <div class="card-body">
+                            <div class="mb-3">
+                              <h6><span class="badge bg-danger">EMPTY_RESPONSE</span></h6>
+                              <p class="small mb-0">Close socket with no response - connection terminates immediately</p>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                              <h6><span class="badge bg-danger">RANDOM_DATA_THEN_CLOSE</span></h6>
+                              <p class="small mb-0">Send bad HTTP data then close socket - unparseable garbage response</p>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                              <h6><span class="badge bg-danger">MALFORMED_RESPONSE_CHUNK</span></h6>
+                              <p class="small mb-0">Send 200 response then bad HTTP data - partial valid response followed by corruption</p>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                              <h6><span class="badge bg-danger">CONNECTION_RESET_BY_PEER</span></h6>
+                              <p class="small mb-0">Peer connection reset - TCP connection forcefully terminated</p>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </ng-template>
+                  </li>
+
+                  <li [ngbNavItem]="'proxy'">
+                    <button ngbNavLink (click)="setResponseTab('proxy')">Proxy</button>
+                    <ng-template ngbNavContent>
+                      <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Proxy Response</strong><br>
+                        Forwards requests to a real backend server.
+                      </div>
+                      @if (selectedMapping.response?.proxyBaseUrl) {
+                        <div class="form-group mt-3">
+                          <label class="detail-label">Proxy Base URL</label>
+                          <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            [value]="selectedMapping.response?.proxyBaseUrl"
+                            readonly
+                          />
+                        </div>
+                      } @else {
+                        <div class="text-muted mt-3">
+                          <em>No proxy response configured for this stub.</em>
+                        </div>
+                      }
+                    </ng-template>
+                  </li>
+                </ul>
+                <div [ngbNavOutlet]="responseNav" class="mt-2"></div>
               </div>
 
-              <!-- Delay Distribution - Uniform -->
-              <div *ngIf="selectedMapping.response?.delayDistribution?.type === 'uniform'" class="alert alert-info mb-0">
-                <strong>Random delay - Uniform distribution</strong>
-                <p class="mb-0 mt-1">
-                  <small>Lower bound: {{ selectedMapping.response?.delayDistribution?.lower }} ms</small><br>
-                  <small>Upper bound: {{ selectedMapping.response?.delayDistribution?.upper }} ms</small>
-                </p>
-                <p class="mb-0 mt-1"><small class="text-muted">Delay randomly chosen between bounds with equal probability</small></p>
-              </div>
+              <!-- Scenario Section -->
+              @if (selectedMapping.scenarioName) {
+                <div class="detail-section">
+                  <h4>
+                    <i class="fas fa-sitemap"></i>
+                    Scenario
+                  </h4>
+                  <div class="scenario-info-display">
+                    <div class="scenario-field">
+                      <label class="scenario-field-label">Scenario Name:</label>
+                      <span class="badge bg-indigo scenario-badge">
+                        {{ selectedMapping.scenarioName }}
+                      </span>
+                    </div>
+                    @if (selectedMapping.requiredScenarioState) {
+                      <div class="scenario-field">
+                        <label class="scenario-field-label">Required State:</label>
+                        <span class="badge bg-warning text-dark">
+                          {{ selectedMapping.requiredScenarioState }}
+                        </span>
+                      </div>
+                    }
+                    @if (selectedMapping.newScenarioState) {
+                      <div class="scenario-field">
+                        <label class="scenario-field-label">New State:</label>
+                        <span class="badge bg-success">
+                          {{ selectedMapping.newScenarioState }}
+                        </span>
+                      </div>
+                    }
+                  </div>
+                  <p class="text-muted small mt-2">
+                    <i class="fas fa-info-circle"></i>
+                    This stub participates in stateful behavior. It will only match when the scenario is in the required state.
+                  </p>
+                </div>
+              }
+            </ng-template>
+          </li>
 
-              <!-- Delay Distribution - Log Normal -->
-              <div *ngIf="selectedMapping.response?.delayDistribution?.type === 'lognormal'" class="alert alert-info mb-0">
-                <strong>Random delay - Log normal distribution</strong>
-                <p class="mb-0 mt-1">
-                  <small>Median: {{ selectedMapping.response?.delayDistribution?.median }} ms</small><br>
-                  <small>Sigma: {{ selectedMapping.response?.delayDistribution?.sigma }}</small>
-                </p>
-                <p class="mb-0 mt-1"><small class="text-muted">Delay follows a log-normal distribution (realistic network delay simulation)</small></p>
-              </div>
-
-              <!-- Chunked Dribble Delay -->
-              <div *ngIf="selectedMapping.response?.chunkedDribbleDelay" class="alert alert-info mb-0">
-                <strong>Chunked dribble delay</strong>
-                <p class="mb-0 mt-1">
-                  <small>Number of chunks: {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }}</small><br>
-                  <small>Total duration: {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }} ms</small>
-                </p>
-                <p class="mb-0 mt-1"><small class="text-muted">Response body split into {{ selectedMapping.response?.chunkedDribbleDelay?.numberOfChunks }} chunks sent over {{ selectedMapping.response?.chunkedDribbleDelay?.totalDuration }}ms</small></p>
-              </div>
-            </div>
-
-            <div class="form-group mt-3" *ngIf="selectedMapping.response?.jsonBody || selectedMapping.response?.body">
-              <label class="detail-label">Body</label>
-              <div class="body-editor">
-                <div class="editor-toolbar">
-                  <span class="badge bg-secondary">JSON</span>
-                  <button class="btn btn-link btn-sm" (click)="copyBody()">
-                    <i class="fas fa-copy"></i> Copy
+          <li [ngbNavItem]="'json'">
+            <button ngbNavLink (click)="setViewTab('json')">
+              <i class="fas fa-code"></i> Complete Mapping
+            </button>
+            <ng-template ngbNavContent>
+              <div class="detail-section">
+                <div class="json-viewer">
+                  <button class="btn btn-link btn-sm" (click)="copyJson()">
+                    <i class="fas fa-copy"></i> Copy JSON
                   </button>
-                </div>
-                <pre class="json-body">{{ getFormattedBody(selectedMapping) }}</pre>
-              </div>
-            </div>
-          </div>
-
-          <!-- Fault Response Tab -->
-          <div *ngIf="activeResponseTab === 'fault'">
-            <div class="alert alert-info mt-3">
-              <i class="fas fa-exclamation-triangle"></i>
-              <strong>Fault Response - Network Error Simulation</strong><br>
-              WireMock can simulate various network failures and errors to test how your application handles error conditions.
-            </div>
-
-            <!-- Fault Configured -->
-            <div *ngIf="selectedMapping.response?.fault">
-              <div class="alert alert-warning mt-3">
-                <i class="fas fa-bolt"></i>
-                <strong>Active Fault: {{ selectedMapping.response?.fault }}</strong>
-              </div>
-
-              <div class="form-group mt-3">
-                <label class="detail-label">Fault Type</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    [value]="selectedMapping.response?.fault"
-                    readonly
-                  />
-                  <button class="btn btn-sm btn-outline-secondary" (click)="editStub()">
-                    <i class="fas fa-edit"></i> Edit
-                  </button>
+                  <pre class="json-content">{{ selectedMapping | json }}</pre>
                 </div>
               </div>
-
-              <!-- Fault Description -->
-              <div class="card mt-3">
-                <div class="card-header">
-                  <i class="fas fa-info-circle"></i> Fault Behavior
-                </div>
-                <div class="card-body">
-                  <div *ngIf="selectedMapping.response?.fault === 'EMPTY_RESPONSE'">
-                    <h6>EMPTY_RESPONSE</h6>
-                    <p>The connection will be closed immediately without sending any response data.</p>
-                    <ul>
-                      <li>Socket closes with no HTTP response</li>
-                      <li>Client receives connection reset or EOF error</li>
-                      <li>Useful for testing connection timeout scenarios</li>
-                    </ul>
-                  </div>
-
-                  <div *ngIf="selectedMapping.response?.fault === 'RANDOM_DATA_THEN_CLOSE'">
-                    <h6>RANDOM_DATA_THEN_CLOSE</h6>
-                    <p>Sends random garbage data instead of valid HTTP response, then closes the connection.</p>
-                    <ul>
-                      <li>Sends malformed/corrupted HTTP data</li>
-                      <li>Client receives unparseable response</li>
-                      <li>Useful for testing response parsing error handling</li>
-                    </ul>
-                  </div>
-
-                  <div *ngIf="selectedMapping.response?.fault === 'MALFORMED_RESPONSE_CHUNK'">
-                    <h6>MALFORMED_RESPONSE_CHUNK</h6>
-                    <p>Starts with a valid HTTP 200 response, then sends corrupted data mid-response.</p>
-                    <ul>
-                      <li>Initial HTTP headers appear valid (200 OK)</li>
-                      <li>Response body contains malformed chunk encoding</li>
-                      <li>Connection closes unexpectedly</li>
-                      <li>Useful for testing partial response scenarios</li>
-                    </ul>
-                  </div>
-
-                  <div *ngIf="selectedMapping.response?.fault === 'CONNECTION_RESET_BY_PEER'">
-                    <h6>CONNECTION_RESET_BY_PEER</h6>
-                    <p>TCP connection is forcefully reset by the server.</p>
-                    <ul>
-                      <li>Simulates abrupt connection termination</li>
-                      <li>Client receives "Connection reset by peer" error</li>
-                      <li>No HTTP response is sent</li>
-                      <li>Useful for testing network failure resilience</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- No Fault Configured -->
-            <div *ngIf="!selectedMapping.response?.fault">
-              <div class="card mt-3">
-                <div class="card-header">
-                  <i class="fas fa-check-circle text-success"></i> No Fault Configured
-                </div>
-                <div class="card-body">
-                  <p>This stub returns normal HTTP responses without simulating errors.</p>
-                  <p class="mb-0">To configure a fault response, click the <strong>Edit</strong> button and select a fault type.</p>
-                </div>
-              </div>
-
-              <!-- Available Fault Types Documentation -->
-              <div class="card mt-3">
-                <div class="card-header">
-                  <i class="fas fa-book"></i> Available Fault Types
-                </div>
-                <div class="card-body">
-                  <div class="mb-3">
-                    <h6><span class="badge bg-danger">EMPTY_RESPONSE</span></h6>
-                    <p class="small mb-0">Close socket with no response - connection terminates immediately</p>
-                  </div>
-                  <hr>
-                  <div class="mb-3">
-                    <h6><span class="badge bg-danger">RANDOM_DATA_THEN_CLOSE</span></h6>
-                    <p class="small mb-0">Send bad HTTP data then close socket - unparseable garbage response</p>
-                  </div>
-                  <hr>
-                  <div class="mb-3">
-                    <h6><span class="badge bg-danger">MALFORMED_RESPONSE_CHUNK</span></h6>
-                    <p class="small mb-0">Send 200 response then bad HTTP data - partial valid response followed by corruption</p>
-                  </div>
-                  <hr>
-                  <div class="mb-3">
-                    <h6><span class="badge bg-danger">CONNECTION_RESET_BY_PEER</span></h6>
-                    <p class="small mb-0">Peer connection reset - TCP connection forcefully terminated</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Proxy Response Tab -->
-          <div *ngIf="activeResponseTab === 'proxy'">
-            <div class="alert alert-info mt-3">
-              <i class="fas fa-info-circle"></i>
-              <strong>Proxy Response</strong><br>
-              Forwards requests to a real backend server.
-            </div>
-            <div class="form-group mt-3" *ngIf="selectedMapping.response?.proxyBaseUrl">
-              <label class="detail-label">Proxy Base URL</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                [value]="selectedMapping.response?.proxyBaseUrl"
-                readonly
-              />
-            </div>
-            <div *ngIf="!selectedMapping.response?.proxyBaseUrl" class="text-muted mt-3">
-              <em>No proxy response configured for this stub.</em>
-            </div>
-          </div>
-          </div>
-        </div>
-
-        <!-- Scenario Section -->
-        <div class="detail-section" *ngIf="selectedMapping.scenarioName">
-          <h4>
-            <i class="fas fa-sitemap"></i>
-            Scenario
-          </h4>
-          <div class="scenario-info-display">
-            <div class="scenario-field">
-              <label class="scenario-field-label">Scenario Name:</label>
-              <span class="badge bg-indigo scenario-badge">
-                {{ selectedMapping.scenarioName }}
-              </span>
-            </div>
-            <div class="scenario-field" *ngIf="selectedMapping.requiredScenarioState">
-              <label class="scenario-field-label">Required State:</label>
-              <span class="badge bg-warning text-dark">
-                {{ selectedMapping.requiredScenarioState }}
-              </span>
-            </div>
-            <div class="scenario-field" *ngIf="selectedMapping.newScenarioState">
-              <label class="scenario-field-label">New State:</label>
-              <span class="badge bg-success">
-                {{ selectedMapping.newScenarioState }}
-              </span>
-            </div>
-          </div>
-          <p class="text-muted small mt-2">
-            <i class="fas fa-info-circle"></i>
-            This stub participates in stateful behavior. It will only match when the scenario is in the required state.
-          </p>
-        </div>
-
-        <!-- JSON View -->
-        <div *ngIf="activeViewTab === 'json'">
-          <div class="detail-section">
-            <div class="json-viewer">
-              <button class="btn btn-link btn-sm" (click)="copyJson()">
-                <i class="fas fa-copy"></i> Copy JSON
-              </button>
-              <pre class="json-content">{{ selectedMapping | json }}</pre>
-            </div>
-          </div>
-        </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="viewNav" class="mt-2"></div>
       </div>
-    </div>
+    }
   </div>
+</div>
 
-<div class="modal-backdrop" *ngIf="showCreateModal" (click)="closeCreateModal()"></div>
-<div class="modal-dialog" *ngIf="showCreateModal" (click)="$event.stopPropagation()">
-<div class="modal-content">
+<!-- ============================================================
+     Create / Edit Stub Modal
+     ============================================================ -->
+<ng-template #createModalTpl let-modal>
   <div class="modal-header">
-    <h3>{{ editMode === 'create' ? 'Create New Stub' : 'Edit Stub' }}</h3>
+    <h3 class="modal-title">{{ editMode === 'create' ? 'Create New Stub' : 'Edit Stub' }}</h3>
     <div class="mode-toggle">
       <button
         class="btn btn-sm"
@@ -514,761 +556,876 @@
         <i class="fas fa-code"></i> Advanced
       </button>
     </div>
-    <button class="btn btn-link btn-sm" (click)="closeCreateModal()">
-      <i class="fas fa-times"></i>
-    </button>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
   </div>
 
   <div class="modal-body">
     <!-- Simple Mode -->
-    <div *ngIf="editorMode === 'simple'" class="simple-editor">
+    @if (editorMode === 'simple') {
+      <div class="simple-editor">
 
-      <!-- SECTION: STUB INFO (full width) -->
-      <div class="form-section mb-2">
-        <div class="section-header" [class.expanded]="isStubInfoExpanded" (click)="toggleStubInfoSection()">
-          <span class="section-title"><i class="fas fa-tag me-1"></i> STUB INFO</span>
-          <i class="fas" [class.fa-chevron-down]="!isStubInfoExpanded" [class.fa-chevron-up]="isStubInfoExpanded"></i>
-        </div>
-        <div *ngIf="isStubInfoExpanded" class="section-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group mb-2">
-                <label class="form-label">Name <small class="text-muted">(optional)</small></label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.name" placeholder="My API Stub">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group mb-2">
-                <label class="form-label">
-                  Priority
-                  <i class="fas fa-info-circle text-muted ms-1" title="1 = highest priority. When multiple stubs match the same request, the one with the lowest priority number wins."></i>
-                </label>
-                <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.priority" min="1" placeholder="5">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group mb-2">
-                <label class="form-label d-block">
-                  Persistent
-                  <i class="fas fa-info-circle text-muted ms-1" title="If checked, this stub survives a 'Reset all stubs' action."></i>
-                </label>
-                <div class="form-check form-switch mt-1">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.persistent" id="persistentCheck">
-                  <label class="form-check-label" for="persistentCheck">{{ simpleForm.persistent ? 'Yes' : 'No' }}</label>
-                </div>
-              </div>
-            </div>
+        <!-- SECTION: STUB INFO (full width) -->
+        <div class="form-section mb-2">
+          <div class="section-header" [class.expanded]="isStubInfoExpanded" (click)="toggleStubInfoSection()">
+            <span class="section-title"><i class="fas fa-tag me-1"></i> STUB INFO</span>
+            <i class="fas" [class.fa-chevron-down]="!isStubInfoExpanded" [class.fa-chevron-up]="isStubInfoExpanded"></i>
           </div>
-        </div>
-      </div>
-
-      <!-- TWO-PANEL LAYOUT: REQUEST + RESPONSE -->
-      <div class="two-panel-layout mb-2">
-
-        <!-- PANEL: REQUEST MATCHING -->
-        <div class="side-panel" [class.collapsed]="isRequestPanelCollapsed">
-          <div class="side-panel-header" [class.collapsed]="isRequestPanelCollapsed">
-            <button class="panel-collapse-btn" (click)="isRequestPanelCollapsed = !isRequestPanelCollapsed" [title]="isRequestPanelCollapsed ? 'Expand Request' : 'Collapse Request'">
-              <i class="fas" [class.fa-chevron-left]="!isRequestPanelCollapsed" [class.fa-chevron-right]="isRequestPanelCollapsed"></i>
-            </button>
-            <span class="side-panel-title"><i class="fas fa-arrow-right me-1"></i> REQUEST MATCHING</span>
-          </div>
-          <div class="side-panel-body" *ngIf="!isRequestPanelCollapsed">
-            <div class="row mb-2">
-              <div class="col-md-2">
-                <label class="form-label">Method</label>
-                <select class="form-select form-select-sm" [(ngModel)]="simpleForm.method">
-                  <option value="GET">GET</option>
-                  <option value="POST">POST</option>
-                  <option value="PUT">PUT</option>
-                  <option value="DELETE">DELETE</option>
-                  <option value="PATCH">PATCH</option>
-                  <option value="HEAD">HEAD</option>
-                  <option value="OPTIONS">OPTIONS</option>
-                  <option value="TRACE">TRACE</option>
-                  <option value="ANY">ANY</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">URL Type</label>
-                <select class="form-select form-select-sm" [(ngModel)]="simpleForm.urlType">
-                  <option value="url">Exact URL (path + query)</option>
-                  <option value="urlPath">Exact Path (ignores query)</option>
-                  <option value="urlPattern">URL Pattern (regex)</option>
-                  <option value="urlPathPattern">Path Pattern (regex)</option>
-                </select>
-              </div>
-              <div class="col-md-7">
-                <label class="form-label">URL</label>
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  [ngClass]="getUrlValidationClass()"
-                  [(ngModel)]="simpleForm.url"
-                  placeholder="/api/users">
-                <div *ngIf="simpleForm.url && (simpleForm.urlType === 'urlPattern' || simpleForm.urlType === 'urlPathPattern')">
-                  <small *ngIf="isValidRegex(simpleForm.url)" class="text-success"><i class="fas fa-check"></i> Valid regex</small>
-                  <small *ngIf="!isValidRegex(simpleForm.url)" class="text-danger"><i class="fas fa-times"></i> Invalid regex</small>
-                </div>
-              </div>
-            </div>
-
-            <!-- Subsection: Query Parameters -->
-            <div class="subsection mb-2">
-              <div class="subsection-header" [class.expanded]="isQueryParamsExpanded" (click)="toggleQueryParamsSection()">
-                <span>
-                  Query Parameters
-                  <span *ngIf="simpleForm.queryParameters.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.queryParameters.length }}</span>
-                </span>
-                <div class="d-flex align-items-center gap-2">
-                  <button class="btn btn-link btn-sm py-0" (click)="addQueryParam(); $event.stopPropagation(); isQueryParamsExpanded = true">
-                    <i class="fas fa-plus"></i> Add
-                  </button>
-                  <i class="fas" [class.fa-chevron-down]="!isQueryParamsExpanded" [class.fa-chevron-up]="isQueryParamsExpanded"></i>
-                </div>
-              </div>
-              <div *ngIf="isQueryParamsExpanded" class="subsection-body">
-                <div *ngFor="let param of simpleForm.queryParameters; let i = index" class="d-flex gap-1 mb-1">
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
-                  <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
-                    <option value="equalTo">equalTo</option>
-                    <option value="equalToCI">equalTo (case insensitive)</option>
-                    <option value="contains">contains</option>
-                    <option value="doesNotContain">doesNotContain</option>
-                    <option value="matches">matches (regex)</option>
-                    <option value="doesNotMatch">doesNotMatch (regex)</option>
-                    <option value="absent">absent</option>
-                  </select>
-                  <input *ngIf="predicateNeedsValue(param.predicate)" type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
-                  <button class="btn btn-sm btn-outline-danger" (click)="removeQueryParam(i)"><i class="fas fa-times"></i></button>
-                </div>
-                <div *ngIf="simpleForm.queryParameters.length === 0" class="text-muted small">No query parameters. Click <strong>Add</strong> to add one.</div>
-              </div>
-            </div>
-
-            <!-- Subsection: Request Headers -->
-            <div class="subsection mb-2">
-              <div class="subsection-header" [class.expanded]="isRequestHeadersExpanded" (click)="toggleRequestHeadersSection()">
-                <span>
-                  Request Headers
-                  <span *ngIf="simpleForm.requestHeaders.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.requestHeaders.length }}</span>
-                </span>
-                <div class="d-flex align-items-center gap-2">
-                  <button class="btn btn-link btn-sm py-0" (click)="addRequestHeader(); $event.stopPropagation(); isRequestHeadersExpanded = true">
-                    <i class="fas fa-plus"></i> Add
-                  </button>
-                  <i class="fas" [class.fa-chevron-down]="!isRequestHeadersExpanded" [class.fa-chevron-up]="isRequestHeadersExpanded"></i>
-                </div>
-              </div>
-              <div *ngIf="isRequestHeadersExpanded" class="subsection-body">
-                <div *ngFor="let header of simpleForm.requestHeaders; let i = index" class="d-flex gap-1 mb-1">
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
-                  <select class="form-select form-select-sm" [(ngModel)]="header.predicate" style="flex: 2">
-                    <option value="equalTo">equalTo</option>
-                    <option value="equalToCI">equalTo (case insensitive)</option>
-                    <option value="contains">contains</option>
-                    <option value="doesNotContain">doesNotContain</option>
-                    <option value="matches">matches (regex)</option>
-                    <option value="doesNotMatch">doesNotMatch (regex)</option>
-                    <option value="absent">absent</option>
-                  </select>
-                  <input *ngIf="predicateNeedsValue(header.predicate)" type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Value" style="flex: 3">
-                  <button class="btn btn-sm btn-outline-danger" (click)="removeRequestHeader(i)"><i class="fas fa-times"></i></button>
-                </div>
-                <div *ngIf="simpleForm.requestHeaders.length === 0" class="text-muted small">No request headers. Click <strong>Add</strong> to add one.</div>
-              </div>
-            </div>
-
-            <!-- Subsection: Body Patterns -->
-            <div class="subsection mb-2">
-              <div class="subsection-header" [class.expanded]="isBodyPatternsExpanded" (click)="toggleBodyPatternsSection()">
-                <span>
-                  Body Patterns
-                  <span *ngIf="simpleForm.bodyPatterns.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.bodyPatterns.length }}</span>
-                </span>
-                <div class="d-flex align-items-center gap-2">
-                  <button class="btn btn-link btn-sm py-0" (click)="addBodyPattern(); $event.stopPropagation(); isBodyPatternsExpanded = true">
-                    <i class="fas fa-plus"></i> Add
-                  </button>
-                  <i class="fas" [class.fa-chevron-down]="!isBodyPatternsExpanded" [class.fa-chevron-up]="isBodyPatternsExpanded"></i>
-                </div>
-              </div>
-              <div *ngIf="isBodyPatternsExpanded" class="subsection-body">
-                <div *ngFor="let pattern of simpleForm.bodyPatterns; let i = index" class="mb-2">
-                  <div class="d-flex gap-1 mb-1">
-                    <select class="form-select form-select-sm" [(ngModel)]="pattern.predicate" style="flex: 2">
-                      <option value="contains">contains</option>
-                      <option value="doesNotContain">doesNotContain</option>
-                      <option value="equalTo">equalTo</option>
-                      <option value="equalToJson">equalToJson</option>
-                      <option value="equalToXml">equalToXml</option>
-                      <option value="matches">matches (regex)</option>
-                      <option value="matchesJsonPath">matchesJsonPath</option>
-                      <option value="matchesXPath">matchesXPath</option>
-                    </select>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="pattern.value" placeholder="Value" style="flex: 5">
-                    <button class="btn btn-sm btn-outline-danger" (click)="removeBodyPattern(i)"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div *ngIf="pattern.predicate === 'equalToJson'" class="d-flex gap-3 ms-2">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreArrayOrder" [id]="'ignoreArrayOrder-' + i">
-                      <label class="form-check-label small" [for]="'ignoreArrayOrder-' + i">Ignore array order</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreExtraElements" [id]="'ignoreExtraEl-' + i">
-                      <label class="form-check-label small" [for]="'ignoreExtraEl-' + i">Ignore extra elements</label>
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="simpleForm.bodyPatterns.length === 0" class="text-muted small">No body patterns. Click <strong>Add</strong> to add one.</div>
-              </div>
-            </div>
-
-            <!-- Subsection: Cookies -->
-            <div class="subsection mb-2">
-              <div class="subsection-header" [class.expanded]="isCookiesExpanded" (click)="toggleCookiesSection()">
-                <span>
-                  Cookies
-                  <span *ngIf="simpleForm.cookies.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.cookies.length }}</span>
-                </span>
-                <div class="d-flex align-items-center gap-2">
-                  <button class="btn btn-link btn-sm py-0" (click)="addCookie(); $event.stopPropagation(); isCookiesExpanded = true">
-                    <i class="fas fa-plus"></i> Add
-                  </button>
-                  <i class="fas" [class.fa-chevron-down]="!isCookiesExpanded" [class.fa-chevron-up]="isCookiesExpanded"></i>
-                </div>
-              </div>
-              <div *ngIf="isCookiesExpanded" class="subsection-body">
-                <div *ngFor="let cookie of simpleForm.cookies; let i = index" class="d-flex gap-1 mb-1">
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="cookie.key" placeholder="Cookie name" style="flex: 2">
-                  <select class="form-select form-select-sm" [(ngModel)]="cookie.predicate" style="flex: 2">
-                    <option value="equalTo">equalTo</option>
-                    <option value="equalToCI">equalTo (case insensitive)</option>
-                    <option value="contains">contains</option>
-                    <option value="doesNotContain">doesNotContain</option>
-                    <option value="matches">matches (regex)</option>
-                    <option value="doesNotMatch">doesNotMatch (regex)</option>
-                    <option value="absent">absent</option>
-                  </select>
-                  <input *ngIf="predicateNeedsValue(cookie.predicate)" type="text" class="form-control form-control-sm" [(ngModel)]="cookie.value" placeholder="Value" style="flex: 3">
-                  <button class="btn btn-sm btn-outline-danger" (click)="removeCookie(i)"><i class="fas fa-times"></i></button>
-                </div>
-                <div *ngIf="simpleForm.cookies.length === 0" class="text-muted small">No cookies. Click <strong>Add</strong> to add one.</div>
-              </div>
-            </div>
-
-            <!-- Subsection: Basic Auth -->
-            <div class="subsection mb-2">
-              <div class="subsection-header" [class.expanded]="isBasicAuthExpanded" (click)="toggleBasicAuthSection()">
-                <span>Basic Authentication</span>
-                <i class="fas" [class.fa-chevron-down]="!isBasicAuthExpanded" [class.fa-chevron-up]="isBasicAuthExpanded"></i>
-              </div>
-              <div *ngIf="isBasicAuthExpanded" class="subsection-body">
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.basicAuthEnabled" id="basicAuthCheck">
-                  <label class="form-check-label" for="basicAuthCheck">Require Basic Auth</label>
-                </div>
-                <div *ngIf="simpleForm.basicAuthEnabled" class="row">
-                  <div class="col-md-6">
-                    <label class="form-label small">Username</label>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthUsername" placeholder="username">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label small">Password</label>
-                    <input type="password" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthPassword" placeholder="password">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Subsection: Form Parameters (POST/PUT/PATCH only) -->
-            <div class="subsection mb-2" *ngIf="isFormMethodWithBody()">
-              <div class="subsection-header" [class.expanded]="isFormParamsExpanded" (click)="toggleFormParamsSection()">
-                <span>
-                  Form Parameters
-                  <span *ngIf="simpleForm.formParameters.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.formParameters.length }}</span>
-                  <small class="text-muted ms-1">(application/x-www-form-urlencoded)</small>
-                </span>
-                <div class="d-flex align-items-center gap-2">
-                  <button class="btn btn-link btn-sm py-0" (click)="addFormParam(); $event.stopPropagation(); isFormParamsExpanded = true">
-                    <i class="fas fa-plus"></i> Add
-                  </button>
-                  <i class="fas" [class.fa-chevron-down]="!isFormParamsExpanded" [class.fa-chevron-up]="isFormParamsExpanded"></i>
-                </div>
-              </div>
-              <div *ngIf="isFormParamsExpanded" class="subsection-body">
-                <div *ngFor="let param of simpleForm.formParameters; let i = index" class="d-flex gap-1 mb-1">
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
-                  <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
-                    <option value="equalTo">equalTo</option>
-                    <option value="equalToCI">equalTo (case insensitive)</option>
-                    <option value="contains">contains</option>
-                    <option value="doesNotContain">doesNotContain</option>
-                    <option value="matches">matches (regex)</option>
-                    <option value="doesNotMatch">doesNotMatch (regex)</option>
-                    <option value="absent">absent</option>
-                  </select>
-                  <input *ngIf="predicateNeedsValue(param.predicate)" type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
-                  <button class="btn btn-sm btn-outline-danger" (click)="removeFormParam(i)"><i class="fas fa-times"></i></button>
-                </div>
-                <div *ngIf="simpleForm.formParameters.length === 0" class="text-muted small">No form parameters. Click <strong>Add</strong> to add one.</div>
-              </div>
-            </div>
-          </div><!-- /side-panel-body request -->
-        </div><!-- /side-panel request -->
-
-        <!-- PANEL DIVIDER -->
-        <div class="panel-divider"></div>
-
-        <!-- PANEL: RESPONSE -->
-        <div class="side-panel" [class.collapsed]="isResponsePanelCollapsed">
-          <div class="side-panel-header" [class.collapsed]="isResponsePanelCollapsed">
-            <button class="panel-collapse-btn" (click)="isResponsePanelCollapsed = !isResponsePanelCollapsed" [title]="isResponsePanelCollapsed ? 'Expand Response' : 'Collapse Response'">
-              <i class="fas" [class.fa-chevron-right]="!isResponsePanelCollapsed" [class.fa-chevron-left]="isResponsePanelCollapsed"></i>
-            </button>
-            <span class="side-panel-title"><i class="fas fa-arrow-left me-1"></i> RESPONSE</span>
-          </div>
-          <div class="side-panel-body" *ngIf="!isResponsePanelCollapsed">
-
-            <!-- Response Mode -->
-            <div class="form-group mb-3">
-              <label class="form-label">Response Mode</label>
-              <div class="btn-group" role="group">
-                <input type="radio" class="btn-check" name="responseMode" id="modeDirect" value="direct" [(ngModel)]="simpleForm.responseMode">
-                <label class="btn btn-sm btn-outline-primary" for="modeDirect"><i class="fas fa-reply me-1"></i>Direct</label>
-                <input type="radio" class="btn-check" name="responseMode" id="modeProxy" value="proxy" [(ngModel)]="simpleForm.responseMode">
-                <label class="btn btn-sm btn-outline-primary" for="modeProxy"><i class="fas fa-exchange-alt me-1"></i>Proxy</label>
-                <input type="radio" class="btn-check" name="responseMode" id="modeFault" value="fault" [(ngModel)]="simpleForm.responseMode">
-                <label class="btn btn-sm btn-outline-danger" for="modeFault"><i class="fas fa-exclamation-triangle me-1"></i>Fault</label>
-              </div>
-            </div>
-
-            <!-- DIRECT MODE -->
-            <div *ngIf="simpleForm.responseMode === 'direct'">
-              <div class="row mb-2">
-                <div class="col-md-3">
-                  <label class="form-label">HTTP Status</label>
-                  <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.status" min="100" max="599" placeholder="200">
-                </div>
-                <div class="col-md-9">
-                  <label class="form-label">Status Message <small class="text-muted">(optional)</small></label>
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.statusMessage" placeholder="OK">
-                </div>
-              </div>
-
-              <!-- Body Type -->
-              <div class="form-group mb-2">
-                <label class="form-label">Body Type</label>
-                <div class="btn-group" role="group">
-                  <input type="radio" class="btn-check" name="bodyType" id="btText" value="text" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
-                  <label class="btn btn-sm btn-outline-secondary" for="btText">Text</label>
-                  <input type="radio" class="btn-check" name="bodyType" id="btJson" value="json" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
-                  <label class="btn btn-sm btn-outline-secondary" for="btJson">JSON</label>
-                  <input type="radio" class="btn-check" name="bodyType" id="btHtml" value="html" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
-                  <label class="btn btn-sm btn-outline-secondary" for="btHtml">HTML</label>
-                  <input type="radio" class="btn-check" name="bodyType" id="btXml" value="xml" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
-                  <label class="btn btn-sm btn-outline-secondary" for="btXml">XML</label>
-                  <input type="radio" class="btn-check" name="bodyType" id="btBase64" value="base64" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
-                  <label class="btn btn-sm btn-outline-secondary" for="btBase64">Base64</label>
-                  <input type="radio" class="btn-check" name="bodyType" id="btFile" value="file" [(ngModel)]="simpleForm.bodyType">
-                  <label class="btn btn-sm btn-outline-secondary" for="btFile">File</label>
-                </div>
-              </div>
-
-              <!-- File body -->
-              <div *ngIf="simpleForm.bodyType === 'file'" class="form-group mb-2">
-                <label class="form-label">Body File Name</label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.bodyFileName" placeholder="response.json">
-                <small class="text-muted">Path relative to WireMock's __files directory</small>
-              </div>
-
-              <!-- Body textarea -->
-              <div *ngIf="simpleForm.bodyType !== 'file'" class="form-group mb-2">
-                <label class="form-label">Response Body</label>
-                <textarea class="form-control json-editor-simple" [(ngModel)]="simpleForm.body" rows="8" placeholder="Response body content"></textarea>
-              </div>
-
-              <!-- Subsection: Response Headers -->
-              <div class="subsection mb-2">
-                <div class="subsection-header" [class.expanded]="isResponseHeadersExpanded" (click)="toggleResponseHeadersSection()">
-                  <span>
-                    Response Headers
-                    <span *ngIf="simpleForm.responseHeaders.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.responseHeaders.length }}</span>
-                  </span>
-                  <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-link btn-sm py-0" (click)="addHeader(); $event.stopPropagation(); isResponseHeadersExpanded = true">
-                      <i class="fas fa-plus"></i> Add
-                    </button>
-                    <i class="fas" [class.fa-chevron-down]="!isResponseHeadersExpanded" [class.fa-chevron-up]="isResponseHeadersExpanded"></i>
-                  </div>
-                </div>
-                <div *ngIf="isResponseHeadersExpanded" class="subsection-body">
-                  <div *ngFor="let header of simpleForm.responseHeaders; let i = index" class="d-flex gap-1 mb-1">
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
-                    <button class="btn btn-sm btn-outline-danger" (click)="removeHeader(i)"><i class="fas fa-times"></i></button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Subsection: Delay -->
-              <div class="subsection mb-2">
-                <div class="subsection-header" [class.expanded]="isDelayExpanded" (click)="toggleDelaySection()">
-                  <span><i class="fas fa-clock me-1"></i> Delay</span>
-                  <i class="fas" [class.fa-chevron-down]="!isDelayExpanded" [class.fa-chevron-up]="isDelayExpanded"></i>
-                </div>
-                <div *ngIf="isDelayExpanded" class="subsection-body">
+          @if (isStubInfoExpanded) {
+            <div class="section-body">
+              <div class="row">
+                <div class="col-md-6">
                   <div class="form-group mb-2">
-                    <select class="form-select form-select-sm" [(ngModel)]="simpleForm.delayType">
-                      <option value="">No delay</option>
-                      <option value="fixed">Fixed delay</option>
-                      <option value="uniform">Random - Uniform distribution</option>
-                      <option value="lognormal">Random - Log normal distribution</option>
-                      <option value="chunked">Chunked dribble delay</option>
+                    <label class="form-label">Name <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.name" placeholder="My API Stub">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mb-2">
+                    <label class="form-label">
+                      Priority
+                      <i class="fas fa-info-circle text-muted ms-1" title="1 = highest priority. When multiple stubs match the same request, the one with the lowest priority number wins."></i>
+                    </label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.priority" min="1" placeholder="5">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mb-2">
+                    <label class="form-label d-block">
+                      Persistent
+                      <i class="fas fa-info-circle text-muted ms-1" title="If checked, this stub survives a 'Reset all stubs' action."></i>
+                    </label>
+                    <div class="form-check form-switch mt-1">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.persistent" id="persistentCheck">
+                      <label class="form-check-label" for="persistentCheck">{{ simpleForm.persistent ? 'Yes' : 'No' }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- TWO-PANEL LAYOUT: REQUEST + RESPONSE -->
+        <div class="two-panel-layout mb-2">
+
+          <!-- PANEL: REQUEST MATCHING -->
+          <div class="side-panel" [class.collapsed]="isRequestPanelCollapsed">
+            <div class="side-panel-header" [class.collapsed]="isRequestPanelCollapsed">
+              <button class="panel-collapse-btn" (click)="isRequestPanelCollapsed = !isRequestPanelCollapsed" [title]="isRequestPanelCollapsed ? 'Expand Request' : 'Collapse Request'">
+                <i class="fas" [class.fa-chevron-left]="!isRequestPanelCollapsed" [class.fa-chevron-right]="isRequestPanelCollapsed"></i>
+              </button>
+              <span class="side-panel-title"><i class="fas fa-arrow-right me-1"></i> REQUEST MATCHING</span>
+            </div>
+            @if (!isRequestPanelCollapsed) {
+              <div class="side-panel-body">
+                <div class="row mb-2">
+                  <div class="col-md-2">
+                    <label class="form-label">Method</label>
+                    <select class="form-select form-select-sm" [(ngModel)]="simpleForm.method">
+                      <option value="GET">GET</option>
+                      <option value="POST">POST</option>
+                      <option value="PUT">PUT</option>
+                      <option value="DELETE">DELETE</option>
+                      <option value="PATCH">PATCH</option>
+                      <option value="HEAD">HEAD</option>
+                      <option value="OPTIONS">OPTIONS</option>
+                      <option value="TRACE">TRACE</option>
+                      <option value="ANY">ANY</option>
                     </select>
                   </div>
-                  <div *ngIf="simpleForm.delayType === 'fixed'" class="form-group mb-2">
-                    <label class="form-label small">Delay (ms)</label>
-                    <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.fixedDelay" min="0">
+                  <div class="col-md-3">
+                    <label class="form-label">URL Type</label>
+                    <select class="form-select form-select-sm" [(ngModel)]="simpleForm.urlType">
+                      <option value="url">Exact URL (path + query)</option>
+                      <option value="urlPath">Exact Path (ignores query)</option>
+                      <option value="urlPattern">URL Pattern (regex)</option>
+                      <option value="urlPathPattern">Path Pattern (regex)</option>
+                    </select>
                   </div>
-                  <div *ngIf="simpleForm.delayType === 'uniform'" class="row">
-                    <div class="col-6">
-                      <label class="form-label small">Lower (ms)</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformLower" min="0">
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small">Upper (ms)</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformUpper" min="0">
-                    </div>
-                  </div>
-                  <div *ngIf="simpleForm.delayType === 'lognormal'" class="row">
-                    <div class="col-6">
-                      <label class="form-label small">Median (ms)</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalMedian" min="0">
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small">Sigma</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalSigma" step="0.01" min="0">
-                    </div>
-                  </div>
-                  <div *ngIf="simpleForm.delayType === 'chunked'" class="row">
-                    <div class="col-6">
-                      <label class="form-label small">Chunks</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedChunks" min="1">
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small">Total duration (ms)</label>
-                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedDuration" min="0">
-                    </div>
+                  <div class="col-md-7">
+                    <label class="form-label">URL</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [ngClass]="getUrlValidationClass()"
+                      [(ngModel)]="simpleForm.url"
+                      placeholder="/api/users">
+                    @if (simpleForm.url && (simpleForm.urlType === 'urlPattern' || simpleForm.urlType === 'urlPathPattern')) {
+                      @if (isValidRegex(simpleForm.url)) {
+                        <small class="text-success"><i class="fas fa-check"></i> Valid regex</small>
+                      } @else {
+                        <small class="text-danger"><i class="fas fa-times"></i> Invalid regex</small>
+                      }
+                    }
                   </div>
                 </div>
-              </div>
 
-              <!-- Templating -->
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.enableTemplating" id="enableTemplating">
-                <label class="form-check-label" for="enableTemplating">
-                  Enable Response Templating (Handlebars)
-                </label>
-              </div>
-              <div *ngIf="simpleForm.enableTemplating" class="subsection mb-2">
-                <div class="subsection-header" [class.expanded]="isTemplatingHelpExpanded" (click)="toggleTemplatingHelp()">
-                  <span><i class="fas fa-book me-1"></i> Handlebars Reference</span>
-                  <i class="fas" [class.fa-chevron-down]="!isTemplatingHelpExpanded" [class.fa-chevron-up]="isTemplatingHelpExpanded"></i>
+                <!-- Subsection: Query Parameters -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isQueryParamsExpanded" (click)="toggleQueryParamsSection()">
+                    <span>
+                      Query Parameters
+                      @if (simpleForm.queryParameters.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.queryParameters.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addQueryParam(); $event.stopPropagation(); isQueryParamsExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isQueryParamsExpanded" [class.fa-chevron-up]="isQueryParamsExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isQueryParamsExpanded) {
+                    <div class="subsection-body">
+                      @for (param of simpleForm.queryParameters; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(param.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeQueryParam(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.queryParameters.length === 0) {
+                        <div class="text-muted small">No query parameters. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
                 </div>
-                <div *ngIf="isTemplatingHelpExpanded" class="subsection-body">
-                  <ul class="list-unstyled small mb-0" ngNonBindable>
-                    <li><code>&#123;&#123;request.url&#125;&#125;</code> - Request URL</li>
-                    <li><code>&#123;&#123;request.method&#125;&#125;</code> - HTTP method</li>
-                    <li><code>&#123;&#123;request.headers.Authorization&#125;&#125;</code> - Header value</li>
-                    <li><code>&#123;&#123;request.query.id&#125;&#125;</code> - Query parameter</li>
-                    <li><code>&#123;&#123;request.body&#125;&#125;</code> - Request body</li>
-                    <li><code>&#123;&#123;jsonPath request.body '$.id'&#125;&#125;</code> - JSONPath from body</li>
-                    <li><code>&#123;&#123;now&#125;&#125;</code> - Current timestamp</li>
-                    <li><code>&#123;&#123;randomValue length=10 type='ALPHANUMERIC'&#125;&#125;</code> - Random value</li>
-                  </ul>
+
+                <!-- Subsection: Request Headers -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isRequestHeadersExpanded" (click)="toggleRequestHeadersSection()">
+                    <span>
+                      Request Headers
+                      @if (simpleForm.requestHeaders.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.requestHeaders.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addRequestHeader(); $event.stopPropagation(); isRequestHeadersExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isRequestHeadersExpanded" [class.fa-chevron-up]="isRequestHeadersExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isRequestHeadersExpanded) {
+                    <div class="subsection-body">
+                      @for (header of simpleForm.requestHeaders; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="header.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(header.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeRequestHeader(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.requestHeaders.length === 0) {
+                        <div class="text-muted small">No request headers. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
                 </div>
-              </div>
+
+                <!-- Subsection: Body Patterns -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isBodyPatternsExpanded" (click)="toggleBodyPatternsSection()">
+                    <span>
+                      Body Patterns
+                      @if (simpleForm.bodyPatterns.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.bodyPatterns.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addBodyPattern(); $event.stopPropagation(); isBodyPatternsExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isBodyPatternsExpanded" [class.fa-chevron-up]="isBodyPatternsExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isBodyPatternsExpanded) {
+                    <div class="subsection-body">
+                      @for (pattern of simpleForm.bodyPatterns; track $index; let i = $index) {
+                        <div class="mb-2">
+                          <div class="d-flex gap-1 mb-1">
+                            <select class="form-select form-select-sm" [(ngModel)]="pattern.predicate" style="flex: 2">
+                              <option value="contains">contains</option>
+                              <option value="doesNotContain">doesNotContain</option>
+                              <option value="equalTo">equalTo</option>
+                              <option value="equalToJson">equalToJson</option>
+                              <option value="equalToXml">equalToXml</option>
+                              <option value="matches">matches (regex)</option>
+                              <option value="matchesJsonPath">matchesJsonPath</option>
+                              <option value="matchesXPath">matchesXPath</option>
+                            </select>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="pattern.value" placeholder="Value" style="flex: 5">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeBodyPattern(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                          @if (pattern.predicate === 'equalToJson') {
+                            <div class="d-flex gap-3 ms-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreArrayOrder" [id]="'ignoreArrayOrder-' + i">
+                                <label class="form-check-label small" [for]="'ignoreArrayOrder-' + i">Ignore array order</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="pattern.ignoreExtraElements" [id]="'ignoreExtraEl-' + i">
+                                <label class="form-check-label small" [for]="'ignoreExtraEl-' + i">Ignore extra elements</label>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (simpleForm.bodyPatterns.length === 0) {
+                        <div class="text-muted small">No body patterns. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Cookies -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isCookiesExpanded" (click)="toggleCookiesSection()">
+                    <span>
+                      Cookies
+                      @if (simpleForm.cookies.length > 0) {
+                        <span class="badge bg-secondary ms-1">{{ simpleForm.cookies.length }}</span>
+                      }
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-link btn-sm py-0" (click)="addCookie(); $event.stopPropagation(); isCookiesExpanded = true">
+                        <i class="fas fa-plus"></i> Add
+                      </button>
+                      <i class="fas" [class.fa-chevron-down]="!isCookiesExpanded" [class.fa-chevron-up]="isCookiesExpanded"></i>
+                    </div>
+                  </div>
+                  @if (isCookiesExpanded) {
+                    <div class="subsection-body">
+                      @for (cookie of simpleForm.cookies; track $index; let i = $index) {
+                        <div class="d-flex gap-1 mb-1">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="cookie.key" placeholder="Cookie name" style="flex: 2">
+                          <select class="form-select form-select-sm" [(ngModel)]="cookie.predicate" style="flex: 2">
+                            <option value="equalTo">equalTo</option>
+                            <option value="equalToCI">equalTo (case insensitive)</option>
+                            <option value="contains">contains</option>
+                            <option value="doesNotContain">doesNotContain</option>
+                            <option value="matches">matches (regex)</option>
+                            <option value="doesNotMatch">doesNotMatch (regex)</option>
+                            <option value="absent">absent</option>
+                          </select>
+                          @if (predicateNeedsValue(cookie.predicate)) {
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="cookie.value" placeholder="Value" style="flex: 3">
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="removeCookie(i)"><i class="fas fa-times"></i></button>
+                        </div>
+                      }
+                      @if (simpleForm.cookies.length === 0) {
+                        <div class="text-muted small">No cookies. Click <strong>Add</strong> to add one.</div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Basic Auth -->
+                <div class="subsection mb-2">
+                  <div class="subsection-header" [class.expanded]="isBasicAuthExpanded" (click)="toggleBasicAuthSection()">
+                    <span>Basic Authentication</span>
+                    <i class="fas" [class.fa-chevron-down]="!isBasicAuthExpanded" [class.fa-chevron-up]="isBasicAuthExpanded"></i>
+                  </div>
+                  @if (isBasicAuthExpanded) {
+                    <div class="subsection-body">
+                      <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.basicAuthEnabled" id="basicAuthCheck">
+                        <label class="form-check-label" for="basicAuthCheck">Require Basic Auth</label>
+                      </div>
+                      @if (simpleForm.basicAuthEnabled) {
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="form-label small">Username</label>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthUsername" placeholder="username">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label small">Password</label>
+                            <input type="password" class="form-control form-control-sm" [(ngModel)]="simpleForm.basicAuthPassword" placeholder="password">
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Subsection: Form Parameters (POST/PUT/PATCH only) -->
+                @if (isFormMethodWithBody()) {
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isFormParamsExpanded" (click)="toggleFormParamsSection()">
+                      <span>
+                        Form Parameters
+                        @if (simpleForm.formParameters.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.formParameters.length }}</span>
+                        }
+                        <small class="text-muted ms-1">(application/x-www-form-urlencoded)</small>
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addFormParam(); $event.stopPropagation(); isFormParamsExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isFormParamsExpanded" [class.fa-chevron-up]="isFormParamsExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isFormParamsExpanded) {
+                      <div class="subsection-body">
+                        @for (param of simpleForm.formParameters; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="param.key" placeholder="Key" style="flex: 2">
+                            <select class="form-select form-select-sm" [(ngModel)]="param.predicate" style="flex: 2">
+                              <option value="equalTo">equalTo</option>
+                              <option value="equalToCI">equalTo (case insensitive)</option>
+                              <option value="contains">contains</option>
+                              <option value="doesNotContain">doesNotContain</option>
+                              <option value="matches">matches (regex)</option>
+                              <option value="doesNotMatch">doesNotMatch (regex)</option>
+                              <option value="absent">absent</option>
+                            </select>
+                            @if (predicateNeedsValue(param.predicate)) {
+                              <input type="text" class="form-control form-control-sm" [(ngModel)]="param.value" placeholder="Value" style="flex: 3">
+                            }
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeFormParam(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.formParameters.length === 0) {
+                          <div class="text-muted small">No form parameters. Click <strong>Add</strong> to add one.</div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div><!-- /side-panel-body request -->
+            }
+          </div><!-- /side-panel request -->
+
+          <!-- PANEL DIVIDER -->
+          <div class="panel-divider"></div>
+
+          <!-- PANEL: RESPONSE -->
+          <div class="side-panel" [class.collapsed]="isResponsePanelCollapsed">
+            <div class="side-panel-header" [class.collapsed]="isResponsePanelCollapsed">
+              <button class="panel-collapse-btn" (click)="isResponsePanelCollapsed = !isResponsePanelCollapsed" [title]="isResponsePanelCollapsed ? 'Expand Response' : 'Collapse Response'">
+                <i class="fas" [class.fa-chevron-right]="!isResponsePanelCollapsed" [class.fa-chevron-left]="isResponsePanelCollapsed"></i>
+              </button>
+              <span class="side-panel-title"><i class="fas fa-arrow-left me-1"></i> RESPONSE</span>
             </div>
+            @if (!isResponsePanelCollapsed) {
+              <div class="side-panel-body">
 
-            <!-- PROXY MODE -->
-            <div *ngIf="simpleForm.responseMode === 'proxy'">
-              <div class="form-group mb-2">
-                <label class="form-label">Proxy Base URL <span class="text-danger">*</span></label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyBaseUrl" placeholder="https://api.example.com">
-              </div>
-              <div class="form-group mb-2">
-                <label class="form-label">URL Prefix to Remove <small class="text-muted">(optional)</small></label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyUrlPrefixToRemove" placeholder="/api/v1">
-              </div>
-
-              <!-- Additional Proxy Headers -->
-              <div class="subsection mb-2">
-                <div class="subsection-header" [class.expanded]="isProxyAdditionalHeadersExpanded" (click)="toggleProxyAdditionalHeadersSection()">
-                  <span>
-                    Additional Proxy Request Headers
-                    <span *ngIf="simpleForm.additionalProxyRequestHeaders.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.additionalProxyRequestHeaders.length }}</span>
-                  </span>
-                  <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-link btn-sm py-0" (click)="addProxyAdditionalHeader(); $event.stopPropagation(); isProxyAdditionalHeadersExpanded = true">
-                      <i class="fas fa-plus"></i> Add
-                    </button>
-                    <i class="fas" [class.fa-chevron-down]="!isProxyAdditionalHeadersExpanded" [class.fa-chevron-up]="isProxyAdditionalHeadersExpanded"></i>
+                <!-- Response Mode -->
+                <div class="form-group mb-3">
+                  <label class="form-label">Response Mode</label>
+                  <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" name="responseMode" id="modeDirect" value="direct" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-primary" for="modeDirect"><i class="fas fa-reply me-1"></i>Direct</label>
+                    <input type="radio" class="btn-check" name="responseMode" id="modeProxy" value="proxy" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-primary" for="modeProxy"><i class="fas fa-exchange-alt me-1"></i>Proxy</label>
+                    <input type="radio" class="btn-check" name="responseMode" id="modeFault" value="fault" [(ngModel)]="simpleForm.responseMode">
+                    <label class="btn btn-sm btn-outline-danger" for="modeFault"><i class="fas fa-exclamation-triangle me-1"></i>Fault</label>
                   </div>
                 </div>
-                <div *ngIf="isProxyAdditionalHeadersExpanded" class="subsection-body">
-                  <div *ngFor="let header of simpleForm.additionalProxyRequestHeaders; let i = index" class="d-flex gap-1 mb-1">
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
-                    <button class="btn btn-sm btn-outline-danger" (click)="removeProxyAdditionalHeader(i)"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div *ngIf="simpleForm.additionalProxyRequestHeaders.length === 0" class="text-muted small">No additional headers.</div>
-                </div>
-              </div>
 
-              <!-- Remove Proxy Headers -->
-              <div class="subsection mb-2">
-                <div class="subsection-header" [class.expanded]="isProxyRemoveHeadersExpanded" (click)="toggleProxyRemoveHeadersSection()">
-                  <span>
-                    Remove Proxy Request Headers
-                    <span *ngIf="simpleForm.removeProxyRequestHeaders.length > 0" class="badge bg-secondary ms-1">{{ simpleForm.removeProxyRequestHeaders.length }}</span>
-                  </span>
-                  <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-link btn-sm py-0" (click)="addProxyHeaderToRemove(); $event.stopPropagation(); isProxyRemoveHeadersExpanded = true">
-                      <i class="fas fa-plus"></i> Add
-                    </button>
-                    <i class="fas" [class.fa-chevron-down]="!isProxyRemoveHeadersExpanded" [class.fa-chevron-up]="isProxyRemoveHeadersExpanded"></i>
+                <!-- DIRECT MODE -->
+                @if (simpleForm.responseMode === 'direct') {
+                  <div class="row mb-2">
+                    <div class="col-md-3">
+                      <label class="form-label">HTTP Status</label>
+                      <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.status" min="100" max="599" placeholder="200">
+                    </div>
+                    <div class="col-md-9">
+                      <label class="form-label">Status Message <small class="text-muted">(optional)</small></label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.statusMessage" placeholder="OK">
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="isProxyRemoveHeadersExpanded" class="subsection-body">
-                  <div *ngFor="let header of simpleForm.removeProxyRequestHeaders; let i = index" class="d-flex gap-1 mb-1">
-                    <input type="text" class="form-control form-control-sm" [ngModel]="header" (ngModelChange)="simpleForm.removeProxyRequestHeaders[i] = $event" placeholder="Header name to remove" style="flex: 1">
-                    <button class="btn btn-sm btn-outline-danger" (click)="removeProxyHeaderToRemove(i)"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div *ngIf="simpleForm.removeProxyRequestHeaders.length === 0" class="text-muted small">No headers to remove.</div>
-                </div>
-              </div>
-            </div>
 
-            <!-- FAULT MODE -->
-            <div *ngIf="simpleForm.responseMode === 'fault'">
-              <div class="alert alert-warning mb-2">
-                <i class="fas fa-exclamation-triangle me-1"></i>
-                <strong>Fault simulation</strong> — The server will simulate a network error instead of returning a normal response.
-              </div>
-              <div class="form-group mb-2">
-                <label class="form-label">Fault Type</label>
-                <div class="d-flex flex-column gap-2">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="faultType" value="CONNECTION_RESET_BY_PEER" [(ngModel)]="simpleForm.faultType" id="faultReset">
-                    <label class="form-check-label" for="faultReset">
-                      <strong>CONNECTION_RESET_BY_PEER</strong> — TCP connection forcefully terminated
+                  <!-- Body Type -->
+                  <div class="form-group mb-2">
+                    <label class="form-label">Body Type</label>
+                    <div class="btn-group" role="group">
+                      <input type="radio" class="btn-check" name="bodyType" id="btText" value="text" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btText">Text</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btJson" value="json" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btJson">JSON</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btHtml" value="html" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btHtml">HTML</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btXml" value="xml" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btXml">XML</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btBase64" value="base64" [(ngModel)]="simpleForm.bodyType" (change)="onBodyTypeChange()">
+                      <label class="btn btn-sm btn-outline-secondary" for="btBase64">Base64</label>
+                      <input type="radio" class="btn-check" name="bodyType" id="btFile" value="file" [(ngModel)]="simpleForm.bodyType">
+                      <label class="btn btn-sm btn-outline-secondary" for="btFile">File</label>
+                    </div>
+                  </div>
+
+                  <!-- File body -->
+                  @if (simpleForm.bodyType === 'file') {
+                    <div class="form-group mb-2">
+                      <label class="form-label">Body File Name</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.bodyFileName" placeholder="response.json">
+                      <small class="text-muted">Path relative to WireMock's __files directory</small>
+                    </div>
+                  }
+
+                  <!-- Body textarea -->
+                  @if (simpleForm.bodyType !== 'file') {
+                    <div class="form-group mb-2">
+                      <label class="form-label">Response Body</label>
+                      <textarea class="form-control json-editor-simple" [(ngModel)]="simpleForm.body" rows="8" placeholder="Response body content"></textarea>
+                    </div>
+                  }
+
+                  <!-- Subsection: Response Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isResponseHeadersExpanded" (click)="toggleResponseHeadersSection()">
+                      <span>
+                        Response Headers
+                        @if (simpleForm.responseHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.responseHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addHeader(); $event.stopPropagation(); isResponseHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isResponseHeadersExpanded" [class.fa-chevron-up]="isResponseHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isResponseHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.responseHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeHeader(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Subsection: Delay -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isDelayExpanded" (click)="toggleDelaySection()">
+                      <span><i class="fas fa-clock me-1"></i> Delay</span>
+                      <i class="fas" [class.fa-chevron-down]="!isDelayExpanded" [class.fa-chevron-up]="isDelayExpanded"></i>
+                    </div>
+                    @if (isDelayExpanded) {
+                      <div class="subsection-body">
+                        <div class="form-group mb-2">
+                          <select class="form-select form-select-sm" [(ngModel)]="simpleForm.delayType">
+                            <option value="">No delay</option>
+                            <option value="fixed">Fixed delay</option>
+                            <option value="uniform">Random - Uniform distribution</option>
+                            <option value="lognormal">Random - Log normal distribution</option>
+                            <option value="chunked">Chunked dribble delay</option>
+                          </select>
+                        </div>
+                        @if (simpleForm.delayType === 'fixed') {
+                          <div class="form-group mb-2">
+                            <label class="form-label small">Delay (ms)</label>
+                            <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.fixedDelay" min="0">
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'uniform') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Lower (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformLower" min="0">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Upper (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.uniformUpper" min="0">
+                            </div>
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'lognormal') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Median (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalMedian" min="0">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Sigma</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.lognormalSigma" step="0.01" min="0">
+                            </div>
+                          </div>
+                        }
+                        @if (simpleForm.delayType === 'chunked') {
+                          <div class="row">
+                            <div class="col-6">
+                              <label class="form-label small">Chunks</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedChunks" min="1">
+                            </div>
+                            <div class="col-6">
+                              <label class="form-label small">Total duration (ms)</label>
+                              <input type="number" class="form-control form-control-sm" [(ngModel)]="simpleForm.chunkedDuration" min="0">
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Templating -->
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="simpleForm.enableTemplating" id="enableTemplating">
+                    <label class="form-check-label" for="enableTemplating">
+                      Enable Response Templating (Handlebars)
                     </label>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="faultType" value="EMPTY_RESPONSE" [(ngModel)]="simpleForm.faultType" id="faultEmpty">
-                    <label class="form-check-label" for="faultEmpty">
-                      <strong>EMPTY_RESPONSE</strong> — Close socket with no response
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="faultType" value="MALFORMED_RESPONSE_CHUNK" [(ngModel)]="simpleForm.faultType" id="faultMalformed">
-                    <label class="form-check-label" for="faultMalformed">
-                      <strong>MALFORMED_RESPONSE_CHUNK</strong> — Send 200 response then bad HTTP data
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="faultType" value="RANDOM_DATA_THEN_CLOSE" [(ngModel)]="simpleForm.faultType" id="faultRandom">
-                    <label class="form-check-label" for="faultRandom">
-                      <strong>RANDOM_DATA_THEN_CLOSE</strong> — Send bad HTTP data then close socket
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  @if (simpleForm.enableTemplating) {
+                    <div class="subsection mb-2">
+                      <div class="subsection-header" [class.expanded]="isTemplatingHelpExpanded" (click)="toggleTemplatingHelp()">
+                        <span><i class="fas fa-book me-1"></i> Handlebars Reference</span>
+                        <i class="fas" [class.fa-chevron-down]="!isTemplatingHelpExpanded" [class.fa-chevron-up]="isTemplatingHelpExpanded"></i>
+                      </div>
+                      @if (isTemplatingHelpExpanded) {
+                        <div class="subsection-body">
+                          <ul class="list-unstyled small mb-0" ngNonBindable>
+                            <li><code>&#123;&#123;request.url&#125;&#125;</code> - Request URL</li>
+                            <li><code>&#123;&#123;request.method&#125;&#125;</code> - HTTP method</li>
+                            <li><code>&#123;&#123;request.headers.Authorization&#125;&#125;</code> - Header value</li>
+                            <li><code>&#123;&#123;request.query.id&#125;&#125;</code> - Query parameter</li>
+                            <li><code>&#123;&#123;request.body&#125;&#125;</code> - Request body</li>
+                            <li><code>&#123;&#123;jsonPath request.body '$.id'&#125;&#125;</code> - JSONPath from body</li>
+                            <li><code>&#123;&#123;now&#125;&#125;</code> - Current timestamp</li>
+                            <li><code>&#123;&#123;randomValue length=10 type='ALPHANUMERIC'&#125;&#125;</code> - Random value</li>
+                          </ul>
+                        </div>
+                      }
+                    </div>
+                  }
+                }
 
-          </div><!-- /side-panel-body response -->
-        </div><!-- /side-panel response -->
+                <!-- PROXY MODE -->
+                @if (simpleForm.responseMode === 'proxy') {
+                  <div class="form-group mb-2">
+                    <label class="form-label">Proxy Base URL <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyBaseUrl" placeholder="https://api.example.com">
+                  </div>
+                  <div class="form-group mb-2">
+                    <label class="form-label">URL Prefix to Remove <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.proxyUrlPrefixToRemove" placeholder="/api/v1">
+                  </div>
 
-      </div><!-- /two-panel-layout -->
+                  <!-- Additional Proxy Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isProxyAdditionalHeadersExpanded" (click)="toggleProxyAdditionalHeadersSection()">
+                      <span>
+                        Additional Proxy Request Headers
+                        @if (simpleForm.additionalProxyRequestHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.additionalProxyRequestHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addProxyAdditionalHeader(); $event.stopPropagation(); isProxyAdditionalHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isProxyAdditionalHeadersExpanded" [class.fa-chevron-up]="isProxyAdditionalHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isProxyAdditionalHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.additionalProxyRequestHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.key" placeholder="Header name" style="flex: 2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="header.value" placeholder="Header value" style="flex: 3">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeProxyAdditionalHeader(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.additionalProxyRequestHeaders.length === 0) {
+                          <div class="text-muted small">No additional headers.</div>
+                        }
+                      </div>
+                    }
+                  </div>
 
-      <!-- SECTION: SCENARIO STATE (full width) -->
-      <div class="form-section mb-2">
-        <div class="section-header" [class.expanded]="isScenarioSectionExpanded" (click)="toggleScenarioSection()">
-          <span class="section-title"><i class="fas fa-sitemap me-1"></i> SCENARIO STATE <small class="text-muted">(optional)</small></span>
-          <i class="fas" [class.fa-chevron-down]="!isScenarioSectionExpanded" [class.fa-chevron-up]="isScenarioSectionExpanded"></i>
-        </div>
-        <div *ngIf="isScenarioSectionExpanded" class="section-body">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group mb-2">
-                <label class="form-label small">Scenario Name</label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.scenarioName" list="scenarioNames" placeholder="e.g. user-login-flow">
-                <datalist id="scenarioNames">
-                  <option *ngFor="let scenario of availableScenarios" [value]="scenario">
-                </datalist>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-2">
-                <label class="form-label small">Required State</label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.requiredScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. Started">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-2">
-                <label class="form-label small">New State After Match</label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.newScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. LoggedIn">
-              </div>
-            </div>
+                  <!-- Remove Proxy Headers -->
+                  <div class="subsection mb-2">
+                    <div class="subsection-header" [class.expanded]="isProxyRemoveHeadersExpanded" (click)="toggleProxyRemoveHeadersSection()">
+                      <span>
+                        Remove Proxy Request Headers
+                        @if (simpleForm.removeProxyRequestHeaders.length > 0) {
+                          <span class="badge bg-secondary ms-1">{{ simpleForm.removeProxyRequestHeaders.length }}</span>
+                        }
+                      </span>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-link btn-sm py-0" (click)="addProxyHeaderToRemove(); $event.stopPropagation(); isProxyRemoveHeadersExpanded = true">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                        <i class="fas" [class.fa-chevron-down]="!isProxyRemoveHeadersExpanded" [class.fa-chevron-up]="isProxyRemoveHeadersExpanded"></i>
+                      </div>
+                    </div>
+                    @if (isProxyRemoveHeadersExpanded) {
+                      <div class="subsection-body">
+                        @for (header of simpleForm.removeProxyRequestHeaders; track $index; let i = $index) {
+                          <div class="d-flex gap-1 mb-1">
+                            <input type="text" class="form-control form-control-sm" [ngModel]="header" (ngModelChange)="simpleForm.removeProxyRequestHeaders[i] = $event" placeholder="Header name to remove" style="flex: 1">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeProxyHeaderToRemove(i)"><i class="fas fa-times"></i></button>
+                          </div>
+                        }
+                        @if (simpleForm.removeProxyRequestHeaders.length === 0) {
+                          <div class="text-muted small">No headers to remove.</div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- FAULT MODE -->
+                @if (simpleForm.responseMode === 'fault') {
+                  <div class="alert alert-warning mb-2">
+                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    <strong>Fault simulation</strong> — The server will simulate a network error instead of returning a normal response.
+                  </div>
+                  <div class="form-group mb-2">
+                    <label class="form-label">Fault Type</label>
+                    <div class="d-flex flex-column gap-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="CONNECTION_RESET_BY_PEER" [(ngModel)]="simpleForm.faultType" id="faultReset">
+                        <label class="form-check-label" for="faultReset">
+                          <strong>CONNECTION_RESET_BY_PEER</strong> — TCP connection forcefully terminated
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="EMPTY_RESPONSE" [(ngModel)]="simpleForm.faultType" id="faultEmpty">
+                        <label class="form-check-label" for="faultEmpty">
+                          <strong>EMPTY_RESPONSE</strong> — Close socket with no response
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="MALFORMED_RESPONSE_CHUNK" [(ngModel)]="simpleForm.faultType" id="faultMalformed">
+                        <label class="form-check-label" for="faultMalformed">
+                          <strong>MALFORMED_RESPONSE_CHUNK</strong> — Send 200 response then bad HTTP data
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="faultType" value="RANDOM_DATA_THEN_CLOSE" [(ngModel)]="simpleForm.faultType" id="faultRandom">
+                        <label class="form-check-label" for="faultRandom">
+                          <strong>RANDOM_DATA_THEN_CLOSE</strong> — Send bad HTTP data then close socket
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                }
+
+              </div><!-- /side-panel-body response -->
+            }
+          </div><!-- /side-panel response -->
+
+        </div><!-- /two-panel-layout -->
+
+        <!-- SECTION: SCENARIO STATE (full width) -->
+        <div class="form-section mb-2">
+          <div class="section-header" [class.expanded]="isScenarioSectionExpanded" (click)="toggleScenarioSection()">
+            <span class="section-title"><i class="fas fa-sitemap me-1"></i> SCENARIO STATE <small class="text-muted">(optional)</small></span>
+            <i class="fas" [class.fa-chevron-down]="!isScenarioSectionExpanded" [class.fa-chevron-up]="isScenarioSectionExpanded"></i>
           </div>
+          @if (isScenarioSectionExpanded) {
+            <div class="section-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">Scenario Name</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.scenarioName" list="scenarioNames" placeholder="e.g. user-login-flow">
+                    <datalist id="scenarioNames">
+                      @for (scenario of availableScenarios; track scenario) {
+                        <option [value]="scenario">
+                      }
+                    </datalist>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">Required State</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.requiredScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. Started">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group mb-2">
+                    <label class="form-label small">New State After Match</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="simpleForm.newScenarioState" [disabled]="!simpleForm.scenarioName" placeholder="e.g. LoggedIn">
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
-      </div>
 
-    </div><!-- /simple-editor -->
+      </div><!-- /simple-editor -->
+    }
 
     <!-- Advanced Mode -->
-    <div *ngIf="editorMode === 'advanced'" class="advanced-editor">
-      <p class="text-muted mb-3">
-        <i class="fas fa-info-circle"></i>
-        Enter the complete stub configuration in JSON format
-      </p>
-      <textarea
-        class="form-control json-editor"
-        [(ngModel)]="newStubJson"
-        rows="25"
-        placeholder="Enter JSON..."></textarea>
-    </div>
+    @if (editorMode === 'advanced') {
+      <div class="advanced-editor">
+        <p class="text-muted mb-3">
+          <i class="fas fa-info-circle"></i>
+          Enter the complete stub configuration in JSON format
+        </p>
+        <textarea
+          class="form-control json-editor"
+          [(ngModel)]="newStubJson"
+          rows="25"
+          placeholder="Enter JSON..."></textarea>
+      </div>
+    }
 
-    <div class="alert alert-danger mt-3" *ngIf="createStubError">
-      <i class="fas fa-exclamation-circle"></i>
-      {{ createStubError }}
-    </div>
+    @if (createStubError) {
+      <div class="alert alert-danger mt-3">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ createStubError }}
+      </div>
+    }
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="closeCreateModal()">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">
       Cancel
     </button>
     <button class="btn btn-primary" (click)="submitNewStub()">
       <i class="fas fa-save"></i> {{ editMode === 'create' ? 'Create' : 'Update' }} Stub
     </button>
   </div>
-</div>
-</div>
+</ng-template>
 
-<!-- Import Modal -->
-<div class="modal-backdrop" *ngIf="showImportModal" (click)="closeImportModal()"></div>
-<div class="modal-dialog modal-import" *ngIf="showImportModal" (click)="$event.stopPropagation()">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Import Stubs</h3>
-      <button type="button" class="btn btn-sm btn-link" (click)="closeImportModal()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-        <!-- Import: unified selection (auto-detection) -->
-        <div *ngIf="!importPreview && !showZipFileSelection && !zipSelectionLoading">
+<!-- ============================================================
+     Import Stubs Modal
+     ============================================================ -->
+<ng-template #importModalTpl let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Import Stubs</h3>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    @if (!importPreview && !showZipFileSelection && !zipSelectionLoading) {
+      <!-- Single input managed dynamically on the TS side -->
+      <input
+        #importInput
+        type="file"
+        class="d-none"
+        (change)="onFileSelected($event)"
+      />
 
-          <!-- Single input managed dynamically on the TS side -->
-          <input
-            #importInput
-            type="file"
-            class="d-none"
-            (change)="onFileSelected($event)"
-          />
+      <!-- Drop zone + buttons -->
+      <div
+        class="import-drop-zone"
+        (dragover)="$event.preventDefault()"
+        (drop)="onDropFile($event)"
+      >
+        <i class="fas fa-cloud-upload-alt import-drop-icon"></i>
+        <p class="import-drop-hint">Drop a <strong>.json</strong> or <strong>.zip</strong> file here</p>
+        <p class="import-drop-or">or select</p>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-outline-primary" (click)="openImportInput('file')">
+            <i class="fas fa-file-archive me-2"></i>ZIP / JSON file
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="openImportInput('directory')">
+            <i class="fas fa-folder-open me-2"></i>Directory
+          </button>
+        </div>
+      </div>
 
-          <!-- Drop zone + boutons -->
-          <div
-            class="import-drop-zone"
-            (dragover)="$event.preventDefault()"
-            (drop)="onDropFile($event)"
-          >
-            <i class="fas fa-cloud-upload-alt import-drop-icon"></i>
-            <p class="import-drop-hint">Drop a <strong>.json</strong> or <strong>.zip</strong> file here</p>
-            <p class="import-drop-or">or select</p>
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-outline-primary" (click)="openImportInput('file')">
-                <i class="fas fa-file-archive me-2"></i>ZIP / JSON file
-              </button>
-              <button type="button" class="btn btn-outline-secondary" (click)="openImportInput('directory')">
-                <i class="fas fa-folder-open me-2"></i>Directory
-              </button>
-            </div>
-          </div>
+      @if (importError) {
+        <div class="alert alert-danger mt-3" style="white-space: pre-wrap;">
+          <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+        </div>
+      }
+    }
 
-          <!-- Erreur -->
-          <div class="alert alert-danger mt-3" *ngIf="importError" style="white-space: pre-wrap;">
-            <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+    <!-- Loading Spinner for ZIP structure -->
+    @if (zipSelectionLoading) {
+      <div class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading ZIP structure...</p>
+      </div>
+    }
+
+    <!-- ZIP File Selection Screen -->
+    @if (showZipFileSelection && zipStructure && !zipSelectionLoading) {
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        Select the files you want to import from the ZIP archive
+      </div>
+
+      <!-- Mapping Files Selection -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <label class="form-label mb-0">
+            <strong>Mapping Files</strong> ({{ getSelectedMappingsCount() }}/{{ zipStructure.mappingFiles.length }} selected)
+          </label>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary" (click)="toggleAllMappings(true)">
+              <i class="fas fa-check-square"></i> All
+            </button>
+            <button class="btn btn-outline-secondary" (click)="toggleAllMappings(false)">
+              <i class="fas fa-square"></i> None
+            </button>
           </div>
         </div>
-
-        <!-- Loading Spinner for ZIP structure -->
-        <div class="text-center my-4" *ngIf="zipSelectionLoading">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="mt-2 text-muted">Loading ZIP structure...</p>
+        <div class="file-selection-list">
+          @for (file of zipStructure.mappingFiles; track file.path) {
+            <div class="file-selection-item">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="file.selected"
+                  [id]="'mapping-' + file.path"
+                />
+                <label class="form-check-label" [for]="'mapping-' + file.path">
+                  <i class="fas fa-file-code text-primary me-2"></i>
+                  {{ file.name }}
+                </label>
+              </div>
+            </div>
+          }
         </div>
+      </div>
 
-        <!-- ZIP File Selection Screen -->
-        <div *ngIf="showZipFileSelection && zipStructure && !zipSelectionLoading">
-          <div class="alert alert-info">
-            <i class="fas fa-info-circle"></i>
-            Select the files you want to import from the ZIP archive
-          </div>
-
-          <!-- Mapping Files Selection -->
-          <div class="mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <label class="form-label mb-0">
-                <strong>Mapping Files</strong> ({{ getSelectedMappingsCount() }}/{{ zipStructure.mappingFiles.length }} selected)
-              </label>
-              <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-secondary" (click)="toggleAllMappings(true)">
-                  <i class="fas fa-check-square"></i> All
-                </button>
-                <button class="btn btn-outline-secondary" (click)="toggleAllMappings(false)">
-                  <i class="fas fa-square"></i> None
-                </button>
-              </div>
-            </div>
-            <div class="file-selection-list">
-              <div *ngFor="let file of zipStructure.mappingFiles" class="file-selection-item">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    [(ngModel)]="file.selected"
-                    [id]="'mapping-' + file.path"
-                  />
-                  <label class="form-check-label" [for]="'mapping-' + file.path">
-                    <i class="fas fa-file-code text-primary me-2"></i>
-                    {{ file.name }}
-                  </label>
-                </div>
-              </div>
+      <!-- Body Files Selection -->
+      @if (zipStructure.bodyFiles.length > 0) {
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0">
+              <strong>Body Files</strong> ({{ getSelectedBodyFilesCount() }}/{{ zipStructure.bodyFiles.length }} selected)
+            </label>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(true)">
+                <i class="fas fa-check-square"></i> All
+              </button>
+              <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(false)">
+                <i class="fas fa-square"></i> None
+              </button>
             </div>
           </div>
-
-          <!-- Body Files Selection -->
-          <div class="mb-3" *ngIf="zipStructure.bodyFiles.length > 0">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <label class="form-label mb-0">
-                <strong>Body Files</strong> ({{ getSelectedBodyFilesCount() }}/{{ zipStructure.bodyFiles.length }} selected)
-              </label>
-              <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(true)">
-                  <i class="fas fa-check-square"></i> All
-                </button>
-                <button class="btn btn-outline-secondary" (click)="toggleAllBodyFiles(false)">
-                  <i class="fas fa-square"></i> None
-                </button>
-              </div>
-            </div>
-            <div class="file-selection-list">
-              <div *ngFor="let file of zipStructure.bodyFiles" class="file-selection-item">
+          <div class="file-selection-list">
+            @for (file of zipStructure.bodyFiles; track file.path) {
+              <div class="file-selection-item">
                 <div class="form-check">
                   <input
                     class="form-check-input"
@@ -1282,137 +1439,157 @@
                   </label>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Process Button -->
-          <div class="d-grid">
-            <button
-              class="btn btn-primary"
-              (click)="processSelectedZipFiles()"
-              [disabled]="importLoading || getSelectedMappingsCount() === 0"
-            >
-              <span *ngIf="importLoading" class="spinner-border spinner-border-sm me-2"></span>
-              <i *ngIf="!importLoading" class="fas fa-arrow-right me-2"></i>
-              {{ importLoading ? 'Processing...' : 'Process Selected Files' }}
-            </button>
+            }
           </div>
         </div>
+      }
 
-        <!-- Loading Spinner for Processing -->
-        <div class="text-center my-4" *ngIf="importLoading && !importPreview">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="mt-2 text-muted">Processing selected files...</p>
+      <!-- Process Button -->
+      <div class="d-grid">
+        <button
+          class="btn btn-primary"
+          (click)="processSelectedZipFiles()"
+          [disabled]="importLoading || getSelectedMappingsCount() === 0"
+        >
+          @if (importLoading) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          } @else {
+            <i class="fas fa-arrow-right me-2"></i>
+          }
+          {{ importLoading ? 'Processing...' : 'Process Selected Files' }}
+        </button>
+      </div>
+    }
+
+    <!-- Loading Spinner for Processing -->
+    @if (importLoading && !importPreview) {
+      <div class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
+        <p class="mt-2 text-muted">Processing selected files...</p>
+      </div>
+    }
 
-        <!-- Error Message -->
-        <div class="alert alert-danger" *ngIf="importError" style="white-space: pre-wrap;">
-          <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+    <!-- Error Message -->
+    @if (importError) {
+      <div class="alert alert-danger" style="white-space: pre-wrap;">
+        <i class="fas fa-exclamation-triangle"></i> {{ importError }}
+      </div>
+    }
+
+    <!-- Warnings -->
+    @if (importWarnings.length > 0) {
+      <div class="alert alert-warning">
+        <i class="fas fa-exclamation-circle"></i> <strong>Warnings:</strong>
+        <ul class="mb-0 mt-2">
+          @for (warning of importWarnings; track warning) {
+            <li>{{ warning }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Preview -->
+    @if (importPreview && !importError && !showZipFileSelection) {
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        Ready to import <strong>{{ importPreview.count }}</strong> stub@if (importPreview.count > 1) {s}
+        @if (importValidationInfo) {
+          <br>
+          <small>
+            <i class="fas fa-file me-1"></i>
+            {{ importValidationInfo.substitutedFiles }} file@if (importValidationInfo.substitutedFiles !== 1) {s} substituted
+            ({{ importValidationInfo.totalFiles }} total selected)
+          </small>
+        }
+      </div>
+
+      <!-- Back to Selection Button (for ZIP / directory) -->
+      @if ((importDetectedType === 'zip' || importDetectedType === 'directory') && zipStructure) {
+        <div class="mb-3">
+          <button class="btn btn-sm btn-outline-secondary" (click)="backToFileSelection()">
+            <i class="fas fa-arrow-left me-2"></i>Back to File Selection
+          </button>
         </div>
+      }
 
-        <!-- Warnings -->
-        <div class="alert alert-warning" *ngIf="importWarnings.length > 0">
-          <i class="fas fa-exclamation-circle"></i> <strong>Warnings:</strong>
-          <ul class="mb-0 mt-2">
-            <li *ngFor="let warning of importWarnings">{{ warning }}</li>
-          </ul>
+      <!-- Import Mode Selection -->
+      <div class="mb-3">
+        <label class="form-label">Import Mode</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="importMode"
+            id="importModeAdd"
+            [value]="'add'"
+            [(ngModel)]="importMode"
+          />
+          <label class="form-check-label" for="importModeAdd">
+            <strong>Add to existing</strong> - Keep existing stubs and add new ones
+          </label>
         </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="importMode"
+            id="importModeReplace"
+            [value]="'replace'"
+            [(ngModel)]="importMode"
+          />
+          <label class="form-check-label" for="importModeReplace">
+            <strong>Replace all</strong> - Delete all existing stubs first
+          </label>
+        </div>
+      </div>
 
-        <!-- Preview -->
-        <div *ngIf="importPreview && !importError && !showZipFileSelection">
-          <!-- Success Info -->
-          <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-            Ready to import <strong>{{ importPreview.count }}</strong> stub<span *ngIf="importPreview.count > 1">s</span>
-            <span *ngIf="importValidationInfo">
-              <br>
-              <small>
-                <i class="fas fa-file me-1"></i>
-                {{ importValidationInfo.substitutedFiles }} file<span *ngIf="importValidationInfo.substitutedFiles !== 1">s</span> substituted
-                ({{ importValidationInfo.totalFiles }} total selected)
-              </small>
-            </span>
-          </div>
-
-          <!-- Back to Selection Button (for ZIP / directory) -->
-          <div class="mb-3" *ngIf="(importDetectedType === 'zip' || importDetectedType === 'directory') && zipStructure">
-            <button class="btn btn-sm btn-outline-secondary" (click)="backToFileSelection()">
-              <i class="fas fa-arrow-left me-2"></i>Back to File Selection
-            </button>
-          </div>
-
-          <!-- Import Mode Selection -->
-          <div class="mb-3">
-            <label class="form-label">Import Mode</label>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="importMode"
-                id="importModeAdd"
-                [value]="'add'"
-                [(ngModel)]="importMode"
-              />
-              <label class="form-check-label" for="importModeAdd">
-                <strong>Add to existing</strong> - Keep existing stubs and add new ones
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="importMode"
-                id="importModeReplace"
-                [value]="'replace'"
-                [(ngModel)]="importMode"
-              />
-              <label class="form-check-label" for="importModeReplace">
-                <strong>Replace all</strong> - Delete all existing stubs first
-              </label>
-            </div>
-          </div>
-
-          <!-- Preview of ALL mappings (scrollable) -->
-          <div class="mb-3">
-            <label class="form-label">Preview (all {{ importPreview.count }} stubs)</label>
-            <div class="preview-list-scrollable">
-              <div *ngFor="let mapping of importPreview.mappings; let i = index" class="preview-item">
-                <span class="preview-index">{{ i + 1 }}.</span>
-                <span class="badge method-badge" [ngClass]="'method-' + (mapping.request?.method || 'ANY')">
-                  {{ mapping.request?.method || 'ANY' }}
-                </span>
-                <span class="preview-url">
-                  {{ mapping.request?.url || mapping.request?.urlPattern || mapping.request?.urlPath || '/' }}
-                </span>
-                <span class="preview-status">→ {{ mapping.response?.status || 200 }}</span>
+      <!-- Preview of ALL mappings (scrollable) -->
+      <div class="mb-3">
+        <label class="form-label">Preview (all {{ importPreview.count }} stubs)</label>
+        <div class="preview-list-scrollable">
+          @for (mapping of importPreview.mappings; track $index; let i = $index) {
+            <div class="preview-item">
+              <span class="preview-index">{{ i + 1 }}.</span>
+              <span class="badge method-badge" [ngClass]="'method-' + (mapping.request?.method || 'ANY')">
+                {{ mapping.request?.method || 'ANY' }}
+              </span>
+              <span class="preview-url">
+                {{ mapping.request?.url || mapping.request?.urlPattern || mapping.request?.urlPath || '/' }}
+              </span>
+              <span class="preview-status">→ {{ mapping.response?.status || 200 }}</span>
+              @if (importPreview.processedStubs && importPreview.processedStubs[i]?.hasSubstitutedFile) {
                 <span
                   class="badge bg-info ms-2"
-                  *ngIf="importPreview.processedStubs && importPreview.processedStubs[i]?.hasSubstitutedFile"
                   [title]="'Body file: ' + importPreview.processedStubs[i]?.originalFileName"
                 >
                   <i class="fas fa-file"></i> {{ importPreview.processedStubs[i]?.originalFileName }}
                 </span>
-              </div>
+              }
             </div>
-          </div>
+          }
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeImportModal()" [disabled]="importLoading">
-          Cancel
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="executeImport()"
-          [disabled]="!importPreview || importLoading"
-        >
-          <span *ngIf="importLoading" class="spinner-border spinner-border-sm me-2"></span>
-          <i *ngIf="!importLoading" class="fas fa-upload me-2"></i>
-          {{ importLoading ? 'Importing...' : 'Import' }}
-        </button>
-      </div>
-    </div>
+    }
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" [disabled]="importLoading">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="executeImport()"
+      [disabled]="!importPreview || importLoading"
+    >
+      @if (importLoading) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      } @else {
+        <i class="fas fa-upload me-2"></i>
+      }
+      {{ importLoading ? 'Importing...' : 'Import' }}
+    </button>
+  </div>
+</ng-template>
+

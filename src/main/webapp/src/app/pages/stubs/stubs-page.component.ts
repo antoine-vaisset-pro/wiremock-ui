@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MappingService} from '../../services/mapping.service';
 import {ScenarioService} from '../../services/scenario.service';
 import {ProcessedStub, StubImportService, ZipStructure} from '../../services/stub-import.service';
@@ -13,7 +13,7 @@ import {MappingsResponse, StubMapping} from '../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './stubs-page.component.html',
-  styleUrls: ['./stubs-page.component.css']
+  styleUrls: ['./stubs-page.component.scss']
 })
 export class StubsPageComponent implements OnInit {
   // Expose Math to template
@@ -133,6 +133,14 @@ export class StubsPageComponent implements OnInit {
   // Reference to the unique file input (managed dynamically)
   @ViewChild('importInput') importInputRef!: ElementRef<HTMLInputElement>;
 
+  // Modal templates
+  @ViewChild('createModalTpl') createModalTpl!: TemplateRef<any>;
+  @ViewChild('importModalTpl') importModalTpl!: TemplateRef<any>;
+
+  // Modal refs
+  private _createModalRef: NgbModalRef | null = null;
+  private _importModalRef: NgbModalRef | null = null;
+
   // Getter to make the Set size reactive
   get selectedCount(): number {
     return this.selectedStubIds.size;
@@ -145,7 +153,8 @@ export class StubsPageComponent implements OnInit {
     private stubImportService: StubImportService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -340,6 +349,7 @@ export class StubsPageComponent implements OnInit {
       }
     }, null, 2);
     this.createStubError = '';
+    this._openCreateModal();
   }
 
   editStub(): void {
@@ -359,6 +369,7 @@ export class StubsPageComponent implements OnInit {
     // Populate JSON
     this.newStubJson = JSON.stringify(this.selectedMapping, null, 2);
     this.createStubError = '';
+    this._openCreateModal();
   }
 
   closeCreateModal(): void {
@@ -368,6 +379,10 @@ export class StubsPageComponent implements OnInit {
     this.editingStubUuid = null;
     this._originalMapping = null;
     this.resetSimpleForm();
+    if (this._createModalRef) {
+      this._createModalRef.dismiss();
+      this._createModalRef = null;
+    }
   }
 
   toggleEditorMode(): void {
@@ -493,6 +508,7 @@ export class StubsPageComponent implements OnInit {
     // Also prepare the JSON for advanced mode
     this.newStubJson = JSON.stringify(cloned, null, 2);
     this.createStubError = '';
+    this._openCreateModal();
   }
 
   addHeader(): void {
@@ -1186,9 +1202,30 @@ export class StubsPageComponent implements OnInit {
 
     // Force change detection
     this.cdr.detectChanges();
+    this._openCreateModal();
 
     console.log('=== createStubFromRequest END ===');
     console.log('FINAL showCreateModal:', this.showCreateModal);
+  }
+
+  private _openCreateModal(): void {
+    if (this._createModalRef) {
+      return; // already open
+    }
+    this._createModalRef = this.modalService.open(this.createModalTpl, {
+      size: 'xl',
+      scrollable: true,
+      backdrop: 'static'
+    });
+    this._createModalRef.dismissed.subscribe(() => {
+      this.showCreateModal = false;
+      this._createModalRef = null;
+      this.newStubJson = '';
+      this.createStubError = '';
+      this.editingStubUuid = null;
+      this._originalMapping = null;
+      this.resetSimpleForm();
+    });
   }
 
   // ========== SELECTION & EXPORT/IMPORT ==========
@@ -1287,6 +1324,15 @@ export class StubsPageComponent implements OnInit {
     this.zipStructure = null;
     this.showZipFileSelection = false;
     this.zipSelectionLoading = false;
+    this._importModalRef = this.modalService.open(this.importModalTpl, {
+      size: 'lg',
+      scrollable: true,
+      backdrop: 'static'
+    });
+    this._importModalRef.dismissed.subscribe(() => {
+      this.showImportModal = false;
+      this._importModalRef = null;
+    });
   }
 
   /**
@@ -1303,6 +1349,10 @@ export class StubsPageComponent implements OnInit {
     this.zipStructure = null;
     this.showZipFileSelection = false;
     this.zipSelectionLoading = false;
+    if (this._importModalRef) {
+      this._importModalRef.dismiss();
+      this._importModalRef = null;
+    }
   }
 
   /**

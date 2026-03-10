@@ -1,0 +1,1706 @@
+@use 'styles/colors' as *;
+@use 'styles/typography' as *;
+@use 'styles/spacing' as *;
+
+/* CSS Variables */
+:root {
+  --primary-color: #{$color-primary};
+  --primary-hover: #{$color-primary-hover};
+  --success-color: #{$color-success};
+  --danger-color: #{$color-danger};
+  --warning-color: #{$color-warning};
+  --info-color: #{$color-blue};
+  --text-primary: #{$color-slate-800};
+  --text-secondary: #{$color-gray-text};
+  --bg-primary: #{$color-white};
+  --bg-secondary: #{$color-bg-light};
+  --border-color: #{$color-gray-border-pale};
+}
+
+/* Hidden attribute support */
+[hidden] {
+  display: none !important;
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-base;
+  background-color: $color-bg-hover;
+  color: $color-text-darkest;
+}
+
+.container {
+  max-width: $size-max-container;
+  margin: 0 auto;
+  padding: $space-5;
+}
+
+h1, h2, h3 {
+  margin-bottom: $space-6;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: $space-2 $space-4;
+  border-radius: $radius-sm;
+  font-size: $font-size-md;
+  transition: all 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="text"],
+input[type="search"] {
+  padding: $space-2 $space-3;
+  border: 1px solid $color-gray-border;
+  border-radius: $radius-sm;
+  font-size: $font-size-md;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus {
+  outline: none;
+  border-color: $color-green-legacy;
+}
+
+/* In the modal, normalize all inputs to compact padding (form-control-sm) */
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="password"],
+.modal-content input[type="search"] {
+  padding: $space-1 $space-2;
+  font-size: $font-size-rem-base;
+  border-radius: $radius-bs-sm;
+}
+
+.card {
+  background: white;
+  border-radius: $radius-lg;
+  box-shadow: 0 2px 4px $color-shadow;
+  padding: $space-5;
+  margin-bottom: $space-5;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: $size-stubs-panel;
+  font-size: $font-size-xl;
+  color: $color-text-medium;
+}
+
+.error {
+  background-color: $color-danger-bg-old;
+  color: $color-danger-deep-red;
+  padding: $space-3;
+  border-radius: $radius-sm;
+  border-left: 4px solid $color-danger-deep-red;
+}
+
+pre {
+  background: $color-bg-hover;
+  padding: $space-4;
+  border-radius: $radius-sm;
+  overflow-x: auto;
+  font-size: $font-size-base;
+  line-height: $line-height-snug;
+}
+
+.btn-primary {
+  background-color: $color-green-legacy;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: $color-legacy-gray-750;
+  color: white;
+}
+
+.btn-danger {
+  background-color: $color-legacy-red;
+  color: white;
+}
+
+/* WireMock UI Main Container */
+.wiremock-ui {
+  display: flex;
+  height: 100vh;
+  background: $color-bg-light;
+  overflow: hidden;
+}
+
+/* Sidebar Menu */
+.sidebar-menu {
+  width: $size-sidebar-width;
+  background: $color-slate-800;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid $color-slate-900;
+  flex-shrink: 0;
+  min-height: 100vh; /* Takes up full height */
+  height: 100%;
+  transition: width 0.3s ease;
+  position: relative;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  padding: $space-5 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+  border-bottom: 1px solid $color-white-overlay;
+}
+
+.sidebar-logo {
+  font-size: $font-size-xl;
+  color: $color-primary;
+}
+
+.sidebar-title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: white;
+  display: none; /* Hidden in compact mode */
+}
+
+.sidebar-nav {
+  padding: $space-3 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+  padding: $space-4 0;
+  background: none;
+  border: none;
+  color: $color-gray-muted;
+  font-size: $font-size-md;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  position: relative;
+}
+
+.sidebar-item span {
+  display: none; /* Hidden in compact mode */
+}
+
+.sidebar-item:hover {
+  background: $color-white-overlay-sm;
+  color: white;
+}
+
+.sidebar-item.active {
+  background: $color-primary;
+  color: white;
+  border-left: 3px solid $color-primary-light;
+}
+
+.sidebar-item i {
+  font-size: $font-size-xl;
+  width: $size-icon-lg;
+}
+
+/* Tooltip for compact sidebar */
+.sidebar-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: $space-3;
+  padding: $space-6 $space-3;
+  background: $color-slate-600;
+  color: white;
+  font-size: $font-size-sm;
+  white-space: nowrap;
+  border-radius: $radius-sm;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  box-shadow: 0 2px 8px $color-overlay-medium;
+  z-index: 999999;
+}
+
+.sidebar-item:hover::after {
+  opacity: 1;
+}
+
+/* Main Container (Header + Content) */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+}
+
+/* App Top Bar */
+.app-top-bar {
+  background: white;
+  border-bottom: 1px solid $color-gray-border-pale;
+  padding: $space-2 $space-6;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-shadow: 0 1px 3px $color-shadow-sm;
+  flex-shrink: 0;
+  min-height: $size-min-check;
+}
+
+.app-top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: $space-6;
+}
+
+/* App Page Content (scrollable) */
+.app-page-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Header */
+.wiremock-header {
+  background: white;
+  border-bottom: 1px solid $color-gray-border-light;
+  padding: $space-4 $space-6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px $color-shadow-sm;
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.header-left h1 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin: 0;
+  color: $color-slate-600;
+}
+
+.header-subtitle {
+  font-size: $font-size-base;
+  color: $color-gray-500;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: $space-2;
+}
+
+/* Main Content */
+.wiremock-content {
+  display: flex;
+  flex: 1;
+  overflow-y: auto; /* Allow vertical scroll within pages */
+  height: calc(100vh - #{$size-header-offset}); /* Viewport height minus header */
+}
+
+/* Single-panel variant: no left/right split, scrollable column layout */
+.wiremock-content--single {
+  flex-direction: column;
+  overflow-y: auto;
+  height: calc(100vh - #{$size-header-offset});
+  padding: $space-6;
+}
+
+/* ── HTTP method badge color variants (lowercase, used in Recording & OpenAPI pages) ── */
+.method-badge.method-get {
+  background: $color-success-bg-light;
+  color: $color-success-dark;
+}
+
+.method-badge.method-post {
+  background: $color-blue-bg;
+  color: $color-blue-deep;
+}
+
+.method-badge.method-put {
+  background: $color-warning-bg-fed;
+  color: $color-method-put-text;
+}
+
+.method-badge.method-delete {
+  background: $color-danger-bg;
+  color: $color-danger-deep;
+}
+
+.method-badge.method-patch {
+  background: $color-purple-bg-light;
+  color: $color-purple-dark;
+}
+
+.method-badge.method-head {
+  background: $color-warning-bg;
+  color: $color-warning-amber-deep;
+}
+
+.method-badge.method-options {
+  background: $color-primary-bg;
+  color: $color-primary-dark;
+}
+
+/* Stubs Panel (Left) */
+.stubs-panel {
+  width: $size-stubs-panel;
+  background: white;
+  border-right: 1px solid $color-gray-border-light;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.stubs-header {
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-gray-border-light;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stubs-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.stubs-header .header-actions {
+  display: flex;
+  gap: $space-2;
+}
+
+.stubs-header .header-actions .btn {
+  font-size: $font-size-base;
+  padding: $space-6 $space-3;
+  display: flex;
+  align-items: center;
+  gap: $space-6;
+}
+
+.stubs-header .header-actions .btn i {
+  font-size: $font-size-sm;
+}
+
+.stubs-header .header-actions .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stubs-header h2 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin: 0;
+  color: $color-slate-600;
+}
+
+/* Search Bar */
+.search-bar {
+  padding: $space-3 $space-5;
+  border-bottom: 1px solid $color-gray-border-light;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-gray-light;
+  font-size: $font-size-md;
+  pointer-events: none;
+}
+
+.search-clear-icon {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-gray-light;
+  font-size: $font-size-md;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.search-clear-icon:hover {
+  color: $color-gray-500;
+}
+
+.search-bar input {
+  padding-left: $space-8;
+  padding-right: $space-8;
+  font-size: $font-size-md;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-border;
+  width: 100%;
+}
+
+.search-bar input:focus {
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px $color-primary-shadow;
+}
+
+/* Stubs List */
+.stubs-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.stub-item {
+  display: flex;
+  align-items: center;
+  padding: $space-3 $space-5;
+  border-bottom: 1px solid $color-bg-softer;
+  cursor: pointer;
+  transition: all 0.15s;
+  gap: $space-3;
+}
+
+.stub-item:hover {
+  background: $color-bg-near-white;
+}
+
+.stub-item.selected {
+  background: $color-blue-bg-light;
+  border-left: 3px solid $color-blue;
+}
+
+.stub-method {
+  flex-shrink: 0;
+}
+
+.method-badge {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  padding: $space-1 $space-2;
+  border-radius: $radius-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.method-badge.method-GET {
+  background: $color-success-bg-light;
+  color: $color-success-dark;
+}
+
+.method-badge.method-POST {
+  background: $color-blue-bg;
+  color: $color-blue-deep;
+}
+
+.method-badge.method-PUT {
+  background: $color-warning-bg-fed;
+  color: $color-method-put-text;
+}
+
+.method-badge.method-DELETE {
+  background: $color-danger-bg;
+  color: $color-danger-deep;
+}
+
+.method-badge.method-PATCH {
+  background: $color-purple-bg-light;
+  color: $color-purple-dark;
+}
+
+.method-badge.method-HEAD {
+  background: $color-warning-bg;
+  color: $color-warning-amber-deep;
+}
+
+.method-badge.method-OPTIONS {
+  background: $color-primary-bg;
+  color: $color-primary-dark;
+}
+
+.method-badge.method-TRACE {
+  background: $color-danger-bg-pink;
+  color: $color-danger-magenta;
+}
+
+.method-badge.method-ANY {
+  background: $color-gray-border-pale;
+  color: $color-slate-300;
+}
+
+.stub-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.stub-url {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-slate-600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stub-name {
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  margin-top: $space-2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stub-status {
+  flex-shrink: 0;
+}
+
+.status-code {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-success-teal;
+  background: $color-success-teal-bg;
+  padding: $space-1 $space-2;
+  border-radius: $radius-sm;
+}
+
+/* Details Panel (Right) */
+.details-panel {
+  flex: 1;
+  background: $color-bg-light;
+  overflow-y: auto;
+  padding: $space-6;
+}
+
+.no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $color-gray-light;
+}
+
+.no-selection i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-4;
+  opacity: 0.3;
+}
+
+.no-selection p {
+  font-size: $font-size-xl;
+  margin: 0;
+}
+
+.stub-details {
+  max-width: $size-max-content;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-6;
+}
+
+.details-header h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin: 0;
+  color: $color-slate-600;
+}
+
+.details-actions {
+  display: flex;
+  gap: $space-2;
+}
+
+/* View Tabs */
+.view-tabs {
+  display: flex;
+  gap: $space-1;
+  border-bottom: 2px solid $color-gray-border-pale;
+  margin: $space-4 0;
+}
+
+.view-tab {
+  padding: $space-10 $space-5;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-gray-500;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -$space-2;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.view-tab i {
+  margin-right: $space-6;
+}
+
+.view-tab.active {
+  color: $color-blue;
+  border-bottom-color: $color-blue;
+}
+
+.view-tab:hover:not(.active) {
+  color: $color-slate-500;
+  background: $color-bg-near-white;
+}
+
+.detail-section {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  margin-bottom: $space-4;
+  border: 1px solid $color-gray-border-pale;
+}
+
+.detail-section h4 {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  margin: 0 0 $space-4 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-label {
+  display: block;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-gray-500;
+  margin-bottom: $space-2;
+}
+
+.request-line {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3;
+  background: $color-bg-near-white;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-border-pale;
+}
+
+.request-url {
+  font-family: $font-family-mono;
+  font-size: $font-size-md;
+  color: $color-slate-600;
+  font-weight: $font-weight-medium;
+}
+
+.response-tabs {
+  display: flex;
+  gap: $space-1;
+  border-bottom: 1px solid $color-gray-border-pale;
+  margin-bottom: $space-4;
+}
+
+.tab {
+  padding: $space-2 $space-4;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-gray-500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.tab.active {
+  color: $color-blue;
+  border-bottom-color: $color-blue;
+}
+
+.tab:hover:not(.active) {
+  color: $color-slate-500;
+}
+
+.headers-list {
+  background: $color-bg-near-white;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-border-pale;
+  overflow: hidden;
+}
+
+.header-item {
+  display: flex;
+  padding: $space-10 $space-3-5;
+  border-bottom: 1px solid $color-gray-border-pale;
+}
+
+.header-item:last-child {
+  border-bottom: none;
+}
+
+.header-key {
+  flex: 0 0 200px;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  font-family: $font-family-mono;
+}
+
+.header-value {
+  flex: 1;
+  font-size: $font-size-base;
+  color: $color-gray-500;
+  font-family: $font-family-mono;
+  word-break: break-all;
+}
+
+.body-editor {
+  background: $color-slate-900;
+  border-radius: $radius-md;
+  overflow: hidden;
+  border: 1px solid $color-slate-800;
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-2 $space-3;
+  background: $color-slate-sidebar;
+  border-bottom: 1px solid $color-slate-800;
+}
+
+.json-body {
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
+  color: $color-bg-card;
+  padding: $space-4;
+  margin: 0;
+  max-height: $size-min-range;
+  overflow: auto;
+  line-height: $line-height-normal;
+  background: $color-slate-900;
+}
+
+.json-viewer {
+  position: relative;
+}
+
+.json-viewer button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
+.json-content {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  background: $color-slate-900;
+  color: $color-bg-card;
+  padding: $space-4;
+  border-radius: $radius-md;
+  border: 1px solid $color-slate-800;
+  max-height: $size-modal-sm;
+  overflow: auto;
+  margin: 0;
+  line-height: $line-height-normal;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-15 $space-5;
+  color: $color-gray-500;
+}
+
+.loading-state p {
+  margin-top: $space-4;
+  font-size: $font-size-md;
+}
+
+/* Error State */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-15 $space-5;
+  color: $color-danger-dark;
+}
+
+.error-state i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-4;
+  opacity: 0.5;
+}
+
+.error-state p {
+  margin-bottom: $space-4;
+  font-size: $font-size-md;
+  text-align: center;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-15 $space-5;
+  color: $color-gray-light;
+}
+
+.empty-state i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-4;
+  opacity: 0.3;
+}
+
+.empty-state p {
+  margin-bottom: $space-4;
+  font-size: $font-size-md;
+}
+
+.empty-state-create {
+  padding: $space-5;
+  text-align: center;
+}
+
+/* Pagination */
+.pagination-container {
+  padding: $space-4 $space-5;
+  border-top: 1px solid $color-gray-border-light;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-3;
+}
+
+.pagination-info {
+  font-size: $font-size-base;
+  color: $color-gray-500;
+}
+
+/* Override ng-bootstrap pagination styles */
+::ng-deep .pagination {
+  margin: 0;
+}
+
+::ng-deep .page-link {
+  color: $color-slate-500;
+  border-color: $color-gray-border-pale;
+  font-size: $font-size-base;
+  padding: $space-6 $space-3;
+}
+
+::ng-deep .page-link:hover {
+  background-color: $color-bg-near-white;
+  border-color: $color-gray-border;
+  color: $color-slate-600;
+}
+
+::ng-deep .page-item.active .page-link {
+  background-color: $color-blue;
+  border-color: $color-blue;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wiremock-content {
+    flex-direction: column;
+  }
+
+  .stubs-panel {
+    width: 100%;
+    max-height: $size-vh-half;
+  }
+
+  .details-panel {
+    width: 100%;
+  }
+}
+
+/* Scrollbar Styling */
+.stubs-list::-webkit-scrollbar,
+.details-panel::-webkit-scrollbar,
+.json-body::-webkit-scrollbar,
+.json-content::-webkit-scrollbar {
+  width: $size-scrollbar;
+  height: $size-scrollbar;
+}
+
+.stubs-list::-webkit-scrollbar-track,
+.details-panel::-webkit-scrollbar-track,
+.json-body::-webkit-scrollbar-track,
+.json-content::-webkit-scrollbar-track {
+  background: $color-bg-code;
+}
+
+.stubs-list::-webkit-scrollbar-thumb,
+.details-panel::-webkit-scrollbar-thumb,
+.json-body::-webkit-scrollbar-thumb,
+.json-content::-webkit-scrollbar-thumb {
+  background: $color-gray-mid;
+  border-radius: $radius-sm;
+}
+
+.stubs-list::-webkit-scrollbar-thumb:hover,
+.details-panel::-webkit-scrollbar-thumb:hover,
+.json-body::-webkit-scrollbar-thumb:hover,
+.json-content::-webkit-scrollbar-thumb:hover {
+  background: $color-gray-muted;
+}
+
+/* Create Stub Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-overlay-dark;
+  z-index: 1000;
+  animation: fadeIn 0.2s;
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 98%;
+  max-width: $size-modal-full;
+  height: $size-modal-height;
+  z-index: 1001;
+  animation: slideIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: $radius-lg;
+  box-shadow: 0 20px 60px $color-overlay-medium;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: $space-5 $space-6;
+  border-bottom: 1px solid $color-gray-border-pale;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space-4;
+  flex-shrink: 0;
+}
+
+.modal-header h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin: 0;
+  color: $color-slate-600;
+  flex: 1;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: $space-2;
+}
+
+.mode-toggle .btn {
+  min-width: 100px;
+}
+
+.modal-body {
+  padding: $space-6;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-footer {
+  flex-shrink: 0;
+}
+
+.modal-footer {
+  padding: $space-4 $space-6;
+  border-top: 1px solid $color-gray-border-pale;
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+.json-editor {
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
+  background: $color-slate-900;
+  color: $color-bg-card;
+  border: 1px solid $color-slate-800;
+  border-radius: $radius-md;
+  padding: $space-3;
+  line-height: $line-height-normal;
+  resize: vertical;
+  min-height: $size-min-range;
+}
+
+.json-editor:focus {
+  outline: none;
+  border-color: $color-blue;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
+}
+
+.json-editor::placeholder {
+  color: $color-gray-text;
+}
+
+/* Simple Editor Styles */
+.simple-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: $space-5;
+}
+
+.editor-section {
+  background: $color-bg-near-white;
+  border: 1px solid $color-gray-border-pale;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.editor-section h4 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-600;
+  margin: 0 0 $space-4 0;
+  padding-bottom: $space-3;
+  border-bottom: 2px solid $color-blue;
+}
+
+.simple-editor .form-label {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  margin-bottom: $space-6;
+  display: block;
+}
+
+.simple-editor .form-control,
+.simple-editor .form-select {
+  font-size: $font-size-md;
+  border-color: $color-gray-border;
+}
+
+.simple-editor .form-control:focus,
+.simple-editor .form-select:focus {
+  border-color: $color-blue;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.status-input {
+  max-width: 120px;
+}
+
+.header-row {
+  display: flex;
+  gap: $space-2;
+}
+
+.json-editor-simple {
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
+  background: $color-bg-near-white;
+  border: 1px solid $color-gray-border;
+  border-radius: $radius-md;
+  padding: $space-3;
+  line-height: $line-height-normal;
+  resize: vertical;
+  min-height: $size-stubs-panel;
+}
+
+.json-editor-simple:focus {
+  outline: none;
+  border-color: $color-blue;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
+  background: white;
+}
+
+.advanced-editor {
+  /* Styles already defined for json-editor */
+}
+
+/* ========== REQUESTS PAGE STYLES ========== */
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  margin-top: $space-3;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: $space-4;
+  padding: $space-2 0;
+  border-bottom: 1px solid $color-bg-card;
+}
+
+.info-label {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-text;
+  font-size: $font-size-base;
+}
+
+.info-value {
+  color: $color-slate-800;
+  font-size: $font-size-base;
+  word-break: break-all;
+}
+
+.stub-date {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-400;
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+}
+
+.stub-method-url {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  flex: 1;
+  min-width: 0;
+}
+
+.stub-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $space-1;
+}
+
+.list-info {
+  padding: $space-3 $space-5;
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  background: $color-bg-near-white;
+  border-bottom: 1px solid $color-gray-border-pale;
+}
+
+.stub-item.active {
+  background: $color-blue-bg-light;
+  border-left: 3px solid $color-blue;
+}
+
+.empty-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-details {
+  text-align: center;
+  color: $color-gray-muted;
+}
+
+.empty-details i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-4;
+  opacity: 0.5;
+}
+
+.empty-details p {
+  font-size: $font-size-xl;
+  margin: 0;
+}
+
+/* ========== REQUESTER PAGE STYLES ========== */
+
+.requester-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: $color-bg-light;
+}
+
+.requester-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-6;
+  padding: $space-6;
+  overflow: hidden;
+}
+
+.requester-panel,
+.response-panel {
+  background: white;
+  border-radius: $radius-lg;
+  border: 1px solid $color-gray-border-pale;
+  overflow-y: auto;
+  padding: $space-5;
+}
+
+.requester-panel h4,
+.response-panel h4 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-600;
+  margin-bottom: $space-5;
+  padding-bottom: $space-3;
+  border-bottom: 2px solid $color-blue;
+}
+
+.requester-panel h4 i,
+.response-panel h4 i {
+  color: $color-blue;
+  margin-right: $space-2;
+}
+
+.requester-panel .form-label,
+.response-panel .form-label {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  margin-bottom: $space-6;
+  display: block;
+}
+
+.requester-panel .form-label i {
+  color: $color-primary;
+  margin-right: $space-1;
+}
+
+.requester-panel .form-control,
+.requester-panel .form-select {
+  font-size: $font-size-md;
+  border-color: $color-gray-border;
+}
+
+.requester-panel .form-control:focus,
+.requester-panel .form-select:focus {
+  border-color: $color-blue;
+  box-shadow: 0 0 0 3px $color-blue-shadow;
+}
+
+.requester-panel .btn-primary {
+  background-color: $color-blue;
+  border-color: $color-blue;
+  padding: $space-10 $space-6;
+}
+
+.requester-panel .btn-primary:hover {
+  background-color: $color-blue-dark;
+  border-color: $color-blue-dark;
+}
+
+.requester-panel .btn-primary:disabled {
+  background-color: $color-gray-light;
+  border-color: $color-gray-light;
+  cursor: not-allowed;
+}
+
+.response-panel h5 {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  margin-bottom: $space-3;
+}
+
+.response-panel .no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: $size-min-range;
+  color: $color-gray-light;
+}
+
+.response-panel .no-selection i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-4;
+  opacity: 0.3;
+}
+
+.response-panel .no-selection p {
+  font-size: $font-size-xl;
+  margin: 0;
+}
+
+.response-panel .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: $size-min-range;
+  color: $color-gray-500;
+}
+
+.response-panel .loading-state p {
+  margin-top: $space-4;
+  font-size: $font-size-md;
+}
+
+/* Responsive Requester */
+@media (max-width: 1200px) {
+  .requester-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .requester-panel,
+  .response-panel {
+    max-height: $size-vh-60;
+  }
+}
+
+/* ========== EXPANDABLE SECTIONS ========== */
+
+.expandable-section {
+  margin-top: $space-4;
+  border: 1px solid $color-gray-border-pale;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.expandable-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-3 $space-4;
+  background: $color-bg-near-white;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.expandable-header:hover {
+  background: $color-bg-softer;
+}
+
+.expandable-title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-slate-500;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.expandable-icon {
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  transition: transform 0.2s;
+}
+
+.expandable-icon.expanded {
+  transform: rotate(90deg);
+}
+
+.expandable-content {
+  padding: $space-4;
+  background: white;
+  border-top: 1px solid $color-gray-border-pale;
+}
+
+.expandable-content.collapsed {
+  display: none;
+}
+
+/* Stub link button */
+.stub-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-6;
+  padding: $space-2 $space-4;
+  margin-top: $space-3;
+  background: $color-blue;
+  color: white;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.stub-link-btn:hover {
+  background: $color-blue-dark;
+}
+
+.stub-link-btn i {
+  font-size: $font-size-sm;
+}
+
+/* ========== REQUESTS LIST IMPROVEMENTS ========== */
+
+/* Compact Request Item */
+.request-item-compact {
+  padding: $space-1 $space-2 !important;
+  min-height: unset !important;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.request-item-compact .stub-method-url {
+  flex: 1;
+}
+
+.request-item-compact .stub-date {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.request-item-compact .badge-compact {
+  font-size: $font-size-xs;
+}
+
+.request-item-compact.selected {
+  background: $color-warning-bg;
+  border-left: 3px solid $color-warning-amber;
+}
+
+.request-item-compact.selected.active {
+  background: $color-warning-bg;
+  border-left: 3px solid $color-warning-amber;
+}
+
+/* Request Checkbox */
+.request-checkbox {
+  display: flex;
+  align-items: center;
+  padding-right: $space-2;
+}
+
+.request-checkbox input[type="checkbox"] {
+  width: $size-icon-sm;
+  height: $size-icon-sm;
+  cursor: pointer;
+}
+
+/* Select All Checkbox */
+.select-all-checkbox {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin: 0;
+}
+
+.select-all-checkbox input[type="checkbox"] {
+  width: $size-icon-sm;
+  height: $size-icon-sm;
+  cursor: pointer;
+  margin: 0;
+}
+
+.select-all-checkbox label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  color: $color-slate-500;
+  user-select: none;
+}
+
+.list-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-10 $space-5;
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  background: $color-bg-near-white;
+  border-bottom: 1px solid $color-gray-border-pale;
+}
+
+
+/* Disabled section for fault mode */
+.disabled-section {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.disabled-section .form-control,
+.disabled-section .form-select,
+.disabled-section .btn {
+  cursor: not-allowed;
+}
+
+/* Near Misses Section */
+.near-miss-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-7-5 $space-5;
+  color: $color-gray-500;
+}
+
+.near-misses-inline-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $space-3-5;
+  margin-top: $space-4;
+}
+
+.near-miss-inline-item {
+  background: $color-bg-near-white;
+  border: 1px solid $color-gray-border-pale;
+  border-radius: $radius-lg;
+  padding: $space-3-5;
+  transition: all 0.2s ease;
+}
+
+.near-miss-inline-item:hover {
+  border-color: $color-blue;
+  box-shadow: 0 4px 12px $color-blue-shadow-md;
+  transform: translateY(-2px);
+}
+
+.near-miss-inline-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-3;
+}
+
+.near-miss-rank {
+  background: $color-blue;
+  color: white;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  padding: $space-1 $space-10;
+  border-radius: $radius-2xl;
+}
+
+.near-miss-distance {
+  background: $color-blue-bg;
+  color: $color-blue-deep;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  padding: $space-1 $space-10;
+  border-radius: $radius-2xl;
+}
+
+.near-miss-stub-info {
+  margin-bottom: $space-5;
+}
+
+.near-miss-stub-info .stub-name,
+.near-miss-stub-info .stub-id {
+  font-size: $font-size-base;
+  color: $color-slate-500;
+  font-weight: $font-weight-medium;
+  margin-bottom: $space-1;
+}
+
+.near-miss-stub-info i {
+  color: $color-gray-500;
+  margin-right: $space-1;
+  font-size: $font-size-sm;
+}
+
+.near-miss-pattern {
+  background: white;
+  padding: $space-2;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-border-pale;
+  margin-bottom: $space-5;
+}
+
+.pattern-row {
+  display: flex;
+  align-items: center;
+  gap: $space-10;
+}
+
+.pattern-url {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $color-slate-600;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.no-near-misses {
+  text-align: center;
+  padding: $space-7-5 $space-5;
+  color: $color-gray-light;
+  grid-column: 1 / -1;
+}
+
+.no-near-misses i {
+  font-size: $font-size-xl;
+  margin-bottom: $space-5;
+  color: $color-gray-border;
+}
+
+.no-near-misses p {
+  margin: 0;
+  font-size: $font-size-md;
+}

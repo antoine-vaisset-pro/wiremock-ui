@@ -17,7 +17,7 @@ interface SelectorOption {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './backend-selector.component.html',
-  styleUrls: ['./backend-selector.component.css']
+  styleUrls: ['./backend-selector.component.scss']
 })
 export class BackendSelectorComponent implements OnInit, OnDestroy {
   options: SelectorOption[] = [];

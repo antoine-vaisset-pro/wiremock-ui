@@ -1,3 +1,7 @@
+@use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
+
 /* ─────────────────────────────────────────
    Layout
 ───────────────────────────────────────── */
@@ -6,7 +10,7 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: #f8f9fa;
+  background: $color-bg-light;
 }
 
 .help-layout {
@@ -23,16 +27,16 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 0.75rem 1.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background: $color-white;
+  border-bottom: 1px solid $color-gray-border-pale;
+  padding: $space-3 $space-6;
+  box-shadow: 0 2px 6px $color-shadow-md;
 }
 
 .help-search-inner {
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: $size-max-search;
   margin: 0 auto;
   position: relative;
 }
@@ -40,26 +44,26 @@
 .search-icon {
   position: absolute;
   left: 0.85rem;
-  color: #888;
-  font-size: 0.9rem;
+  color: $color-gray-icon;
+  font-size: $font-size-rem-base;
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.55rem 2.5rem 0.55rem 2.25rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 24px;
-  font-size: 0.95rem;
+  padding: $space-2 $space-10 $space-2 $space-8;
+  border: 2px solid $color-gray-border-pale;
+  border-radius: $radius-3xl;
+  font-size: $font-size-rem-base;
   transition: border-color 0.2s, box-shadow 0.2s;
-  background: #fafafa;
+  background: $color-bg-near-white;
   outline: none;
 }
 
 .search-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
-  background: #fff;
+  border-color: $color-blue-legacy;
+  box-shadow: 0 0 0 3px $color-blue-legacy-shadow-md;
+  background: $color-white;
 }
 
 .search-clear {
@@ -67,59 +71,59 @@
   right: 0.75rem;
   background: none;
   border: none;
-  color: #888;
+  color: $color-gray-icon;
   cursor: pointer;
-  padding: 0.2rem 0.4rem;
-  font-size: 0.85rem;
-  line-height: 1;
+  padding: $space-1 $space-1-5;
+  font-size: $font-size-rem-base;
+  line-height: $line-height-tight;
   transition: color 0.15s;
 }
 
 .search-clear:hover {
-  color: #333;
+  color: $color-text-darkest;
 }
 
 /* ─────────────────────────────────────────
    Table of Contents (left sidebar)
 ───────────────────────────────────────── */
 .help-toc {
-  width: 220px;
+  width: $size-toc-width;
   flex-shrink: 0;
   position: sticky;
-  top: 57px; /* height of search bar */
-  height: calc(100vh - 57px);
+  top: $size-toc-top; /* height of search bar */
+  height: calc(100vh - #{$size-toc-top});
   overflow-y: auto;
-  padding: 1.5rem 1rem 2rem;
-  border-right: 1px solid #e0e0e0;
-  background: #fff;
+  padding: $space-6 $space-3-5 $space-10;
+  border-right: 1px solid $color-gray-border-pale;
+  background: $color-white;
 }
 
 .toc-title {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-bold;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #999;
-  margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
+  color: $color-gray-subtle;
+  margin-bottom: $space-2;
+  padding-left: $space-2;
 }
 
 .help-toc nav ul,
 .toc-external ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem;
+  margin: 0 0 $space-6;
 }
 
 .help-toc nav ul li a,
 .toc-external ul li a {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  color: #444;
+  gap: $space-1;
+  padding: $space-2 $space-2-5;
+  border-radius: $radius-md;
+  font-size: $font-size-rem-base;
+  color: $color-text-nav;
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
   cursor: pointer;
@@ -127,26 +131,26 @@
 
 .help-toc nav ul li a:hover,
 .toc-external ul li a:hover {
-  background: #f0f4ff;
-  color: #007bff;
+  background: $color-bg-blue-tint;
+  color: $color-blue-legacy;
 }
 
 .help-toc nav ul li a.active {
-  background: #e8f0fe;
-  color: #1a56db;
-  font-weight: 600;
+  background: $color-blue-google-bg;
+  color: $color-blue-darker;
+  font-weight: $font-weight-semibold;
 }
 
 .help-toc nav ul li a i,
 .toc-external ul li a i {
-  font-size: 0.75rem;
-  width: 14px;
+  font-size: $font-size-rem-sm;
+  width: $size-icon-xs;
   text-align: center;
 }
 
 .toc-external {
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
+  border-top: 1px solid $color-gray-border-subtle;
+  padding-top: $space-6;
 }
 
 .help-toc nav li.hidden,
@@ -159,48 +163,48 @@
 ───────────────────────────────────────── */
 .help-content {
   flex: 1;
-  padding: 2rem 2.5rem;
+  padding: $space-10 $space-10;
   overflow-y: auto;
-  max-width: 900px;
+  max-width: $size-max-content;
 }
 
 .help-intro {
-  margin-bottom: 2.5rem;
+  margin-bottom: $space-6;
 }
 
 .help-intro h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.5rem;
+  font-size: $font-size-rem-base;
+  font-weight: $font-weight-bold;
+  color: $color-slate-navy;
+  margin-bottom: $space-2;
 }
 
 .help-intro h1 i {
-  color: #007bff;
-  margin-right: 0.5rem;
+  color: $color-blue-legacy;
+  margin-right: $space-2;
 }
 
 .help-intro p {
-  color: #555;
-  font-size: 1rem;
-  line-height: 1.6;
+  color: $color-text-dark;
+  font-size: $font-size-rem-base;
+  line-height: $line-height-normal;
 }
 
 /* ─────────────────────────────────────────
    Sections
 ───────────────────────────────────────── */
 .help-section {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #e8ecf0;
-  padding: 1.75rem 2rem;
-  margin-bottom: 2rem;
-  scroll-margin-top: 70px; /* offset for sticky search bar */
+  background: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-divider;
+  padding: $space-7 $space-10;
+  margin-bottom: $space-5;
+  scroll-margin-top: $size-scroll-offset; /* offset for sticky search bar */
   transition: box-shadow 0.2s;
 }
 
 .help-section:hover {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px $color-shadow-sm;
 }
 
 .help-section.hidden {
@@ -210,58 +214,58 @@
 .section-heading {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid #f0f4ff;
+  gap: $space-10;
+  margin-bottom: $space-6;
+  padding-bottom: $space-3;
+  border-bottom: 2px solid $color-bg-blue-tint;
 }
 
 .section-heading i {
-  color: #007bff;
+  color: $color-blue-legacy;
   font-size: 1.2rem;
 }
 
 .section-heading h2 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1a1a2e;
+  font-size: $font-size-rem-base;
+  font-weight: $font-weight-bold;
+  color: $color-slate-navy;
   margin: 0;
 }
 
 .help-section h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 1.4rem 0 0.6rem;
+  font-size: $font-size-rem-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-section;
+  margin: $space-6 0 $space-2-5;
 }
 
 .help-section h4 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #34495e;
-  margin: 1.2rem 0 0.5rem;
-  padding-left: 0.75rem;
-  border-left: 3px solid #007bff;
+  font-size: $font-size-rem-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-subsection;
+  margin: $space-6 0 $space-2;
+  padding-left: $space-3;
+  border-left: 3px solid $color-blue-legacy;
 }
 
 .help-section h5 {
   font-size: 0.88rem;
-  font-weight: 600;
-  color: #555;
-  margin: 1rem 0 0.4rem;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  margin: $space-6 0 $space-1-5;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .help-section p {
-  color: #4a4a4a;
-  font-size: 0.9rem;
-  line-height: 1.7;
-  margin-bottom: 0.75rem;
+  color: $color-text-body;
+  font-size: $font-size-rem-base;
+  line-height: $line-height-relaxed;
+  margin-bottom: $space-3;
 }
 
 .help-section a {
-  color: #007bff;
+  color: $color-blue-legacy;
   text-decoration: none;
 }
 
@@ -270,30 +274,30 @@
 }
 
 .help-section code {
-  font-size: 0.82rem;
-  background: #f1f3f5;
-  color: #c0392b;
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: $font-size-rem-base;
+  background: $color-bg-code;
+  color: $color-danger-carmine;
+  padding: $space-0-5 $space-1-5;
+  border-radius: $radius-sm;
+  font-family: $font-family-code;
 }
 
 /* ─────────────────────────────────────────
    Option table
 ───────────────────────────────────────── */
 .option-table {
-  border: 1px solid #e8ecf0;
-  border-radius: 8px;
+  border: 1px solid $color-gray-divider;
+  border-radius: $radius-lg;
   overflow: hidden;
-  margin: 0.5rem 0 1rem;
+  margin: $space-2 0 $space-6;
 }
 
 .option-row {
   display: grid;
   grid-template-columns: 200px 1fr;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #f0f2f4;
+  gap: $space-6;
+  padding: $space-3 $space-6;
+  border-bottom: 1px solid $color-bg-muted;
   align-items: start;
 }
 
@@ -302,39 +306,39 @@
 }
 
 .option-row:nth-child(even) {
-  background: #fafbfc;
+  background: $color-bg-near-white;
 }
 
 .option-label {
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: #2c3e50;
-  padding-top: 0.05rem;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-rem-base;
+  color: $color-text-section;
+  padding-top: $space-0-5;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: $space-6;
   flex-wrap: wrap;
 }
 
 .option-desc {
-  font-size: 0.875rem;
-  color: #4a4a4a;
-  line-height: 1.6;
+  font-size: $font-size-rem-base;
+  color: $color-text-body;
+  line-height: $line-height-normal;
 }
 
 /* ─────────────────────────────────────────
    Help list
 ───────────────────────────────────────── */
 .help-list {
-  padding-left: 1.5rem;
-  margin: 0.5rem 0 0.75rem;
+  padding-left: $space-6;
+  margin: $space-2 0 $space-3;
 }
 
 .help-list li {
-  font-size: 0.875rem;
-  color: #4a4a4a;
-  line-height: 1.7;
-  margin-bottom: 0.3rem;
+  font-size: $font-size-rem-base;
+  color: $color-text-body;
+  line-height: $line-height-relaxed;
+  margin-bottom: $space-1;
 }
 
 /* ─────────────────────────────────────────
@@ -343,20 +347,20 @@
 .help-tip {
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
-  padding: 0.85rem 1rem;
-  background: #fffbea;
-  border: 1px solid #ffe08a;
-  border-radius: 8px;
-  margin-top: 1rem;
-  font-size: 0.875rem;
-  color: #5a4300;
-  line-height: 1.6;
+  gap: $space-10;
+  padding: $space-3-5 $space-6;
+  background: $color-warning-bg-orange;
+  border: 1px solid $color-warning-border;
+  border-radius: $radius-lg;
+  margin-top: $space-6;
+  font-size: $font-size-rem-base;
+  color: $color-warning-text-deep;
+  line-height: $line-height-normal;
 }
 
 .help-tip i {
-  color: #d4a017;
-  margin-top: 0.1rem;
+  color: $color-warning-gold;
+  margin-top: $space-0-5;
   flex-shrink: 0;
 }
 
@@ -364,85 +368,85 @@
    Subsection indent
 ───────────────────────────────────────── */
 .subsection {
-  padding-left: 0.75rem;
-  border-left: 3px solid #e8ecf0;
-  margin-bottom: 0.5rem;
+  padding-left: $space-3;
+  border-left: 3px solid $color-gray-divider;
+  margin-bottom: $space-2;
 }
 
 /* ─────────────────────────────────────────
    Inline badges
 ───────────────────────────────────────── */
 .badge-optional {
-  font-size: 0.65rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  background: #e8f4f8;
-  color: #0077aa;
-  border: 1px solid #b3d9ea;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-semibold;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-xl;
+  background: $color-badge-teal-bg;
+  color: $color-badge-teal-text;
+  border: 1px solid $color-badge-teal-border;
   vertical-align: middle;
-  margin-left: 0.35rem;
+  margin-left: $space-1-5;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
 .badge-matched {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-xl;
+  background: $color-success-bg;
+  color: $color-success-text;
+  border: 1px solid $color-badge-green-border2;
 }
 
 .badge-unmatched {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  background: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-xl;
+  background: $color-warning-bg-orange;
+  color: $color-warning-text;
+  border: 1px solid $color-warning-border-legacy;
 }
 
 .badge-nearmiss {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  background: #cce5ff;
-  color: #004085;
-  border: 1px solid #b8daff;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-xl;
+  background: $color-badge-blue-bg;
+  color: $color-badge-blue-text;
+  border: 1px solid $color-badge-blue-border;
 }
 
 .badge-env-label {
   display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  background: #e6f4ea;
-  color: #1a7f37;
-  border: 1px solid #a8d5b5;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-sm;
+  background: $color-badge-green-bg;
+  color: $color-success-dark;
+  border: 1px solid $color-badge-green-border;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
 .badge-custom-label {
   display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  background: #fff3e0;
-  color: #b45309;
-  border: 1px solid #fcd09a;
+  padding: $space-0-5 $space-2;
+  border-radius: $radius-sm;
+  background: $color-warning-bg-orange;
+  color: $color-warning-amber-dark;
+  border: 1px solid $color-badge-orange-border;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -451,17 +455,17 @@
    Inline icons
 ───────────────────────────────────────── */
 .icon-inline {
-  font-size: 0.85em;
+  font-size: $font-size-em-sm;
 }
 
 /* ─────────────────────────────────────────
    Search highlight
 ───────────────────────────────────────── */
 :host ::ng-deep mark.search-highlight {
-  background: #fff176;
+  background: $color-search-highlight;
   color: inherit;
-  padding: 0 1px;
-  border-radius: 2px;
+  padding: 0 $space-2;
+  border-radius: $radius-xs;
 }
 
 /* ─────────────────────────────────────────
@@ -473,18 +477,18 @@
   }
 
   .help-content {
-    padding: 1.25rem 1rem;
+    padding: $space-5 $space-6;
     max-width: 100%;
   }
 
   .option-row {
     grid-template-columns: 1fr;
-    gap: 0.25rem;
+    gap: $space-1;
   }
 
   .option-label {
-    font-size: 0.8rem;
-    color: #007bff;
+    font-size: $font-size-rem-base;
+    color: $color-blue-legacy;
   }
 }
 
@@ -493,26 +497,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  background: var(--primary-color, #4f46e5);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 700;
-  margin-right: 6px;
+  width: $size-icon-xl;
+  height: $size-icon-xl;
+  background: var(--primary-color, $color-primary-hover);
+  color: $color-white;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  margin-right: $space-6;
   flex-shrink: 0;
   vertical-align: middle;
 }
 
 .help-ordered-list {
-  margin: 0.5rem 0 0.75rem 1.25rem;
+  margin: $space-2 0 $space-3 $space-5;
   padding: 0;
-  line-height: 1.8;
-  font-size: 0.9rem;
+  line-height: $line-height-loose;
+  font-size: $font-size-rem-base;
   color: var(--text-primary);
 }
 
 .help-ordered-list li {
-  margin-bottom: 0.25rem;
+  margin-bottom: $space-1;
 }

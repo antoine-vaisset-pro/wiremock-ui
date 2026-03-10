@@ -37,7 +37,7 @@ import { BackendSelectorComponent } from './components/backend-selector/backend-
       </div>
     </div>
   `,
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'WireMock UI';

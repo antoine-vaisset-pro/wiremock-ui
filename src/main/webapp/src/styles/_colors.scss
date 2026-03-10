@@ -1,0 +1,213 @@
+// ============================================================
+// WireMock UI - Color palette
+// All colors must be defined here and referenced by variable.
+// No hardcoded color value is allowed in component SCSS files.
+// ============================================================
+
+// ── Primary / Indigo ──────────────────────────────────────────
+$color-primary:           #6366f1;
+$color-primary-hover:     #4f46e5;
+$color-primary-light:     #818cf8;
+$color-primary-dark:      #3730a3;
+$color-primary-bg:        #e0e7ff;
+$color-primary-bg-light:  #eef2ff;
+$color-primary-bg-subtle: #f0f0ff;
+$color-primary-shadow:    rgba(99, 102, 241, 0.1);
+$color-primary-shadow-md: rgba(99, 102, 241, 0.15);
+
+// ── Blue ─────────────────────────────────────────────────────
+$color-blue:              #3b82f6;
+$color-blue-dark:         #2563eb;
+$color-blue-darker:       #1d4ed8;
+$color-blue-deep:         #1e40af;
+$color-blue-legacy:       #007bff;
+$color-blue-legacy-dark:  #0056b3;
+$color-blue-bg:           #dbeafe;
+$color-blue-bg-light:     #eff6ff;
+$color-blue-bg-hover:     #f0f8ff;
+$color-blue-shadow:       rgba(59, 130, 246, 0.1);
+$color-blue-shadow-md:    rgba(59, 130, 246, 0.15);
+$color-blue-shadow-lg:    rgba(59, 130, 246, 0.4);
+$color-blue-shadow-xl:    rgba(59, 130, 246, 0.6);
+$color-blue-legacy-shadow-md: rgba(0, 123, 255, 0.12);
+$color-blue-legacy-shadow-lg: rgba(0, 123, 255, 0.3);
+
+// ── Bootstrap Blue (0d6efd) ───────────────────────────────────
+$color-blue-bs:           #0d6efd;
+
+// ── Cyan / Teal ──────────────────────────────────────────────
+$color-cyan:              #0dcaf0;
+$color-teal:              #17a2b8;
+$color-teal-dark:         #138496;
+
+// ── Green / Success ───────────────────────────────────────────
+$color-success:           #22c55e;
+$color-success-dark:      #15803d;
+$color-success-deeper:    #16a34a;
+$color-success-legacy:    #28a745;
+$color-success-bs:        #198754;
+$color-success-text:      #155724;
+$color-success-bg:        #d4edda;
+$color-success-bg-light:  #dcfce7;
+$color-success-shadow:    rgba(34, 197, 94, 0.1);
+
+// ── Red / Danger ──────────────────────────────────────────────
+$color-danger:            #ef4444;
+$color-danger-dark:       #dc2626;
+$color-danger-deep:       #b91c1c;
+$color-danger-legacy:     #dc3545;
+$color-danger-legacy-dark:#c82333;
+$color-danger-deep-red:   #c62828;
+$color-legacy-red:        #f44336;
+$color-danger-carmine:    #c0392b;
+$color-danger-text:       #721c24;
+$color-danger-magenta:    #9f1239;
+$color-danger-bg:         #fecaca;
+$color-danger-bg-light:   #fee2e2;
+$color-danger-bg-subtle:  #fef2f2;
+$color-danger-bg-pink:    #fce7f3;
+$color-danger-bg-legacy:  #f8d7da;
+$color-danger-border:     #f5c6cb;
+$color-danger-bg-old:     #ffebee;
+$color-danger-shadow:     rgba(239, 68, 68, 0.1);
+
+// ── Orange / Warning ──────────────────────────────────────────
+$color-warning:           #fb923c;
+$color-warning-amber:     #f59e0b;
+$color-warning-amber-dark:#b45309;
+$color-warning-amber-deep:#92400e;
+$color-warning-amber-text:#a16207;
+$color-warning-orange:    #ffa500;
+$color-warning-orange-dark:#ff8c00;
+$color-warning-orange-deep:#ff6b00;
+$color-warning-legacy:    #ffc107;
+$color-warning-text:      #856404;
+$color-warning-text-deep: #5a4300;
+$color-warning-gold:      #d4a017;
+$color-warning-bg:        #fef3c7;
+$color-warning-bg-amber:  #fef9c3;
+$color-warning-bg-orange: #fff3e0;
+$color-warning-border:    #ffe08a;
+$color-warning-border-legacy: #ffeeba;
+$color-warning-bg-fed:    #fed7aa;
+$color-warning-shadow:    rgba(251, 146, 60, 0.1);
+$color-warning-shadow-md: rgba(251, 146, 60, 0.15);
+$color-warning-amber-shadow-sm: rgba(245, 158, 11, 0.2);
+$color-warning-amber-shadow:    rgba(245, 158, 11, 0.3);
+$color-warning-amber-shadow-md: rgba(245, 158, 11, 0.4);
+$color-warning-amber-shadow-lg: rgba(245, 158, 11, 0.5);
+$color-warning-amber-shadow-xl: rgba(245, 158, 11, 0.6);
+
+// ── Purple / Violet ───────────────────────────────────────────
+$color-purple:            #a855f7;
+$color-purple-dark:       #7e22ce;
+$color-purple-deep:       #6d28d9;
+$color-purple-bg:         #ede9fe;
+$color-purple-bg-light:   #e9d5ff;
+$color-purple-shadow:     rgba(168, 85, 247, 0.1);
+
+// ── Slate / Dark navy ─────────────────────────────────────────
+$color-slate-900:         #0f172a;
+$color-slate-800:         #1e293b;
+$color-slate-700:         #1a1a1a;
+$color-slate-600:         #1f2937;
+$color-slate-500:         #374151;
+$color-slate-400:         #475569;
+$color-slate-300:         #4b5563;
+$color-slate-navy:        #1a1a2e;
+$color-slate-sidebar:     #020617;
+
+// ── Gray ──────────────────────────────────────────────────────
+$color-gray-900:          #111827;
+$color-gray-500:          #6b7280;
+$color-gray-bs:           #6c757d;
+$color-gray-text:         #64748b;
+$color-gray-muted:        #94a3b8;
+$color-gray-light:        #9ca3af;
+$color-gray-pale:         #adb5bd;
+$color-gray-icon:         #888;
+$color-gray-subtle:       #999;
+$color-gray-border:       #d1d5db;
+$color-gray-border-light: #dee2e6;
+$color-gray-border-pale:  #e5e7eb;
+$color-gray-divider:      #e9ecef;
+$color-gray-divider-light:#eee;
+$color-gray-mid:          #cbd5e1;
+$color-gray-scroll:       #c0c0c0;
+
+// ── Text / Content grays ──────────────────────────────────────
+$color-text-darkest:      #333;
+$color-text-dark:         #555;
+$color-text-medium:       #666;
+$color-text-body:         #4a4a4a;
+$color-text-nav:          #444;
+$color-text-muted-bs:     #495057;
+$color-text-section:      #2c3e50;
+$color-text-subsection:   #34495e;
+
+// ── White / Background grays ──────────────────────────────────
+$color-white:             #fff;
+$color-bg-near-white:     #fafafa;
+$color-bg-light:          #f8f9fa;
+$color-bg-softer:         #f3f4f6;
+$color-bg-card:           #f1f5f9;
+$color-bg-muted:          #f0f2f4;
+$color-bg-blue-tint:      #f0f4ff;
+$color-bg-hover:          #f5f5f5;
+$color-bg-code:           #f1f3f5;
+$color-bg-request:        #fafbff;
+$color-bg-response:       #fafff9;
+$color-bg-field:          #f0f8ff;
+$color-bg-field-hover:    #f5faff;
+$color-bg-blue-chip:      #f0f0ff;
+$color-bg-blue-subtle:    #f8f8ff;
+
+// ── Black / Overlay ───────────────────────────────────────────
+$color-black:             #000;
+$color-overlay-dark:      rgba(0, 0, 0, 0.5);
+$color-overlay-medium:    rgba(0, 0, 0, 0.3);
+$color-overlay-light:     rgba(0, 0, 0, 0.2);
+$color-shadow-sm:         rgba(0, 0, 0, 0.05);
+$color-shadow-md:         rgba(0, 0, 0, 0.08);
+$color-shadow:            rgba(0, 0, 0, 0.1);
+$color-shadow-lg:         rgba(0, 0, 0, 0.15);
+$color-white-overlay-sm:  rgba(255, 255, 255, 0.05);
+$color-white-overlay:     rgba(255, 255, 255, 0.1);
+
+// ── Badge / contextual backgrounds ───────────────────────────
+$color-badge-blue-bg:     #cce5ff;
+$color-badge-blue-text:   #004085;
+$color-badge-blue-border: #b8daff;
+$color-badge-teal-bg:     #e8f4f8;
+$color-badge-teal-text:   #0077aa;
+$color-badge-teal-border: #b3d9ea;
+$color-badge-green-bg:    #e6f4ea;
+$color-badge-green-border:#a8d5b5;
+$color-badge-orange-border:#fcd09a;
+$color-badge-green-border2:#c3e6cb;
+
+// ── Search highlight ──────────────────────────────────────────
+$color-search-highlight:  #fff176;
+
+// ── Bootstrap gray-700 legacy ────────────────────────────────
+$color-bs-secondary-dark: #545b62;
+
+// ── Misc / legacy ─────────────────────────────────────────────
+$color-green-legacy:      #4CAF50;
+$color-legacy-gray-750:   #757575;
+$color-legacy-blue-light: #90c0f8;
+$color-gray-border-subtle: #f0f0f0;
+
+// ── Additional colors ─────────────────────────────────────────
+$color-success-teal:        #059669;
+$color-success-teal-bg:     #d1fae5;
+$color-primary-bg-c7:       #c7d2fe;
+$color-slate-shadow:        rgba(100, 116, 139, 0.1);
+$color-bs-dark:             #343a40;
+$color-blue-google-bg:      #e8f0fe;
+$color-danger-bg-very-light:#fff0f0;
+$color-blue-bs-hover:       #1a56db;
+
+// ── Method badge colors ───────────────────────────────────────
+$color-method-put-text:     #c2410c;
+

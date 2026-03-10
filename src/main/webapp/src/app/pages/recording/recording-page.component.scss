@@ -1,0 +1,59 @@
+@use '../../../styles/colors' as *;
+@use '../../../styles/spacing' as *;
+@use '../../../styles/typography' as *;
+
+/* Recording icon pulsing animation */
+.recording-icon {
+  color: $color-danger-legacy;
+}
+
+.recording-pulse {
+  color: $color-danger-legacy;
+  animation: recording-blink 1s infinite;
+}
+
+@keyframes recording-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Mappings grid for recorded stubs */
+.mappings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $space-3-5;
+}
+
+/* Mapping card */
+.mapping-card {
+  border: 1px solid $color-gray-border-light;
+  border-radius: $radius-lg;
+  padding: $space-3-5;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: $color-white;
+}
+
+.mapping-card:hover {
+  border-color: $color-blue-legacy;
+  box-shadow: 0 4px 8px $color-shadow;
+  transform: translateY(-2px);
+}
+
+/* JSON preview in modals */
+.json-preview {
+  background: $color-bg-light;
+  border: 1px solid $color-gray-border-light;
+  border-radius: $radius-sm;
+  padding: $space-3-5;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-base;
+  overflow-x: auto;
+  margin: 0;
+  max-height: 400px;
+}
+
+/* Config form max-width */
+.config-form {
+  max-width: $size-max-config;
+}

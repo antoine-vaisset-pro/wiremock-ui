@@ -1,0 +1,39 @@
+@use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
+
+.backend-selector {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+}
+
+.backend-selector-icon {
+  color: $color-gray-muted;
+  font-size: $font-size-rem-base;
+  flex-shrink: 0;
+}
+
+.backend-selector-select {
+  appearance: auto;
+  padding: $space-1-5 $space-2-5;
+  border: 1px solid $color-gray-border-pale;
+  border-radius: $radius-md;
+  font-size: $font-size-rem-base;
+  color: $color-slate-800;
+  background: $color-bg-light;
+  cursor: pointer;
+  min-width: $size-min-field;
+  max-width: $size-max-selector;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.backend-selector-select:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px $color-primary-shadow-md;
+}
+
+.backend-selector-select:hover {
+  border-color: $color-gray-muted;
+}

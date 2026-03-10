@@ -1,0 +1,24 @@
+@use '../../../styles/colors' as *;
+
+/* Settings-specific badge variants */
+.badge-env {
+  background-color: $color-badge-green-bg;
+  color: $color-success-dark;
+  border: 1px solid $color-badge-green-border;
+}
+
+.badge-custom {
+  background-color: $color-warning-bg-orange;
+  color: $color-warning-amber-dark;
+  border: 1px solid $color-badge-orange-border;
+}
+
+/* Append colon after endpoint label */
+.endpoint-label::after {
+  content: ' :';
+}
+
+/* Dashed border for "add backend" card */
+.border-dashed {
+  border-style: dashed !important;
+}

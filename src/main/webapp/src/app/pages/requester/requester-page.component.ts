@@ -12,7 +12,7 @@ import {MappingsResponse, StubMapping} from '../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './requester-page.component.html',
-  styleUrls: ['./requester-page.component.css']
+  styleUrls: ['./requester-page.component.scss']
 })
 export class RequesterPageComponent implements OnInit {
   requesterForm = {

@@ -1,18 +1,24 @@
-<div class="settings-container">
-  <div class="settings-header">
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
     <h1><i class="fas fa-cog"></i> Settings</h1>
-    <p>Configure your WireMock UI settings</p>
+    <p class="header-subtitle">Configure your WireMock UI settings</p>
   </div>
+</header>
 
-  <div class="settings-content">
-    <!-- Section: Endpoint Selection -->
-    <section class="settings-section">
-      <h2>WireMock API Endpoint</h2>
-      <p class="section-description">Choose the WireMock admin API endpoint to use</p>
+<!-- Content -->
+<div class="wiremock-content wiremock-content--single">
 
-      <div class="endpoint-list">
+  <!-- Section: Endpoint Selection -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="card-title h5">WireMock API Endpoint</h2>
+      <p class="text-muted small mb-3">Choose the WireMock admin API endpoint to use</p>
+
+      <div class="list-group mb-3">
         @for (option of options; track option.id) {
-          <label class="endpoint-item" [class.active]="selectedOptionId === option.id">
+          <label class="list-group-item list-group-item-action d-flex align-items-center gap-3"
+                 [class.active]="selectedOptionId === option.id">
             <input
               type="radio"
               name="endpoint"
@@ -20,8 +26,8 @@
               [checked]="selectedOptionId === option.id"
               (change)="onOptionSelect(option)"
             />
-            <span class="endpoint-label">{{ option.label }}</span>
-            <span class="endpoint-url">{{ option.url || '/__admin' }}</span>
+            <span class="fw-semibold text-nowrap endpoint-label">{{ option.label }}</span>
+            <code class="flex-grow-1 text-truncate small">{{ option.url || '/__admin' }}</code>
             @if (option.badge) {
               <span [ngClass]="['badge', option.badgeClass ?? '']">{{ option.badge }}</span>
             }
@@ -29,60 +35,61 @@
         }
       </div>
 
-      <div class="settings-actions">
+      <div class="d-flex justify-content-end pt-3 border-top">
         <button class="btn btn-primary" (click)="saveSettings()">
-          <i class="fas fa-save"></i>
-          Save Settings
+          <i class="fas fa-save"></i> Save Settings
         </button>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <!-- Section: Manage Custom Backends -->
-    <section class="settings-section settings-section-border-top">
-      <h2>Custom Backends</h2>
-      <p class="section-description">Add, edit or delete your saved custom WireMock backend URLs</p>
+  <!-- Section: Manage Custom Backends -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="card-title h5">Custom Backends</h2>
+      <p class="text-muted small mb-3">Add, edit or delete your saved custom WireMock backend URLs</p>
 
       <!-- Saved backends list -->
       @if (savedCustomBackends.length > 0) {
-        <div class="custom-backends-list">
+        <div class="list-group mb-3">
           @for (backend of savedCustomBackends; track backend.id) {
-            <div class="custom-backend-item">
+            <div class="list-group-item">
               @if (editingBackendId === backend.id) {
                 <!-- Edit mode -->
-                <div class="custom-backend-edit">
+                <div class="d-flex flex-column gap-2">
                   <input
                     type="text"
-                    class="custom-url-input"
+                    class="form-control form-control-sm"
                     placeholder="Label (e.g. Staging)"
                     [(ngModel)]="editingBackendLabel"
                   />
                   <input
                     type="text"
-                    class="custom-url-input"
+                    class="form-control form-control-sm"
                     placeholder="URL (e.g. http://staging:8080/__admin)"
                     [(ngModel)]="editingBackendUrl"
                   />
-                  <div class="custom-backend-edit-actions">
-                    <button class="btn btn-primary btn-sm" (click)="saveEditCustomBackend()">
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-primary" (click)="saveEditCustomBackend()">
                       <i class="fas fa-check"></i> Save
                     </button>
-                    <button class="btn btn-secondary btn-sm" (click)="cancelEditCustomBackend()">
+                    <button class="btn btn-sm btn-secondary" (click)="cancelEditCustomBackend()">
                       <i class="fas fa-times"></i> Cancel
                     </button>
                   </div>
                 </div>
               } @else {
                 <!-- View mode -->
-                <div class="custom-backend-view">
-                  <div class="custom-backend-info">
-                    <span class="endpoint-label">{{ backend.label }}</span>
-                    <span class="endpoint-url">{{ backend.url }}</span>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="flex-grow-1 min-width-0">
+                    <span class="fw-semibold endpoint-label">{{ backend.label }}</span>
+                    <code class="d-block text-truncate small text-muted">{{ backend.url }}</code>
                   </div>
-                  <div class="custom-backend-actions">
-                    <button class="btn btn-icon" title="Edit" (click)="startEditCustomBackend(backend)">
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-secondary" title="Edit" (click)="startEditCustomBackend(backend)">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
-                    <button class="btn btn-icon btn-icon-danger" title="Delete" (click)="deleteCustomBackend(backend.id)">
+                    <button class="btn btn-sm btn-outline-danger" title="Delete" (click)="deleteCustomBackend(backend.id)">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </div>
@@ -92,33 +99,36 @@
           }
         </div>
       } @else {
-        <p class="no-custom-backends">No custom backends saved yet.</p>
+        <p class="text-muted fst-italic mb-3">No custom backends saved yet.</p>
       }
 
       <!-- Add new custom backend -->
-      <div class="add-custom-backend">
-        <h3>Add a new custom backend</h3>
-        <div class="add-custom-backend-form">
+      <div class="card card-body bg-light border-dashed">
+        <h3 class="h6 fw-semibold mb-3">Add a new custom backend</h3>
+        <div class="d-flex flex-wrap gap-2 align-items-start">
           <input
             type="text"
-            class="custom-url-input"
+            class="form-control form-control-sm flex-grow-1"
             placeholder="Label (e.g. Staging)"
             [(ngModel)]="newBackendLabel"
+            style="min-width: 160px"
           />
           <input
             type="text"
-            class="custom-url-input"
+            class="form-control form-control-sm flex-grow-1"
             placeholder="URL (e.g. http://staging:8080/__admin)"
             [(ngModel)]="newBackendUrl"
+            style="min-width: 260px"
           />
           <button
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary flex-shrink-0"
             (click)="addCustomBackend()"
             [disabled]="!newBackendUrl.trim()">
             <i class="fas fa-plus"></i> Add
           </button>
         </div>
       </div>
-    </section>
+    </div>
   </div>
+
 </div>

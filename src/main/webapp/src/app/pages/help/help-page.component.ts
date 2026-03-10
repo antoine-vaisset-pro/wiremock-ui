@@ -14,7 +14,7 @@ export interface HelpSection {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './help-page.component.html',
-  styleUrls: ['./help-page.component.css'],
+  styleUrls: ['./help-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HelpPageComponent implements OnInit, OnDestroy {

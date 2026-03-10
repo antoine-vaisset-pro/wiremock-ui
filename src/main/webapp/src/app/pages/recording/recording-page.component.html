@@ -1,205 +1,178 @@
-<div class="recording-page">
-  <!-- Bandeau Work in Progress -->
-  <div class="wip-banner">
-    <div class="wip-content">
-      <span class="wip-icon">🚧</span>
-      <div class="wip-text">
-        <strong>Feature under development</strong>
-        <p>This feature is not yet available. It will be enabled in a future version.</p>
-      </div>
-      <span class="wip-icon">🚧</span>
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
+    <h1><i class="fas fa-circle recording-icon"></i> Recording Studio</h1>
+    <p class="header-subtitle">Automatically record stubs from a real API</p>
+  </div>
+  <div class="header-actions">
+    @if (recordingStatus.status === 'Recording') {
+      <button class="btn btn-sm btn-outline-secondary" (click)="takeSnapshot()" [disabled]="loading || readonly" title="Take a snapshot without stopping the recording">
+        <i class="fas fa-camera"></i> Snapshot
+      </button>
+      <button class="btn btn-sm btn-danger" (click)="stopRecording()" [disabled]="loading || readonly">
+        <i class="fas fa-stop"></i> Stop recording
+      </button>
+    }
+  </div>
+</header>
+
+<!-- Content -->
+<div class="wiremock-content wiremock-content--single">
+
+  <!-- Work in Progress Banner -->
+  <div class="alert alert-warning d-flex align-items-center gap-3 mb-3" role="alert">
+    <i class="fas fa-triangle-exclamation fs-5 flex-shrink-0"></i>
+    <div>
+      <strong>Feature under development</strong>
+      <p class="mb-0">This feature is not yet available. It will be enabled in a future version.</p>
     </div>
   </div>
 
-  <div class="page-header">
-    <h1>
-      <span class="icon">🎙️</span>
-      Recording Studio
-    </h1>
-    <p class="subtitle">Automatically record stubs from a real API</p>
-  </div>
-
-  <!-- Statut de l'enregistrement -->
-  <div class="status-banner" [ngClass]="getStatusClass()">
-    <div class="status-content">
-      <span class="status-icon">{{ getStatusIcon() }}</span>
-      <div class="status-info">
-        <strong>Statut:</strong> {{ getStatusLabel() }}
-      </div>
-      @if (recordingStatus.status === 'Recording') {
-        <div class="status-actions">
-          <button
-            class="btn btn-snapshot"
-            (click)="takeSnapshot()"
-            [disabled]="loading || readonly"
-            title="Take a snapshot without stopping the recording">
-            📸 Snapshot
-          </button>
-          <button
-            class="btn btn-stop"
-            (click)="stopRecording()"
-            [disabled]="loading || readonly">
-            ⏹️ Stop recording
-          </button>
-        </div>
-      }
+  <!-- Recording Status -->
+  <div class="alert mb-3" [ngClass]="getStatusAlertClass()" role="alert">
+    <div class="d-flex align-items-center gap-3">
+      <i class="fas flex-shrink-0" [ngClass]="getStatusIconClass()"></i>
+      <span><strong>Status:</strong> {{ getStatusLabel() }}</span>
     </div>
   </div>
 
-  <!-- Message d'erreur -->
+  <!-- Error -->
   @if (error) {
-    <div class="alert alert-error">
-      <span class="icon">⚠️</span>
+    <div class="alert alert-danger d-flex align-items-center gap-2 mb-3" role="alert">
+      <i class="fas fa-exclamation-circle flex-shrink-0"></i>
       {{ error }}
     </div>
   }
 
   <!-- Configuration -->
   @if (recordingStatus.status !== 'Recording') {
-    <div class="config-section">
-      <div class="section-header">
-        <h2>Configuration de l'enregistrement</h2>
-        <div class="header-actions">
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">Recording configuration</h2>
+        <div class="d-flex gap-2">
           @if (savedConfigs.length > 0) {
-            <button
-              class="btn btn-secondary btn-sm"
-              (click)="showLoadConfigModal = true"
-              [disabled]="readonly"
-              >
-              📁 Charger une configuration
+            <button class="btn btn-sm btn-outline-secondary" (click)="showLoadConfigModal = true" [disabled]="readonly">
+              <i class="fas fa-folder-open"></i> Load configuration
             </button>
           }
-          <button
-            class="btn btn-secondary btn-sm"
-            [disabled]="readonly"
-            (click)="showSaveConfigModal = true">
-            💾 Sauvegarder cette configuration
+          <button class="btn btn-sm btn-outline-secondary" [disabled]="readonly" (click)="showSaveConfigModal = true">
+            <i class="fas fa-save"></i> Save configuration
           </button>
         </div>
       </div>
-      <div class="config-form">
-        <!-- Configuration de base -->
-        <div class="form-group">
-          <label for="targetBaseUrl" class="required">Target URL to record</label>
-          <input
-            type="text"
-            id="targetBaseUrl"
-            class="form-control"
-            [(ngModel)]="config.targetBaseUrl"
-            placeholder="https://api.example.com"
-            [disabled]="loading || readonly">
-          <small class="form-text">The base URL of the real API to record</small>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="config.persist"
-                [disabled]="loading || readonly">
-              Persister les stubs
+      <div class="card-body">
+        <div class="config-form">
+          <!-- Base URL -->
+          <div class="mb-3">
+            <label for="targetBaseUrl" class="form-label fw-medium">
+              Target URL to record <span class="text-danger">*</span>
             </label>
-            <small class="form-text">Sauvegarder les stubs dans les fichiers de mapping</small>
+            <input
+              type="text"
+              id="targetBaseUrl"
+              class="form-control"
+              [(ngModel)]="config.targetBaseUrl"
+              placeholder="https://api.example.com"
+              [disabled]="loading || readonly">
+            <div class="form-text">The base URL of the real API to record</div>
           </div>
-          <div class="form-group">
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="config.repeatsAsScenarios"
-                [disabled]="loading || readonly">
-              Handle repetitions as scenarios
-            </label>
-            <small class="form-text">Create scenarios for repeated calls</small>
-          </div>
-        </div>
-        <!-- Advanced configuration -->
-        <div class="advanced-config-toggle">
-          <button
-            class="btn btn-link"
-            (click)="showAdvancedConfig = !showAdvancedConfig">
-            {{ showAdvancedConfig ? '▼' : '▶' }} Advanced configuration
-          </button>
-        </div>
-        @if (showAdvancedConfig) {
-          <div class="advanced-config">
-            <h3>Filtres</h3>
-            <div class="form-group">
-              <label for="urlFilterPattern">Pattern d'URL (regex)</label>
-              <input
-                type="text"
-                id="urlFilterPattern"
-                class="form-control"
-                [(ngModel)]="urlFilterPattern"
-                placeholder="/api/.*"
-                [disabled]="loading || readonly">
-              <small class="form-text">Only record URLs matching this pattern</small>
-            </div>
-            <div class="form-group">
-              <label for="methodFilter">HTTP Method</label>
-              <select
-                id="methodFilter"
-                class="form-control"
-                [(ngModel)]="methodFilter"
-                [disabled]="loading || readonly">
-                <option value="">All methods</option>
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="PATCH">PATCH</option>
-                <option value="DELETE">DELETE</option>
-              </select>
-            </div>
-            <h3>Headers</h3>
-            <div class="form-group">
-              <label for="captureHeaders">Headers to capture (comma-separated)</label>
-              <input
-                type="text"
-                id="captureHeaders"
-                class="form-control"
-                [(ngModel)]="captureHeadersKeys"
-                placeholder="Accept, Content-Type, Authorization"
-                [disabled]="loading || readonly">
-              <small class="form-text">List of request headers to capture in stubs</small>
-            </div>
-            <h3>Body</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="textSizeThreshold">Seuil taille texte (octets)</label>
-                <input
-                  type="text"
-                  id="textSizeThreshold"
-                  class="form-control"
-                  [(ngModel)]="textSizeThreshold"
-                  placeholder="2048"
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="persistStubs"
+                  [(ngModel)]="config.persist"
                   [disabled]="loading || readonly">
+                <label class="form-check-label fw-medium" for="persistStubs">Persist stubs</label>
+                <div class="form-text">Save stubs to mapping files</div>
               </div>
-              <div class="form-group">
-                <label for="binarySizeThreshold">Seuil taille binaire (octets)</label>
-                <input
-                  type="text"
-                  id="binarySizeThreshold"
-                  class="form-control"
-                  [(ngModel)]="binarySizeThreshold"
-                  placeholder="10240"
+            </div>
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="repeatsAsScenarios"
+                  [(ngModel)]="config.repeatsAsScenarios"
                   [disabled]="loading || readonly">
+                <label class="form-check-label fw-medium" for="repeatsAsScenarios">Handle repetitions as scenarios</label>
+                <div class="form-text">Create scenarios for repeated calls</div>
               </div>
             </div>
           </div>
-        }
-        <!-- Actions -->
-        <div class="form-actions">
-          <button
-            class="btn btn-primary btn-lg"
-            (click)="startRecording()"
-            [disabled]="loading || !config.targetBaseUrl || readonly">
-            @if (loading) {
-              <span>⏳</span>
-            }
-            @if (!loading) {
-              <span>▶️</span>
-            }
-            {{ loading ? 'Starting...' : 'Start recording' }}
-          </button>
+
+          <!-- Advanced configuration toggle -->
+          <div class="mb-3">
+            <button class="btn btn-link btn-sm p-0" (click)="showAdvancedConfig = !showAdvancedConfig">
+              <i class="fas" [class.fa-chevron-right]="!showAdvancedConfig" [class.fa-chevron-down]="showAdvancedConfig"></i>
+              Advanced configuration
+            </button>
+          </div>
+
+          @if (showAdvancedConfig) {
+            <div class="border-top pt-3">
+              <h3 class="h6 fw-semibold mb-3">Filters</h3>
+              <div class="mb-3">
+                <label for="urlFilterPattern" class="form-label">URL pattern (regex)</label>
+                <input type="text" id="urlFilterPattern" class="form-control"
+                  [(ngModel)]="urlFilterPattern"
+                  placeholder="/api/.*"
+                  [disabled]="loading || readonly">
+                <div class="form-text">Only record URLs matching this pattern</div>
+              </div>
+              <div class="mb-3">
+                <label for="methodFilter" class="form-label">HTTP Method</label>
+                <select id="methodFilter" class="form-select" [(ngModel)]="methodFilter" [disabled]="loading || readonly">
+                  <option value="">All methods</option>
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="PUT">PUT</option>
+                  <option value="PATCH">PATCH</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+              </div>
+
+              <h3 class="h6 fw-semibold mb-3">Headers</h3>
+              <div class="mb-3">
+                <label for="captureHeaders" class="form-label">Headers to capture (comma-separated)</label>
+                <input type="text" id="captureHeaders" class="form-control"
+                  [(ngModel)]="captureHeadersKeys"
+                  placeholder="Accept, Content-Type, Authorization"
+                  [disabled]="loading || readonly">
+                <div class="form-text">List of request headers to capture in stubs</div>
+              </div>
+
+              <h3 class="h6 fw-semibold mb-3">Body</h3>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="textSizeThreshold" class="form-label">Text size threshold (bytes)</label>
+                  <input type="text" id="textSizeThreshold" class="form-control"
+                    [(ngModel)]="textSizeThreshold"
+                    placeholder="2048"
+                    [disabled]="loading || readonly">
+                </div>
+                <div class="col-md-6">
+                  <label for="binarySizeThreshold" class="form-label">Binary size threshold (bytes)</label>
+                  <input type="text" id="binarySizeThreshold" class="form-control"
+                    [(ngModel)]="binarySizeThreshold"
+                    placeholder="10240"
+                    [disabled]="loading || readonly">
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Actions -->
+          <div class="d-flex pt-4 mt-2 border-top">
+            <button
+              class="btn btn-primary"
+              (click)="startRecording()"
+              [disabled]="loading || !config.targetBaseUrl || readonly">
+              @if (loading) {
+                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              } @else {
+                <i class="fas fa-play me-1"></i>
+              }
+              {{ loading ? 'Starting...' : 'Start recording' }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -207,151 +180,142 @@
 
   <!-- Recording results -->
   @if (showResults && recordedMappings.length > 0) {
-    <div class="results-section">
-      <div class="section-header">
-        <h2>Recorded stubs ({{ recordedMappings.length }})</h2>
-        <button
-          class="btn btn-secondary"
-          [disabled]="readonly"
-          (click)="exportMappings()">
-          📥 Exporter tout en JSON
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">Recorded stubs ({{ recordedMappings.length }})</h2>
+        <button class="btn btn-sm btn-outline-secondary" [disabled]="readonly" (click)="exportMappings()">
+          <i class="fas fa-file-export"></i> Export all as JSON
         </button>
       </div>
-      <div class="mappings-grid">
-        @for (mapping of recordedMappings; track mapping; let i = $index) {
-          <div
-            class="mapping-card"
-            (click)="selectMapping(mapping)">
-            <div class="mapping-header">
-              <span class="method-badge" [class]="'method-' + (mapping.request?.method || 'GET').toLowerCase()">
-                {{ mapping.request?.method || 'GET' }}
-              </span>
-              <span class="url">{{ mapping.request?.url || mapping.request?.urlPath || mapping.request?.urlPattern || 'N/A' }}</span>
-            </div>
-            <div class="mapping-body">
-              <div class="info-item">
-                <strong>Status:</strong> {{ mapping.response?.status || 200 }}
+      <div class="card-body">
+        <div class="mappings-grid">
+          @for (mapping of recordedMappings; track mapping) {
+            <div class="mapping-card" (click)="selectMapping(mapping)">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="method-badge" [class]="'method-' + (mapping.request?.method || 'GET').toLowerCase()">
+                  {{ mapping.request?.method || 'GET' }}
+                </span>
+                <span class="text-truncate small fw-medium">{{ mapping.request?.url || mapping.request?.urlPath || mapping.request?.urlPattern || 'N/A' }}</span>
               </div>
-              @if (mapping.name) {
-                <div class="info-item">
-                  <strong>Nom:</strong> {{ mapping.name }}
-                </div>
-              }
+              <div class="text-muted small mb-2">
+                <strong>Status:</strong> {{ mapping.response?.status || 200 }}
+                @if (mapping.name) {
+                  &nbsp;· <strong>Name:</strong> {{ mapping.name }}
+                }
+              </div>
+              <div class="border-top pt-2">
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  (click)="copyMappingJson(mapping); $event.stopPropagation()">
+                  <i class="fas fa-copy"></i> Copy JSON
+                </button>
+              </div>
             </div>
-            <div class="mapping-actions">
-              <button
-                class="btn btn-sm btn-secondary"
-                (click)="copyMappingJson(mapping); $event.stopPropagation()">
-                📋 Copier JSON
-              </button>
-            </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </div>
   }
 
-  <!-- Message if no stub recorded -->
+  <!-- Empty results -->
   @if (showResults && recordedMappings.length === 0) {
-    <div class="empty-results">
-      <span class="icon">📭</span>
-      <p>No recorded stubs</p>
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-inbox fs-1 d-block mb-3 opacity-50"></i>
+      <p class="fs-5 fw-medium mb-1">No recorded stubs</p>
       <small>Make sure requests were made to the target URL during recording</small>
     </div>
   }
 
   <!-- Mapping details modal -->
   @if (selectedMapping) {
-    <div class="modal-overlay" (click)="closeMapping()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h3>Stub details</h3>
-          <button class="btn-close" (click)="closeMapping()">×</button>
-        </div>
-        <div class="modal-body">
-          <pre class="json-preview">{{ selectedMapping | json }}</pre>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="copyMappingJson(selectedMapping)">
-            📋 Copier JSON
-          </button>
-          <button class="btn btn-primary" (click)="closeMapping()">Fermer</button>
+    <div class="modal d-block" tabindex="-1" (click)="closeMapping()">
+      <div class="modal-dialog modal-lg" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Stub details</h5>
+            <button type="button" class="btn-close" (click)="closeMapping()"></button>
+          </div>
+          <div class="modal-body">
+            <pre class="json-preview">{{ selectedMapping | json }}</pre>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" (click)="copyMappingJson(selectedMapping)">
+              <i class="fas fa-copy"></i> Copy JSON
+            </button>
+            <button class="btn btn-primary" (click)="closeMapping()">Close</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal-backdrop fade show"></div>
   }
 
-  <!-- Modal de sauvegarde de configuration -->
+  <!-- Save configuration modal -->
   @if (showSaveConfigModal) {
-    <div class="modal-overlay" (click)="showSaveConfigModal = false">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h3>Sauvegarder la configuration</h3>
-          <button class="btn-close" (click)="showSaveConfigModal = false">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="configName">Nom de la configuration</label>
-            <input
-              type="text"
-              id="configName"
-              class="form-control"
-              [(ngModel)]="newConfigName"
-              placeholder="Ma configuration de prod">
+    <div class="modal d-block" tabindex="-1" (click)="showSaveConfigModal = false">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Save configuration</h5>
+            <button type="button" class="btn-close" (click)="showSaveConfigModal = false"></button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="showSaveConfigModal = false">Annuler</button>
-          <button
-            class="btn btn-primary"
-            (click)="saveConfig()"
-            [disabled]="!newConfigName">
-            💾 Sauvegarder
-          </button>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="configName" class="form-label">Configuration name</label>
+              <input type="text" id="configName" class="form-control"
+                [(ngModel)]="newConfigName"
+                placeholder="My production configuration">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="showSaveConfigModal = false">Cancel</button>
+            <button class="btn btn-primary" (click)="saveConfig()" [disabled]="!newConfigName">
+              <i class="fas fa-save"></i> Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal-backdrop fade show"></div>
   }
 
-  <!-- Modal de chargement de configuration -->
+  <!-- Load configuration modal -->
   @if (showLoadConfigModal) {
-    <div class="modal-overlay" (click)="showLoadConfigModal = false">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h3>Charger une configuration</h3>
-          <button class="btn-close" (click)="showLoadConfigModal = false">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="saved-configs-list">
-            @for (saved of savedConfigs; track saved; let i = $index) {
-              <div
-                class="saved-config-item"
-                >
-                <div class="config-info">
-                  <strong>{{ saved.name }}</strong>
-                  <small>{{ saved.config.targetBaseUrl }}</small>
-                </div>
-                <div class="config-actions">
-                  <button
-                    class="btn btn-sm btn-primary"
-                    (click)="loadConfig(saved)">
-                    📂 Charger
-                  </button>
-                  <button
-                    class="btn btn-sm btn-danger"
-                    (click)="deleteConfig(i)">
-                    🗑️
-                  </button>
-                </div>
-              </div>
-            }
+    <div class="modal d-block" tabindex="-1" (click)="showLoadConfigModal = false">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Load configuration</h5>
+            <button type="button" class="btn-close" (click)="showLoadConfigModal = false"></button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="showLoadConfigModal = false">Fermer</button>
+          <div class="modal-body">
+            <div class="list-group">
+              @for (saved of savedConfigs; track saved; let i = $index) {
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ saved.name }}</strong>
+                    <code class="d-block small text-muted">{{ saved.config.targetBaseUrl }}</code>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-primary" (click)="loadConfig(saved)">
+                      <i class="fas fa-folder-open"></i> Load
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteConfig(i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="showLoadConfigModal = false">Close</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal-backdrop fade show"></div>
   }
+
 </div>
 

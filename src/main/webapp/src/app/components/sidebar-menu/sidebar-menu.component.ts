@@ -8,7 +8,7 @@ export type ViewType = 'dashboard' | 'stubs' | 'scenarios' | 'requests' | 'reque
   standalone: true,
   imports: [],
   templateUrl: './sidebar-menu.component.html',
-  styleUrls: ['./sidebar-menu.component.css']
+  styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent {
   @Input() activeView: ViewType = 'stubs';
