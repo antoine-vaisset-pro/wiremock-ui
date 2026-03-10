@@ -1,4 +1,5 @@
 @use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
 
 .backend-selector {
   display: flex;
@@ -8,7 +9,7 @@
 
 .backend-selector-icon {
   color: $color-gray-muted;
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   flex-shrink: 0;
 }
 
@@ -17,7 +18,7 @@
   padding: 0.35rem 0.6rem;
   border: 1px solid $color-gray-border-blue;
   border-radius: 6px;
-  font-size: 0.8125rem;
+  font-size: $font-size-rem-base;
   color: $color-slate-800;
   background: $color-bg-light;
   cursor: pointer;

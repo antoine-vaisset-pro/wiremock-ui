@@ -1,4 +1,5 @@
 @use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
 
 /* Styles are inherited from app.component.css for now */
 /* This approach avoids duplication during the refactoring phase */
@@ -49,13 +50,13 @@
 
 .import-drop-hint {
   margin: 0 0 4px;
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
   color: $color-slate-500;
 }
 
 .import-drop-or {
   margin: 10px 0;
-  font-size: 0.85rem;
+  font-size: $font-size-rem-normal;
   color: $color-gray-light;
 }
 
@@ -77,8 +78,8 @@
 }
 
 .modal-import .modal-header h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
 }
@@ -138,8 +139,8 @@
   display: flex;
   align-items: center;
   width: 100%;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9em;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-em-md;
 }
 
 .preview-list {
@@ -195,15 +196,15 @@
 
 .preview-index {
   color: $color-gray-light;
-  font-size: 0.85em;
+  font-size: $font-size-em-sm;
   min-width: 30px;
   text-align: right;
 }
 
 .preview-url {
   flex: 1;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9em;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-em-md;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -211,7 +212,7 @@
 
 .preview-status {
   color: $color-text-medium;
-  font-size: 0.9em;
+  font-size: $font-size-em-md;
 }
 
 .preview-more {
@@ -227,7 +228,7 @@
 }
 
 .scenario-badge-small {
-  font-size: 10px;
+  font-size: $font-size-xs;
   padding: 3px 8px;
   display: inline-block;
   white-space: nowrap;
@@ -263,14 +264,14 @@
 }
 
 .scenario-field-label {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-gray-500;
-  font-size: 13px;
+  font-size: $font-size-base;
   min-width: 120px;
 }
 
 .scenario-badge {
-  font-size: 13px;
+  font-size: $font-size-base;
   padding: 6px 12px;
 }
 
@@ -304,8 +305,8 @@
 
 .scenario-header h5 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   display: flex;
   align-items: center;
@@ -319,7 +320,7 @@
 .scenario-header i.fa-chevron-down,
 .scenario-header i.fa-chevron-up {
   color: $color-gray-light;
-  font-size: 12px;
+  font-size: $font-size-sm;
   transition: transform 0.3s ease;
 }
 
@@ -363,8 +364,8 @@
 }
 
 .section-title {
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-rem-normal;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: $color-text-muted-bs;
@@ -388,8 +389,8 @@
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: $font-size-rem-lg;
+  font-weight: $font-weight-medium;
   border-radius: 4px;
 }
 
@@ -482,8 +483,8 @@
 
 /* Titre du panneau */
 .side-panel-title {
-  font-weight: 600;
-  font-size: 0.82rem;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-rem-md;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: $color-text-muted-bs;
@@ -514,10 +515,10 @@
   border-radius: 4px;
   cursor: pointer;
   color: $color-gray-bs;
-  font-size: 10px;
+  font-size: $font-size-xs;
   flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
-  line-height: 1;
+  line-height: $line-height-tight;
 }
 
 .panel-collapse-btn:hover {

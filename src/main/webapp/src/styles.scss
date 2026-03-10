@@ -1,4 +1,5 @@
 @use 'styles/colors' as *;
+@use 'styles/typography' as *;
 
 /* CSS Variables */
 :root {
@@ -28,7 +29,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: $font-family-base;
   background-color: $color-bg-hover;
   color: $color-text-darkest;
 }
@@ -48,7 +49,7 @@ button {
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: $font-size-md;
   transition: all 0.2s;
 }
 
@@ -66,7 +67,7 @@ input[type="search"] {
   padding: 8px 12px;
   border: 1px solid $color-gray-border-dull;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: $font-size-md;
   width: 100%;
 }
 
@@ -82,7 +83,7 @@ input[type="search"]:focus {
 .modal-content input[type="password"],
 .modal-content input[type="search"] {
   padding: .25rem .5rem;
-  font-size: .875rem;
+  font-size: $font-size-rem-lg;
   border-radius: .2rem;
 }
 
@@ -99,7 +100,7 @@ input[type="search"]:focus {
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  font-size: 18px;
+  font-size: $font-size-2xl;
   color: $color-text-medium;
 }
 
@@ -116,8 +117,8 @@ pre {
   padding: 16px;
   border-radius: 4px;
   overflow-x: auto;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: $font-size-base;
+  line-height: $line-height-snug;
 }
 
 .btn-primary {
@@ -169,13 +170,13 @@ pre {
 }
 
 .sidebar-logo {
-  font-size: 24px;
+  font-size: $font-size-4xl;
   color: $color-primary;
 }
 
 .sidebar-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
   color: white;
   display: none; /* Hidden in compact mode */
 }
@@ -195,7 +196,7 @@ pre {
   background: none;
   border: none;
   color: $color-gray-muted;
-  font-size: 14px;
+  font-size: $font-size-md;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
@@ -218,7 +219,7 @@ pre {
 }
 
 .sidebar-item i {
-  font-size: 20px;
+  font-size: $font-size-3xl;
   width: 20px;
 }
 
@@ -233,7 +234,7 @@ pre {
   padding: 6px 12px;
   background: $color-slate-600;
   color: white;
-  font-size: 12px;
+  font-size: $font-size-sm;
   white-space: nowrap;
   border-radius: 4px;
   opacity: 0;
@@ -302,14 +303,14 @@ pre {
 }
 
 .header-left h1 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
 }
 
 .header-subtitle {
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-gray-500;
   margin: 0;
 }
@@ -357,7 +358,7 @@ pre {
 }
 
 .stubs-header .header-actions .btn {
-  font-size: 13px;
+  font-size: $font-size-base;
   padding: 6px 12px;
   display: flex;
   align-items: center;
@@ -365,7 +366,7 @@ pre {
 }
 
 .stubs-header .header-actions .btn i {
-  font-size: 12px;
+  font-size: $font-size-sm;
 }
 
 .stubs-header .header-actions .btn:disabled {
@@ -374,8 +375,8 @@ pre {
 }
 
 .stubs-header h2 {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
 }
@@ -393,7 +394,7 @@ pre {
   top: 50%;
   transform: translateY(-50%);
   color: $color-gray-light;
-  font-size: 14px;
+  font-size: $font-size-md;
   pointer-events: none;
 }
 
@@ -403,7 +404,7 @@ pre {
   top: 50%;
   transform: translateY(-50%);
   color: $color-gray-light;
-  font-size: 14px;
+  font-size: $font-size-md;
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -415,7 +416,7 @@ pre {
 .search-bar input {
   padding-left: 32px;
   padding-right: 32px;
-  font-size: 14px;
+  font-size: $font-size-md;
   border-radius: 6px;
   border: 1px solid $color-gray-border;
   width: 100%;
@@ -456,8 +457,8 @@ pre {
 }
 
 .method-badge {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: $font-size-xxs;
+  font-weight: $font-weight-semibold;
   padding: 4px 8px;
   border-radius: 4px;
   text-transform: uppercase;
@@ -515,8 +516,8 @@ pre {
 }
 
 .stub-url {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
   color: $color-slate-600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -524,7 +525,7 @@ pre {
 }
 
 .stub-name {
-  font-size: 12px;
+  font-size: $font-size-sm;
   color: $color-gray-500;
   margin-top: 2px;
   overflow: hidden;
@@ -537,8 +538,8 @@ pre {
 }
 
 .status-code {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
   color: $color-success-teal;
   background: $color-success-teal-bg;
   padding: 3px 8px;
@@ -563,13 +564,13 @@ pre {
 }
 
 .no-selection i {
-  font-size: 64px;
+  font-size: $font-size-8xl;
   margin-bottom: 16px;
   opacity: 0.3;
 }
 
 .no-selection p {
-  font-size: 16px;
+  font-size: $font-size-xl;
   margin: 0;
 }
 
@@ -585,8 +586,8 @@ pre {
 }
 
 .details-header h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
 }
@@ -606,8 +607,8 @@ pre {
 
 .view-tab {
   padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
   color: $color-gray-500;
   cursor: pointer;
   border-bottom: 3px solid transparent;
@@ -639,8 +640,8 @@ pre {
 }
 
 .detail-section h4 {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   margin: 0 0 16px 0;
   text-transform: uppercase;
@@ -649,8 +650,8 @@ pre {
 
 .detail-label {
   display: block;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   color: $color-gray-500;
   margin-bottom: 8px;
 }
@@ -666,10 +667,10 @@ pre {
 }
 
 .request-url {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 14px;
+  font-family: $font-family-mono;
+  font-size: $font-size-md;
   color: $color-slate-600;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .response-tabs {
@@ -681,8 +682,8 @@ pre {
 
 .tab {
   padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   color: $color-gray-500;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -717,17 +718,17 @@ pre {
 
 .header-key {
   flex: 0 0 200px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
-  font-family: 'Monaco', 'Courier New', monospace;
+  font-family: $font-family-mono;
 }
 
 .header-value {
   flex: 1;
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-gray-500;
-  font-family: 'Monaco', 'Courier New', monospace;
+  font-family: $font-family-mono;
   word-break: break-all;
 }
 
@@ -748,14 +749,14 @@ pre {
 }
 
 .json-body {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 13px;
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
   color: $color-bg-card;
   padding: 16px;
   margin: 0;
   max-height: 400px;
   overflow: auto;
-  line-height: 1.6;
+  line-height: $line-height-normal;
   background: $color-dark-editor;
 }
 
@@ -771,8 +772,8 @@ pre {
 }
 
 .json-content {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 12px;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
   background: $color-dark-editor;
   color: $color-bg-card;
   padding: 16px;
@@ -781,7 +782,7 @@ pre {
   max-height: 500px;
   overflow: auto;
   margin: 0;
-  line-height: 1.6;
+  line-height: $line-height-normal;
 }
 
 /* Loading State */
@@ -796,7 +797,7 @@ pre {
 
 .loading-state p {
   margin-top: 16px;
-  font-size: 14px;
+  font-size: $font-size-md;
 }
 
 /* Error State */
@@ -810,14 +811,14 @@ pre {
 }
 
 .error-state i {
-  font-size: 48px;
+  font-size: $font-size-7xl;
   margin-bottom: 16px;
   opacity: 0.5;
 }
 
 .error-state p {
   margin-bottom: 16px;
-  font-size: 14px;
+  font-size: $font-size-md;
   text-align: center;
 }
 
@@ -832,14 +833,14 @@ pre {
 }
 
 .empty-state i {
-  font-size: 64px;
+  font-size: $font-size-8xl;
   margin-bottom: 16px;
   opacity: 0.3;
 }
 
 .empty-state p {
   margin-bottom: 16px;
-  font-size: 14px;
+  font-size: $font-size-md;
 }
 
 .empty-state-create {
@@ -859,7 +860,7 @@ pre {
 }
 
 .pagination-info {
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-gray-500;
 }
 
@@ -871,7 +872,7 @@ pre {
 ::ng-deep .page-link {
   color: $color-slate-500;
   border-color: $color-gray-border-pale;
-  font-size: 13px;
+  font-size: $font-size-base;
   padding: 6px 12px;
 }
 
@@ -994,8 +995,8 @@ pre {
 }
 
 .modal-header h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
   margin: 0;
   color: $color-slate-600;
   flex: 1;
@@ -1032,14 +1033,14 @@ pre {
 }
 
 .json-editor {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 13px;
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
   background: $color-dark-editor;
   color: $color-bg-card;
   border: 1px solid $color-slate-800;
   border-radius: 6px;
   padding: 12px;
-  line-height: 1.6;
+  line-height: $line-height-normal;
   resize: vertical;
   min-height: 400px;
 }
@@ -1072,8 +1073,8 @@ pre {
 }
 
 .editor-section h4 {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   color: $color-slate-600;
   margin: 0 0 16px 0;
   padding-bottom: 12px;
@@ -1081,8 +1082,8 @@ pre {
 }
 
 .simple-editor .form-label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   margin-bottom: 6px;
   display: block;
@@ -1090,7 +1091,7 @@ pre {
 
 .simple-editor .form-control,
 .simple-editor .form-select {
-  font-size: 14px;
+  font-size: $font-size-md;
   border-color: $color-gray-border;
 }
 
@@ -1121,13 +1122,13 @@ input[type="number"] {
 }
 
 .json-editor-simple {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 13px;
+  font-family: $font-family-mono;
+  font-size: $font-size-base;
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border;
   border-radius: 6px;
   padding: 12px;
-  line-height: 1.6;
+  line-height: $line-height-normal;
   resize: vertical;
   min-height: 200px;
 }
@@ -1161,20 +1162,20 @@ input[type="number"] {
 }
 
 .info-label {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-gray-text;
-  font-size: 13px;
+  font-size: $font-size-base;
 }
 
 .info-value {
   color: $color-slate-800;
-  font-size: 13px;
+  font-size: $font-size-base;
   word-break: break-all;
 }
 
 .stub-date {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
   color: $color-slate-400;
   display: flex;
   align-items: center;
@@ -1198,7 +1199,7 @@ input[type="number"] {
 
 .list-info {
   padding: 12px 20px;
-  font-size: 12px;
+  font-size: $font-size-sm;
   color: $color-gray-500;
   background: $color-bg-subtle;
   border-bottom: 1px solid $color-gray-border-pale;
@@ -1221,13 +1222,13 @@ input[type="number"] {
 }
 
 .empty-details i {
-  font-size: 48px;
+  font-size: $font-size-7xl;
   margin-bottom: 16px;
   opacity: 0.5;
 }
 
 .empty-details p {
-  font-size: 16px;
+  font-size: $font-size-xl;
   margin: 0;
 }
 
@@ -1261,8 +1262,8 @@ input[type="number"] {
 
 .requester-panel h4,
 .response-panel h4 {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   color: $color-slate-600;
   margin-bottom: 20px;
   padding-bottom: 12px;
@@ -1277,8 +1278,8 @@ input[type="number"] {
 
 .requester-panel .form-label,
 .response-panel .form-label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   margin-bottom: 6px;
   display: block;
@@ -1291,7 +1292,7 @@ input[type="number"] {
 
 .requester-panel .form-control,
 .requester-panel .form-select {
-  font-size: 14px;
+  font-size: $font-size-md;
   border-color: $color-gray-border;
 }
 
@@ -1319,8 +1320,8 @@ input[type="number"] {
 }
 
 .response-panel h5 {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   margin-bottom: 12px;
 }
@@ -1335,13 +1336,13 @@ input[type="number"] {
 }
 
 .response-panel .no-selection i {
-  font-size: 64px;
+  font-size: $font-size-8xl;
   margin-bottom: 16px;
   opacity: 0.3;
 }
 
 .response-panel .no-selection p {
-  font-size: 16px;
+  font-size: $font-size-xl;
   margin: 0;
 }
 
@@ -1356,7 +1357,7 @@ input[type="number"] {
 
 .response-panel .loading-state p {
   margin-top: 16px;
-  font-size: 14px;
+  font-size: $font-size-md;
 }
 
 /* Responsive Requester */
@@ -1397,8 +1398,8 @@ input[type="number"] {
 }
 
 .expandable-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $color-slate-500;
   display: flex;
   align-items: center;
@@ -1406,7 +1407,7 @@ input[type="number"] {
 }
 
 .expandable-icon {
-  font-size: 12px;
+  font-size: $font-size-sm;
   color: $color-gray-500;
   transition: transform 0.2s;
 }
@@ -1436,8 +1437,8 @@ input[type="number"] {
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -1447,7 +1448,7 @@ input[type="number"] {
 }
 
 .stub-link-btn i {
-  font-size: 12px;
+  font-size: $font-size-sm;
 }
 
 /* ========== REQUESTS LIST IMPROVEMENTS ========== */
@@ -1466,12 +1467,12 @@ input[type="number"] {
 }
 
 .request-item-compact .stub-date {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: $font-size-xxs;
+  font-weight: $font-weight-medium;
 }
 
 .request-item-compact .badge-compact {
-  font-size: 9px;
+  font-size: $font-size-2xs;
   padding: 2px 5px;
 }
 
@@ -1516,8 +1517,8 @@ input[type="number"] {
 .select-all-checkbox label {
   margin: 0;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
   color: $color-slate-500;
   user-select: none;
 }
@@ -1527,7 +1528,7 @@ input[type="number"] {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  font-size: 12px;
+  font-size: $font-size-sm;
   color: $color-gray-500;
   background: $color-bg-subtle;
   border-bottom: 1px solid $color-gray-border-pale;
@@ -1585,8 +1586,8 @@ input[type="number"] {
 .near-miss-rank {
   background: $color-blue;
   color: white;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
   padding: 4px 10px;
   border-radius: 12px;
 }
@@ -1594,8 +1595,8 @@ input[type="number"] {
 .near-miss-distance {
   background: $color-blue-bg;
   color: $color-blue-deep;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
   padding: 4px 10px;
   border-radius: 12px;
 }
@@ -1606,16 +1607,16 @@ input[type="number"] {
 
 .near-miss-stub-info .stub-name,
 .near-miss-stub-info .stub-id {
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-slate-500;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   margin-bottom: 5px;
 }
 
 .near-miss-stub-info i {
   color: $color-gray-500;
   margin-right: 5px;
-  font-size: 11px;
+  font-size: $font-size-xxs;
 }
 
 .near-miss-pattern {
@@ -1633,8 +1634,8 @@ input[type="number"] {
 }
 
 .pattern-url {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 12px;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
   color: $color-slate-600;
   flex: 1;
   overflow: hidden;
@@ -1650,12 +1651,12 @@ input[type="number"] {
 }
 
 .no-near-misses i {
-  font-size: 32px;
+  font-size: $font-size-6xl;
   margin-bottom: 10px;
   color: $color-gray-border;
 }
 
 .no-near-misses p {
   margin: 0;
-  font-size: 14px;
+  font-size: $font-size-md;
 }

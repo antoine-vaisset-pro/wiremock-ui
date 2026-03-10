@@ -1,0 +1,67 @@
+// ============================================================
+// WireMock UI - Typography tokens
+// All font-family, font-size, font-weight and line-height
+// values must be defined here and referenced by variable.
+// No hardcoded typography value is allowed in component files.
+// ============================================================
+
+// ── Font families ─────────────────────────────────────────────
+$font-family-base:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-family-mono:  'Monaco', 'Courier New', monospace;
+$font-family-mono-alt: 'Courier New', Courier, monospace;
+$font-family-mono-simple: monospace;
+$font-family-code:  'SFMono-Regular', Consolas, monospace;
+
+// ── Font weights ──────────────────────────────────────────────
+$font-weight-normal:  400;
+$font-weight-medium:  500;
+$font-weight-semibold: 600;
+$font-weight-bold:    700;
+
+// ── Line heights ──────────────────────────────────────────────
+$line-height-tight:   1;
+$line-height-snug:    1.5;
+$line-height-normal:  1.6;
+$line-height-relaxed: 1.7;
+$line-height-loose:   1.8;
+
+// ── Font sizes – absolute (px) ────────────────────────────────
+$font-size-2xs:   9px;
+$font-size-xs:    10px;
+$font-size-xxs:   11px;
+$font-size-sm:    12px;
+$font-size-base:  13px;
+$font-size-md:    14px;
+$font-size-lg:    15px;
+$font-size-xl:    16px;
+$font-size-2xl:   18px;
+$font-size-3xl:   20px;
+$font-size-4xl:   24px;
+$font-size-5xl:   28px;
+$font-size-6xl:   32px;
+$font-size-7xl:   48px;
+$font-size-8xl:   64px;
+
+// ── Font sizes – relative (rem) ───────────────────────────────
+$font-size-rem-2xs:   0.65rem;
+$font-size-rem-xs:    0.7rem;
+$font-size-rem-sm:    0.75rem;
+$font-size-rem-base:  0.8125rem;
+$font-size-rem-md:    0.82rem;
+$font-size-rem-normal: 0.85rem;
+$font-size-rem-lg:    0.875rem;
+$font-size-rem-xl:    0.9rem;
+$font-size-rem-2xl:   0.95rem;
+$font-size-rem-3xl:   1rem;
+$font-size-rem-4xl:   1.05rem;
+$font-size-rem-5xl:   1.1rem;
+$font-size-rem-6xl:   1.25rem;
+$font-size-rem-7xl:   1.4rem;
+$font-size-rem-8xl:   1.5rem;
+$font-size-rem-9xl:   1.75rem;
+$font-size-rem-10xl:  2rem;
+
+// ── Font sizes – em (relative to parent, used in badges/labels) ─
+$font-size-em-sm:  0.85em;
+$font-size-em-md:  0.9em;
+

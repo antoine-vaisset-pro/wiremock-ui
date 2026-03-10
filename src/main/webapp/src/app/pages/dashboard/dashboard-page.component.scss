@@ -1,4 +1,5 @@
 @use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
 
 .dashboard-container {
   padding: 2rem;
@@ -16,8 +17,8 @@
 }
 
 .dashboard-header h1 {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: $font-size-rem-10xl;
+  font-weight: $font-weight-semibold;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -41,8 +42,8 @@
   background: white;
   border: 1px solid $color-gray-border-blue;
   border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: $font-size-rem-lg;
+  font-weight: $font-weight-medium;
   color: $color-slate-800;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -56,12 +57,12 @@
 
 .time-range-display .fa-clock {
   color: var(--primary-color);
-  font-size: 1rem;
+  font-size: $font-size-rem-3xl;
 }
 
 .time-range-display .fa-chevron-down {
   margin-left: auto;
-  font-size: 0.75rem;
+  font-size: $font-size-rem-sm;
   color: $color-gray-text;
   transition: transform 0.2s ease;
 }
@@ -106,8 +107,8 @@
 
 .quick-ranges-header {
   padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
   color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -119,7 +120,7 @@
   background: transparent;
   border: none;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-slate-800;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -134,7 +135,7 @@
 .quick-range-item.active {
   background: $color-primary-bg;
   color: var(--primary-color);
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .quick-range-item.active::before {
@@ -155,8 +156,8 @@
 }
 
 .absolute-time-header {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
   color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -171,8 +172,8 @@
 }
 
 .date-input-group label {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: $font-size-rem-lg;
+  font-weight: $font-weight-medium;
   color: $color-slate-400;
 }
 
@@ -180,7 +181,7 @@
   padding: 0.5rem 0.75rem;
   border: 1px solid $color-gray-mid;
   border-radius: 4px;
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-slate-800;
   background: white;
   transition: all 0.2s ease;
@@ -194,7 +195,7 @@
 
 .date-input::placeholder {
   color: $color-gray-muted;
-  font-size: 0.8125rem;
+  font-size: $font-size-rem-base;
 }
 
 .dropdown-actions {
@@ -209,8 +210,8 @@
 .action-btn {
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: $font-size-rem-lg;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid transparent;
@@ -244,7 +245,7 @@
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -306,7 +307,7 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
 }
 
 /* Stats Cards */
@@ -360,7 +361,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  font-size: $font-size-rem-9xl;
 }
 
 .stat-card-primary .stat-icon {
@@ -393,22 +394,22 @@
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: $font-size-rem-10xl;
+  font-weight: $font-weight-bold;
   color: var(--text-primary);
-  line-height: 1;
+  line-height: $line-height-tight;
   margin-bottom: 0.5rem;
 }
 
 .stat-value.status-text {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: $font-size-rem-6xl;
+  font-weight: $font-weight-semibold;
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: $font-size-rem-xl;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 /* Recording Status Icons */
@@ -445,8 +446,8 @@
 }
 
 .dashboard-panel h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: $font-size-rem-6xl;
+  font-weight: $font-weight-semibold;
   color: var(--text-primary);
   margin-bottom: 1.5rem;
   display: flex;
@@ -456,13 +457,13 @@
 
 .dashboard-panel h2 i {
   color: var(--primary-color);
-  font-size: 1.1rem;
+  font-size: $font-size-rem-5xl;
 }
 
 .chart-hint {
   margin-left: auto;
-  font-size: 0.75rem;
-  font-weight: 400;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-normal;
   color: $color-gray-muted;
   display: flex;
   align-items: center;
@@ -471,7 +472,7 @@
 }
 
 .chart-hint i {
-  font-size: 0.7rem;
+  font-size: $font-size-rem-xs;
   color: $color-gray-muted;
 }
 
@@ -534,8 +535,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-rem-xl;
   flex-shrink: 0;
 }
 
@@ -554,8 +555,8 @@
 .method-badge {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-bold;
   text-transform: uppercase;
   flex-shrink: 0;
 }
@@ -592,8 +593,8 @@
 
 .url-text {
   flex: 1;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-rem-xl;
   color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -601,7 +602,7 @@
 }
 
 .endpoint-count {
-  font-size: 0.85rem;
+  font-size: $font-size-rem-normal;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
@@ -652,7 +653,7 @@
 }
 
 .stub-name {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
   overflow: hidden;
@@ -683,15 +684,15 @@
 }
 
 .info-label {
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: $font-size-rem-xl;
 }
 
 .info-value {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -720,7 +721,7 @@
 }
 
 .empty-state p {
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
 }
 
 /* Active Scenarios Section */
@@ -741,8 +742,8 @@
 
 .scenarios-header h2 {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: $font-size-rem-6xl;
+  font-weight: $font-weight-semibold;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -783,13 +784,13 @@
 
 .scenario-card-header i {
   color: $color-primary;
-  font-size: 1rem;
+  font-size: $font-size-rem-3xl;
 }
 
 .scenario-card-name {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-slate-600;
-  font-size: 0.9rem;
+  font-size: $font-size-rem-xl;
 }
 
 .scenario-card-body {
@@ -804,12 +805,12 @@
 }
 
 .scenario-current-state .badge {
-  font-size: 0.8rem;
+  font-size: $font-size-rem-md;
   padding: 0.25rem 0.75rem;
 }
 
 .scenario-states-count {
-  font-size: 0.75rem;
+  font-size: $font-size-rem-sm;
   color: $color-gray-500;
 }
 
@@ -820,7 +821,7 @@
   }
 
   .dashboard-header h1 {
-    font-size: 1.5rem;
+    font-size: $font-size-rem-8xl;
   }
 
   .stats-cards {
@@ -844,7 +845,7 @@
   }
 
   .bar-label {
-    font-size: 0.65rem;
+    font-size: $font-size-rem-2xs;
   }
 }
 

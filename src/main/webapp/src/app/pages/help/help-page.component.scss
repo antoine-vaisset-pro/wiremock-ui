@@ -1,4 +1,5 @@
 @use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
 
 /* ─────────────────────────────────────────
    Layout
@@ -43,7 +44,7 @@
   position: absolute;
   left: 0.85rem;
   color: $color-gray-icon;
-  font-size: 0.9rem;
+  font-size: $font-size-rem-xl;
   pointer-events: none;
 }
 
@@ -52,7 +53,7 @@
   padding: 0.55rem 2.5rem 0.55rem 2.25rem;
   border: 2px solid $color-gray-border-md;
   border-radius: 24px;
-  font-size: 0.95rem;
+  font-size: $font-size-rem-2xl;
   transition: border-color 0.2s, box-shadow 0.2s;
   background: $color-bg-near-white;
   outline: none;
@@ -72,8 +73,8 @@
   color: $color-gray-icon;
   cursor: pointer;
   padding: 0.2rem 0.4rem;
-  font-size: 0.85rem;
-  line-height: 1;
+  font-size: $font-size-rem-normal;
+  line-height: $line-height-tight;
   transition: color 0.15s;
 }
 
@@ -97,8 +98,8 @@
 }
 
 .toc-title {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: $font-size-rem-xs;
+  font-weight: $font-weight-bold;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: $color-gray-subtle;
@@ -120,7 +121,7 @@
   gap: 0.5rem;
   padding: 0.45rem 0.6rem;
   border-radius: 6px;
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-text-nav;
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
@@ -136,12 +137,12 @@
 .help-toc nav ul li a.active {
   background: $color-blue-google-bg;
   color: $color-blue-darker;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
 }
 
 .help-toc nav ul li a i,
 .toc-external ul li a i {
-  font-size: 0.75rem;
+  font-size: $font-size-rem-sm;
   width: 14px;
   text-align: center;
 }
@@ -171,8 +172,8 @@
 }
 
 .help-intro h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: $font-size-rem-9xl;
+  font-weight: $font-weight-bold;
   color: $color-slate-navy;
   margin-bottom: 0.5rem;
 }
@@ -184,8 +185,8 @@
 
 .help-intro p {
   color: $color-text-dark;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: $font-size-rem-3xl;
+  line-height: $line-height-normal;
 }
 
 /* ─────────────────────────────────────────
@@ -224,22 +225,22 @@
 }
 
 .section-heading h2 {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: $font-size-rem-7xl;
+  font-weight: $font-weight-bold;
   color: $color-slate-navy;
   margin: 0;
 }
 
 .help-section h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: $font-size-rem-4xl;
+  font-weight: $font-weight-semibold;
   color: $color-text-section;
   margin: 1.4rem 0 0.6rem;
 }
 
 .help-section h4 {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: $font-size-rem-2xl;
+  font-weight: $font-weight-semibold;
   color: $color-text-subsection;
   margin: 1.2rem 0 0.5rem;
   padding-left: 0.75rem;
@@ -248,7 +249,7 @@
 
 .help-section h5 {
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-text-dark;
   margin: 1rem 0 0.4rem;
   text-transform: uppercase;
@@ -257,8 +258,8 @@
 
 .help-section p {
   color: $color-text-body;
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: $font-size-rem-xl;
+  line-height: $line-height-relaxed;
   margin-bottom: 0.75rem;
 }
 
@@ -272,12 +273,12 @@
 }
 
 .help-section code {
-  font-size: 0.82rem;
+  font-size: $font-size-rem-md;
   background: $color-bg-code;
   color: $color-danger-carmine;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
-  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-family: $font-family-code;
 }
 
 /* ─────────────────────────────────────────
@@ -308,8 +309,8 @@
 }
 
 .option-label {
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-rem-lg;
   color: $color-text-section;
   padding-top: 0.05rem;
   display: flex;
@@ -319,9 +320,9 @@
 }
 
 .option-desc {
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-text-body;
-  line-height: 1.6;
+  line-height: $line-height-normal;
 }
 
 /* ─────────────────────────────────────────
@@ -333,9 +334,9 @@
 }
 
 .help-list li {
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-text-body;
-  line-height: 1.7;
+  line-height: $line-height-relaxed;
   margin-bottom: 0.3rem;
 }
 
@@ -351,9 +352,9 @@
   border: 1px solid $color-warning-border;
   border-radius: 8px;
   margin-top: 1rem;
-  font-size: 0.875rem;
+  font-size: $font-size-rem-lg;
   color: $color-warning-text-deep;
-  line-height: 1.6;
+  line-height: $line-height-normal;
 }
 
 .help-tip i {
@@ -375,8 +376,8 @@
    Inline badges
 ───────────────────────────────────────── */
 .badge-optional {
-  font-size: 0.65rem;
-  font-weight: 600;
+  font-size: $font-size-rem-2xs;
+  font-weight: $font-weight-semibold;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
   background: $color-badge-teal-bg;
@@ -390,8 +391,8 @@
 
 .badge-matched {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
   background: $color-success-bg;
@@ -401,8 +402,8 @@
 
 .badge-unmatched {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
   background: $color-warning-bg-legacy;
@@ -412,8 +413,8 @@
 
 .badge-nearmiss {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: $font-size-rem-sm;
+  font-weight: $font-weight-semibold;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
   background: $color-badge-blue-bg;
@@ -423,8 +424,8 @@
 
 .badge-env-label {
   display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: $font-size-rem-2xs;
+  font-weight: $font-weight-bold;
   font-family: monospace;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
@@ -437,8 +438,8 @@
 
 .badge-custom-label {
   display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: $font-size-rem-2xs;
+  font-weight: $font-weight-bold;
   font-family: monospace;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
@@ -453,7 +454,7 @@
    Inline icons
 ───────────────────────────────────────── */
 .icon-inline {
-  font-size: 0.85em;
+  font-size: $font-size-em-sm;
 }
 
 /* ─────────────────────────────────────────
@@ -485,7 +486,7 @@
   }
 
   .option-label {
-    font-size: 0.8rem;
+    font-size: $font-size-rem-md;
     color: $color-blue-legacy;
   }
 }
@@ -500,8 +501,8 @@
   background: var(--primary-color, $color-primary-hover);
   color: $color-white;
   border-radius: 50%;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
   margin-right: 6px;
   flex-shrink: 0;
   vertical-align: middle;
@@ -510,8 +511,8 @@
 .help-ordered-list {
   margin: 0.5rem 0 0.75rem 1.25rem;
   padding: 0;
-  line-height: 1.8;
-  font-size: 0.9rem;
+  line-height: $line-height-loose;
+  font-size: $font-size-rem-xl;
   color: var(--text-primary);
 }
 

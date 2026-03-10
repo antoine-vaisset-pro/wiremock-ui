@@ -1,4 +1,5 @@
 @use '../../../styles/colors' as *;
+@use '../../../styles/typography' as *;
 
 .recording-page {
   padding: 30px;
@@ -24,7 +25,7 @@
 }
 
 .wip-icon {
-  font-size: 48px;
+  font-size: $font-size-7xl;
   animation: blink 2s infinite;
 }
 
@@ -39,14 +40,14 @@
 
 .wip-text strong {
   display: block;
-  font-size: 20px;
+  font-size: $font-size-3xl;
   margin-bottom: 8px;
   text-shadow: 1px 1px 2px $color-overlay-light;
 }
 
 .wip-text p {
   margin: 0;
-  font-size: 14px;
+  font-size: $font-size-md;
   opacity: 0.95;
 }
 
@@ -59,8 +60,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 32px;
-  font-weight: 600;
+  font-size: $font-size-6xl;
+  font-weight: $font-weight-semibold;
   color: $color-dark-nav;
   margin: 0 0 10px 0;
 }
@@ -71,7 +72,7 @@
 
 .page-header .subtitle {
   color: $color-text-medium;
-  font-size: 16px;
+  font-size: $font-size-xl;
   margin: 0;
 }
 
@@ -115,12 +116,12 @@
 }
 
 .status-icon {
-  font-size: 32px;
+  font-size: $font-size-6xl;
 }
 
 .status-info {
   flex: 1;
-  font-size: 18px;
+  font-size: $font-size-2xl;
 }
 
 .status-actions {
@@ -145,7 +146,7 @@
 }
 
 .alert .icon {
-  font-size: 20px;
+  font-size: $font-size-3xl;
 }
 
 /* Sections */
@@ -168,8 +169,8 @@
 }
 
 .section-header h2 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-semibold;
   color: $color-dark-nav;
   margin: 0;
 }
@@ -190,7 +191,7 @@
 
 .form-group label {
   display: block;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   margin-bottom: 8px;
   color: $color-text-darkest;
 }
@@ -205,7 +206,7 @@
   padding: 10px 12px;
   border: 1px solid $color-gray-border-bs;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: $font-size-md;
   font-family: inherit;
 }
 
@@ -223,7 +224,7 @@
 .form-text {
   display: block;
   margin-top: 5px;
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-gray-bs;
 }
 
@@ -250,8 +251,8 @@
 }
 
 .advanced-config h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
   color: $color-text-darkest;
   margin: 20px 0 15px 0;
 }
@@ -274,8 +275,8 @@
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex;
@@ -347,12 +348,12 @@
 
 .btn-sm {
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: $font-size-base;
 }
 
 .btn-lg {
   padding: 12px 24px;
-  font-size: 16px;
+  font-size: $font-size-xl;
 }
 
 /* Results Grid */
@@ -388,8 +389,8 @@
 .method-badge {
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
   color: white;
 }
 
@@ -415,8 +416,8 @@
 }
 
 .mapping-header .url {
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-base;
   color: $color-text-darkest;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -428,7 +429,7 @@
 }
 
 .info-item {
-  font-size: 13px;
+  font-size: $font-size-base;
   color: $color-text-medium;
   margin: 5px 0;
 }
@@ -447,19 +448,19 @@
 }
 
 .empty-results .icon {
-  font-size: 64px;
+  font-size: $font-size-8xl;
   display: block;
   margin-bottom: 20px;
 }
 
 .empty-results p {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-medium;
   margin-bottom: 10px;
 }
 
 .empty-results small {
-  font-size: 14px;
+  font-size: $font-size-md;
 }
 
 /* Modal */
@@ -497,15 +498,15 @@
 
 .modal-header h3 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-semibold;
 }
 
 .btn-close {
   background: none;
   border: none;
-  font-size: 28px;
-  line-height: 1;
+  font-size: $font-size-5xl;
+  line-height: $line-height-tight;
   cursor: pointer;
   color: $color-gray-bs;
   padding: 0;
@@ -536,8 +537,8 @@
   border: 1px solid $color-gray-border-light;
   border-radius: 4px;
   padding: 15px;
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
+  font-family: $font-family-mono-alt;
+  font-size: $font-size-base;
   overflow-x: auto;
   margin: 0;
 }
@@ -576,7 +577,7 @@
 
 .config-info small {
   color: $color-gray-bs;
-  font-size: 13px;
+  font-size: $font-size-base;
 }
 
 .config-actions {
@@ -591,7 +592,7 @@
   }
 
   .page-header h1 {
-    font-size: 24px;
+    font-size: $font-size-4xl;
   }
 
   .status-content {
