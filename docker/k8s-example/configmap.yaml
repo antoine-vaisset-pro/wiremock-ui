@@ -1,0 +1,47 @@
+---
+# Deployment example for wiremock-ui in Kubernetes.
+#
+# config.json is served dynamically by nginx via a `location = /config.json { return 200 ... }`
+# block in nginx.conf. The values are substituted from environment variables at nginx startup.
+#
+# This approach requires NO volumeMount and is fully compatible with readOnlyRootFilesystem=true.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiremock-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiremock-ui
+  template:
+    metadata:
+      labels:
+        app: wiremock-ui
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+      containers:
+        - name: wiremock-ui
+          image: ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # Path to the WireMock admin API (default: /__admin)
+            - name: WIREMOCK_API_URL
+              value: "/__admin"
+            # URL of the WireMock backend — adapt to your cluster's WireMock service.
+            - name: WIREMOCK_BACKEND
+              value: "http://wiremock:8080"
+          securityContext:
+            readOnlyRootFilesystem: true   # ✅ fully compatible — no filesystem write at runtime
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            # /tmp is required by nginx for temporary files (client body, etc.)
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

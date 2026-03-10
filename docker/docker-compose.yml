@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # WireMock standalone
+  wiremock:
+    image: wiremock/wiremock:3.10.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../mappings:/home/wiremock/mappings
+      - ../files:/home/wiremock/__files
+    command:
+      - --global-response-templating
+      - --verbose
+      - --enable-stub-cors
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/__admin/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Angular UI
+  ui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "4200:8080"
+    environment:
+      # Path to the WireMock admin API as seen by the browser (default: /__admin)
+      WIREMOCK_API_URL: /__admin
+      # Internal URL used by nginx proxy_pass — never reaches the browser.
+      WIREMOCK_BACKEND: http://localhost:8080
+
+  # Angular UI - image publiée sur GitHub Container Registry
+  ui-from-github:
+    image: ghcr.io/antoine-vaisset-pro/wiremock-ui-ia-gerenated:latest
+    pull_policy: always
+    ports:
+      - "4200:8080"
+    environment:
+      # Path to the WireMock admin API as seen by the browser (default: /__admin)
+      WIREMOCK_API_URL: /__admin
+      # Internal URL used by nginx proxy_pass — never reaches the browser.
+      WIREMOCK_BACKEND: http://localhost:8080
