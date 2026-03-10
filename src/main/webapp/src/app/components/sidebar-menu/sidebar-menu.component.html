@@ -1,92 +1,92 @@
 <aside class="sidebar-menu">
-  <div class="sidebar-header">
-    <i class="fas fa-cube sidebar-logo"></i>
-    <span class="sidebar-title">WireMock</span>
-  </div>
+    <div class="sidebar-header">
+        <img src="/assets/wiremock-ui-logo.svg" alt="WireMock UI" class="sidebar-logo-img">
+        <span class="sidebar-title">WireMock UI</span>
+    </div>
 
-  <nav class="sidebar-nav">
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'dashboard'"
-      (click)="switchView('dashboard')"
-      data-tooltip="Dashboard">
-      <i class="fas fa-chart-line"></i>
-      <span>Dashboard</span>
-    </button>
+    <nav class="sidebar-nav">
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'dashboard'"
+                (click)="switchView('dashboard')"
+                data-tooltip="Dashboard">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'stubs'"
-      (click)="switchView('stubs')"
-      data-tooltip="Stubs">
-      <i class="fas fa-layer-group"></i>
-      <span>Stubs</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'stubs'"
+                (click)="switchView('stubs')"
+                data-tooltip="Stubs">
+            <i class="fas fa-layer-group"></i>
+            <span>Stubs</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'scenarios'"
-      (click)="switchView('scenarios')"
-      data-tooltip="Scenarios">
-      <i class="fas fa-sitemap"></i>
-      <span>Scenarios</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'scenarios'"
+                (click)="switchView('scenarios')"
+                data-tooltip="Scenarios">
+            <i class="fas fa-sitemap"></i>
+            <span>Scenarios</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'requests'"
-      (click)="switchView('requests')"
-      data-tooltip="Requests">
-      <i class="fas fa-history"></i>
-      <span>Requests</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'requests'"
+                (click)="switchView('requests')"
+                data-tooltip="Requests">
+            <i class="fas fa-history"></i>
+            <span>Requests</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'requester'"
-      (click)="switchView('requester')"
-      data-tooltip="Requester">
-      <i class="fas fa-paper-plane"></i>
-      <span>Requester</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'requester'"
+                (click)="switchView('requester')"
+                data-tooltip="Requester">
+            <i class="fas fa-paper-plane"></i>
+            <span>Requester</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'recording'"
-      (click)="switchView('recording')"
-      data-tooltip="Recording">
-      <i class="fas fa-circle"></i>
-      <span>Recording</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'recording'"
+                (click)="switchView('recording')"
+                data-tooltip="Recording">
+            <i class="fas fa-circle"></i>
+            <span>Recording</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'generator'"
-      (click)="switchView('generator')"
-      data-tooltip="OpenAPI Generator">
-      <i class="fas fa-magic"></i>
-      <span>Generator</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'generator'"
+                (click)="switchView('generator')"
+                data-tooltip="OpenAPI Generator">
+            <i class="fas fa-magic"></i>
+            <span>Generator</span>
+        </button>
 
-    <div class="sidebar-divider"></div>
+        <div class="sidebar-divider"></div>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'settings'"
-      (click)="switchView('settings')"
-      data-tooltip="Settings">
-      <i class="fas fa-cog"></i>
-      <span>Settings</span>
-    </button>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'settings'"
+                (click)="switchView('settings')"
+                data-tooltip="Settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </button>
 
-    <button
-      class="sidebar-item"
-      [class.active]="activeView === 'help'"
-      (click)="switchView('help')"
-      data-tooltip="Help">
-      <i class="fas fa-question-circle"></i>
-      <span>Help</span>
-    </button>
-  </nav>
+        <button
+                class="sidebar-item"
+                [class.active]="activeView === 'help'"
+                (click)="switchView('help')"
+                data-tooltip="Help">
+            <i class="fas fa-question-circle"></i>
+            <span>Help</span>
+        </button>
+    </nav>
 </aside>
 

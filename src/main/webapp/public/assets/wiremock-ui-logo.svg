@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="WireMock UI logo">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e2a3a"/>
+      <stop offset="100%" stop-color="#0f1924"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark square background with rounded corners -->
+  <rect width="64" height="64" rx="12" ry="12" fill="url(#bgGrad)"/>
+
+  <!-- Wire / network lines — orange (#FF8C00) for "WIRE" side -->
+  <g fill="none" stroke-linecap="round" stroke-width="2">
+    <!-- Left orange wires -->
+    <line x1="8"  y1="32" x2="24" y2="32" stroke="#FF8C00"/>
+    <line x1="8"  y1="32" x2="16" y2="18" stroke="#FF8C00"/>
+    <line x1="8"  y1="32" x2="16" y2="46" stroke="#FF8C00"/>
+    <line x1="16" y1="18" x2="24" y2="24" stroke="#FF8C00"/>
+    <line x1="16" y1="46" x2="24" y2="40" stroke="#FF8C00"/>
+    <!-- Right sky-blue wires -->
+    <line x1="56" y1="32" x2="40" y2="32" stroke="#00AADD"/>
+    <line x1="56" y1="32" x2="48" y2="18" stroke="#00AADD"/>
+    <line x1="56" y1="32" x2="48" y2="46" stroke="#00AADD"/>
+    <line x1="48" y1="18" x2="40" y2="24" stroke="#00AADD"/>
+    <line x1="48" y1="46" x2="40" y2="40" stroke="#00AADD"/>
+  </g>
+
+  <!-- Orange nodes (WIRE side) -->
+  <circle cx="8"  cy="32" r="3"   fill="#FF8C00"/>
+  <circle cx="16" cy="18" r="2.5" fill="#FF8C00" opacity="0.85"/>
+  <circle cx="16" cy="46" r="2.5" fill="#FF8C00" opacity="0.85"/>
+  <circle cx="24" cy="24" r="2"   fill="#FF8C00" opacity="0.7"/>
+  <circle cx="24" cy="40" r="2"   fill="#FF8C00" opacity="0.7"/>
+
+  <!-- Sky-blue nodes (MOCK side) -->
+  <circle cx="56" cy="32" r="3"   fill="#00AADD"/>
+  <circle cx="48" cy="18" r="2.5" fill="#00AADD" opacity="0.85"/>
+  <circle cx="48" cy="46" r="2.5" fill="#00AADD" opacity="0.85"/>
+  <circle cx="40" cy="24" r="2"   fill="#00AADD" opacity="0.7"/>
+  <circle cx="40" cy="40" r="2"   fill="#00AADD" opacity="0.7"/>
+
+  <!-- Center hub — split orange/blue, no white stroke -->
+  <circle cx="32" cy="32" r="6.5" fill="#0f1924"/>
+  <path d="M32,25.5 A6.5,6.5 0 0,0 32,38.5 Z" fill="#FF8C00"/>
+  <path d="M32,25.5 A6.5,6.5 0 0,1 32,38.5 Z" fill="#00AADD"/>
+</svg>
+

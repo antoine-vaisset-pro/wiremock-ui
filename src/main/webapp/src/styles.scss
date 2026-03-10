@@ -170,9 +170,10 @@ pre {
   border-bottom: 1px solid $color-white-overlay;
 }
 
-.sidebar-logo {
-  font-size: $font-size-xl;
-  color: $color-primary;
+.sidebar-logo-img {
+  width: $size-icon-5xl;
+  height: $size-icon-5xl;
+  flex-shrink: 0;
 }
 
 .sidebar-title {
