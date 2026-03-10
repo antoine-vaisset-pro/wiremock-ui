@@ -1,0 +1,514 @@
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
+    <h1>Request Logs</h1>
+    <p class="header-subtitle">View all HTTP requests received by WireMock</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-sm btn-danger" (click)="deleteSelectedRequests()" [disabled]="selectedRequestIds.size === 0" title="Delete selected requests">
+      <i class="fas fa-trash"></i> Delete Selected @if (selectedRequestIds.size > 0) {
+      <span>({{ selectedRequestIds.size }})</span>
+    }
+  </button>
+  <button class="btn btn-sm btn-warning" (click)="clearRequests()" title="Clear all request logs">
+    <i class="fas fa-broom"></i> Clear All
+  </button>
+  <button class="btn btn-sm btn-primary" (click)="refreshRequests()" title="Refresh request list">
+    <i class="fas fa-sync-alt"></i> Refresh
+  </button>
+</div>
+</header>
+<!-- Content -->
+<div class="wiremock-content" >
+  <!-- Left Panel: Requests List -->
+  <div class="stubs-panel">
+    <div class="stubs-header">
+      <h2>Request Logs</h2>
+      <span class="badge bg-secondary">{{ totalRequests }} total</span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Filter requests..."
+        [(ngModel)]="searchQuery">
+      @if (searchQuery) {
+        <i
+          class="fas fa-times search-clear-icon"
+          (click)="searchQuery = ''"
+        title="Clear search"></i>
+      }
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="filters-section">
+      <!-- Status Filters -->
+      <div class="filter-group">
+        <label class="filter-label">Status:</label>
+        <div class="filter-chips">
+          <span
+            class="filter-chip"
+            [class.active]="statusFilter === 'all'"
+            (click)="setStatusFilter('all')">
+            All
+          </span>
+          <span
+            class="filter-chip filter-chip-success"
+            [class.active]="statusFilter === 'matched'"
+            (click)="setStatusFilter('matched')">
+            <i class="fas fa-check"></i> Matched
+          </span>
+          <span
+            class="filter-chip filter-chip-warning"
+            [class.active]="statusFilter === 'unmatched'"
+            (click)="setStatusFilter('unmatched')">
+            <i class="fas fa-times"></i> Unmatched
+          </span>
+          <span
+            class="filter-chip filter-chip-info"
+            [class.active]="statusFilter === 'near-miss-90'"
+            (click)="setStatusFilter('near-miss-90')">
+            <i class="fas fa-bullseye"></i>
+            Near-miss >90%
+          </span>
+        </div>
+      </div>
+
+      <!-- Date Range Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Date:</label>
+        <div class="filter-chips">
+          <span
+            class="filter-chip"
+            [class.active]="dateRangeFilter === 'all'"
+            (click)="setDateRangeFilter('all')">
+            All
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="dateRangeFilter === 'last-hour'"
+            (click)="setDateRangeFilter('last-hour')">
+            Last Hour
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="dateRangeFilter === 'last-24h'"
+            (click)="setDateRangeFilter('last-24h')">
+            Last 24h
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="dateRangeFilter === 'today'"
+            (click)="setDateRangeFilter('today')">
+            Today
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="dateRangeFilter === 'last-7d'"
+            (click)="setDateRangeFilter('last-7d')">
+            Last 7 days
+          </span>
+        </div>
+      </div>
+
+      <!-- Method Filters -->
+      <div class="filter-group">
+        <label class="filter-label">Method:</label>
+        <div class="filter-chips">
+          @for (method of availableMethods; track method) {
+            <span
+              class="filter-chip"
+              [class.active]="methodFilters.has(method)"
+              (click)="toggleMethodFilter(method)">
+              {{ method }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Response Code Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Response:</label>
+        <div class="filter-chips">
+          <span
+            class="filter-chip"
+            [class.active]="responseCodeFilter === 'all'"
+            (click)="setResponseCodeFilter('all')">
+            All
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="responseCodeFilter === '2xx'"
+            (click)="setResponseCodeFilter('2xx')">
+            2xx Success
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="responseCodeFilter === '3xx'"
+            (click)="setResponseCodeFilter('3xx')">
+            3xx Redirect
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="responseCodeFilter === '4xx'"
+            (click)="setResponseCodeFilter('4xx')">
+            4xx Client Error
+          </span>
+          <span
+            class="filter-chip"
+            [class.active]="responseCodeFilter === '5xx'"
+            (click)="setResponseCodeFilter('5xx')">
+            5xx Server Error
+          </span>
+        </div>
+      </div>
+
+      <!-- Clear Filters Button -->
+      @if (getActiveFiltersCount() > 0) {
+        <div class="filter-actions">
+          <button class="btn btn-sm btn-outline-secondary" (click)="clearAllFilters()">
+            <i class="fas fa-filter-circle-xmark"></i> Clear Filters ({{ getActiveFiltersCount() }})
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Requests List -->
+    <div class="stubs-list">
+      <div class="list-info">
+        <div class="select-all-checkbox">
+          <input
+            type="checkbox"
+            id="selectAllCheckbox"
+            [checked]="selectAllRequests"
+            (change)="toggleSelectAll()">
+          <label for="selectAllCheckbox">Select All</label>
+        </div>
+        <span>
+          Showing {{ getFilteredRequests().length }} of {{ totalRequests }} requests
+          @if (getActiveFiltersCount() > 0) {
+            <span class="text-primary">({{ getActiveFiltersCount() }} filter@if (getActiveFiltersCount() > 1) {
+              <span>s</span>
+            } active)</span>
+          }
+        </span>
+      </div>
+
+      @for (request of getFilteredRequests(); track request) {
+        <div
+          class="stub-item request-item-compact"
+          [class.active]="selectedRequest === request"
+          [class.selected]="selectedRequestIds.has(request.id)"
+          [title]="getRequestTooltip(request)"
+          (click)="selectRequest(request)">
+          <div class="request-checkbox" (click)="$event.stopPropagation()">
+            <input
+              type="checkbox"
+              [checked]="selectedRequestIds.has(request.id)"
+              (change)="toggleRequestSelection(request.id)">
+          </div>
+          <div class="stub-method-url">
+            <span class="badge method-badge" [ngClass]="'method-' + (request.request?.method || 'ANY')">
+              {{ request.request?.method || 'ANY' }}
+            </span>
+            <div class="stub-url">{{ request.request?.url }}</div>
+          </div>
+          <div class="stub-meta">
+            <div class="stub-date">
+              <i class="fas fa-clock"></i>
+              {{ formatDateShort(request.request?.loggedDate) }}
+            </div>
+            @if (getResponseStatus(request)) {
+              <span
+                class="badge badge-compact response-code-badge"
+                [ngClass]="getResponseCodeClass(getResponseStatus(request))">
+                {{ getResponseStatus(request) }}
+              </span>
+            }
+            @if (request.wasMatched) {
+              <span
+                class="badge bg-success badge-compact">
+                <i class="fas fa-check"></i> MATCHED
+              </span>
+            }
+            @if (!request.wasMatched && hasHighNearMiss(request.id)) {
+              <span
+                class="badge bg-info badge-compact"
+                [title]="'Near-miss: ' + (getBestNearMissScore(request.id) * 100 | number:'1.0-0') + '%'">
+                <i class="fas fa-bullseye"></i> NEAR-MISS
+              </span>
+            }
+            @if (!request.wasMatched && !hasHighNearMiss(request.id)) {
+              <span
+                class="badge bg-warning text-dark badge-compact">
+                <i class="fas fa-times"></i> UNMATCHED
+              </span>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Empty State -->
+      @if (!loading && requests.length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>No requests logged yet</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Right Panel: Request Details -->
+  @if (selectedRequest) {
+    <div class="details-panel">
+      <!-- Main Request Details -->
+      <div class="stub-details">
+        <!-- Details Header -->
+        <div class="details-header">
+          <h3>Request {{ '@' }} {{ formatDate(selectedRequest.request?.loggedDate) }}</h3>
+          <div class="details-actions">
+            <button class="btn btn-sm btn-link" (click)="closeRequestDetails()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- View Tabs -->
+        <div class="view-tabs">
+          <span class="view-tab" [class.active]="activeRequestViewTab === 'details'" (click)="setRequestViewTab('details')">
+            <i class="fas fa-list-ul"></i> Details
+          </span>
+          <span class="view-tab" [class.active]="activeRequestViewTab === 'json'" (click)="setRequestViewTab('json')">
+            <i class="fas fa-code"></i> Complete Object
+          </span>
+        </div>
+        <!-- Details View -->
+        @if (activeRequestViewTab === 'details') {
+          <div>
+            <!-- Request Section -->
+            <div class="detail-section">
+              <h4><i class="fas fa-arrow-right"></i> Request</h4>
+              <div class="info-grid">
+                <div class="info-row">
+                  <span class="info-label">URL</span>
+                  <span class="info-value">{{ selectedRequest.request?.url }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Absolute URL</span>
+                  <span class="info-value">{{ selectedRequest.request?.absoluteUrl }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Method</span>
+                  <span class="info-value">
+                    <span class="badge method-badge" [ngClass]="'method-' + (selectedRequest.request?.method || 'ANY')">
+                      {{ selectedRequest.request?.method || 'ANY' }}
+                    </span>
+                  </span>
+                </div>
+                @if (selectedRequest.request?.clientIp) {
+                  <div class="info-row">
+                    <span class="info-label">Client IP</span>
+                    <span class="info-value">{{ selectedRequest.request.clientIp }}</span>
+                  </div>
+                }
+              </div>
+              <!-- Request Headers - Expandable -->
+              @if (getRequestHeaders(selectedRequest).length > 0) {
+                <div class="expandable-section">
+                  <div class="expandable-header" (click)="toggleRequestHeaders()">
+                    <div class="expandable-title">
+                      <i class="fas fa-chevron-right expandable-icon" [class.expanded]="requestHeadersExpanded"></i>
+                      Headers ({{ getRequestHeaders(selectedRequest).length }})
+                    </div>
+                  </div>
+                  <div class="expandable-content" [class.collapsed]="!requestHeadersExpanded">
+                    <div class="headers-list">
+                      @for (header of getRequestHeaders(selectedRequest); track header) {
+                        <div class="header-item">
+                          <span class="header-key">{{ header.key }}</span>
+                          <span class="header-value">{{ header.value }}</span>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+              <!-- Request Body -->
+              @if (getRequestBody(selectedRequest)) {
+                <div class="mt-3">
+                  <h5>Body</h5>
+                  <pre class="json-content">{{ getRequestBody(selectedRequest) }}</pre>
+                </div>
+              }
+            </div>
+            <!-- Response Section -->
+            <div class="detail-section">
+              <h4><i class="fas fa-arrow-left"></i> Response</h4>
+              <!-- Matched Stub Info -->
+              @if (selectedRequest.wasMatched && selectedRequest.stubMapping) {
+                <div class="alert alert-success">
+                  <strong><i class="fas fa-check-circle"></i> Matched stub</strong>
+                  <div class="mt-2">
+                    @if (selectedRequest.stubMapping.name) {
+                      <div>
+                        <strong>Name:</strong> {{ selectedRequest.stubMapping.name }}
+                      </div>
+                    }
+                    @if (selectedRequest.stubMapping.id || selectedRequest.stubMapping.uuid) {
+                      <div>
+                        <strong>ID:</strong> {{ selectedRequest.stubMapping.id || selectedRequest.stubMapping.uuid }}
+                      </div>
+                    }
+                  </div>
+                  <button
+                    class="stub-link-btn"
+                    (click)="navigateToStub(selectedRequest.stubMapping.id || selectedRequest.stubMapping.uuid || '')">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Stub
+                  </button>
+                </div>
+              }
+              @if (!selectedRequest.wasMatched) {
+                <div class="alert alert-warning">
+                  <strong><i class="fas fa-exclamation-triangle"></i> No stub matched this request</strong>
+                </div>
+              }
+              <div class="info-grid">
+                <div class="info-row">
+                  <span class="info-label">Status</span>
+                  <span class="info-value">
+                    <span class="badge bg-secondary">
+                      {{ selectedRequest.response?.status || selectedRequest.responseDefinition?.status || 'N/A' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <!-- Response Headers -->
+              @if (getResponseHeaders(selectedRequest).length > 0) {
+                <div class="mt-3">
+                  <h5>Headers</h5>
+                  <div class="headers-list">
+                    @for (header of getResponseHeaders(selectedRequest); track header) {
+                      <div class="header-item">
+                        <span class="header-key">{{ header.key }}</span>
+                        <span class="header-value">{{ header.value }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+              <!-- Response Body -->
+              @if (getResponseBody(selectedRequest)) {
+                <div class="mt-3">
+                  <h5>Body</h5>
+                  <pre class="json-content">{{ getResponseBody(selectedRequest) }}</pre>
+                </div>
+              }
+              <!-- Create Stub Button for Unmatched Requests -->
+              @if (!selectedRequest.wasMatched) {
+                <div class="mt-3 text-end">
+                  <button
+                    class="btn btn-success"
+                    (click)="createStubFromRequest()">
+                    <i class="fas fa-plus"></i> Create Stub from this Request
+                  </button>
+                </div>
+              }
+            </div>
+            <!-- Near Misses Section (shown only for unmatched requests) -->
+            @if (!selectedRequest.wasMatched && (nearMisses.length > 0 || loadingNearMisses)) {
+              <div class="detail-section">
+                <h4><i class="fas fa-bullseye"></i> Near Misses - Closest Matching Stubs</h4>
+                <!-- Loading State -->
+                @if (loadingNearMisses) {
+                  <div class="near-miss-loading">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="ms-2">Finding closest stubs...</span>
+                  </div>
+                }
+                <!-- Near Misses List -->
+                @if (!loadingNearMisses) {
+                  <div class="near-misses-inline-list">
+                    @for (nearMiss of nearMisses; track nearMiss; let i = $index) {
+                      <div class="near-miss-inline-item">
+                        <div class="near-miss-inline-header-row">
+                          <span class="near-miss-rank">#{{ i + 1 }}</span>
+                          <span class="near-miss-distance">
+                            Match: {{ (1 - nearMiss.matchResult.distance) * 100 | number:'1.1-1' }}%
+                          </span>
+                        </div>
+                        <div class="near-miss-stub-info">
+                          @if (nearMiss.stubMapping?.name) {
+                            <div class="stub-name">
+                              <i class="fas fa-tag"></i> {{ nearMiss.stubMapping?.name }}
+                            </div>
+                          }
+                          @if (!nearMiss.stubMapping?.name && (nearMiss.stubMapping?.id || nearMiss.stubMapping?.uuid)) {
+                            <div class="stub-id">
+                              <i class="fas fa-fingerprint"></i> {{ nearMiss.stubMapping?.id || nearMiss.stubMapping?.uuid }}
+                            </div>
+                          }
+                        </div>
+                        <div class="near-miss-pattern">
+                          <div class="pattern-row">
+                            <span class="badge method-badge" [ngClass]="'method-' + (nearMiss.stubMapping?.request?.method || 'ANY')">
+                              {{ nearMiss.stubMapping?.request?.method || 'ANY' }}
+                            </span>
+                            <span class="pattern-url">
+                              {{ nearMiss.stubMapping?.request?.url || nearMiss.stubMapping?.request?.urlPattern || 'N/A' }}
+                            </span>
+                          </div>
+                        </div>
+                        @if (nearMiss.stubMapping?.id || nearMiss.stubMapping?.uuid) {
+                          <button
+                            class="btn btn-sm btn-outline-primary mt-2"
+                            (click)="navigateToStub(nearMiss.stubMapping?.id || nearMiss.stubMapping?.uuid || '')">
+                            <i class="fas fa-external-link-alt"></i> View Stub
+                          </button>
+                        }
+                      </div>
+                    }
+                    @if (nearMisses.length === 0) {
+                      <div class="no-near-misses">
+                        <i class="fas fa-info-circle"></i>
+                        <p>No near-miss stubs found</p>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+        <!-- JSON View -->
+        @if (activeRequestViewTab === 'json') {
+          <div>
+            <div class="detail-section">
+              <div class="json-viewer">
+                <button class="btn btn-link btn-sm" (click)="copyRequestJson()">
+                  <i class="fas fa-copy"></i> Copy JSON
+                </button>
+                <pre class="json-content">{{ selectedRequest | json }}</pre>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Empty Right Panel -->
+  @if (!selectedRequest) {
+    <div class="details-panel empty-panel">
+      <div class="empty-details">
+        <i class="fas fa-mouse-pointer"></i>
+        <p>Select a request to view details</p>
+      </div>
+    </div>
+  }
+</div>
+<!-- END REQUESTS VIEW -->
