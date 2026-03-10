@@ -10,7 +10,7 @@ import { RecordingService, RecordingStatus, RecordingConfig, SnapshotConfig, Rec
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './recording-page.component.html',
-  styleUrls: ['./recording-page.component.css']
+  styleUrls: ['./recording-page.component.scss']
 })
 export class RecordingPageComponent implements OnInit, OnDestroy {
   // Mode Read-only (Work in Progress)

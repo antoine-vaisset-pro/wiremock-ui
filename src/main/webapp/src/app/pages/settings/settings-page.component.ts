@@ -18,7 +18,7 @@ export interface EndpointOption {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.css']
+  styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {
   options: EndpointOption[] = [];

@@ -22,7 +22,7 @@ interface EndpointEntry extends StubConfig {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './openapi-generator-page.component.html',
-  styleUrls: ['./openapi-generator-page.component.css'],
+  styleUrls: ['./openapi-generator-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OpenApiGeneratorPageComponent implements OnDestroy {

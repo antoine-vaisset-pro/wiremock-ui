@@ -27,7 +27,7 @@ interface FlowTransition {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './scenarios-page.component.html',
-  styleUrls: ['./scenarios-page.component.css']
+  styleUrls: ['./scenarios-page.component.scss']
 })
 export class ScenariosPageComponent implements OnInit, OnDestroy {
   scenarios: Scenario[] = [];

@@ -9,7 +9,7 @@ import {NearMiss, RequestService, WiremockRequest} from '../../services/request.
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './requests-page.component.html',
-  styleUrls: ['./requests-page.component.css']
+  styleUrls: ['./requests-page.component.scss']
 })
 export class RequestsPageComponent implements OnInit {
   @Output() createStubRequest = new EventEmitter<WiremockRequest>();

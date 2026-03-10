@@ -13,7 +13,7 @@ import {MappingsResponse, StubMapping} from '../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './stubs-page.component.html',
-  styleUrls: ['./stubs-page.component.css']
+  styleUrls: ['./stubs-page.component.scss']
 })
 export class StubsPageComponent implements OnInit {
   // Expose Math to template
