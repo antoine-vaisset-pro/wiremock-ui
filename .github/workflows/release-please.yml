@@ -13,10 +13,47 @@ jobs:
   release-please:
     name: Release PR · Tag · GitHub Release
     runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
       - uses: googleapis/release-please-action@v4
+        id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+  update-readme-badge:
+    name: Update version badge in README
+    needs: release-please
+    if: ${{ needs.release-please.outputs.releases_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read new version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./src/main/webapp/package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version badge in README.md
+        run: |
+          BADGE_VERSION=$(echo "${{ steps.version.outputs.version }}" | sed 's/-/--/g')
+          if ! grep -q '!\[Version\](https://img\.shields\.io/badge/version-[^)]*-orange)' README.md; then
+            echo "::warning::Version badge not found in README.md — skipping update"
+            exit 0
+          fi
+          sed -i "s|!\[Version\](https://img\.shields\.io/badge/version-[^)]*-orange)|![Version](https://img.shields.io/badge/version-${BADGE_VERSION}-orange)|" README.md
+
+      - name: Commit and push README.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --staged --quiet || git commit -m "chore: update version badge in README to ${{ steps.version.outputs.version }}"
+          git push
 

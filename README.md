@@ -3,7 +3,7 @@
 A modern web interface for managing and testing [WireMock](https://wiremock.org/) mock servers — built with Angular.
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
-![Version](https://img.shields.io/badge/version-0.5.0--beta-orange)
+![Version](https://img.shields.io/badge/version-0.5.5-orange)
 ![Angular](https://img.shields.io/badge/Angular-21-red)
 ![WireMock](https://img.shields.io/badge/WireMock-3.10-green)
 ![Node](https://img.shields.io/badge/Node.js-%3E%3D22-brightgreen)
