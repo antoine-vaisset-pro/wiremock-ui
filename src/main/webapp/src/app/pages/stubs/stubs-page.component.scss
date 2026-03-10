@@ -5,14 +5,6 @@
 /* Styles are inherited from app.component.css for now */
 /* This approach avoids duplication during the refactoring phase */
 
-/* Selection Mode */
-.stub-item.select-mode {
-  cursor: pointer;
-}
-
-.stub-item.select-mode:hover {
-  background-color: $color-blue-bg-hover;
-}
 
 .stub-checkbox {
   padding: 0 $space-2;
@@ -61,29 +53,6 @@
   color: $color-gray-light;
 }
 
-/* Import Modal Styles */
-.modal-import {
-  max-width: $size-modal-md;
-  width: 90%;
-  height: auto;
-}
-
-.modal-import .modal-content {
-  height: auto;
-  max-height: $size-vh-85;
-}
-
-.modal-import .modal-body {
-  max-height: $size-vh-60;
-  overflow-y: auto;
-}
-
-.modal-import .modal-header h3 {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  margin: 0;
-  color: $color-slate-600;
-}
 
 /* File Selection Lists */
 .file-selection-list {
@@ -144,15 +113,7 @@
   font-size: $font-size-em-sm;
 }
 
-.preview-list {
-  max-height: $size-stubs-panel;
-  overflow-y: auto;
-  border: 1px solid $color-gray-border-light;
-  border-radius: $radius-sm;
-  padding: $space-10;
-}
-
-/* Liste scrollable pour tous les stubs (import) */
+/* Import Preview List */
 .preview-list-scrollable {
   max-height: $size-min-range;
   overflow-y: auto;
@@ -216,12 +177,6 @@
   font-size: $font-size-em-sm;
 }
 
-.preview-more {
-  text-align: center;
-  padding: $space-10;
-  color: $color-text-medium;
-  font-style: italic;
-}
 
 /* Scenario Badges */
 .bg-indigo {
@@ -276,67 +231,6 @@
   padding: $space-6 $space-3;
 }
 
-.scenario-section {
-  background: $color-bg-blue-tint;
-  border: 1px solid $color-primary-bg-c7;
-}
-
-/* Section Scenario Collapsible */
-.scenario-section-collapsible {
-  border: 1px solid $color-gray-border-pale;
-  border-radius: $radius-lg;
-  overflow: hidden;
-  background: $color-bg-near-white;
-}
-
-.scenario-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: $space-3 $space-4;
-  background: $color-bg-softer;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  user-select: none;
-}
-
-.scenario-header:hover {
-  background: $color-gray-border-pale;
-}
-
-.scenario-header h5 {
-  margin: 0;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  color: $color-slate-500;
-  display: flex;
-  align-items: center;
-  gap: $space-2;
-}
-
-.scenario-header i.fa-sitemap {
-  color: $color-primary;
-}
-
-.scenario-header i.fa-chevron-down,
-.scenario-header i.fa-chevron-up {
-  color: $color-gray-light;
-  font-size: $font-size-sm;
-  transition: transform 0.3s ease;
-}
-
-.scenario-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: 0 $space-4;
-}
-
-.scenario-content.expanded {
-  max-height: $size-modal-sm;
-  padding: $space-4;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
 
 /* Form sections */
 .form-section {
