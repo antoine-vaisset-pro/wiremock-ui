@@ -329,6 +329,50 @@ pre {
   height: calc(100vh - #{$size-header-offset}); /* Viewport height minus header */
 }
 
+/* Single-panel variant: no left/right split, scrollable column layout */
+.wiremock-content--single {
+  flex-direction: column;
+  overflow-y: auto;
+  height: calc(100vh - #{$size-header-offset});
+  padding: $space-6;
+}
+
+/* ── HTTP method badge color variants (lowercase, used in Recording & OpenAPI pages) ── */
+.method-badge.method-get {
+  background: $color-success-bg-light;
+  color: $color-success-dark;
+}
+
+.method-badge.method-post {
+  background: $color-blue-bg;
+  color: $color-blue-deep;
+}
+
+.method-badge.method-put {
+  background: $color-warning-bg-fed;
+  color: $color-method-put-text;
+}
+
+.method-badge.method-delete {
+  background: $color-danger-bg;
+  color: $color-danger-deep;
+}
+
+.method-badge.method-patch {
+  background: $color-purple-bg-light;
+  color: $color-purple-dark;
+}
+
+.method-badge.method-head {
+  background: $color-warning-bg;
+  color: $color-warning-amber-deep;
+}
+
+.method-badge.method-options {
+  background: $color-primary-bg;
+  color: $color-primary-dark;
+}
+
 /* Stubs Panel (Left) */
 .stubs-panel {
   width: $size-stubs-panel;

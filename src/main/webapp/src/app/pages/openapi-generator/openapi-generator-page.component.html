@@ -1,18 +1,17 @@
-<div class="generator-page">
-
-  <!-- Header -->
-  <div class="page-header">
-    <div class="header-left">
-      <h1 class="page-title">
-        <i class="fas fa-magic"></i>
-        OpenAPI → WireMock Generator
-      </h1>
-      <p class="page-subtitle">Generate WireMock stub mappings from an OpenAPI specification</p>
-    </div>
-    <button *ngIf="parsedSpec || rawSpec" class="btn-reset" (click)="resetAll()" title="Start over">
+<!-- Header -->
+<header class="wiremock-header">
+  <div class="header-left">
+    <h1><i class="fas fa-magic"></i> OpenAPI → WireMock Generator</h1>
+    <p class="header-subtitle">Generate WireMock stub mappings from an OpenAPI specification</p>
+  </div>
+  <div class="header-actions">
+    <button *ngIf="parsedSpec || rawSpec" class="btn btn-sm btn-outline-secondary" (click)="resetAll()" title="Start over">
       <i class="fas fa-redo"></i> Reset
     </button>
   </div>
+</header>
+
+<div class="wiremock-content wiremock-content--single">
 
   <!-- Step 1: Input -->
   <section class="step-card" [class.step-done]="!!parsedSpec">
@@ -78,9 +77,9 @@
   </section>
 
   <!-- Parse error -->
-  <div *ngIf="parseError" class="alert alert-error">
-    <i class="fas fa-exclamation-triangle"></i>
-    <pre>{{ parseError }}</pre>
+  <div *ngIf="parseError" class="alert alert-danger d-flex align-items-start gap-2">
+    <i class="fas fa-exclamation-triangle flex-shrink-0 mt-1"></i>
+    <pre class="mb-0">{{ parseError }}</pre>
   </div>
 
   <!-- Spec summary + warnings -->
@@ -295,30 +294,33 @@
     </div>
   </section>
 
-</div>
-
-<!-- Preview modal -->
-<div *ngIf="previewStub" class="modal-backdrop" (click)="closePreview()">
-  <div class="modal-panel" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h3>
-        <span class="method-badge" [class]="getMethodClass(previewStub.mapping.request.method)">
-          {{ previewStub.mapping.request.method }}
-        </span>
-        {{ previewStub.mapping.request.urlPath ?? previewStub.mapping.request.urlPattern }}
-        <span class="stub-status status-{{ previewStub.mapping.response.status }}">{{ previewStub.mapping.response.status }}</span>
-      </h3>
-      <div class="modal-header-actions">
-        <button class="btn-icon" (click)="copyPreviewJson()" title="Copy JSON">
-          <i class="fas fa-copy"></i>
-        </button>
-        <button class="btn-icon btn-close-modal" (click)="closePreview()" title="Close">
-          <i class="fas fa-times"></i>
-        </button>
+  <!-- Preview modal -->
+  @if (previewStub) {
+    <div class="modal d-block" tabindex="-1" (click)="closePreview()">
+      <div class="modal-dialog modal-lg" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title d-flex align-items-center gap-2">
+              <span class="method-badge" [class]="getMethodClass(previewStub.mapping.request.method)">
+                {{ previewStub.mapping.request.method }}
+              </span>
+              {{ previewStub.mapping.request.urlPath ?? previewStub.mapping.request.urlPattern }}
+              <span class="stub-status status-{{ previewStub.mapping.response.status }}">{{ previewStub.mapping.response.status }}</span>
+            </h5>
+            <div class="d-flex gap-1">
+              <button class="btn btn-sm btn-outline-secondary" (click)="copyPreviewJson()" title="Copy JSON">
+                <i class="fas fa-copy"></i>
+              </button>
+              <button type="button" class="btn-close" (click)="closePreview()"></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <pre class="json-preview">{{ getPreviewJson() }}</pre>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="modal-body">
-      <pre class="json-preview">{{ getPreviewJson() }}</pre>
-    </div>
-  </div>
+    <div class="modal-backdrop fade show"></div>
+  }
+
 </div>

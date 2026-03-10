@@ -74,7 +74,7 @@ export class RecordingPageComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error loading recording status:', err);
-        this.error = 'Impossible de charger le statut de l\'enregistrement';
+        this.error = 'Failed to load recording status';
       }
     });
   }
@@ -131,7 +131,7 @@ export class RecordingPageComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error starting recording:', err);
-        this.error = 'Impossible de démarrer l\'enregistrement: ' + (err.error?.message || err.message);
+        this.error = 'Failed to start recording: ' + (err.error?.message || err.message);
         this.loading = false;
       }
     });
@@ -154,7 +154,7 @@ export class RecordingPageComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error stopping recording:', err);
-        this.error = 'Impossible d\'arrêter l\'enregistrement: ' + (err.error?.message || err.message);
+        this.error = 'Failed to stop recording: ' + (err.error?.message || err.message);
         this.loading = false;
       }
     });
@@ -192,7 +192,7 @@ export class RecordingPageComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error taking snapshot:', err);
-        this.error = 'Impossible de prendre un snapshot: ' + (err.error?.message || err.message);
+        this.error = 'Failed to take snapshot: ' + (err.error?.message || err.message);
         this.loading = false;
       }
     });
@@ -345,46 +345,36 @@ export class RecordingPageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Gets an icon for the recording status
+   * Returns Bootstrap alert class based on recording status
    */
-  getStatusIcon(): string {
+  getStatusAlertClass(): string {
     switch (this.recordingStatus.status) {
-      case 'Recording':
-        return '🔴';
-      case 'Stopped':
-        return '⏹️';
-      default:
-        return '⚪';
+      case 'Recording': return 'alert-warning';
+      case 'Stopped':   return 'alert-success';
+      default:          return 'alert-secondary';
     }
   }
 
   /**
-   * Obtient une classe CSS pour le statut
+   * Returns Font Awesome icon class based on recording status
    */
-  getStatusClass(): string {
+  getStatusIconClass(): string {
     switch (this.recordingStatus.status) {
-      case 'Recording':
-        return 'status-recording';
-      case 'Stopped':
-        return 'status-stopped';
-      default:
-        return 'status-never-started';
+      case 'Recording': return 'fa-circle recording-pulse';
+      case 'Stopped':   return 'fa-stop-circle';
+      default:          return 'fa-circle';
     }
   }
 
   /**
-   * Obtient le label du statut
+   * Returns a human-readable label for the recording status
    */
   getStatusLabel(): string {
     switch (this.recordingStatus.status) {
-      case 'Recording':
-        return 'En cours d\'enregistrement';
-      case 'Stopped':
-        return 'Stopped';
-      case 'NeverStarted':
-        return 'Never started';
-      default:
-        return 'Inconnu';
+      case 'Recording':   return 'Recording in progress';
+      case 'Stopped':     return 'Stopped';
+      case 'NeverStarted': return 'Never started';
+      default:            return 'Unknown';
     }
   }
 }

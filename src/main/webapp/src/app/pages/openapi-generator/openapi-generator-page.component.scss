@@ -2,57 +2,6 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/spacing' as *;
 
-.generator-page {
-  padding: $space-7-5;
-  max-width: $size-max-container;
-  margin: 0 auto;
-}
-
-/* Header */
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: $space-7-5;
-}
-
-.page-title {
-  display: flex;
-  align-items: center;
-  gap: $space-3;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
-  color: var(--text-primary);
-  margin: 0 0 $space-6 0;
-}
-
-.page-title i {
-  color: var(--primary-color);
-}
-
-.page-subtitle {
-  color: var(--text-secondary);
-  font-size: $font-size-lg;
-  margin: 0;
-}
-
-.btn-reset {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  padding: $space-2 $space-4;
-  border-radius: $radius-md;
-  font-size: $font-size-md;
-  display: flex;
-  align-items: center;
-  gap: $space-6;
-  transition: all 0.2s;
-}
-
-.btn-reset:hover {
-  border-color: var(--danger-color);
-  color: var(--danger-color);
-}
 
 /* Step cards */
 .step-card {
@@ -280,40 +229,6 @@
   color: var(--danger-color);
 }
 
-/* Alerts */
-.alert {
-  display: flex;
-  align-items: flex-start;
-  gap: $space-3;
-  padding: $space-3-5 $space-4;
-  border-radius: $radius-lg;
-  margin-bottom: $space-4;
-  font-size: $font-size-md;
-}
-
-.alert i {
-  margin-top: $space-2;
-  flex-shrink: 0;
-}
-
-.alert-error {
-  background: $color-danger-bg-subtle;
-  border: 1px solid $color-danger-bg;
-  color: $color-danger-dark;
-}
-
-.alert-error pre {
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-family: inherit;
-  margin: 0;
-}
-
-.alert-warning {
-  background: $color-warning-bg-orange;
-  border: 1px solid #fde68a;
-  color: $color-warning-amber-dark;
-}
 
 /* Spec summary */
 .spec-summary {
@@ -602,7 +517,7 @@
   font-style: italic;
 }
 
-/* Method badges */
+/* Method badges — color variants defined globally in styles.scss */
 .method-badge {
   display: inline-block;
   padding: $space-1 $space-2;
@@ -614,14 +529,6 @@
   white-space: nowrap;
 }
 
-.method-get    { background: $color-blue-bg; color: $color-blue-darker; }
-.method-post   { background: $color-success-bg-light; color: $color-success-dark; }
-.method-put    { background: $color-warning-bg-amber; color: $color-warning-amber-text; }
-.method-delete { background: $color-danger-bg-light; color: $color-danger-deep; }
-.method-patch  { background: $color-purple-bg; color: $color-purple-deep; }
-.method-options,
-.method-head,
-.method-default { background: $color-bg-card; color: $color-slate-400; }
 
 /* Export */
 .export-actions {
@@ -738,60 +645,7 @@
   flex-shrink: 0;
 }
 
-/* Preview modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: $color-overlay-dark;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: $space-5;
-}
-
-.modal-panel {
-  background: white;
-  border-radius: $radius-2xl;
-  width: 100%;
-  max-width: $size-modal-lg;
-  max-height: $size-vh-80;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px $color-overlay-medium;
-  overflow: hidden;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  gap: $space-3;
-  padding: $space-4 $space-5;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: $font-size-lg;
-  display: flex;
-  align-items: center;
-  gap: $space-10;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.modal-header-actions {
-  display: flex;
-  gap: $space-6;
-  flex-shrink: 0;
-}
-
-.modal-body {
-  overflow-y: auto;
-  flex: 1;
-}
-
+/* JSON preview (in Bootstrap modal-body) */
 .json-preview {
   font-family: $font-family-mono-alt;
   font-size: $font-size-base;
@@ -802,6 +656,8 @@
   margin: 0;
   white-space: pre-wrap;
   word-break: break-word;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 /* Responsive */
@@ -818,14 +674,9 @@
 }
 
 @media (max-width: 600px) {
-  .generator-page {
-    padding: $space-4;
-  }
-  .page-header {
-    flex-direction: column;
-    gap: $space-3;
-  }
   .global-options {
     flex-direction: column;
   }
 }
+
+
