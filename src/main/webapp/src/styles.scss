@@ -1,5 +1,6 @@
 @use 'styles/colors' as *;
 @use 'styles/typography' as *;
+@use 'styles/spacing' as *;
 
 /* CSS Variables */
 :root {
@@ -35,20 +36,20 @@ body {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: $size-max-container;
   margin: 0 auto;
-  padding: 20px;
+  padding: $space-px-20;
 }
 
 h1, h2, h3 {
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
 }
 
 button {
   cursor: pointer;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: $space-px-8 $space-px-16;
+  border-radius: $radius-sm;
   font-size: $font-size-md;
   transition: all 0.2s;
 }
@@ -64,9 +65,9 @@ button:disabled {
 
 input[type="text"],
 input[type="search"] {
-  padding: 8px 12px;
+  padding: $space-px-8 $space-px-12;
   border: 1px solid $color-gray-border-dull;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   font-size: $font-size-md;
   width: 100%;
 }
@@ -82,24 +83,24 @@ input[type="search"]:focus {
 .modal-content input[type="number"],
 .modal-content input[type="password"],
 .modal-content input[type="search"] {
-  padding: .25rem .5rem;
+  padding: $space-0-25 $space-0-5;
   font-size: $font-size-rem-lg;
-  border-radius: .2rem;
+  border-radius: $radius-bs-sm;
 }
 
 .card {
   background: white;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   box-shadow: 0 2px 4px $color-shadow;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: $space-px-20;
+  margin-bottom: $space-px-20;
 }
 
 .loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 200px;
+  min-height: $size-stubs-panel;
   font-size: $font-size-2xl;
   color: $color-text-medium;
 }
@@ -107,15 +108,15 @@ input[type="search"]:focus {
 .error {
   background-color: $color-danger-bg-old;
   color: $color-danger-deep-red;
-  padding: 12px;
-  border-radius: 4px;
+  padding: $space-px-12;
+  border-radius: $radius-sm;
   border-left: 4px solid $color-danger-deep-red;
 }
 
 pre {
   background: $color-bg-hover;
-  padding: 16px;
-  border-radius: 4px;
+  padding: $space-px-16;
+  border-radius: $radius-sm;
   overflow-x: auto;
   font-size: $font-size-base;
   line-height: $line-height-snug;
@@ -146,7 +147,7 @@ pre {
 
 /* Sidebar Menu */
 .sidebar-menu {
-  width: 70px;
+  width: $size-sidebar-width;
   background: $color-slate-800;
   color: white;
   display: flex;
@@ -161,11 +162,11 @@ pre {
 }
 
 .sidebar-header {
-  padding: 20px 0;
+  padding: $space-px-20 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: $space-px-12;
   border-bottom: 1px solid $color-white-overlay;
 }
 
@@ -182,7 +183,7 @@ pre {
 }
 
 .sidebar-nav {
-  padding: 12px 0;
+  padding: $space-px-12 0;
   display: flex;
   flex-direction: column;
 }
@@ -191,8 +192,8 @@ pre {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 16px 0;
+  gap: $space-px-12;
+  padding: $space-px-16 0;
   background: none;
   border: none;
   color: $color-gray-muted;
@@ -220,7 +221,7 @@ pre {
 
 .sidebar-item i {
   font-size: $font-size-3xl;
-  width: 20px;
+  width: $size-icon-lg;
 }
 
 /* Tooltip for compact sidebar */
@@ -230,13 +231,13 @@ pre {
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: 12px;
-  padding: 6px 12px;
+  margin-left: $space-px-12;
+  padding: $space-px-6 $space-px-12;
   background: $color-slate-600;
   color: white;
   font-size: $font-size-sm;
   white-space: nowrap;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
@@ -261,19 +262,19 @@ pre {
 .app-top-bar {
   background: white;
   border-bottom: 1px solid $color-gray-border-blue;
-  padding: 8px 24px;
+  padding: $space-px-8 $space-px-24;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   box-shadow: 0 1px 3px $color-shadow-sm;
   flex-shrink: 0;
-  min-height: 48px;
+  min-height: $size-min-check;
 }
 
 .app-top-bar-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: $space-14;
 }
 
 /* App Page Content (scrollable) */
@@ -287,7 +288,7 @@ pre {
 .wiremock-header {
   background: white;
   border-bottom: 1px solid $color-gray-border-light;
-  padding: 16px 24px;
+  padding: $space-px-16 $space-px-24;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -299,7 +300,7 @@ pre {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: 4px;
+  gap: $space-px-4;
 }
 
 .header-left h1 {
@@ -317,7 +318,7 @@ pre {
 
 .header-actions {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 /* Main Content */
@@ -325,12 +326,12 @@ pre {
   display: flex;
   flex: 1;
   overflow-y: auto; /* Allow vertical scroll within pages */
-  height: calc(100vh - 80px); /* Viewport height minus header */
+  height: calc(100vh - #{$size-header-offset}); /* Viewport height minus header */
 }
 
 /* Stubs Panel (Left) */
 .stubs-panel {
-  width: 500px;
+  width: $size-stubs-panel;
   background: white;
   border-right: 1px solid $color-gray-border-light;
   display: flex;
@@ -339,7 +340,7 @@ pre {
 }
 
 .stubs-header {
-  padding: 16px 20px;
+  padding: $space-px-16 $space-px-20;
   border-bottom: 1px solid $color-gray-border-light;
   display: flex;
   justify-content: space-between;
@@ -349,20 +350,20 @@ pre {
 .stubs-header .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: $space-px-12;
 }
 
 .stubs-header .header-actions {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .stubs-header .header-actions .btn {
   font-size: $font-size-base;
-  padding: 6px 12px;
+  padding: $space-px-6 $space-px-12;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: $space-px-6;
 }
 
 .stubs-header .header-actions .btn i {
@@ -383,7 +384,7 @@ pre {
 
 /* Search Bar */
 .search-bar {
-  padding: 12px 20px;
+  padding: $space-px-12 $space-px-20;
   border-bottom: 1px solid $color-gray-border-light;
   position: relative;
 }
@@ -414,10 +415,10 @@ pre {
 }
 
 .search-bar input {
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: $space-px-32;
+  padding-right: $space-px-32;
   font-size: $font-size-md;
-  border-radius: 6px;
+  border-radius: $radius-md;
   border: 1px solid $color-gray-border;
   width: 100%;
 }
@@ -436,11 +437,11 @@ pre {
 .stub-item {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
+  padding: $space-px-12 $space-px-20;
   border-bottom: 1px solid $color-bg-softer;
   cursor: pointer;
   transition: all 0.15s;
-  gap: 12px;
+  gap: $space-px-12;
 }
 
 .stub-item:hover {
@@ -459,8 +460,8 @@ pre {
 .method-badge {
   font-size: $font-size-xxs;
   font-weight: $font-weight-semibold;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: $space-px-4 $space-px-8;
+  border-radius: $radius-sm;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -527,7 +528,7 @@ pre {
 .stub-name {
   font-size: $font-size-sm;
   color: $color-gray-500;
-  margin-top: 2px;
+  margin-top: $space-px-2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -542,8 +543,8 @@ pre {
   font-weight: $font-weight-semibold;
   color: $color-success-teal;
   background: $color-success-teal-bg;
-  padding: 3px 8px;
-  border-radius: 4px;
+  padding: $space-px-3 $space-px-8;
+  border-radius: $radius-sm;
 }
 
 /* Details Panel (Right) */
@@ -551,7 +552,7 @@ pre {
   flex: 1;
   background: $color-bg-light;
   overflow-y: auto;
-  padding: 24px;
+  padding: $space-px-24;
 }
 
 .no-selection {
@@ -565,7 +566,7 @@ pre {
 
 .no-selection i {
   font-size: $font-size-8xl;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   opacity: 0.3;
 }
 
@@ -575,14 +576,14 @@ pre {
 }
 
 .stub-details {
-  max-width: 900px;
+  max-width: $size-max-content;
 }
 
 .details-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: $space-px-24;
 }
 
 .details-header h3 {
@@ -594,31 +595,31 @@ pre {
 
 .details-actions {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 /* View Tabs */
 .view-tabs {
   display: flex;
-  gap: 4px;
+  gap: $space-px-4;
   border-bottom: 2px solid $color-gray-border-pale;
-  margin: 16px 0;
+  margin: $space-px-16 0;
 }
 
 .view-tab {
-  padding: 10px 20px;
+  padding: $space-px-10 $space-px-20;
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
   color: $color-gray-500;
   cursor: pointer;
   border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
+  margin-bottom: -$space-px-2;
   transition: all 0.15s;
   user-select: none;
 }
 
 .view-tab i {
-  margin-right: 6px;
+  margin-right: $space-px-6;
 }
 
 .view-tab.active {
@@ -633,9 +634,9 @@ pre {
 
 .detail-section {
   background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
+  border-radius: $radius-lg;
+  padding: $space-px-20;
+  margin-bottom: $space-px-16;
   border: 1px solid $color-gray-border-pale;
 }
 
@@ -643,7 +644,7 @@ pre {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   color: $color-slate-500;
-  margin: 0 0 16px 0;
+  margin: 0 0 $space-px-16 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -653,16 +654,16 @@ pre {
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $color-gray-500;
-  margin-bottom: 8px;
+  margin-bottom: $space-px-8;
 }
 
 .request-line {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  gap: $space-px-12;
+  padding: $space-px-12;
   background: $color-bg-subtle;
-  border-radius: 6px;
+  border-radius: $radius-md;
   border: 1px solid $color-gray-border-pale;
 }
 
@@ -675,13 +676,13 @@ pre {
 
 .response-tabs {
   display: flex;
-  gap: 4px;
+  gap: $space-px-4;
   border-bottom: 1px solid $color-gray-border-pale;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
 }
 
 .tab {
-  padding: 8px 16px;
+  padding: $space-px-8 $space-px-16;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $color-gray-500;
@@ -701,14 +702,14 @@ pre {
 
 .headers-list {
   background: $color-bg-subtle;
-  border-radius: 6px;
+  border-radius: $radius-md;
   border: 1px solid $color-gray-border-pale;
   overflow: hidden;
 }
 
 .header-item {
   display: flex;
-  padding: 10px 14px;
+  padding: $space-px-10 $space-px-14;
   border-bottom: 1px solid $color-gray-border-pale;
 }
 
@@ -734,7 +735,7 @@ pre {
 
 .body-editor {
   background: $color-dark-editor;
-  border-radius: 6px;
+  border-radius: $radius-md;
   overflow: hidden;
   border: 1px solid $color-slate-800;
 }
@@ -743,7 +744,7 @@ pre {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: $space-px-8 $space-px-12;
   background: $color-dark-editor-deep;
   border-bottom: 1px solid $color-slate-800;
 }
@@ -752,9 +753,9 @@ pre {
   font-family: $font-family-mono;
   font-size: $font-size-base;
   color: $color-bg-card;
-  padding: 16px;
+  padding: $space-px-16;
   margin: 0;
-  max-height: 400px;
+  max-height: $size-min-range;
   overflow: auto;
   line-height: $line-height-normal;
   background: $color-dark-editor;
@@ -776,10 +777,10 @@ pre {
   font-size: $font-size-sm;
   background: $color-dark-editor;
   color: $color-bg-card;
-  padding: 16px;
-  border-radius: 6px;
+  padding: $space-px-16;
+  border-radius: $radius-md;
   border: 1px solid $color-slate-800;
-  max-height: 500px;
+  max-height: $size-modal-sm;
   overflow: auto;
   margin: 0;
   line-height: $line-height-normal;
@@ -791,12 +792,12 @@ pre {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: $space-px-60 $space-px-20;
   color: $color-gray-500;
 }
 
 .loading-state p {
-  margin-top: 16px;
+  margin-top: $space-px-16;
   font-size: $font-size-md;
 }
 
@@ -806,18 +807,18 @@ pre {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: $space-px-60 $space-px-20;
   color: $color-danger-dark;
 }
 
 .error-state i {
   font-size: $font-size-7xl;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   opacity: 0.5;
 }
 
 .error-state p {
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   font-size: $font-size-md;
   text-align: center;
 }
@@ -828,35 +829,35 @@ pre {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: $space-px-60 $space-px-20;
   color: $color-gray-light;
 }
 
 .empty-state i {
   font-size: $font-size-8xl;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   opacity: 0.3;
 }
 
 .empty-state p {
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   font-size: $font-size-md;
 }
 
 .empty-state-create {
-  padding: 20px;
+  padding: $space-px-20;
   text-align: center;
 }
 
 /* Pagination */
 .pagination-container {
-  padding: 16px 20px;
+  padding: $space-px-16 $space-px-20;
   border-top: 1px solid $color-gray-border-light;
   background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: $space-px-12;
 }
 
 .pagination-info {
@@ -873,7 +874,7 @@ pre {
   color: $color-slate-500;
   border-color: $color-gray-border-pale;
   font-size: $font-size-base;
-  padding: 6px 12px;
+  padding: $space-px-6 $space-px-12;
 }
 
 ::ng-deep .page-link:hover {
@@ -895,7 +896,7 @@ pre {
 
   .stubs-panel {
     width: 100%;
-    max-height: 50vh;
+    max-height: $size-vh-half;
   }
 
   .details-panel {
@@ -908,8 +909,8 @@ pre {
 .details-panel::-webkit-scrollbar,
 .json-body::-webkit-scrollbar,
 .json-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: $size-scrollbar;
+  height: $size-scrollbar;
 }
 
 .stubs-list::-webkit-scrollbar-track,
@@ -924,7 +925,7 @@ pre {
 .json-body::-webkit-scrollbar-thumb,
 .json-content::-webkit-scrollbar-thumb {
   background: $color-gray-mid;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .stubs-list::-webkit-scrollbar-thumb:hover,
@@ -952,8 +953,8 @@ pre {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 98%;
-  max-width: 1800px;
-  height: 94vh;
+  max-width: $size-modal-full;
+  height: $size-modal-height;
   z-index: 1001;
   animation: slideIn 0.3s;
 }
@@ -976,7 +977,7 @@ pre {
 
 .modal-content {
   background: white;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   box-shadow: 0 20px 60px $color-overlay-medium;
   display: flex;
   flex-direction: column;
@@ -985,12 +986,12 @@ pre {
 }
 
 .modal-header {
-  padding: 20px 24px;
+  padding: $space-px-20 $space-px-24;
   border-bottom: 1px solid $color-gray-border-pale;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: $space-px-16;
   flex-shrink: 0;
 }
 
@@ -1004,7 +1005,7 @@ pre {
 
 .mode-toggle {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .mode-toggle .btn {
@@ -1012,7 +1013,7 @@ pre {
 }
 
 .modal-body {
-  padding: 24px;
+  padding: $space-px-24;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
@@ -1025,11 +1026,11 @@ pre {
 }
 
 .modal-footer {
-  padding: 16px 24px;
+  padding: $space-px-16 $space-px-24;
   border-top: 1px solid $color-gray-border-pale;
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
+  gap: $space-px-12;
 }
 
 .json-editor {
@@ -1038,11 +1039,11 @@ pre {
   background: $color-dark-editor;
   color: $color-bg-card;
   border: 1px solid $color-slate-800;
-  border-radius: 6px;
-  padding: 12px;
+  border-radius: $radius-md;
+  padding: $space-px-12;
   line-height: $line-height-normal;
   resize: vertical;
-  min-height: 400px;
+  min-height: $size-min-range;
 }
 
 .json-editor:focus {
@@ -1060,14 +1061,14 @@ pre {
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 20px;
+  gap: $space-px-20;
 }
 
 .editor-section {
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border-pale;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: $radius-lg;
+  padding: $space-px-20;
   flex: 1;
   overflow-y: auto;
 }
@@ -1076,8 +1077,8 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-slate-600;
-  margin: 0 0 16px 0;
-  padding-bottom: 12px;
+  margin: 0 0 $space-px-16 0;
+  padding-bottom: $space-px-12;
   border-bottom: 2px solid $color-blue;
 }
 
@@ -1085,7 +1086,7 @@ pre {
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: $color-slate-500;
-  margin-bottom: 6px;
+  margin-bottom: $space-px-6;
   display: block;
 }
 
@@ -1118,7 +1119,7 @@ input[type="number"] {
 
 .header-row {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .json-editor-simple {
@@ -1126,11 +1127,11 @@ input[type="number"] {
   font-size: $font-size-base;
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border;
-  border-radius: 6px;
-  padding: 12px;
+  border-radius: $radius-md;
+  padding: $space-px-12;
   line-height: $line-height-normal;
   resize: vertical;
-  min-height: 200px;
+  min-height: $size-stubs-panel;
 }
 
 .json-editor-simple:focus {
@@ -1149,15 +1150,15 @@ input[type="number"] {
 .info-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
+  gap: $space-px-8;
+  margin-top: $space-px-12;
 }
 
 .info-row {
   display: grid;
   grid-template-columns: 180px 1fr;
-  gap: 16px;
-  padding: 8px 0;
+  gap: $space-px-16;
+  padding: $space-px-8 0;
   border-bottom: 1px solid $color-bg-card;
 }
 
@@ -1179,13 +1180,13 @@ input[type="number"] {
   color: $color-slate-400;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: $space-px-4;
 }
 
 .stub-method-url {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: $space-px-12;
   flex: 1;
   min-width: 0;
 }
@@ -1194,11 +1195,11 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: $space-px-4;
 }
 
 .list-info {
-  padding: 12px 20px;
+  padding: $space-px-12 $space-px-20;
   font-size: $font-size-sm;
   color: $color-gray-500;
   background: $color-bg-subtle;
@@ -1223,7 +1224,7 @@ input[type="number"] {
 
 .empty-details i {
   font-size: $font-size-7xl;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   opacity: 0.5;
 }
 
@@ -1246,18 +1247,18 @@ input[type="number"] {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  padding: 24px;
+  gap: $space-px-24;
+  padding: $space-px-24;
   overflow: hidden;
 }
 
 .requester-panel,
 .response-panel {
   background: white;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   border: 1px solid $color-gray-border-pale;
   overflow-y: auto;
-  padding: 20px;
+  padding: $space-px-20;
 }
 
 .requester-panel h4,
@@ -1265,15 +1266,15 @@ input[type="number"] {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-slate-600;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: $space-px-20;
+  padding-bottom: $space-px-12;
   border-bottom: 2px solid $color-blue;
 }
 
 .requester-panel h4 i,
 .response-panel h4 i {
   color: $color-blue;
-  margin-right: 8px;
+  margin-right: $space-px-8;
 }
 
 .requester-panel .form-label,
@@ -1281,13 +1282,13 @@ input[type="number"] {
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: $color-slate-500;
-  margin-bottom: 6px;
+  margin-bottom: $space-px-6;
   display: block;
 }
 
 .requester-panel .form-label i {
   color: $color-primary;
-  margin-right: 4px;
+  margin-right: $space-px-4;
 }
 
 .requester-panel .form-control,
@@ -1305,7 +1306,7 @@ input[type="number"] {
 .requester-panel .btn-primary {
   background-color: $color-blue;
   border-color: $color-blue;
-  padding: 10px 24px;
+  padding: $space-px-10 $space-px-24;
 }
 
 .requester-panel .btn-primary:hover {
@@ -1323,7 +1324,7 @@ input[type="number"] {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   color: $color-slate-500;
-  margin-bottom: 12px;
+  margin-bottom: $space-px-12;
 }
 
 .response-panel .no-selection {
@@ -1331,13 +1332,13 @@ input[type="number"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: $size-min-range;
   color: $color-gray-light;
 }
 
 .response-panel .no-selection i {
   font-size: $font-size-8xl;
-  margin-bottom: 16px;
+  margin-bottom: $space-px-16;
   opacity: 0.3;
 }
 
@@ -1351,12 +1352,12 @@ input[type="number"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: $size-min-range;
   color: $color-gray-500;
 }
 
 .response-panel .loading-state p {
-  margin-top: 16px;
+  margin-top: $space-px-16;
   font-size: $font-size-md;
 }
 
@@ -1369,16 +1370,16 @@ input[type="number"] {
 
   .requester-panel,
   .response-panel {
-    max-height: 600px;
+    max-height: $size-vh-60;
   }
 }
 
 /* ========== EXPANDABLE SECTIONS ========== */
 
 .expandable-section {
-  margin-top: 16px;
+  margin-top: $space-px-16;
   border: 1px solid $color-gray-border-pale;
-  border-radius: 6px;
+  border-radius: $radius-md;
   overflow: hidden;
 }
 
@@ -1386,7 +1387,7 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: $space-px-12 $space-px-16;
   background: $color-bg-subtle;
   cursor: pointer;
   user-select: none;
@@ -1403,7 +1404,7 @@ input[type="number"] {
   color: $color-slate-500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .expandable-icon {
@@ -1417,7 +1418,7 @@ input[type="number"] {
 }
 
 .expandable-content {
-  padding: 16px;
+  padding: $space-px-16;
   background: white;
   border-top: 1px solid $color-gray-border-pale;
 }
@@ -1430,13 +1431,13 @@ input[type="number"] {
 .stub-link-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  margin-top: 12px;
+  gap: $space-px-6;
+  padding: $space-px-8 $space-px-16;
+  margin-top: $space-px-12;
   background: $color-blue;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: $radius-md;
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
   cursor: pointer;
@@ -1455,11 +1456,11 @@ input[type="number"] {
 
 /* Compact Request Item */
 .request-item-compact {
-  padding: 8px 12px !important;
+  padding: $space-px-8 $space-px-12 !important;
   min-height: unset !important;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: $space-px-12;
 }
 
 .request-item-compact .stub-method-url {
@@ -1473,7 +1474,7 @@ input[type="number"] {
 
 .request-item-compact .badge-compact {
   font-size: $font-size-2xs;
-  padding: 2px 5px;
+  padding: $space-px-2 $space-px-5;
 }
 
 .request-item-compact.selected {
@@ -1490,12 +1491,12 @@ input[type="number"] {
 .request-checkbox {
   display: flex;
   align-items: center;
-  padding-right: 8px;
+  padding-right: $space-px-8;
 }
 
 .request-checkbox input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: $size-icon-sm;
+  height: $size-icon-sm;
   cursor: pointer;
 }
 
@@ -1503,13 +1504,13 @@ input[type="number"] {
 .select-all-checkbox {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $space-px-8;
   margin: 0;
 }
 
 .select-all-checkbox input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: $size-icon-sm;
+  height: $size-icon-sm;
   cursor: pointer;
   margin: 0;
 }
@@ -1527,7 +1528,7 @@ input[type="number"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: $space-px-10 $space-px-20;
   font-size: $font-size-sm;
   color: $color-gray-500;
   background: $color-bg-subtle;
@@ -1551,22 +1552,22 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 20px;
+  padding: $space-px-30 $space-px-20;
   color: $color-gray-500;
 }
 
 .near-misses-inline-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-  margin-top: 16px;
+  gap: $space-px-15;
+  margin-top: $space-px-16;
 }
 
 .near-miss-inline-item {
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border-pale;
-  border-radius: 8px;
-  padding: 15px;
+  border-radius: $radius-lg;
+  padding: $space-px-15;
   transition: all 0.2s ease;
 }
 
@@ -1580,7 +1581,7 @@ input[type="number"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: $space-px-12;
 }
 
 .near-miss-rank {
@@ -1588,8 +1589,8 @@ input[type="number"] {
   color: white;
   font-weight: $font-weight-semibold;
   font-size: $font-size-sm;
-  padding: 4px 10px;
-  border-radius: 12px;
+  padding: $space-px-4 $space-px-10;
+  border-radius: $radius-2xl;
 }
 
 .near-miss-distance {
@@ -1597,12 +1598,12 @@ input[type="number"] {
   color: $color-blue-deep;
   font-weight: $font-weight-semibold;
   font-size: $font-size-sm;
-  padding: 4px 10px;
-  border-radius: 12px;
+  padding: $space-px-4 $space-px-10;
+  border-radius: $radius-2xl;
 }
 
 .near-miss-stub-info {
-  margin-bottom: 10px;
+  margin-bottom: $space-px-10;
 }
 
 .near-miss-stub-info .stub-name,
@@ -1610,27 +1611,27 @@ input[type="number"] {
   font-size: $font-size-base;
   color: $color-slate-500;
   font-weight: $font-weight-medium;
-  margin-bottom: 5px;
+  margin-bottom: $space-px-5;
 }
 
 .near-miss-stub-info i {
   color: $color-gray-500;
-  margin-right: 5px;
+  margin-right: $space-px-5;
   font-size: $font-size-xxs;
 }
 
 .near-miss-pattern {
   background: white;
-  padding: 10px;
-  border-radius: 6px;
+  padding: $space-px-10;
+  border-radius: $radius-md;
   border: 1px solid $color-gray-border-pale;
-  margin-bottom: 10px;
+  margin-bottom: $space-px-10;
 }
 
 .pattern-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 .pattern-url {
@@ -1645,14 +1646,14 @@ input[type="number"] {
 
 .no-near-misses {
   text-align: center;
-  padding: 30px 20px;
+  padding: $space-px-30 $space-px-20;
   color: $color-gray-light;
   grid-column: 1 / -1;
 }
 
 .no-near-misses i {
   font-size: $font-size-6xl;
-  margin-bottom: 10px;
+  margin-bottom: $space-px-10;
   color: $color-gray-border;
 }
 

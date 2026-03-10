@@ -1,5 +1,6 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 /* ─────────────────────────────────────────
    Layout
@@ -28,14 +29,14 @@
   z-index: 100;
   background: $color-white;
   border-bottom: 1px solid $color-gray-border-md;
-  padding: 0.75rem 1.5rem;
+  padding: $space-0-75 $space-1-5;
   box-shadow: 0 2px 6px $color-shadow-md;
 }
 
 .help-search-inner {
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: $size-max-search;
   margin: 0 auto;
   position: relative;
 }
@@ -50,9 +51,9 @@
 
 .search-input {
   width: 100%;
-  padding: 0.55rem 2.5rem 0.55rem 2.25rem;
+  padding: $space-0-55 $space-2-5 $space-0-55 $space-2-25;
   border: 2px solid $color-gray-border-md;
-  border-radius: 24px;
+  border-radius: $radius-3xl;
   font-size: $font-size-rem-2xl;
   transition: border-color 0.2s, box-shadow 0.2s;
   background: $color-bg-near-white;
@@ -72,7 +73,7 @@
   border: none;
   color: $color-gray-icon;
   cursor: pointer;
-  padding: 0.2rem 0.4rem;
+  padding: $space-0-2 $space-0-4;
   font-size: $font-size-rem-normal;
   line-height: $line-height-tight;
   transition: color 0.15s;
@@ -86,13 +87,13 @@
    Table of Contents (left sidebar)
 ───────────────────────────────────────── */
 .help-toc {
-  width: 220px;
+  width: $size-toc-width;
   flex-shrink: 0;
   position: sticky;
-  top: 57px; /* height of search bar */
-  height: calc(100vh - 57px);
+  top: $size-toc-top; /* height of search bar */
+  height: calc(100vh - #{$size-toc-top});
   overflow-y: auto;
-  padding: 1.5rem 1rem 2rem;
+  padding: $space-1-5 $space-0-85 $space-28;
   border-right: 1px solid $color-gray-border-md;
   background: $color-white;
 }
@@ -103,24 +104,24 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: $color-gray-subtle;
-  margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
+  margin-bottom: $space-0-5;
+  padding-left: $space-0-5;
 }
 
 .help-toc nav ul,
 .toc-external ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem;
+  margin: 0 0 $space-1-5;
 }
 
 .help-toc nav ul li a,
 .toc-external ul li a {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.6rem;
-  border-radius: 6px;
+  gap: $space-6;
+  padding: $space-0-45 $space-0-6;
+  border-radius: $radius-md;
   font-size: $font-size-rem-lg;
   color: $color-text-nav;
   text-decoration: none;
@@ -143,13 +144,13 @@
 .help-toc nav ul li a i,
 .toc-external ul li a i {
   font-size: $font-size-rem-sm;
-  width: 14px;
+  width: $size-icon-xs;
   text-align: center;
 }
 
 .toc-external {
   border-top: 1px solid $color-gray-divider-light;
-  padding-top: 1rem;
+  padding-top: $space-14;
 }
 
 .help-toc nav li.hidden,
@@ -162,25 +163,25 @@
 ───────────────────────────────────────── */
 .help-content {
   flex: 1;
-  padding: 2rem 2.5rem;
+  padding: $space-28 $space-2-5;
   overflow-y: auto;
-  max-width: 900px;
+  max-width: $size-max-content;
 }
 
 .help-intro {
-  margin-bottom: 2.5rem;
+  margin-bottom: $space-3;
 }
 
 .help-intro h1 {
   font-size: $font-size-rem-9xl;
   font-weight: $font-weight-bold;
   color: $color-slate-navy;
-  margin-bottom: 0.5rem;
+  margin-bottom: $space-0-5;
 }
 
 .help-intro h1 i {
   color: $color-blue-legacy;
-  margin-right: 0.5rem;
+  margin-right: $space-0-5;
 }
 
 .help-intro p {
@@ -194,11 +195,11 @@
 ───────────────────────────────────────── */
 .help-section {
   background: $color-white;
-  border-radius: 10px;
+  border-radius: $radius-xl;
   border: 1px solid $color-gray-divider-alt;
-  padding: 1.75rem 2rem;
-  margin-bottom: 2rem;
-  scroll-margin-top: 70px; /* offset for sticky search bar */
+  padding: $space-1-75 $space-28;
+  margin-bottom: $space-28;
+  scroll-margin-top: $size-scroll-offset; /* offset for sticky search bar */
   transition: box-shadow 0.2s;
 }
 
@@ -213,9 +214,9 @@
 .section-heading {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  gap: $space-9;
+  margin-bottom: $space-14;
+  padding-bottom: $space-0-75;
   border-bottom: 2px solid $color-bg-blue-tint;
 }
 
@@ -235,15 +236,15 @@
   font-size: $font-size-rem-4xl;
   font-weight: $font-weight-semibold;
   color: $color-text-section;
-  margin: 1.4rem 0 0.6rem;
+  margin: $space-1-4 0 $space-0-6;
 }
 
 .help-section h4 {
   font-size: $font-size-rem-2xl;
   font-weight: $font-weight-semibold;
   color: $color-text-subsection;
-  margin: 1.2rem 0 0.5rem;
-  padding-left: 0.75rem;
+  margin: $space-1-4 0 $space-0-5;
+  padding-left: $space-0-75;
   border-left: 3px solid $color-blue-legacy;
 }
 
@@ -251,7 +252,7 @@
   font-size: 0.88rem;
   font-weight: $font-weight-semibold;
   color: $color-text-dark;
-  margin: 1rem 0 0.4rem;
+  margin: $space-14 0 $space-0-4;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -260,7 +261,7 @@
   color: $color-text-body;
   font-size: $font-size-rem-xl;
   line-height: $line-height-relaxed;
-  margin-bottom: 0.75rem;
+  margin-bottom: $space-0-75;
 }
 
 .help-section a {
@@ -276,8 +277,8 @@
   font-size: $font-size-rem-md;
   background: $color-bg-code;
   color: $color-danger-carmine;
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
+  padding: $space-0-15 $space-0-4;
+  border-radius: $radius-sm;
   font-family: $font-family-code;
 }
 
@@ -286,16 +287,16 @@
 ───────────────────────────────────────── */
 .option-table {
   border: 1px solid $color-gray-divider-alt;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   overflow: hidden;
-  margin: 0.5rem 0 1rem;
+  margin: $space-0-5 0 $space-14;
 }
 
 .option-row {
   display: grid;
   grid-template-columns: 200px 1fr;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  gap: $space-14;
+  padding: $space-0-75 $space-14;
   border-bottom: 1px solid $color-bg-muted;
   align-items: start;
 }
@@ -312,10 +313,10 @@
   font-weight: $font-weight-semibold;
   font-size: $font-size-rem-lg;
   color: $color-text-section;
-  padding-top: 0.05rem;
+  padding-top: $space-0-05;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: $space-4;
   flex-wrap: wrap;
 }
 
@@ -329,15 +330,15 @@
    Help list
 ───────────────────────────────────────── */
 .help-list {
-  padding-left: 1.5rem;
-  margin: 0.5rem 0 0.75rem;
+  padding-left: $space-1-5;
+  margin: $space-0-5 0 $space-0-75;
 }
 
 .help-list li {
   font-size: $font-size-rem-lg;
   color: $color-text-body;
   line-height: $line-height-relaxed;
-  margin-bottom: 0.3rem;
+  margin-bottom: $space-0-3;
 }
 
 /* ─────────────────────────────────────────
@@ -346,12 +347,12 @@
 .help-tip {
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
-  padding: 0.85rem 1rem;
+  gap: $space-9;
+  padding: $space-0-85 $space-14;
   background: $color-warning-bg-light;
   border: 1px solid $color-warning-border;
-  border-radius: 8px;
-  margin-top: 1rem;
+  border-radius: $radius-lg;
+  margin-top: $space-14;
   font-size: $font-size-rem-lg;
   color: $color-warning-text-deep;
   line-height: $line-height-normal;
@@ -359,7 +360,7 @@
 
 .help-tip i {
   color: $color-warning-gold;
-  margin-top: 0.1rem;
+  margin-top: $space-0-1;
   flex-shrink: 0;
 }
 
@@ -367,9 +368,9 @@
    Subsection indent
 ───────────────────────────────────────── */
 .subsection {
-  padding-left: 0.75rem;
+  padding-left: $space-0-75;
   border-left: 3px solid $color-gray-divider-alt;
-  margin-bottom: 0.5rem;
+  margin-bottom: $space-0-5;
 }
 
 /* ─────────────────────────────────────────
@@ -378,13 +379,13 @@
 .badge-optional {
   font-size: $font-size-rem-2xs;
   font-weight: $font-weight-semibold;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
+  padding: $space-0-15 $space-0-5;
+  border-radius: $radius-xl;
   background: $color-badge-teal-bg;
   color: $color-badge-teal-text;
   border: 1px solid $color-badge-teal-border;
   vertical-align: middle;
-  margin-left: 0.35rem;
+  margin-left: $space-0-35;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -393,8 +394,8 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
+  padding: $space-0-15 $space-0-5;
+  border-radius: $radius-xl;
   background: $color-success-bg;
   color: $color-success-text;
   border: 1px solid $color-badge-green-border2;
@@ -404,8 +405,8 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
+  padding: $space-0-15 $space-0-5;
+  border-radius: $radius-xl;
   background: $color-warning-bg-legacy;
   color: $color-warning-text;
   border: 1px solid $color-warning-border-legacy;
@@ -415,8 +416,8 @@
   display: inline-block;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
+  padding: $space-0-15 $space-0-5;
+  border-radius: $radius-xl;
   background: $color-badge-blue-bg;
   color: $color-badge-blue-text;
   border: 1px solid $color-badge-blue-border;
@@ -427,8 +428,8 @@
   font-size: $font-size-rem-2xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
+  padding: $space-0-15 $space-0-45;
+  border-radius: $radius-sm;
   background: $color-badge-green-bg;
   color: $color-success-green;
   border: 1px solid $color-badge-green-border;
@@ -441,8 +442,8 @@
   font-size: $font-size-rem-2xs;
   font-weight: $font-weight-bold;
   font-family: monospace;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
+  padding: $space-0-15 $space-0-45;
+  border-radius: $radius-sm;
   background: $color-warning-bg-orange;
   color: $color-warning-amber-dark;
   border: 1px solid $color-badge-orange-border;
@@ -463,8 +464,8 @@
 :host ::ng-deep mark.search-highlight {
   background: $color-search-highlight;
   color: inherit;
-  padding: 0 1px;
-  border-radius: 2px;
+  padding: 0 $space-px-1;
+  border-radius: $radius-xs;
 }
 
 /* ─────────────────────────────────────────
@@ -476,13 +477,13 @@
   }
 
   .help-content {
-    padding: 1.25rem 1rem;
+    padding: $space-1-25 $space-14;
     max-width: 100%;
   }
 
   .option-row {
     grid-template-columns: 1fr;
-    gap: 0.25rem;
+    gap: $space-2;
   }
 
   .option-label {
@@ -496,20 +497,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: $size-icon-xl;
+  height: $size-icon-xl;
   background: var(--primary-color, $color-primary-hover);
   color: $color-white;
-  border-radius: 50%;
+  border-radius: $radius-full;
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
-  margin-right: 6px;
+  margin-right: $space-px-6;
   flex-shrink: 0;
   vertical-align: middle;
 }
 
 .help-ordered-list {
-  margin: 0.5rem 0 0.75rem 1.25rem;
+  margin: $space-0-5 0 $space-0-75 $space-1-25;
   padding: 0;
   line-height: $line-height-loose;
   font-size: $font-size-rem-xl;
@@ -517,5 +518,5 @@
 }
 
 .help-ordered-list li {
-  margin-bottom: 0.25rem;
+  margin-bottom: $space-0-25;
 }

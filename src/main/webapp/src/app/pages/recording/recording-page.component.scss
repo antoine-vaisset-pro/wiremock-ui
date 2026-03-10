@@ -1,9 +1,10 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 .recording-page {
-  padding: 30px;
-  max-width: 1400px;
+  padding: $space-px-30;
+  max-width: $size-max-container;
   margin: 0 auto;
 }
 
@@ -11,16 +12,16 @@
 .wip-banner {
   background: linear-gradient(135deg, $color-warning-orange 0%, $color-warning-orange-dark 100%);
   border: 3px solid $color-warning-orange-deep;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
+  border-radius: $radius-lg;
+  padding: $space-px-20;
+  margin-bottom: $space-px-30;
   box-shadow: 0 4px 8px $color-warning-orange-shadow;
 }
 
 .wip-content {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: $space-px-20;
   color: white;
 }
 
@@ -41,7 +42,7 @@
 .wip-text strong {
   display: block;
   font-size: $font-size-3xl;
-  margin-bottom: 8px;
+  margin-bottom: $space-px-8;
   text-shadow: 1px 1px 2px $color-overlay-light;
 }
 
@@ -53,17 +54,17 @@
 
 /* Header */
 .page-header {
-  margin-bottom: 30px;
+  margin-bottom: $space-px-30;
 }
 
 .page-header h1 {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: $space-px-15;
   font-size: $font-size-6xl;
   font-weight: $font-weight-semibold;
   color: $color-dark-nav;
-  margin: 0 0 10px 0;
+  margin: 0 0 $space-px-10 0;
 }
 
 .page-header .icon {
@@ -78,9 +79,9 @@
 
 /* Status Banner */
 .status-banner {
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
+  padding: $space-px-20;
+  border-radius: $radius-lg;
+  margin-bottom: $space-px-30;
   border: 2px solid;
 }
 
@@ -112,7 +113,7 @@
 .status-content {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: $space-px-15;
 }
 
 .status-icon {
@@ -126,17 +127,17 @@
 
 .status-actions {
   display: flex;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 /* Alert */
 .alert {
-  padding: 15px 20px;
-  border-radius: 6px;
-  margin-bottom: 20px;
+  padding: $space-px-15 $space-px-20;
+  border-radius: $radius-md;
+  margin-bottom: $space-px-20;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 .alert-error {
@@ -153,9 +154,9 @@
 .config-section,
 .results-section {
   background: white;
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 20px;
+  border-radius: $radius-lg;
+  padding: $space-px-25;
+  margin-bottom: $space-px-20;
   box-shadow: 0 2px 4px $color-shadow;
 }
 
@@ -163,8 +164,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
+  margin-bottom: $space-px-20;
+  padding-bottom: $space-px-15;
   border-bottom: 2px solid $color-gray-divider;
 }
 
@@ -177,22 +178,22 @@
 
 .header-actions {
   display: flex;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 /* Form */
 .config-form {
-  max-width: 800px;
+  max-width: $size-max-config;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: $space-px-20;
 }
 
 .form-group label {
   display: block;
   font-weight: $font-weight-medium;
-  margin-bottom: 8px;
+  margin-bottom: $space-px-8;
   color: $color-text-darkest;
 }
 
@@ -203,9 +204,9 @@
 
 .form-control {
   width: 100%;
-  padding: 10px 12px;
+  padding: $space-px-10 $space-px-12;
   border: 1px solid $color-gray-border-bs;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   font-size: $font-size-md;
   font-family: inherit;
 }
@@ -223,7 +224,7 @@
 
 .form-text {
   display: block;
-  margin-top: 5px;
+  margin-top: $space-px-5;
   font-size: $font-size-base;
   color: $color-gray-bs;
 }
@@ -231,30 +232,30 @@
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: $space-px-20;
 }
 
 .form-group input[type="checkbox"] {
   width: auto;
-  margin-right: 8px;
+  margin-right: $space-px-8;
 }
 
 /* Advanced Config */
 .advanced-config-toggle {
-  margin: 20px 0;
+  margin: $space-px-20 0;
 }
 
 .advanced-config {
   border-top: 1px solid $color-gray-divider;
-  padding-top: 20px;
-  margin-top: 10px;
+  padding-top: $space-px-20;
+  margin-top: $space-px-10;
 }
 
 .advanced-config h3 {
   font-size: $font-size-2xl;
   font-weight: $font-weight-semibold;
   color: $color-text-darkest;
-  margin: 20px 0 15px 0;
+  margin: $space-px-20 0 $space-px-15 0;
 }
 
 .advanced-config h3:first-child {
@@ -263,25 +264,25 @@
 
 /* Form Actions */
 .form-actions {
-  margin-top: 30px;
-  padding-top: 20px;
+  margin-top: $space-px-30;
+  padding-top: $space-px-20;
   border-top: 1px solid $color-gray-divider;
   display: flex;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 /* Buttons */
 .btn {
-  padding: 10px 20px;
+  padding: $space-px-10 $space-px-20;
   border: none;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .btn:disabled {
@@ -338,7 +339,7 @@
   background: none;
   color: $color-blue-legacy;
   border: none;
-  padding: 5px;
+  padding: $space-px-5;
   text-decoration: none;
 }
 
@@ -347,12 +348,12 @@
 }
 
 .btn-sm {
-  padding: 6px 12px;
+  padding: $space-px-6 $space-px-12;
   font-size: $font-size-base;
 }
 
 .btn-lg {
-  padding: 12px 24px;
+  padding: $space-px-12 $space-px-24;
   font-size: $font-size-xl;
 }
 
@@ -360,15 +361,15 @@
 .mappings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
+  gap: $space-px-15;
+  margin-top: $space-px-20;
 }
 
 .mapping-card {
   background: white;
   border: 1px solid $color-gray-border-light;
-  border-radius: 6px;
-  padding: 15px;
+  border-radius: $radius-md;
+  padding: $space-px-15;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -382,13 +383,13 @@
 .mapping-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: $space-px-10;
+  margin-bottom: $space-px-10;
 }
 
 .method-badge {
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: $space-px-4 $space-px-8;
+  border-radius: $radius-sm;
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
   color: white;
@@ -425,38 +426,38 @@
 }
 
 .mapping-body {
-  margin: 10px 0;
+  margin: $space-px-10 0;
 }
 
 .info-item {
   font-size: $font-size-base;
   color: $color-text-medium;
-  margin: 5px 0;
+  margin: $space-px-5 0;
 }
 
 .mapping-actions {
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: $space-px-10;
+  padding-top: $space-px-10;
   border-top: 1px solid $color-gray-divider;
 }
 
 /* Empty Results */
 .empty-results {
   text-align: center;
-  padding: 60px 20px;
+  padding: $space-px-60 $space-px-20;
   color: $color-gray-bs;
 }
 
 .empty-results .icon {
   font-size: $font-size-8xl;
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: $space-px-20;
 }
 
 .empty-results p {
   font-size: $font-size-2xl;
   font-weight: $font-weight-medium;
-  margin-bottom: 10px;
+  margin-bottom: $space-px-10;
 }
 
 .empty-results small {
@@ -479,17 +480,17 @@
 
 .modal-content {
   background: white;
-  border-radius: 8px;
-  max-width: 800px;
+  border-radius: $radius-lg;
+  max-width: $size-max-config;
   width: 90%;
-  max-height: 90vh;
+  max-height: $size-vh-90;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 40px $color-overlay-medium;
 }
 
 .modal-header {
-  padding: 20px 25px;
+  padding: $space-px-20 $space-px-25;
   border-bottom: 1px solid $color-gray-border-light;
   display: flex;
   justify-content: space-between;
@@ -519,24 +520,24 @@
 }
 
 .modal-body {
-  padding: 25px;
+  padding: $space-px-25;
   overflow-y: auto;
   flex: 1;
 }
 
 .modal-footer {
-  padding: 15px 25px;
+  padding: $space-px-15 $space-px-25;
   border-top: 1px solid $color-gray-border-light;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 .json-preview {
   background: $color-bg-light;
   border: 1px solid $color-gray-border-light;
-  border-radius: 4px;
-  padding: 15px;
+  border-radius: $radius-sm;
+  padding: $space-px-15;
   font-family: $font-family-mono-alt;
   font-size: $font-size-base;
   overflow-x: auto;
@@ -547,16 +548,16 @@
 .saved-configs-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 .saved-config-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: $space-px-15;
   border: 1px solid $color-gray-border-light;
-  border-radius: 6px;
+  border-radius: $radius-md;
   transition: all 0.2s;
 }
 
@@ -571,7 +572,7 @@
 
 .config-info strong {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: $space-px-5;
   color: $color-text-darkest;
 }
 
@@ -582,13 +583,13 @@
 
 .config-actions {
   display: flex;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .recording-page {
-    padding: 20px;
+    padding: $space-px-20;
   }
 
   .page-header h1 {

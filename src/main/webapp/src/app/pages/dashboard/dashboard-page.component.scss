@@ -1,8 +1,9 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 .dashboard-container {
-  padding: 2rem;
+  padding: $space-28;
   background-color: var(--bg-secondary);
   min-height: 100vh;
 }
@@ -11,8 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
+  margin-bottom: $space-28;
+  gap: $space-14;
   flex-wrap: wrap;
 }
 
@@ -22,7 +23,7 @@
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: $space-10;
 }
 
 .dashboard-header h1 i {
@@ -37,17 +38,17 @@
 .time-range-display {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: $space-6;
+  padding: $space-0-5 $space-14;
   background: white;
   border: 1px solid $color-gray-border-blue;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   font-size: $font-size-rem-lg;
   font-weight: $font-weight-medium;
   color: $color-slate-800;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 200px;
+  min-width: $size-icon-3xl;
 }
 
 .time-range-display:hover {
@@ -77,10 +78,10 @@
   right: 0;
   background: white;
   border: 1px solid $color-gray-border-blue;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   box-shadow: 0 10px 40px $color-shadow-lg;
-  min-width: 400px;
-  max-height: 600px;
+  min-width: $size-min-range;
+  max-height: $size-vh-60;
   overflow-y: auto;
   z-index: 1000;
   display: flex;
@@ -102,11 +103,11 @@
 .quick-ranges {
   flex: 1;
   border-right: 1px solid $color-gray-border-blue;
-  padding: 0.75rem 0;
+  padding: $space-0-75 0;
 }
 
 .quick-ranges-header {
-  padding: 0.5rem 1rem;
+  padding: $space-0-5 $space-14;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
   color: $color-gray-text;
@@ -116,7 +117,7 @@
 
 .quick-range-item {
   width: 100%;
-  padding: 0.5rem 1rem;
+  padding: $space-0-5 $space-14;
   background: transparent;
   border: none;
   text-align: left;
@@ -144,15 +145,15 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: $size-scrollbar-xs;
   background: var(--primary-color);
 }
 
 /* Absolute Time Range */
 .absolute-time-range {
   flex: 1;
-  padding: 1rem;
-  min-width: 280px;
+  padding: $space-14;
+  min-width: $size-min-date;
 }
 
 .absolute-time-header {
@@ -161,14 +162,14 @@
   color: $color-gray-text;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
 }
 
 .date-input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: $space-6;
+  margin-bottom: $space-14;
 }
 
 .date-input-group label {
@@ -178,9 +179,9 @@
 }
 
 .date-input {
-  padding: 0.5rem 0.75rem;
+  padding: $space-0-5 $space-0-75;
   border: 1px solid $color-gray-mid;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   font-size: $font-size-rem-lg;
   color: $color-slate-800;
   background: white;
@@ -200,16 +201,16 @@
 
 .dropdown-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: $space-6;
   justify-content: flex-end;
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: $space-14;
+  padding-top: $space-14;
   border-top: 1px solid $color-gray-border-blue;
 }
 
 .action-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: $space-0-5 $space-14;
+  border-radius: $radius-sm;
   font-size: $font-size-rem-lg;
   font-weight: $font-weight-medium;
   cursor: pointer;
@@ -240,16 +241,16 @@
 }
 
 .refresh-button {
-  padding: 0.75rem 1.5rem;
+  padding: $space-0-75 $space-1-5;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: $radius-md;
   font-size: $font-size-rem-2xl;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-6;
   transition: all 0.2s ease;
 }
 
@@ -279,33 +280,33 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: $space-64 $space-28;
   text-align: center;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
+  width: $size-h-spinner;
+  height: $size-h-spinner;
   border: 4px solid var(--border-color);
   border-top-color: var(--primary-color);
-  border-radius: 50%;
+  border-radius: $radius-full;
   animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
 }
 
 .error-container i {
   font-size: 3rem;
   color: var(--danger-color);
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
 }
 
 .error-container button {
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
+  margin-top: $space-14;
+  padding: $space-0-75 $space-1-5;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: $radius-md;
   cursor: pointer;
   font-size: $font-size-rem-2xl;
 }
@@ -314,17 +315,17 @@
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: $space-20;
+  margin-bottom: $space-28;
 }
 
 .stat-card {
   background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: $radius-2xl;
+  padding: $space-20;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: $space-20;
   box-shadow: 0 2px 8px $color-shadow-md;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
@@ -355,9 +356,9 @@
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: $size-h-stat-icon;
+  height: $size-h-stat-icon;
+  border-radius: $radius-2xl;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -398,7 +399,7 @@
   font-weight: $font-weight-bold;
   color: var(--text-primary);
   line-height: $line-height-tight;
-  margin-bottom: 0.5rem;
+  margin-bottom: $space-0-5;
 }
 
 .stat-value.status-text {
@@ -435,13 +436,13 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1.5rem;
+  gap: $space-20;
 }
 
 .dashboard-panel {
   background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: $radius-2xl;
+  padding: $space-20;
   box-shadow: 0 2px 8px $color-shadow-md;
 }
 
@@ -449,10 +450,10 @@
   font-size: $font-size-rem-6xl;
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  margin-bottom: 1.5rem;
+  margin-bottom: $space-1-5;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-6;
 }
 
 .dashboard-panel h2 i {
@@ -467,7 +468,7 @@
   color: $color-gray-muted;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: $space-2;
   font-style: italic;
 }
 
@@ -482,13 +483,13 @@
 }
 
 .chart-container {
-  min-height: 280px;
-  padding: 1rem 0;
+  min-height: $size-h-spinner;
+  padding: $space-14 0;
 }
 
 .highcharts-container {
   width: 100%;
-  min-height: 280px;
+  min-height: $size-h-spinner;
 }
 
 /* Endpoint List */
@@ -496,7 +497,7 @@
 .stub-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-14;
 }
 
 /* Clickable items */
@@ -508,10 +509,10 @@
 .endpoint-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: $space-14;
+  padding: $space-14;
   background-color: var(--bg-secondary);
-  border-radius: 8px;
+  border-radius: $radius-lg;
   transition: all 0.2s ease;
 }
 
@@ -527,11 +528,11 @@
 }
 
 .endpoint-rank {
-  width: 32px;
-  height: 32px;
+  width: $size-icon-3xl;
+  height: $size-icon-3xl;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
   color: white;
-  border-radius: 50%;
+  border-radius: $radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -548,13 +549,13 @@
 .endpoint-url {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  gap: $space-6;
+  margin-bottom: $space-0-25;
 }
 
 .method-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  padding: $space-0-25 $space-0-5;
+  border-radius: $radius-sm;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
@@ -606,7 +607,7 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: $space-2;
 }
 
 .endpoint-count i {
@@ -617,10 +618,10 @@
 .stub-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: $space-14;
+  padding: $space-14;
   background-color: var(--bg-secondary);
-  border-radius: 8px;
+  border-radius: $radius-lg;
   transition: all 0.2s ease;
 }
 
@@ -636,11 +637,11 @@
 }
 
 .stub-icon {
-  width: 36px;
-  height: 36px;
+  width: $size-icon-4xl;
+  height: $size-icon-4xl;
   background-color: $color-slate-shadow;
   color: $color-gray-text;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -655,7 +656,7 @@
 .stub-name {
   font-weight: $font-weight-semibold;
   color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: $space-0-25;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -664,23 +665,23 @@
 .stub-url {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-6;
 }
 
 /* Info Panel */
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-14;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
+  padding: $space-10;
   background-color: var(--bg-secondary);
-  border-radius: 6px;
+  border-radius: $radius-md;
 }
 
 .info-label {
@@ -695,7 +696,7 @@
   font-size: $font-size-rem-2xl;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-6;
 }
 
 /* Empty State */
@@ -704,14 +705,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1rem;
+  padding: $space-48 $space-14;
   text-align: center;
   color: var(--text-secondary);
 }
 
 .empty-state i {
   font-size: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
   opacity: 0.5;
 }
 
@@ -726,10 +727,10 @@
 
 /* Active Scenarios Section */
 .scenarios-section {
-  margin-bottom: 2rem;
+  margin-bottom: $space-28;
   background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: $radius-2xl;
+  padding: $space-20;
   box-shadow: 0 1px 3px $color-shadow;
 }
 
@@ -737,7 +738,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: $space-14;
 }
 
 .scenarios-header h2 {
@@ -747,7 +748,7 @@
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-6;
 }
 
 .scenarios-header h2 i {
@@ -757,14 +758,14 @@
 .scenarios-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  gap: $space-14;
 }
 
 .scenario-card {
   background: $color-bg-subtle;
   border: 1px solid $color-gray-border-pale;
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: $radius-lg;
+  padding: $space-14;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -778,8 +779,8 @@
 .scenario-card-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: $space-6;
+  margin-bottom: $space-0-75;
 }
 
 .scenario-card-header i {
@@ -796,7 +797,7 @@
 .scenario-card-body {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: $space-6;
 }
 
 .scenario-current-state {
@@ -806,7 +807,7 @@
 
 .scenario-current-state .badge {
   font-size: $font-size-rem-md;
-  padding: 0.25rem 0.75rem;
+  padding: $space-0-25 $space-0-75;
 }
 
 .scenario-states-count {
@@ -817,7 +818,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: 1rem;
+    padding: $space-14;
   }
 
   .dashboard-header h1 {
@@ -837,7 +838,7 @@
   }
 
   .bar-chart {
-    gap: 4px;
+    gap: $space-px-4;
   }
 
   .bar {

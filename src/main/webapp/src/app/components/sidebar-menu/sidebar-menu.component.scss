@@ -1,12 +1,13 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 /* Styles specific to sidebar-menu if needed */
 /* Main styles are in app.component.css for now */
 
 .sidebar-divider {
-  height: 1px;
+  height: $space-px-1;
   background-color: $color-white-overlay;
-  margin: 0.5rem 1rem;
+  margin: $space-0-5 $space-14;
 }
 

@@ -1,5 +1,6 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 /* Styles are inherited from app.component.css for now */
 /* This approach avoids duplication during the refactoring phase */
@@ -14,22 +15,22 @@
 }
 
 .stub-checkbox {
-  padding: 0 10px;
+  padding: 0 $space-px-10;
   display: flex;
   align-items: center;
 }
 
 .stub-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: $size-icon-md;
+  height: $size-icon-md;
   cursor: pointer;
 }
 
 /* Import Drop Zone */
 .import-drop-zone {
   border: 2px dashed $color-gray-bs;
-  border-radius: 8px;
-  padding: 32px 20px;
+  border-radius: $radius-lg;
+  padding: $space-px-32 $space-px-20;
   text-align: center;
   background: $color-bg-subtle;
   transition: border-color 0.2s, background 0.2s;
@@ -44,36 +45,36 @@
 .import-drop-icon {
   font-size: 2.5rem;
   color: $color-gray-bs;
-  margin-bottom: 10px;
+  margin-bottom: $space-px-10;
   display: block;
 }
 
 .import-drop-hint {
-  margin: 0 0 4px;
+  margin: 0 0 $space-px-4;
   font-size: $font-size-rem-2xl;
   color: $color-slate-500;
 }
 
 .import-drop-or {
-  margin: 10px 0;
+  margin: $space-px-10 0;
   font-size: $font-size-rem-normal;
   color: $color-gray-light;
 }
 
 /* Import Modal Styles */
 .modal-import {
-  max-width: 700px;
+  max-width: $size-modal-md;
   width: 90%;
   height: auto;
 }
 
 .modal-import .modal-content {
   height: auto;
-  max-height: 85vh;
+  max-height: $size-vh-85;
 }
 
 .modal-import .modal-body {
-  max-height: 60vh;
+  max-height: $size-vh-60;
   overflow-y: auto;
 }
 
@@ -86,26 +87,26 @@
 
 /* File Selection Lists */
 .file-selection-list {
-  max-height: 300px;
+  max-height: $size-scenarios-panel;
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: $radius-sm;
+  padding: $space-px-10;
   background: $color-bg-subtle;
 }
 
 .file-selection-list::-webkit-scrollbar {
-  width: 8px;
+  width: $size-scrollbar;
 }
 
 .file-selection-list::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .file-selection-list::-webkit-scrollbar-thumb {
   background: $color-gray-icon;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .file-selection-list::-webkit-scrollbar-thumb:hover {
@@ -113,11 +114,11 @@
 }
 
 .file-selection-item {
-  padding: 8px;
+  padding: $space-px-8;
   border-bottom: 1px solid $color-gray-border-pale;
   background: white;
-  margin-bottom: 4px;
-  border-radius: 4px;
+  margin-bottom: $space-px-4;
+  border-radius: $radius-sm;
   transition: background-color 0.2s;
 }
 
@@ -144,35 +145,35 @@
 }
 
 .preview-list {
-  max-height: 200px;
+  max-height: $size-stubs-panel;
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: $radius-sm;
+  padding: $space-px-10;
 }
 
 /* Liste scrollable pour tous les stubs (import) */
 .preview-list-scrollable {
-  max-height: 400px;
+  max-height: $size-min-range;
   overflow-y: auto;
   border: 1px solid $color-gray-border-light;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: $radius-sm;
+  padding: $space-px-10;
   background: $color-bg-subtle;
 }
 
 .preview-list-scrollable::-webkit-scrollbar {
-  width: 8px;
+  width: $size-scrollbar;
 }
 
 .preview-list-scrollable::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .preview-list-scrollable::-webkit-scrollbar-thumb {
   background: $color-gray-icon;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .preview-list-scrollable::-webkit-scrollbar-thumb:hover {
@@ -182,12 +183,12 @@
 .preview-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
+  gap: $space-px-10;
+  padding: $space-px-8 $space-px-10;
   border-bottom: 1px solid $color-gray-border-pale;
   background: white;
-  margin-bottom: 4px;
-  border-radius: 4px;
+  margin-bottom: $space-px-4;
+  border-radius: $radius-sm;
 }
 
 .preview-item:last-child {
@@ -197,7 +198,7 @@
 .preview-index {
   color: $color-gray-light;
   font-size: $font-size-em-sm;
-  min-width: 30px;
+  min-width: $size-icon-2xl;
   text-align: right;
 }
 
@@ -217,7 +218,7 @@
 
 .preview-more {
   text-align: center;
-  padding: 10px;
+  padding: $space-px-10;
   color: $color-text-medium;
   font-style: italic;
 }
@@ -229,13 +230,13 @@
 
 .scenario-badge-small {
   font-size: $font-size-xs;
-  padding: 3px 8px;
+  padding: $space-px-3 $space-px-8;
   display: inline-block;
   white-space: nowrap;
 }
 
 .stub-scenario {
-  margin-top: 6px;
+  margin-top: $space-px-6;
   display: flex;
   justify-content: flex-end;
 }
@@ -244,35 +245,35 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: $space-px-6;
 }
 
 .scenario-info-display {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 15px;
+  gap: $space-px-12;
+  padding: $space-px-15;
   background: $color-bg-subtle;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   border: 1px solid $color-gray-border-pale;
 }
 
 .scenario-field {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $space-px-10;
 }
 
 .scenario-field-label {
   font-weight: $font-weight-semibold;
   color: $color-gray-500;
   font-size: $font-size-base;
-  min-width: 120px;
+  min-width: $size-max-config;
 }
 
 .scenario-badge {
   font-size: $font-size-base;
-  padding: 6px 12px;
+  padding: $space-px-6 $space-px-12;
 }
 
 .scenario-section {
@@ -283,7 +284,7 @@
 /* Section Scenario Collapsible */
 .scenario-section-collapsible {
   border: 1px solid $color-gray-border-pale;
-  border-radius: 8px;
+  border-radius: $radius-lg;
   overflow: hidden;
   background: $color-bg-subtle;
 }
@@ -292,7 +293,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: $space-px-12 $space-px-16;
   background: $color-bg-softer;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -310,7 +311,7 @@
   color: $color-slate-500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $space-px-8;
 }
 
 .scenario-header i.fa-sitemap {
@@ -328,35 +329,35 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  padding: 0 16px;
+  padding: 0 $space-px-16;
 }
 
 .scenario-content.expanded {
-  max-height: 500px;
-  padding: 16px;
+  max-height: $size-modal-sm;
+  padding: $space-px-16;
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
 /* Form sections */
 .form-section {
   border: 1px solid $color-gray-border-light;
-  border-radius: 6px;
+  border-radius: $radius-md;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: $space-px-8 $space-px-12;
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
   border-bottom: 1px solid $color-gray-border-light;
-  border-radius: 6px;
+  border-radius: $radius-md;
 }
 
 .section-header.expanded {
-  border-radius: 6px 6px 0 0;
+  border-radius: $radius-top-md;
 }
 
 .section-header:hover {
@@ -372,30 +373,30 @@
 }
 
 .section-body {
-  padding: 12px;
+  padding: $space-px-12;
 }
 
 /* Subsections */
 .subsection {
   border: 1px solid $color-gray-divider;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .subsection-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 10px;
+  padding: $space-px-6 $space-px-10;
   background-color: $color-bg-light;
   cursor: pointer;
   user-select: none;
   font-size: $font-size-rem-lg;
   font-weight: $font-weight-medium;
-  border-radius: 4px;
+  border-radius: $radius-sm;
 }
 
 .subsection-header.expanded {
-  border-radius: 4px 4px 0 0;
+  border-radius: $radius-top-sm;
 }
 
 .subsection-header:hover {
@@ -403,7 +404,7 @@
 }
 
 .subsection-body {
-  padding: 8px 10px;
+  padding: $space-px-8 $space-px-10;
 }
 
 /* =============================================
@@ -436,7 +437,7 @@
   display: flex;
   gap: 0;
   border: 1px solid $color-gray-border-light;
-  border-radius: 6px;
+  border-radius: $radius-md;
   overflow: hidden;
   flex: 1;
   min-height: 0;
@@ -454,27 +455,27 @@
 
 .side-panel.collapsed {
   flex: 0 0 36px;
-  min-width: 36px;
+  min-width: $size-icon-xl;
 }
 
 /* Header du panneau */
 .side-panel-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: $space-px-8;
+  padding: $space-px-8 $space-px-12;
   background-color: $color-bg-light;
   border-bottom: 1px solid $color-gray-border-light;
   user-select: none;
   flex-shrink: 0;
-  min-height: 38px;
+  min-height: $size-h-panel-hdr;
 }
 
 .side-panel-header.collapsed {
   flex-direction: column;
   justify-content: flex-start;
-  padding: 8px 6px;
-  gap: 12px;
+  padding: $space-px-8 $space-px-6;
+  gap: $space-px-12;
   border-bottom: none;
   border-right: 1px solid $color-gray-border-light;
   height: 100%;
@@ -507,12 +508,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: $size-icon-xl;
+  height: $size-icon-xl;
   padding: 0;
   background: $color-gray-divider;
   border: 1px solid $color-gray-border-bs;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   cursor: pointer;
   color: $color-gray-bs;
   font-size: $font-size-xs;
@@ -530,12 +531,12 @@
 .side-panel-body {
   flex: 1;
   overflow-y: auto;
-  padding: 12px;
+  padding: $space-px-12;
   min-height: 0;
 }
 
 .side-panel-body::-webkit-scrollbar {
-  width: 6px;
+  width: $size-scrollbar-sm;
 }
 
 .side-panel-body::-webkit-scrollbar-track {
@@ -544,7 +545,7 @@
 
 .side-panel-body::-webkit-scrollbar-thumb {
   background: $color-gray-border-bs;
-  border-radius: 3px;
+  border-radius: $space-px-3;
 }
 
 .side-panel-body::-webkit-scrollbar-thumb:hover {
@@ -553,7 +554,7 @@
 
 /* Vertical separator between the two panels */
 .panel-divider {
-  width: 1px;
+  width: $space-px-1;
   background-color: $color-gray-border-light;
   flex-shrink: 0;
 }

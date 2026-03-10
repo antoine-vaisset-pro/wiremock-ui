@@ -1,22 +1,23 @@
 @use '../../../styles/colors' as *;
 @use '../../../styles/typography' as *;
+@use '../../../styles/spacing' as *;
 
 /* Styles are inherited from app.component.css for now */
 
 /* Filters Section */
 .filters-section {
-  padding: 6px 10px;
+  padding: $space-px-6 $space-px-10;
   background: $color-bg-light;
   border-bottom: 1px solid $color-gray-border-light;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: $space-px-5;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: $space-px-5;
   flex-wrap: nowrap;
 }
 
@@ -25,13 +26,13 @@
   font-weight: $font-weight-semibold;
   color: $color-text-muted-bs;
   margin: 0;
-  min-width: 48px;
+  min-width: $size-min-check;
   flex-shrink: 0;
 }
 
 .filter-chips {
   display: flex;
-  gap: 4px;
+  gap: $space-px-4;
   flex-wrap: nowrap;
   align-items: center;
   overflow-x: auto;
@@ -41,13 +42,13 @@
 .filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 7px;
+  gap: $space-px-3;
+  padding: $space-px-2 $space-px-7;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   background: $color-white;
   border: 1px solid $color-gray-border-light;
-  border-radius: 10px;
+  border-radius: $radius-xl;
   cursor: pointer;
   transition: all 0.2s ease;
   color: $color-text-muted-bs;
@@ -91,12 +92,12 @@
 .filter-actions {
   display: flex;
   align-items: center;
-  padding-top: 2px;
+  padding-top: $space-px-2;
 }
 
 .filter-actions .btn {
   font-size: $font-size-sm;
-  padding: 2px 10px;
+  padding: $space-px-2 $space-px-10;
 }
 
 /* Scroll horizontal smooth pour les chips */
@@ -106,12 +107,12 @@
 
 .filter-chips::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 2px;
+  border-radius: $radius-xs;
 }
 
 .filter-chips::-webkit-scrollbar-thumb {
   background: $color-gray-pale;
-  border-radius: 2px;
+  border-radius: $radius-xs;
 }
 
 .filter-chips::-webkit-scrollbar-thumb:hover {
@@ -122,7 +123,7 @@
 .response-code-badge {
   font-weight: $font-weight-semibold;
   font-size: $font-size-xxs;
-  padding: 2px 6px;
-  margin-right: 4px;
+  padding: $space-px-2 $space-px-6;
+  margin-right: $space-px-4;
 }
 
