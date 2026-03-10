@@ -1,0 +1,49 @@
+# Node modules
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular build outputs
+**/dist/
+**/.angular/
+out-tsc/
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# IDE - IntelliJ / JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Miscellaneous
+*.log
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# WireMock specific
+__files/
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Generated config files
+**/public/config.json
+
