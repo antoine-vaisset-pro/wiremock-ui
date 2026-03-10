@@ -678,6 +678,47 @@
           configure each endpoint, then preview and export.
         </p>
 
+        <!-- ── Supported versions ── -->
+        <h3>Supported OpenAPI versions</h3>
+        <p>The generator accepts specifications in JSON or YAML format for the following versions:</p>
+        <div class="option-table">
+          <div class="option-row">
+            <div class="option-label"><span class="spec-version-badge spec-version-badge--swagger">Swagger 2.0</span></div>
+            <div class="option-desc">
+              Legacy Swagger format. Body parameters use the <code>in: body</code> convention instead of
+              <code>requestBody</code>. The top-level <code>basePath</code> field is extracted and
+              prepended to every path when building stub URL matchers.
+              Response schemas are read directly from <code>responses.*.schema</code>.
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><span class="spec-version-badge spec-version-badge--openapi30">OpenAPI 3.0</span></div>
+            <div class="option-desc">
+              Supports <code>requestBody</code> with multi-media-type content, <code>$ref</code>
+              resolution for reusable components, named request and response <code>examples</code>,
+              and multi-media-type response content (<code>responses.*.content.*</code>).
+            </div>
+          </div>
+          <div class="option-row">
+            <div class="option-label"><span class="spec-version-badge spec-version-badge--openapi31">OpenAPI 3.1</span></div>
+            <div class="option-desc">
+              Fully supported alongside 3.0. OpenAPI 3.1 aligns with JSON Schema 2020-12
+              and supports <code>const</code>, <code>if/then/else</code> and
+              <code>null</code> as a standalone type. All 3.0 stub-generation features apply.
+            </div>
+          </div>
+        </div>
+        <div class="help-tip">
+          <i class="fas fa-info-circle"></i>
+          <span>
+            After parsing, the spec summary banner shows a color-coded badge indicating the detected version
+            (<span class="spec-version-badge spec-version-badge--swagger">Swagger 2.0</span>,
+            <span class="spec-version-badge spec-version-badge--openapi30">OpenAPI 3.0</span> or
+            <span class="spec-version-badge spec-version-badge--openapi31">OpenAPI 3.1</span>)
+            together with the API title, version number and total operation count.
+          </span>
+        </div>
+
         <!-- ── Step 1 ── -->
         <h3><span class="step-pill">1</span> Import OpenAPI Specification</h3>
         <p>Provide your OpenAPI spec (JSON or YAML, versions 2.0, 3.0 and 3.1 are supported) in one of two ways:</p>

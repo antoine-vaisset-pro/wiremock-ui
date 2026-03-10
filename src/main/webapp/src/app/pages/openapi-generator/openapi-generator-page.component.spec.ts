@@ -400,6 +400,42 @@ describe('OpenApiGeneratorPageComponent', () => {
     });
   });
 
+  describe('getSpecVersionLabel()', () => {
+    it('should return Swagger 2.0 for version 2.0', () => {
+      expect(component.getSpecVersionLabel('2.0')).toBe('Swagger 2.0');
+    });
+
+    it('should return OpenAPI 3.0 for version 3.0', () => {
+      expect(component.getSpecVersionLabel('3.0')).toBe('OpenAPI 3.0');
+    });
+
+    it('should return OpenAPI 3.1 for version 3.1', () => {
+      expect(component.getSpecVersionLabel('3.1')).toBe('OpenAPI 3.1');
+    });
+
+    it('should return Unknown version for unrecognised version', () => {
+      expect(component.getSpecVersionLabel('unknown')).toBe('Unknown version');
+    });
+  });
+
+  describe('getSpecVersionBadgeClass()', () => {
+    it('should return spec-version-swagger for version 2.0', () => {
+      expect(component.getSpecVersionBadgeClass('2.0')).toBe('spec-version-swagger');
+    });
+
+    it('should return spec-version-openapi30 for version 3.0', () => {
+      expect(component.getSpecVersionBadgeClass('3.0')).toBe('spec-version-openapi30');
+    });
+
+    it('should return spec-version-openapi31 for version 3.1', () => {
+      expect(component.getSpecVersionBadgeClass('3.1')).toBe('spec-version-openapi31');
+    });
+
+    it('should return spec-version-unknown for unrecognised version', () => {
+      expect(component.getSpecVersionBadgeClass('unknown')).toBe('spec-version-unknown');
+    });
+  });
+
   describe('WIREMOCK_FAULTS', () => {
     it('should expose the 4 WireMock fault types', () => {
       expect(component.WIREMOCK_FAULTS.length).toBe(4);

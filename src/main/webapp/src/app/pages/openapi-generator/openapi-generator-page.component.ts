@@ -336,6 +336,24 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
   // ─── Helpers ───────────────────────────────────────────────────────────────
 
+  getSpecVersionLabel(specVersion: string): string {
+    switch (specVersion) {
+      case '2.0': return 'Swagger 2.0';
+      case '3.0': return 'OpenAPI 3.0';
+      case '3.1': return 'OpenAPI 3.1';
+      default: return 'Unknown version';
+    }
+  }
+
+  getSpecVersionBadgeClass(specVersion: string): string {
+    switch (specVersion) {
+      case '2.0': return 'spec-version-swagger';
+      case '3.0': return 'spec-version-openapi30';
+      case '3.1': return 'spec-version-openapi31';
+      default: return 'spec-version-unknown';
+    }
+  }
+
   getMethodClass(method: string): string {
     const map: { [k: string]: string } = {
       GET: 'method-get',
