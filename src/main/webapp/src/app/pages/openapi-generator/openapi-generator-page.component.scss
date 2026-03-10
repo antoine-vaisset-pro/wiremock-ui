@@ -51,7 +51,6 @@
   font-size: $font-size-base;
   color: var(--text-secondary);
   background: var(--bg-secondary);
-  padding: $space-1 $space-10;
   border-radius: $radius-2xl;
 }
 
@@ -112,7 +111,6 @@
 .drop-zone {
   border: 2px dashed var(--border-color);
   border-radius: $radius-2xl;
-  padding: $space-12 $space-6;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
@@ -183,14 +181,12 @@
 }
 
 .btn-sm {
-  padding: $space-6 $space-3;
   font-size: $font-size-base;
 }
 
 .btn-export {
   background: var(--success-color);
   color: white;
-  padding: $space-10 $space-6;
   border-radius: $radius-lg;
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
@@ -496,7 +492,6 @@
   display: inline-flex;
   align-items: center;
   gap: $space-2;
-  padding: $space-10 $space-5;
   background: var(--success-color, $color-success-deeper);
   color: white;
   border: none;
@@ -584,7 +579,7 @@
 .stubs-list {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
+  gap: $space-3;
 }
 
 .stub-item {
@@ -592,7 +587,6 @@
   align-items: center;
   justify-content: space-between;
   gap: $space-3;
-  padding: $space-10 $space-3-5;
   border: 1px solid var(--border-color);
   border-radius: $radius-lg;
   background: white;
