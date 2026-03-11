@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   # ── Guard ────────────────────────────────────────────────────────────────────
@@ -30,14 +31,29 @@ jobs:
           COMMENT: ${{ github.event.comment.body }}
         run: |
           COMMENT_TRIMMED=$(echo "$COMMENT" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-          if   [ "$COMMENT_TRIMMED" = "/deploy" ]; then echo "command=deploy" >> "$GITHUB_OUTPUT"
-          # /build and /rebase are reserved for future implementation
-          elif [ "$COMMENT_TRIMMED" = "/build"  ]; then echo "command=build"  >> "$GITHUB_OUTPUT"
-          elif [ "$COMMENT_TRIMMED" = "/rebase" ]; then echo "command=rebase" >> "$GITHUB_OUTPUT"
-          else                                          echo "command="        >> "$GITHUB_OUTPUT"
+          if [ "$COMMENT_TRIMMED" = "/deploy" ]; then echo "command=deploy" >> "$GITHUB_OUTPUT"
+          else                                        echo "command="        >> "$GITHUB_OUTPUT"
           fi
 
   # ── /deploy ──────────────────────────────────────────────────────────────────
+  react-command-ack:
+    name: React – command acknowledged
+    needs: parse
+    runs-on: ubuntu-latest
+    if: needs.parse.outputs.command != ''
+    permissions:
+      issues: write
+    steps:
+      - name: Add rocket reaction
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api repos/$REPO/issues/comments/$COMMENT_ID/reactions \
+            --method POST \
+            --field content=rocket
+
   check-deploy-permission:
     name: Check deploy permission
     needs: parse
