@@ -1,0 +1,138 @@
+name: PR Comment Hooks
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ── Guard ────────────────────────────────────────────────────────────────────
+  # Parse the comment and decide which command (if any) was issued.
+  # All downstream jobs depend on this one.
+  parse:
+    name: Parse command
+    runs-on: ubuntu-latest
+    # Only react to PR comments (not issue comments)
+    if: github.event.issue.pull_request != null
+
+    outputs:
+      command: ${{ steps.detect.outputs.command }}
+      pr_number: ${{ github.event.issue.number }}
+      actor: ${{ github.event.comment.user.login }}
+
+    steps:
+      - name: Detect command
+        id: detect
+        env:
+          COMMENT: ${{ github.event.comment.body }}
+        run: |
+          COMMENT_TRIMMED=$(echo "$COMMENT" | xargs)
+          if   [ "$COMMENT_TRIMMED" = "/deploy" ]; then echo "command=deploy" >> "$GITHUB_OUTPUT"
+          # /build and /rebase are reserved for future implementation
+          elif [ "$COMMENT_TRIMMED" = "/build"  ]; then echo "command=build"  >> "$GITHUB_OUTPUT"
+          elif [ "$COMMENT_TRIMMED" = "/rebase" ]; then echo "command=rebase" >> "$GITHUB_OUTPUT"
+          else                                          echo "command="        >> "$GITHUB_OUTPUT"
+          fi
+
+  # ── /deploy ──────────────────────────────────────────────────────────────────
+  check-deploy-permission:
+    name: Check deploy permission
+    needs: parse
+    runs-on: ubuntu-latest
+    if: needs.parse.outputs.command == 'deploy'
+
+    outputs:
+      allowed: ${{ steps.check.outputs.allowed }}
+      pr_head_sha: ${{ steps.pr-info.outputs.head_sha }}
+      pr_head_ref: ${{ steps.pr-info.outputs.head_ref }}
+
+    steps:
+      - name: Get PR info
+        id: pr-info
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ needs.parse.outputs.pr_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          PR_JSON=$(gh api repos/$REPO/pulls/$PR_NUMBER)
+          HEAD_SHA=$(echo "$PR_JSON" | jq -r '.head.sha')
+          HEAD_REF=$(echo "$PR_JSON" | jq -r '.head.ref')
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "head_ref=$HEAD_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Verify collaborator write access
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTOR: ${{ needs.parse.outputs.actor }}
+          REPO: ${{ github.repository }}
+        run: |
+          # gh api exits non-zero (404) when the user is not a collaborator;
+          # the fallback "none" treats both "no access" and API errors as denied.
+          PERMISSION=$(gh api "repos/$REPO/collaborators/$ACTOR/permission" \
+            --jq '.permission' 2>/dev/null || echo "none")
+          echo "Actor $ACTOR has permission: $PERMISSION"
+          if [[ "$PERMISSION" == "admin" || "$PERMISSION" == "maintain" || "$PERMISSION" == "write" ]]; then
+            echo "allowed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "allowed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  react-deploy-denied:
+    name: React – deploy denied
+    needs: [parse, check-deploy-permission]
+    runs-on: ubuntu-latest
+    if: needs.check-deploy-permission.outputs.allowed == 'false'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Post denial comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ needs.parse.outputs.pr_number }}
+          ACTOR: ${{ needs.parse.outputs.actor }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api repos/$REPO/issues/$PR_NUMBER/comments \
+            --method POST \
+            --field body="⛔ @$ACTOR – you need **write** (or higher) access to trigger a Netlify deploy."
+
+  trigger-deploy:
+    name: Trigger Netlify deploy
+    needs: [parse, check-deploy-permission]
+    if: needs.check-deploy-permission.outputs.allowed == 'true'
+    uses: ./.github/workflows/deploy-netlify.yml
+    with:
+      ref: ${{ needs.check-deploy-permission.outputs.pr_head_sha }}
+    secrets:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  react-deploy-result:
+    name: React – deploy result
+    needs: [parse, check-deploy-permission, trigger-deploy]
+    runs-on: ubuntu-latest
+    if: always() && needs.check-deploy-permission.outputs.allowed == 'true'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Post result comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ needs.parse.outputs.pr_number }}
+          ACTOR: ${{ needs.parse.outputs.actor }}
+          DEPLOY_RESULT: ${{ needs.trigger-deploy.result }}
+          DEPLOY_URL: ${{ needs.trigger-deploy.outputs.deploy_url }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$DEPLOY_RESULT" = "success" ]; then
+            BODY="✅ @$ACTOR – Netlify preview deployed successfully!"$'\n'"🔗 **Preview URL:** $DEPLOY_URL"
+          else
+            BODY="❌ @$ACTOR – Netlify deploy failed. Check the [workflow run](https://github.com/$REPO/actions) for details."
+          fi
+          gh api repos/$REPO/issues/$PR_NUMBER/comments \
+            --method POST \
+            --field body="$BODY"

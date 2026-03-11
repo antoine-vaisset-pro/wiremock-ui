@@ -87,7 +87,7 @@ Responds to PR comments with special commands.
 | Command | Description | Permissions |
 |---------|-------------|-------------|
 | `/build` | Builds the PR branch and reports status | Anyone |
-| `/deploy` | Deploys PR to Netlify preview | Anyone |
+| `/deploy` | Deploys PR to Netlify preview | Collaborators with write access only |
 | `/rebase` | Rebases PR on target branch | Collaborators with write access only |
 
 **Required Secrets (for /deploy):**
