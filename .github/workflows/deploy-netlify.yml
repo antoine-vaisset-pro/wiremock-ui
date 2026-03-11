@@ -1,0 +1,81 @@
+name: Deploy to Netlify
+
+on:
+  workflow_dispatch:
+    inputs:
+      wiremock_url:
+        description: 'WireMock base URL (overrides WIREMOCK_URL variable)'
+        type: string
+        required: false
+        default: ''
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git ref to checkout (branch, tag or SHA)'
+        type: string
+        required: false
+        default: ''
+      wiremock_url:
+        description: 'WireMock base URL (overrides WIREMOCK_URL variable)'
+        type: string
+        required: false
+        default: ''
+    secrets:
+      NETLIFY_AUTH_TOKEN:
+        required: true
+      NETLIFY_SITE_ID:
+        required: true
+    outputs:
+      deploy_url:
+        description: 'Netlify preview deploy URL'
+        value: ${{ jobs.deploy.outputs.deploy_url }}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & Deploy to Netlify
+    runs-on: ubuntu-latest
+
+    outputs:
+      deploy_url: ${{ steps.netlify.outputs.deploy-url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref != '' && inputs.ref || github.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: src/main/webapp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/main/webapp
+        run: npm ci
+
+      - name: Build Angular app (production)
+        working-directory: src/main/webapp
+        env:
+          WIREMOCK_URL: ${{ inputs.wiremock_url != '' && inputs.wiremock_url || vars.WIREMOCK_URL }}
+        run: npm run build
+
+      - name: Deploy to Netlify
+        id: netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: src/main/webapp/dist/wiremock-ui/browser
+          production-branch: main
+          github-token: ${{ github.token }}
+          deploy-message: 'Deploy from GitHub Actions – ${{ github.ref_name }} @ ${{ github.sha }}'
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5

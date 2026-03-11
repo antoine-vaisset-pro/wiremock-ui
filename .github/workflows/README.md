@@ -66,41 +66,6 @@ Builds and deploys the Angular application to GitHub Pages.
 
 **Permissions:** contents: read, pages: write, id-token: write, pull-requests: write
 
-### 2. deploy-netlify.yml
-Builds and deploys the Angular application to Netlify.
-
-**Triggers:**
-- Manual workflow dispatch only
-
-**Required Secrets:**
-- `NETLIFY_AUTH_TOKEN`
-- `NETLIFY_SITE_ID`
-- `WIREMOCK_URL` (optional)
-
-### 6. pr-comment-hooks.yml
-Responds to PR comments with special commands.
-
-**Triggers:**
-- Issue comment events (on PRs only)
-
-**Commands:**
-| Command | Description | Permissions |
-|---------|-------------|-------------|
-| `/build` | Builds the PR branch and reports status | Anyone |
-| `/deploy` | Deploys PR to Netlify preview | Anyone |
-| `/rebase` | Rebases PR on target branch | Collaborators with write access only |
-
-**Required Secrets (for /deploy):**
-- `NETLIFY_AUTH_TOKEN`
-- `NETLIFY_SITE_ID`
-- `WIREMOCK_URL` (optional)
-
-**Security:**
-- Build/deploy jobs run with read-only permissions
-- npm caching disabled to prevent cache poisoning
-- Rebase requires collaborator write access verification
-- Comments posted by separate jobs without code checkout
-
 ## Usage Examples
 
 ### Manual GitHub Pages Deploy
@@ -113,36 +78,7 @@ Responds to PR comments with special commands.
 2. Select "Deploy to Netlify"
 3. Click "Run workflow"
 
-### PR Comment Commands
-On any Pull Request, post a comment with:
-```
-/build
-```
-or
-```
-/deploy
-```
-or (if you're a collaborator with write access)
-```
-/rebase
-```
-
-The workflow will automatically execute and post a result comment.
-
-### 7. bump-and-release.yml ⚠️ DEPRECATED
-Manual emergency workflow kept for backup only. Use release-please instead.
-
-**Triggers:** Manual (`workflow_dispatch`) only
-
 ---
-
-## Development
-
-To test workflow changes:
-1. Create a test branch
-2. Open a PR
-3. Use the comment commands to trigger workflows
-4. Check workflow logs in the Actions tab
 
 ## Security Notes
 
