@@ -1,0 +1,11 @@
+[build]
+  base    = "src/main/webapp"
+  command = "npm run build"
+  publish = "dist/wiremock-ui/browser"
+
+# Redirect all routes to index.html so Angular's client-side router
+# handles them (prevents 404 on direct navigation / page reload).
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
