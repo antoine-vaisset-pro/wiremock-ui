@@ -66,12 +66,12 @@ jobs:
 
       - name: Deploy to Netlify
         id: netlify
-        run: |
-          RESULT=$(npx netlify-cli deploy \
-            --prod \
-            --message "Deploy from GitHub Actions – ${{ github.ref_name }} @ ${{ github.sha }}" \
-            --json)
-          echo "deploy-url=$(echo "$RESULT" | jq -r '.deploy_url')" >> "$GITHUB_OUTPUT"
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './src/main/webapp/dist/wiremock-ui/browser'
+          production-deploy: true
+          deploy-message: "Deploy from GitHub Actions – ${{ github.ref_name }} @ ${{ github.sha }}"
+          enable-commit-comment: false
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
