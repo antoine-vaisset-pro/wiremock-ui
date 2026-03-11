@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { switchMap, startWith } from 'rxjs/operators';
 import { ScenarioService } from '../../services/scenario.service';
@@ -51,6 +51,9 @@ export class ScenariosPageComponent implements OnInit, OnDestroy {
   newStateValue = '';
   changeStateError = '';
 
+  // Pending scenario name from query param (applied after scenarios are loaded)
+  private pendingScenarioName: string | null = null;
+
   // Auto-refresh
   private refreshSubscription?: Subscription;
   private readonly REFRESH_INTERVAL = 30000; // 30 secondes
@@ -58,11 +61,15 @@ export class ScenariosPageComponent implements OnInit, OnDestroy {
   constructor(
     private scenarioService: ScenarioService,
     private mappingService: MappingService,
+    private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.pendingScenarioName = params['scenario'] || null;
+    });
     this.loadScenarios();
     this.startAutoRefresh();
   }
@@ -87,6 +94,9 @@ export class ScenariosPageComponent implements OnInit, OnDestroy {
             this.selectedScenario = updated;
             this.generateFlowDiagram(updated);
           }
+        } else if (this.pendingScenarioName) {
+          this.preselectScenarioByName(this.pendingScenarioName);
+          this.pendingScenarioName = null;
         }
       },
       error: (err) => {
@@ -131,6 +141,13 @@ export class ScenariosPageComponent implements OnInit, OnDestroy {
   selectScenario(scenario: Scenario): void {
     this.selectedScenario = scenario;
     this.loadScenarioStubs(scenario.name);
+  }
+
+  preselectScenarioByName(name: string): void {
+    const scenario = this.scenarios.find(s => s.name === name);
+    if (scenario) {
+      this.selectScenario(scenario);
+    }
   }
 
   closeDetails(): void {

@@ -308,8 +308,12 @@
               <div class="scenario-info-display">
                 <div class="scenario-field">
                   <label class="scenario-field-label">Scenario Name:</label>
-                  <span class="badge bg-indigo scenario-badge">
+                  <span
+                    class="badge bg-indigo scenario-badge clickable"
+                    title="View scenario"
+                    (click)="navigateToScenarioRequested.emit(selectedMapping.scenarioName!)">
                     {{ selectedMapping.scenarioName }}
+                    <i class="fas fa-external-link-alt ms-1 scenario-badge-link-icon"></i>
                   </span>
                 </div>
                 @if (selectedMapping.requiredScenarioState) {

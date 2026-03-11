@@ -17,6 +17,7 @@ export class StubDetailComponent {
   @Output() cloneRequested = new EventEmitter<void>();
   @Output() deleteRequested = new EventEmitter<void>();
   @Output() closeRequested = new EventEmitter<void>();
+  @Output() navigateToScenarioRequested = new EventEmitter<string>();
 
   activeResponseTab: 'direct' | 'fault' | 'proxy' = 'direct';
   activeViewTab: 'details' | 'json' = 'details';

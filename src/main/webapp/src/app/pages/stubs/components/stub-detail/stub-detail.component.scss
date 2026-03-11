@@ -33,4 +33,16 @@
 .scenario-badge {
   font-size: $font-size-base;
   padding: $space-6 $space-3;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+.scenario-badge-link-icon {
+  font-size: 0.7em;
 }

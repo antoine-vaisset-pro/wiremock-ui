@@ -301,6 +301,14 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.router.navigate(['/ui/scenarios']);
   }
 
+  onScenarioClick(scenarioName: string): void {
+    this.router.navigate(['/ui/scenarios'], { queryParams: { scenario: scenarioName } });
+  }
+
+  onNavigateToRecording(): void {
+    this.router.navigate(['/ui/recording']);
+  }
+
   onViewAllRequests(): void {
     this.router.navigate(['/ui/requests']);
   }
