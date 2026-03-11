@@ -5,16 +5,19 @@ on:
     inputs:
       wiremock_url:
         description: 'WireMock base URL (overrides WIREMOCK_URL variable)'
+        type: string
         required: false
         default: ''
   workflow_call:
     inputs:
       ref:
         description: 'Git ref to checkout (branch, tag or SHA)'
+        type: string
         required: false
         default: ''
       wiremock_url:
         description: 'WireMock base URL (overrides WIREMOCK_URL variable)'
+        type: string
         required: false
         default: ''
     secrets:

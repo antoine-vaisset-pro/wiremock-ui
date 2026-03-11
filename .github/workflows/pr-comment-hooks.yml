@@ -29,7 +29,7 @@ jobs:
         env:
           COMMENT: ${{ github.event.comment.body }}
         run: |
-          COMMENT_TRIMMED=$(echo "$COMMENT" | xargs)
+          COMMENT_TRIMMED=$(echo "$COMMENT" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           if   [ "$COMMENT_TRIMMED" = "/deploy" ]; then echo "command=deploy" >> "$GITHUB_OUTPUT"
           # /build and /rebase are reserved for future implementation
           elif [ "$COMMENT_TRIMMED" = "/build"  ]; then echo "command=build"  >> "$GITHUB_OUTPUT"
