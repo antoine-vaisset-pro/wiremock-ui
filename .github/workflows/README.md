@@ -77,30 +77,6 @@ Builds and deploys the Angular application to Netlify.
 - `NETLIFY_SITE_ID`
 - `WIREMOCK_URL` (optional)
 
-### 6. pr-comment-hooks.yml
-Responds to PR comments with special commands.
-
-**Triggers:**
-- Issue comment events (on PRs only)
-
-**Commands:**
-| Command | Description | Permissions |
-|---------|-------------|-------------|
-| `/build` | Builds the PR branch and reports status | Anyone |
-| `/deploy` | Deploys PR to Netlify preview | Collaborators with write access only |
-| `/rebase` | Rebases PR on target branch | Collaborators with write access only |
-
-**Required Secrets (for /deploy):**
-- `NETLIFY_AUTH_TOKEN`
-- `NETLIFY_SITE_ID`
-- `WIREMOCK_URL` (optional)
-
-**Security:**
-- Build/deploy jobs run with read-only permissions
-- npm caching disabled to prevent cache poisoning
-- Rebase requires collaborator write access verification
-- Comments posted by separate jobs without code checkout
-
 ## Usage Examples
 
 ### Manual GitHub Pages Deploy
