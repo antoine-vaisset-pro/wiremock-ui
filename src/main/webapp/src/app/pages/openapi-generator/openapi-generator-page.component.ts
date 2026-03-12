@@ -53,9 +53,15 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
   // Generated stubs
   generatedStubs: GeneratedStub[] = [];
+  stubSelections: boolean[] = [];
   isGenerating = false;
   previewStub: GeneratedStub | null = null;
   editingStubIndex: number | null = null;
+
+  // Per-stub import state
+  stubImportingIndex: number | null = null;
+  stubImportSuccessIndex: number | null = null;
+  private stubImportSuccessTimer: any;
 
   @ViewChild(StubEditorComponent) stubEditor!: StubEditorComponent;
 
@@ -93,9 +99,15 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (this.exportSuccessTimer) clearTimeout(this.exportSuccessTimer);
     if (this.importSuccessTimer) clearTimeout(this.importSuccessTimer);
+    if (this.stubImportSuccessTimer) clearTimeout(this.stubImportSuccessTimer);
   }
 
   // ─── Input Handling ────────────────────────────────────────────────────────
+
+  setInputMode(mode: 'paste' | 'upload'): void {
+    this.inputMode = mode;
+    this.cdr.markForCheck();
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -243,7 +255,9 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
     setTimeout(() => {
       try {
+        this._assignDefaultStubNames();
         this.generatedStubs = this.generatorService.generateStubs(this.endpoints);
+        this.stubSelections = this.generatedStubs.map(() => true);
       } catch (e: any) {
         this.parseError = `Generation error: ${e.message}`;
       } finally {
@@ -251,6 +265,92 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
         this.cdr.markForCheck();
       }
     }, 10);
+  }
+
+  /**
+   * Pre-computes default stub names for each enabled endpoint entry.
+   * Pattern: ${operationId}_${codeOrFault}_${inc}
+   * The inc is global per operationId across all variants (happy + fault).
+   */
+  private _assignDefaultStubNames(): void {
+    // Count inc per operationId across all enabled entries
+    const incByOpId = new Map<string, number>();
+
+    const getNext = (opId: string): number => {
+      const next = (incByOpId.get(opId) ?? 0) + 1;
+      incByOpId.set(opId, next);
+      return next;
+    };
+
+    for (const entry of this.endpoints) {
+      if (!entry.enabled) continue;
+      const opId = entry.operation.operationId ?? `${entry.operation.method}_${entry.operation.path}`;
+
+      // Happy path / status stub name
+      entry.stubName = StubGeneratorService.buildDefaultStubName(opId, entry.statusCode, getNext(opId));
+
+      // Fault stub name (if fault is selected)
+      if (entry.faultType) {
+        const faultLabel = entry.faultType.toLowerCase();
+        entry.faultStubName = StubGeneratorService.buildDefaultStubName(opId, faultLabel, getNext(opId));
+      } else {
+        entry.faultStubName = undefined;
+      }
+    }
+  }
+
+  // ─── Stub Selection ───────────────────────────────────────────────────────
+
+  isAllStubsSelected(): boolean {
+    return this.stubSelections.length > 0 && this.stubSelections.every(s => s);
+  }
+
+  isSomeStubSelected(): boolean {
+    return this.stubSelections.some(s => s);
+  }
+
+  toggleSelectAllStubs(): void {
+    const next = !this.isAllStubsSelected();
+    this.stubSelections = this.stubSelections.map(() => next);
+  }
+
+  selectedStubCount(): number {
+    return this.stubSelections.filter(s => s).length;
+  }
+
+  getSelectedStubs(): GeneratedStub[] {
+    return this.generatedStubs.filter((_, i) => this.stubSelections[i]);
+  }
+
+  // ─── Delete stub ──────────────────────────────────────────────────────────
+
+  deleteStub(index: number): void {
+    this.generatedStubs = this.generatedStubs.filter((_, i) => i !== index);
+    this.stubSelections = this.stubSelections.filter((_, i) => i !== index);
+    this.cdr.markForCheck();
+  }
+
+  // ─── Import single stub ───────────────────────────────────────────────────
+
+  async importSingleStub(stub: GeneratedStub, index: number): Promise<void> {
+    this.stubImportingIndex = index;
+    this.importError = null;
+    this.cdr.markForCheck();
+    try {
+      const apiUrl = `${this.configService.wiremockApiUrl}/mappings`;
+      await this.http.post(apiUrl, stub.mapping).toPromise();
+      this.stubImportSuccessIndex = index;
+      if (this.stubImportSuccessTimer) clearTimeout(this.stubImportSuccessTimer);
+      this.stubImportSuccessTimer = setTimeout(() => {
+        this.stubImportSuccessIndex = null;
+        this.cdr.markForCheck();
+      }, OpenApiGeneratorPageComponent.EXPORT_SUCCESS_DISPLAY_DURATION);
+    } catch (err: any) {
+      this.importError = err?.error?.message ?? err?.message ?? 'Import failed';
+    } finally {
+      this.stubImportingIndex = null;
+      this.cdr.markForCheck();
+    }
   }
 
   // ─── Preview ───────────────────────────────────────────────────────────────
@@ -438,6 +538,9 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
     this.parseError = null;
     this.endpoints = [];
     this.generatedStubs = [];
+    this.stubSelections = [];
+    this.stubImportingIndex = null;
+    this.stubImportSuccessIndex = null;
     this.previewStub = null;
     this.editingStubIndex = null;
     this.exportSuccess = false;

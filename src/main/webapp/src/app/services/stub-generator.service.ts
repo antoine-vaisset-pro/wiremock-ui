@@ -25,6 +25,10 @@ export interface StubConfig {
   selectedResponseExample?: string;
   /** Full spec object for $ref resolution */
   fullSpec?: any;
+  /** Custom stub name override; if absent the default name is auto-computed */
+  stubName?: string;
+  /** Custom fault stub name override */
+  faultStubName?: string;
 }
 
 export interface GeneratedStub {
@@ -88,6 +92,18 @@ export class StubGeneratorService {
     return stubs;
   }
 
+  /**
+   * Builds a default stub name from operationId (or fallback), a code/fault label, and a
+   * per-operation increment counter.
+   * Pattern: ${operationId}_${codeOrFault}_${inc}
+   * The fault label is lowercased and underscores are preserved (e.g. empty_response).
+   */
+  static buildDefaultStubName(operationId: string, codeOrFault: string, inc: number): string {
+    const id = operationId.replace(/[^a-zA-Z0-9_]/g, '_') || 'operation';
+    const label = codeOrFault.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+    return `${id}_${label}_${inc}`;
+  }
+
   private generateFaultStub(
     config: StubConfig,
     fault: string,
@@ -109,7 +125,7 @@ export class StubGeneratorService {
     usedNames.add(baseName);
 
     const mapping: WireMockMapping = {
-      name: `${operation.summary ?? `${operation.method} ${operation.path}`} (${fault})`,
+      name: config.faultStubName ?? `${operation.summary ?? `${operation.method} ${operation.path}`} (${fault})`,
       request: requestMatcher,
       response: {
         status: 200,
@@ -213,7 +229,7 @@ export class StubGeneratorService {
     usedNames.add(baseName);
 
     const mapping: WireMockMapping = {
-      name: operation.summary ?? `${operation.method} ${operation.path}`,
+      name: config.stubName ?? operation.summary ?? `${operation.method} ${operation.path}`,
       request: requestMatcher,
       response: {
         status,

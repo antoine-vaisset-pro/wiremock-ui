@@ -1031,7 +1031,7 @@ pre {
 }
 
 .modal-header {
-  padding: $space-5 $space-6;
+  padding: $space-3 $space-6;
   border-bottom: 1px solid $color-gray-border-pale;
   display: flex;
   justify-content: space-between;
@@ -1058,7 +1058,7 @@ pre {
 }
 
 .modal-body {
-  padding: $space-6;
+  padding: $space-3 $space-6;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
@@ -1071,7 +1071,7 @@ pre {
 }
 
 .modal-footer {
-  padding: $space-4 $space-6;
+  padding: $space-3 $space-6;
   border-top: 1px solid $color-gray-border-pale;
   display: flex;
   justify-content: flex-end;
@@ -1106,7 +1106,7 @@ pre {
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: $space-5;
+  gap: $space-3;
 }
 
 .editor-section {
