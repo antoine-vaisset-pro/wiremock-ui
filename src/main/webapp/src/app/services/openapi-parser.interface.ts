@@ -3,7 +3,7 @@ import { ParsedOperation, ParsedSpec } from './openapi-parser.service';
 /**
  * Common interface implemented by all OpenAPI parser service variants.
  * parse() is always async to accommodate implementations that require
- * asynchronous processing (e.g. $ref dereferencing via swagger-parser).
+ * asynchronous processing.
  */
 export interface IOpenApiParserService {
   parse(rawSpec: string): Promise<ParsedSpec>;
