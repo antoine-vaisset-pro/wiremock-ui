@@ -5,6 +5,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { OpenApiGeneratorPageComponent } from './openapi-generator-page.component';
 import { ConfigService } from '../../services/config.service';
 import { MappingService } from '../../services/mapping.service';
+import { OPENAPI_PARSER_SERVICE } from '../../services/openapi-parser.interface';
+import { OpenApiParserService } from '../../services/openapi-parser.service';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -66,7 +68,8 @@ describe('OpenApiGeneratorPageComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: ConfigService, useValue: configServiceSpy },
-        { provide: MappingService, useValue: mappingServiceSpy }
+        { provide: MappingService, useValue: mappingServiceSpy },
+        { provide: OPENAPI_PARSER_SERVICE, useClass: OpenApiParserService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

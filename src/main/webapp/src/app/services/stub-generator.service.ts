@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ParsedOperation, ParsedResponse, OpenApiParserService } from './openapi-parser.service';
+import { ParsedOperation, ParsedResponse } from './openapi-parser.service';
+import {IOpenApiParserService, OPENAPI_PARSER_SERVICE} from "./openapi-parser.interface";
 
 export type WireMockFault = 'CONNECTION_RESET_BY_PEER' | 'EMPTY_RESPONSE' | 'MALFORMED_RESPONSE_CHUNK' | 'RANDOM_DATA_THEN_CLOSE';
 
@@ -66,7 +67,7 @@ export class StubGeneratorService {
 
   private static readonly MAX_INLINE_BODY_LENGTH = 2048;
 
-  constructor(private parser: OpenApiParserService) {}
+  constructor(@Inject(OPENAPI_PARSER_SERVICE) private parser: IOpenApiParserService) {}
 
   /**
    * Generates WireMock stubs from the provided stub configurations.
