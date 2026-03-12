@@ -21,7 +21,6 @@ function makeConfig(overrides: Partial<StubConfig> = {}): StubConfig {
     enabled: true,
     statusCode: '200',
     urlPrefix: '',
-    generateErrorCases: false,
     ...overrides
   };
 }

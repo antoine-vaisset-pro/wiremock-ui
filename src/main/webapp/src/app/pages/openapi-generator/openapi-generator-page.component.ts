@@ -44,7 +44,6 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
   // Configuration
   globalUrlPrefix = '';
-  generateErrorCases = false;
 
   // Endpoint list
   endpoints: EndpointEntry[] = [];
@@ -196,7 +195,6 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
         enabled: true,
         statusCode,
         urlPrefix: this.globalUrlPrefix,
-        generateErrorCases: false,
         faultType: '',
         fullSpec,
         allResponseExamples: this.parserService.getAllResponseExamples(op, fullSpec),
@@ -222,12 +220,6 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
 
   applyGlobalPrefix(): void {
     this.endpoints.forEach(e => e.urlPrefix = this.globalUrlPrefix);
-  }
-
-  applyGlobalErrorCases(): void {
-    this.endpoints.forEach(e => {
-      e.generateErrorCases = this.generateErrorCases;
-    });
   }
 
   onStatusCodeChange(entry: EndpointEntry): void {
@@ -473,7 +465,6 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
       enabled: entry.enabled,
       statusCode: entry.statusCode,
       urlPrefix: entry.urlPrefix,
-      generateErrorCases: entry.generateErrorCases,
       faultType: entry.faultType,
       allResponseExamples: entry.allResponseExamples,
       requestExampleKeys: entry.requestExampleKeys,

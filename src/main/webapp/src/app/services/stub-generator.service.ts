@@ -14,7 +14,6 @@ export interface StubConfig {
   enabled: boolean;
   statusCode: string;
   urlPrefix: string;
-  generateErrorCases: boolean;
   /** Single WireMock fault type to generate as an additional stub (empty = none) */
   faultType?: string;
   /** @deprecated use faultType instead */
