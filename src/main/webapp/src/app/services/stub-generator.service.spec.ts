@@ -1,6 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {StubConfig, StubGeneratorService, WireMockFault} from './stub-generator.service';
-import {ParsedOperation} from './openapi-parser.service';
+import {OpenApiParserService, ParsedOperation} from './openapi-parser.service';
+import {OPENAPI_PARSER_SERVICE} from './openapi-parser.interface';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -21,7 +22,6 @@ function makeConfig(overrides: Partial<StubConfig> = {}): StubConfig {
     enabled: true,
     statusCode: '200',
     urlPrefix: '',
-    generateErrorCases: false,
     ...overrides
   };
 }
@@ -32,7 +32,11 @@ describe('StubGeneratorService', () => {
   let service: StubGeneratorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: OPENAPI_PARSER_SERVICE, useClass: OpenApiParserService }
+      ]
+    });
     service = TestBed.inject(StubGeneratorService);
   });
 

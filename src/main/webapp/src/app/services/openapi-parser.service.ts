@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as jsyaml from 'js-yaml';
+import {IOpenApiParserService} from "./openapi-parser.interface";
 
 export interface ParsedOperation {
   path: string;
@@ -44,14 +45,21 @@ export interface ParsedSpec {
 @Injectable({
   providedIn: 'root'
 })
-export class OpenApiParserService {
+export class OpenApiParserService implements IOpenApiParserService {
 
   private static readonly MAX_SCHEMA_DEPTH = 5;
 
   /**
    * Parses a raw OpenAPI/Swagger spec string (YAML or JSON) and extracts operations.
    */
-  parse(rawSpec: string): ParsedSpec {
+  async parse(rawSpec: string): Promise<ParsedSpec> {
+    return this.parseSync(rawSpec);
+  }
+
+  /**
+   * Synchronous implementation, exposed for internal use and testing convenience.
+   */
+  parseSync(rawSpec: string): ParsedSpec {
     const result: ParsedSpec = {
       title: 'Unknown',
       version: '1.0.0',

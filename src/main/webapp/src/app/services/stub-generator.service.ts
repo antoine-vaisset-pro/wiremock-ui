@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ParsedOperation, ParsedResponse, OpenApiParserService } from './openapi-parser.service';
+import { ParsedOperation, ParsedResponse } from './openapi-parser.service';
+import {IOpenApiParserService, OPENAPI_PARSER_SERVICE} from "./openapi-parser.interface";
 
 export type WireMockFault = 'CONNECTION_RESET_BY_PEER' | 'EMPTY_RESPONSE' | 'MALFORMED_RESPONSE_CHUNK' | 'RANDOM_DATA_THEN_CLOSE';
 
@@ -14,7 +15,6 @@ export interface StubConfig {
   enabled: boolean;
   statusCode: string;
   urlPrefix: string;
-  generateErrorCases: boolean;
   /** Single WireMock fault type to generate as an additional stub (empty = none) */
   faultType?: string;
   /** @deprecated use faultType instead */
@@ -25,6 +25,10 @@ export interface StubConfig {
   selectedResponseExample?: string;
   /** Full spec object for $ref resolution */
   fullSpec?: any;
+  /** Custom stub name override; if absent the default name is auto-computed */
+  stubName?: string;
+  /** Custom fault stub name override */
+  faultStubName?: string;
 }
 
 export interface GeneratedStub {
@@ -63,7 +67,7 @@ export class StubGeneratorService {
 
   private static readonly MAX_INLINE_BODY_LENGTH = 2048;
 
-  constructor(private parser: OpenApiParserService) {}
+  constructor(@Inject(OPENAPI_PARSER_SERVICE) private parser: IOpenApiParserService) {}
 
   /**
    * Generates WireMock stubs from the provided stub configurations.
@@ -88,6 +92,18 @@ export class StubGeneratorService {
     return stubs;
   }
 
+  /**
+   * Builds a default stub name from operationId (or fallback), a code/fault label, and a
+   * per-operation increment counter.
+   * Pattern: ${operationId}_${codeOrFault}_${inc}
+   * The fault label is lowercased and underscores are preserved (e.g. empty_response).
+   */
+  static buildDefaultStubName(operationId: string, codeOrFault: string, inc: number): string {
+    const id = operationId.replace(/[^a-zA-Z0-9_]/g, '_') || 'operation';
+    const label = codeOrFault.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+    return `${id}_${label}_${inc}`;
+  }
+
   private generateFaultStub(
     config: StubConfig,
     fault: string,
@@ -109,7 +125,7 @@ export class StubGeneratorService {
     usedNames.add(baseName);
 
     const mapping: WireMockMapping = {
-      name: `${operation.summary ?? `${operation.method} ${operation.path}`} (${fault})`,
+      name: config.faultStubName ?? `${operation.summary ?? `${operation.method} ${operation.path}`} (${fault})`,
       request: requestMatcher,
       response: {
         status: 200,
@@ -213,7 +229,7 @@ export class StubGeneratorService {
     usedNames.add(baseName);
 
     const mapping: WireMockMapping = {
-      name: operation.summary ?? `${operation.method} ${operation.path}`,
+      name: config.stubName ?? operation.summary ?? `${operation.method} ${operation.path}`,
       request: requestMatcher,
       response: {
         status,

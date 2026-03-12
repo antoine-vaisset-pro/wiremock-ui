@@ -5,9 +5,11 @@
     <p class="header-subtitle">Generate WireMock stub mappings from an OpenAPI specification</p>
   </div>
   <div class="header-actions">
-    <button *ngIf="parsedSpec || rawSpec" class="btn btn-sm btn-outline-secondary" (click)="resetAll()" title="Start over">
-      <i class="fas fa-redo"></i> Reset
-    </button>
+    @if (parsedSpec || rawSpec) {
+      <button class="btn btn-sm btn-outline-secondary" (click)="resetAll()" title="Start over">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    }
   </div>
 </header>
 
@@ -21,49 +23,66 @@
     </div>
 
     <!-- Mode tabs -->
-    <div class="input-tabs">
-      <button class="tab-btn" [class.active]="inputMode === 'paste'" (click)="inputMode = 'paste'">
+    <div class="mode-toggle mb-4">
+      <button
+        class="btn btn-sm"
+        [class.btn-primary]="inputMode === 'paste'"
+        [class.btn-outline-secondary]="inputMode !== 'paste'"
+        (click)="setInputMode('paste')">
         <i class="fas fa-paste"></i> Paste content
       </button>
-      <button class="tab-btn" [class.active]="inputMode === 'upload'" (click)="inputMode = 'upload'">
+      <button
+        class="btn btn-sm"
+        [class.btn-primary]="inputMode === 'upload'"
+        [class.btn-outline-secondary]="inputMode !== 'upload'"
+        (click)="setInputMode('upload')">
         <i class="fas fa-upload"></i> Upload file
       </button>
     </div>
 
     <!-- Paste mode -->
-    <div *ngIf="inputMode === 'paste'" class="input-section">
-      <textarea
-        class="spec-textarea"
-        [(ngModel)]="rawSpec"
-        placeholder="Paste your OpenAPI/Swagger spec here (JSON or YAML)..."
-        rows="12"
-        spellcheck="false">
-      </textarea>
-    </div>
+    @if (inputMode === 'paste') {
+      <div class="input-section">
+        <textarea
+          class="spec-textarea"
+          [(ngModel)]="rawSpec"
+          placeholder="Paste your OpenAPI/Swagger spec here (JSON or YAML)..."
+          rows="12"
+          spellcheck="false">
+        </textarea>
+      </div>
+    }
 
     <!-- Upload mode -->
-    <div *ngIf="inputMode === 'upload'" class="input-section">
-      <div
-        class="drop-zone"
-        (dragover)="onDragOver($event)"
-        (drop)="onFileDrop($event)"
-        (click)="fileInput.click()">
-        <i class="fas fa-cloud-upload-alt drop-icon"></i>
-        <p *ngIf="!uploadedFileName">Drag &amp; drop your .json or .yaml file here, or click to browse</p>
-        <p *ngIf="uploadedFileName" class="file-name">
-          <i class="fas fa-file-code"></i> {{ uploadedFileName }}
-        </p>
-        <input #fileInput type="file" accept=".json,.yaml,.yml" style="display:none" (change)="onFileSelected($event)">
+    @if (inputMode === 'upload') {
+      <div class="input-section">
+        <div
+          class="drop-zone"
+          (dragover)="onDragOver($event)"
+          (drop)="onFileDrop($event)"
+          (click)="fileInput.click()">
+          <i class="fas fa-cloud-upload-alt drop-icon"></i>
+          @if (!uploadedFileName) {
+            <p>Drag &amp; drop your .json or .yaml file here, or click to browse</p>
+          }
+          @if (uploadedFileName) {
+            <p class="file-name">
+              <i class="fas fa-file-code"></i> {{ uploadedFileName }}
+            </p>
+          }
+          <input #fileInput type="file" accept=".json,.yaml,.yml" style="display:none" (change)="onFileSelected($event)">
+        </div>
+        <!-- Show pasted content when file loaded -->
+        @if (rawSpec) {
+          <textarea
+            class="spec-textarea spec-textarea--preview"
+            [value]="rawSpec"
+            readonly
+            rows="6">
+          </textarea>
+        }
       </div>
-      <!-- Show pasted content when file loaded -->
-      <textarea
-        *ngIf="rawSpec"
-        class="spec-textarea spec-textarea--preview"
-        [value]="rawSpec"
-        readonly
-        rows="6">
-      </textarea>
-    </div>
+    }
 
     <div class="step-actions">
       <button
@@ -77,27 +96,34 @@
   </section>
 
   <!-- Parse error -->
-  <div *ngIf="parseError" class="alert alert-danger d-flex align-items-start gap-2">
-    <i class="fas fa-exclamation-triangle flex-shrink-0 mt-1"></i>
-    <pre class="mb-0">{{ parseError }}</pre>
-  </div>
+  @if (parseError) {
+    <div class="alert alert-danger d-flex align-items-start gap-2">
+      <i class="fas fa-exclamation-triangle flex-shrink-0 mt-1"></i>
+      <pre class="mb-0">{{ parseError }}</pre>
+    </div>
+  }
 
   <!-- Spec summary + warnings -->
-  <div *ngIf="parsedSpec" class="spec-summary">
-    <div class="summary-info">
-      <span class="summary-badge" [class]="getSpecVersionBadgeClass(parsedSpec.specVersion)">{{ getSpecVersionLabel(parsedSpec.specVersion) }}</span>
-      <strong>{{ parsedSpec.title }}</strong>
-      <span class="summary-version">v{{ parsedSpec.version }}</span>
-      <span class="summary-ops">{{ parsedSpec.operations.length }} operations found</span>
+  @if (parsedSpec) {
+    <div class="spec-summary">
+      <div class="summary-info">
+        <span class="summary-badge" [class]="getSpecVersionBadgeClass(parsedSpec.specVersion)">{{ getSpecVersionLabel(parsedSpec.specVersion) }}</span>
+        <strong>{{ parsedSpec.title }}</strong>
+        <span class="summary-version">v{{ parsedSpec.version }}</span>
+        <span class="summary-ops">{{ parsedSpec.operations.length }} operations found</span>
+      </div>
+      @if (parsedSpec.errors.length > 0) {
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>{{ parsedSpec.errors.length }} warning(s) during parsing — some operations may be incomplete.</span>
+        </div>
+      }
     </div>
-    <div *ngIf="parsedSpec.errors.length > 0" class="alert alert-warning">
-      <i class="fas fa-exclamation-circle"></i>
-      <span>{{ parsedSpec.errors.length }} warning(s) during parsing — some operations may be incomplete.</span>
-    </div>
-  </div>
+  }
 
   <!-- Step 2: Configure -->
-  <section *ngIf="endpoints.length > 0" class="step-card">
+  @if (endpoints.length > 0) {
+    <section class="step-card">
     <div class="step-header">
       <span class="step-badge">2</span>
       <h2>Configure Endpoints</h2>
@@ -117,12 +143,6 @@
             (blur)="applyGlobalPrefix()">
           <button class="btn-secondary btn-sm" (click)="applyGlobalPrefix()">Apply</button>
         </div>
-      </div>
-      <div class="option-group option-group--checkbox">
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="generateErrorCases" (change)="applyGlobalErrorCases()">
-          Generate a WireMock fault variant for each endpoint
-        </label>
       </div>
     </div>
 
@@ -146,8 +166,9 @@
         <div class="col-example">Resp. Example</div>
         <div class="col-prefix">URL Prefix</div>
         <div class="col-errors">Fault</div>
+        <div class="col-actions"></div>
       </div>
-      @for (entry of endpoints; track entry.operation.path + entry.operation.method) {
+      @for (entry of endpoints; track entry.variantId; let i = $index) {
         <div
           class="endpoint-row"
           [class.disabled]="!entry.enabled"
@@ -220,6 +241,17 @@
               }
             </select>
           </div>
+          <!-- Row actions: add variant + remove -->
+          <div class="col-actions">
+            <button class="btn-icon btn-icon--sm" (click)="addEndpointVariant(entry, i)" title="Add a stub variant for this endpoint">
+              <i class="fas fa-plus"></i>
+            </button>
+            @if (endpoints.length > 1) {
+              <button class="btn-icon btn-icon--sm btn-icon--danger" (click)="removeEndpointEntry(i)" title="Remove this row">
+                <i class="fas fa-times"></i>
+              </button>
+            }
+          </div>
         </div>
       }
     </div>
@@ -234,6 +266,7 @@
       </button>
     </div>
   </section>
+  }
 
   <!-- Step 3: Preview & Export -->
   @if (generatedStubs.length > 0) {
@@ -285,30 +318,87 @@
       </code>
     </div>
 
-    <!-- Stubs list -->
-    <div class="stubs-list">
-      @for (stub of generatedStubs; track stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern) {
-        <div class="stub-item">
-          <div class="stub-info">
+    <!-- Stubs table -->
+    <div class="endpoints-table">
+      <div class="endpoint-row stubs-row--header">
+        <div class="col-select">
+          <input type="checkbox"
+            class="form-check-input"
+            [checked]="isAllStubsSelected()"
+            [indeterminate]="isSomeStubSelected() && !isAllStubsSelected()"
+            (change)="toggleSelectAllStubs()"
+            title="Select / deselect all">
+        </div>
+        <div class="col-stub-name">Name</div>
+        <div class="col-method">Method</div>
+        <div class="col-path">Path</div>
+        <div class="col-status">Status</div>
+        <div class="col-body-file">Body file</div>
+        <div class="col-actions"></div>
+      </div>
+      @for (stub of generatedStubs; track $index; let i = $index) {
+        <div class="endpoint-row stubs-row" [class.row-deselected]="!stubSelections[i]">
+          <div class="col-select">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="stubSelections[i]">
+          </div>
+            <div class="col-stub-name">
+                <input
+                        type="text"
+                        class="text-input text-input--sm"
+                        [(ngModel)]="stub.mapping.name"
+                        placeholder="stub name…">
+            </div>
+          <div class="col-method">
             <span class="method-badge" [class]="getMethodClass(stub.mapping.request.method)">
               {{ stub.mapping.request.method }}
             </span>
-            <span class="stub-path">{{ stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern }}</span>
+          </div>
+          <div class="col-path" [title]="stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern">
+            {{ stub.mapping.request.urlPath ?? stub.mapping.request.urlPattern }}
+          </div>
+          <div class="col-status">
             <span class="stub-status status-{{ stub.mapping.response.status }}">
-              {{ stub.mapping.response.status }}
+              @if (stub.mapping.response.fault) {
+                fault
+              } @else {
+                {{ stub.mapping.response.status }}
+              }
             </span>
+          </div>
+          <div class="col-body-file">
             @if (stub.bodyFileName) {
               <span class="stub-file-hint" title="Response body stored in __files/">
                 <i class="fas fa-file-alt"></i> {{ stub.bodyFileName }}
               </span>
+            } @else {
+              <span class="text-muted small">—</span>
             }
           </div>
-          <div class="stub-actions">
-            <button class="btn-icon" (click)="openPreview(stub)" title="Preview JSON">
+          <div class="col-actions">
+            <button class="btn-icon btn-icon--sm" (click)="openPreview(stub)" title="Preview JSON">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="btn-icon" (click)="exportSingle(stub)" title="Download this stub">
+            <button class="btn-icon btn-icon--sm" (click)="editGeneratedStub(stub, i)" title="Edit this stub">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-icon--sm" (click)="exportSingle(stub)" title="Download this stub">
               <i class="fas fa-download"></i>
+            </button>
+            <button
+              class="btn-icon btn-icon--sm"
+              [disabled]="stubImportingIndex === i"
+              (click)="importSingleStub(stub, i)"
+              [title]="stubImportSuccessIndex === i ? 'Imported!' : 'Import into WireMock'">
+              @if (stubImportingIndex === i) {
+                <i class="fas fa-spinner fa-spin"></i>
+              } @else if (stubImportSuccessIndex === i) {
+                <i class="fas fa-check text-success"></i>
+              } @else {
+                <i class="fas fa-cloud-upload-alt"></i>
+              }
+            </button>
+            <button class="btn-icon btn-icon--sm btn-icon--danger" (click)="deleteStub(i)" title="Delete this stub">
+              <i class="fas fa-trash"></i>
             </button>
           </div>
         </div>
@@ -345,5 +435,8 @@
     </div>
     <div class="modal-backdrop fade show"></div>
   }
+
+  <!-- Stub editor (local mode: edits generated stubs without saving to WireMock) -->
+  <app-stub-editor [localOnly]="true" (mappingReady)="onStubEdited($event)"></app-stub-editor>
 
 </div>

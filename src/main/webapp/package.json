@@ -9,7 +9,7 @@
     "prebuild": "node generate-config.js",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false"
   },
   "license": "AGPL-3.0-only",
   "private": true,
