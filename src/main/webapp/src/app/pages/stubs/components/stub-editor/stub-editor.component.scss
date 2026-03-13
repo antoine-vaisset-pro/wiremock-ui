@@ -4,7 +4,7 @@
 
 /* Form sections */
 .form-section {
-  border: 1px solid $color-gray-border-light;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-md;
 }
 
@@ -13,10 +13,10 @@
   justify-content: space-between;
   align-items: center;
   padding: $space-2 $space-3;
-  background-color: $color-bg-light;
+  background-color: var(--surface-bg-muted);
   cursor: pointer;
   user-select: none;
-  border-bottom: 1px solid $color-gray-border-light;
+  border-bottom: 1px solid var(--surface-border-md);
   border-radius: $radius-md;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .section-header:hover {
-  background-color: $color-gray-divider;
+  background-color: var(--surface-bg-alt);
 }
 
 .section-title {
@@ -33,7 +33,7 @@
   font-size: $font-size-rem-base;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: $color-text-muted-bs;
+  color: var(--text-secondary);
 }
 
 .section-body {
@@ -42,7 +42,7 @@
 
 /* Subsections */
 .subsection {
-  border: 1px solid $color-gray-divider;
+  border: 1px solid var(--surface-border);
   border-radius: $radius-sm;
 }
 
@@ -51,7 +51,7 @@
   justify-content: space-between;
   align-items: center;
   padding: $space-3 $space-6;
-  background-color: $color-bg-light;
+  background-color: var(--surface-bg-muted);
   cursor: pointer;
   user-select: none;
   font-size: $font-size-rem-base;
@@ -64,7 +64,7 @@
 }
 
 .subsection-header:hover {
-  background-color: $color-gray-divider;
+  background-color: var(--surface-bg-alt);
 }
 
 .subsection-body {
@@ -98,7 +98,7 @@
 .two-panel-layout {
   display: flex;
   gap: 0;
-  border: 1px solid $color-gray-border-light;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-md;
   overflow: hidden;
   flex: 1;
@@ -124,8 +124,8 @@
   align-items: center;
   gap: $space-2;
   padding: $space-2 $space-3;
-  background-color: $color-bg-light;
-  border-bottom: 1px solid $color-gray-border-light;
+  background-color: var(--surface-bg-muted);
+  border-bottom: 1px solid var(--surface-border-md);
   user-select: none;
   flex-shrink: 0;
   min-height: $size-h-panel-hdr;
@@ -137,7 +137,7 @@
   padding: $space-2 $space-6;
   gap: $space-3;
   border-bottom: none;
-  border-right: 1px solid $color-gray-border-light;
+  border-right: 1px solid var(--surface-border-md);
   height: 100%;
   cursor: pointer;
 }
@@ -147,7 +147,7 @@
   font-size: $font-size-rem-base;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: $color-text-muted-bs;
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -169,8 +169,8 @@
   width: $size-icon-xl;
   height: $size-icon-xl;
   padding: 0;
-  background: $color-gray-divider;
-  border: 1px solid $color-gray-border;
+  background: var(--surface-border);
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-sm;
   cursor: pointer;
   color: $color-gray-bs;
@@ -181,8 +181,8 @@
 }
 
 .panel-collapse-btn:hover {
-  background: $color-gray-border-light;
-  color: $color-bs-dark;
+  background: var(--surface-border-md);
+  color: var(--body-color);
 }
 
 .side-panel-body {
@@ -197,11 +197,11 @@
 }
 
 .side-panel-body::-webkit-scrollbar-track {
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
 }
 
 .side-panel-body::-webkit-scrollbar-thumb {
-  background: $color-gray-border;
+  background: var(--surface-border-md);
   border-radius: $space-1;
 }
 
@@ -211,14 +211,14 @@
 
 .panel-divider {
   width: $space-2;
-  background-color: $color-gray-border-light;
+  background-color: var(--surface-border-md);
   flex-shrink: 0;
 }
 
 .side-panel:first-child {
-  background: $color-bg-request;
+  background: var(--surface-bg);
 }
 
 .side-panel:last-child {
-  background: $color-bg-response;
+  background: var(--surface-bg);
 }

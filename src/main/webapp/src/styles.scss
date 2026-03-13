@@ -15,6 +15,100 @@
   --bg-primary: #{$color-white};
   --bg-secondary: #{$color-bg-light};
   --border-color: #{$color-gray-border-pale};
+
+  // Semantic tokens consumed by components
+  --surface-bg:          #{$color-white};
+  --surface-bg-alt:      #{$color-bg-light};
+  --surface-bg-muted:    #{$color-bg-near-white};
+  --surface-bg-softer:   #{$color-bg-softer};
+  --surface-border:      #{$color-gray-border-pale};
+  --surface-border-md:   #{$color-gray-border-light};
+  --surface-border-divider: #{$color-gray-divider};
+  --body-bg:             #{$color-bg-hover};
+  --body-color:          #{$color-text-darkest};
+  --body-color-muted:    #{$color-text-body};
+  --body-color-secondary:#{$color-text-dark};
+  --topbar-bg:           #{$color-white};
+  --pagination-bg:       #{$color-white};
+  --code-bg:             #{$color-slate-900};
+  --code-color:          #{$color-bg-card};
+  --code-inline-bg:      #{$color-bg-code};
+  --code-inline-color:   #{$color-danger-carmine};
+  --heading-color:       #{$color-slate-600};
+  --heading-color-dark:  #{$color-slate-navy};
+  --link-color:          #{$color-blue-legacy};
+  --input-bg:            #{$color-white};
+  --input-border:        #{$color-gray-border};
+  --hover-bg:            #{$color-gray-border-pale};
+  // Shadows
+  --shadow-sm:           #{$color-shadow-sm};
+  --shadow-md:           #{$color-shadow-md};
+  --shadow-lg:           #{$color-shadow-lg};
+  // Stat icon backgrounds (semantic tinted bg for icons)
+  --icon-bg-primary:     #{$color-primary-shadow};
+  --icon-bg-success:     #{$color-success-shadow};
+  --icon-bg-warning:     #{$color-warning-shadow};
+  --icon-bg-danger:      #{$color-danger-shadow};
+  --icon-bg-info:        #{$color-blue-shadow};
+  --icon-bg-neutral:     #{rgba(100, 116, 139, 0.12)};
+  // Colored hover backgrounds
+  --hover-bg-primary:    #{$color-primary-bg-light};
+  --hover-bg-blue:       #{$color-blue-bg};
+  --hover-bg-warning:    #{$color-warning-bg};
+}
+
+[data-bs-theme="dark"] {
+  --primary-color: #{$color-primary-light};
+  --primary-hover: #{$color-primary};
+  --success-color: #{$color-success};
+  --danger-color:  #{$color-danger};
+  --warning-color: #{$color-warning};
+  --info-color:    #{$color-blue};
+  --text-primary:  #e2e8f0;
+  --text-secondary:#94a3b8;
+  --bg-primary:    #1e293b;
+  --bg-secondary:  #0f172a;
+  --border-color:  #334155;
+
+  // Semantic tokens
+  --surface-bg:            #1e293b;
+  --surface-bg-alt:        #0f172a;
+  --surface-bg-muted:      #263043;
+  --surface-bg-softer:     #1a2535;
+  --surface-border:        #334155;
+  --surface-border-md:     #3e4f66;
+  --surface-border-divider:#2d3f55;
+  --body-bg:               #0f172a;
+  --body-color:            #e2e8f0;
+  --body-color-muted:      #94a3b8;
+  --body-color-secondary:  #cbd5e1;
+  --topbar-bg:             #1e293b;
+  --pagination-bg:         #1e293b;
+  --code-bg:               #020617;
+  --code-color:            #e2e8f0;
+  --code-inline-bg:        #1e3a5f;
+  --code-inline-color:     #f87171;
+  --heading-color:         #e2e8f0;
+  --heading-color-dark:    #e2e8f0;
+  --link-color:            #60a5fa;
+  --input-bg:              #263043;
+  --input-border:          #334155;
+  --hover-bg:              #2d3f55;
+  // Shadows (slightly stronger in dark to stay visible)
+  --shadow-sm:             rgba(0, 0, 0, 0.2);
+  --shadow-md:             rgba(0, 0, 0, 0.3);
+  --shadow-lg:             rgba(0, 0, 0, 0.5);
+  // Stat icon backgrounds
+  --icon-bg-primary:       rgba(129, 140, 248, 0.15);
+  --icon-bg-success:       rgba(34, 197, 94, 0.15);
+  --icon-bg-warning:       rgba(251, 146, 60, 0.15);
+  --icon-bg-danger:        rgba(239, 68, 68, 0.15);
+  --icon-bg-info:          rgba(59, 130, 246, 0.15);
+  --icon-bg-neutral:       rgba(100, 116, 139, 0.2);
+  // Colored hover backgrounds
+  --hover-bg-primary:      rgba(129, 140, 248, 0.12);
+  --hover-bg-blue:         rgba(59, 130, 246, 0.12);
+  --hover-bg-warning:      rgba(251, 146, 60, 0.12);
 }
 
 /* Hidden attribute support */
@@ -31,8 +125,8 @@
 
 body {
   font-family: $font-family-base;
-  background-color: $color-bg-hover;
-  color: $color-text-darkest;
+  background-color: var(--body-bg);
+  color: var(--body-color);
 }
 
 .container {
@@ -66,10 +160,12 @@ button:disabled {
 input[type="text"],
 input[type="search"] {
   padding: $space-2 $space-3;
-  border: 1px solid $color-gray-border;
+  border: 1px solid var(--input-border);
   border-radius: $radius-sm;
   font-size: $font-size-md;
   width: 100%;
+  background: var(--input-bg);
+  color: var(--body-color);
 }
 
 input[type="text"]:focus,
@@ -89,7 +185,7 @@ input[type="search"]:focus {
 }
 
 .card {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-lg;
   box-shadow: 0 2px 4px $color-shadow;
   padding: $space-5;
@@ -114,7 +210,7 @@ input[type="search"]:focus {
 }
 
 pre {
-  background: $color-bg-hover;
+  background: var(--surface-bg-muted);
   padding: $space-4;
   border-radius: $radius-sm;
   overflow-x: auto;
@@ -141,7 +237,7 @@ pre {
 .wiremock-ui {
   display: flex;
   height: 100vh;
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
   overflow: hidden;
 }
 
@@ -261,8 +357,8 @@ pre {
 
 /* App Top Bar */
 .app-top-bar {
-  background: white;
-  border-bottom: 1px solid $color-gray-border-pale;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--surface-border);
   padding: $space-2 $space-6;
   display: flex;
   justify-content: flex-end;
@@ -287,8 +383,8 @@ pre {
 
 /* Header */
 .wiremock-header {
-  background: white;
-  border-bottom: 1px solid $color-gray-border-light;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--surface-border-md);
   padding: $space-4 $space-6;
   display: flex;
   justify-content: space-between;
@@ -377,8 +473,8 @@ pre {
 /* Stubs Panel (Left) */
 .stubs-panel {
   width: $size-stubs-panel;
-  background: white;
-  border-right: 1px solid $color-gray-border-light;
+  background: var(--surface-bg);
+  border-right: 1px solid var(--surface-border-md);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -386,7 +482,7 @@ pre {
 
 .stubs-header {
   padding: $space-4 $space-5;
-  border-bottom: 1px solid $color-gray-border-light;
+  border-bottom: 1px solid var(--surface-border-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -424,13 +520,13 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
-  color: $color-slate-600;
+  color: var(--heading-color);
 }
 
 /* Search Bar */
 .search-bar {
   padding: $space-3 $space-5;
-  border-bottom: 1px solid $color-gray-border-light;
+  border-bottom: 1px solid var(--surface-border-md);
   position: relative;
 }
 
@@ -464,8 +560,10 @@ pre {
   padding-right: $space-8;
   font-size: $font-size-md;
   border-radius: $radius-md;
-  border: 1px solid $color-gray-border;
+  border: 1px solid var(--input-border);
   width: 100%;
+  background: var(--input-bg);
+  color: var(--body-color);
 }
 
 .search-bar input:focus {
@@ -483,14 +581,14 @@ pre {
   display: flex;
   align-items: center;
   padding: $space-3 $space-5;
-  border-bottom: 1px solid $color-bg-softer;
+  border-bottom: 1px solid var(--surface-bg-softer);
   cursor: pointer;
   transition: all 0.15s;
   gap: $space-3;
 }
 
 .stub-item:hover {
-  background: $color-bg-near-white;
+  background: var(--hover-bg);
 }
 
 .stub-item.selected {
@@ -552,8 +650,8 @@ pre {
 }
 
 .method-badge.method-ANY {
-  background: $color-gray-border-pale;
-  color: $color-slate-300;
+  background: var(--surface-border);
+  color: var(--text-secondary);
 }
 
 .stub-info {
@@ -564,7 +662,7 @@ pre {
 .stub-url {
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
-  color: $color-slate-600;
+  color: var(--heading-color);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -595,7 +693,7 @@ pre {
 /* Details Panel (Right) */
 .details-panel {
   flex: 1;
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
   overflow-y: auto;
   padding: $space-6;
 }
@@ -635,7 +733,7 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
-  color: $color-slate-600;
+  color: var(--heading-color);
 }
 
 .details-actions {
@@ -647,12 +745,12 @@ pre {
 .view-tabs {
   display: flex;
   gap: $space-1;
-  border-bottom: 2px solid $color-gray-border-pale;
+  border-bottom: 2px solid var(--surface-border);
   margin: $space-4 0;
 }
 
 .view-tab {
-  padding: $space-10 $space-5;
+  padding: $space-2;
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
   color: $color-gray-500;
@@ -674,21 +772,21 @@ pre {
 
 .view-tab:hover:not(.active) {
   color: $color-slate-500;
-  background: $color-bg-near-white;
+  background: var(--hover-bg);
 }
 
 .detail-section {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-lg;
   padding: $space-5;
   margin-bottom: $space-4;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
 }
 
 .detail-section h4 {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   margin: 0 0 $space-4 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -707,22 +805,22 @@ pre {
   align-items: center;
   gap: $space-3;
   padding: $space-3;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   border-radius: $radius-md;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
 }
 
 .request-url {
   font-family: $font-family-mono;
   font-size: $font-size-md;
-  color: $color-slate-600;
+  color: var(--heading-color);
   font-weight: $font-weight-medium;
 }
 
 .response-tabs {
   display: flex;
   gap: $space-1;
-  border-bottom: 1px solid $color-gray-border-pale;
+  border-bottom: 1px solid var(--surface-border);
   margin-bottom: $space-4;
 }
 
@@ -746,16 +844,16 @@ pre {
 }
 
 .headers-list {
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   border-radius: $radius-md;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
   overflow: hidden;
 }
 
 .header-item {
   display: flex;
-  padding: $space-10 $space-3-5;
-  border-bottom: 1px solid $color-gray-border-pale;
+  padding: $space-2 $space-3-5;
+  border-bottom: 1px solid var(--surface-border);
 }
 
 .header-item:last-child {
@@ -766,20 +864,20 @@ pre {
   flex: 0 0 200px;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   font-family: $font-family-mono;
 }
 
 .header-value {
   flex: 1;
   font-size: $font-size-base;
-  color: $color-gray-500;
+  color: var(--body-color);
   font-family: $font-family-mono;
   word-break: break-all;
 }
 
 .body-editor {
-  background: $color-slate-900;
+  background: var(--code-bg);
   border-radius: $radius-md;
   overflow: hidden;
   border: 1px solid $color-slate-800;
@@ -797,13 +895,13 @@ pre {
 .json-body {
   font-family: $font-family-mono;
   font-size: $font-size-base;
-  color: $color-bg-card;
+  color: var(--code-color);
   padding: $space-4;
   margin: 0;
   max-height: $size-min-range;
   overflow: auto;
   line-height: $line-height-normal;
-  background: $color-slate-900;
+  background: var(--code-bg);
 }
 
 .json-viewer {
@@ -820,8 +918,8 @@ pre {
 .json-content {
   font-family: $font-family-mono;
   font-size: $font-size-sm;
-  background: $color-slate-900;
-  color: $color-bg-card;
+  background: var(--code-bg);
+  color: var(--code-color);
   padding: $space-4;
   border-radius: $radius-md;
   border: 1px solid $color-slate-800;
@@ -897,8 +995,8 @@ pre {
 /* Pagination */
 .pagination-container {
   padding: $space-4 $space-5;
-  border-top: 1px solid $color-gray-border-light;
-  background: white;
+  border-top: 1px solid var(--surface-border-md);
+  background: var(--pagination-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -916,16 +1014,17 @@ pre {
 }
 
 ::ng-deep .page-link {
-  color: $color-slate-500;
-  border-color: $color-gray-border-pale;
+  color: var(--text-secondary);
+  border-color: var(--surface-border);
   font-size: $font-size-base;
   padding: $space-6 $space-3;
+  background-color: var(--pagination-bg);
 }
 
 ::ng-deep .page-link:hover {
-  background-color: $color-bg-near-white;
-  border-color: $color-gray-border;
-  color: $color-slate-600;
+  background-color: var(--hover-bg);
+  border-color: var(--surface-border-md);
+  color: var(--heading-color);
 }
 
 ::ng-deep .page-item.active .page-link {
@@ -962,7 +1061,7 @@ pre {
 .details-panel::-webkit-scrollbar-track,
 .json-body::-webkit-scrollbar-track,
 .json-content::-webkit-scrollbar-track {
-  background: $color-bg-code;
+  background: var(--surface-bg-alt);
 }
 
 .stubs-list::-webkit-scrollbar-thumb,
@@ -1021,7 +1120,7 @@ pre {
 }
 
 .modal-content {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-lg;
   box-shadow: 0 20px 60px $color-overlay-medium;
   display: flex;
@@ -1032,7 +1131,7 @@ pre {
 
 .modal-header {
   padding: $space-3 $space-6;
-  border-bottom: 1px solid $color-gray-border-pale;
+  border-bottom: 1px solid var(--surface-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1044,7 +1143,7 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
-  color: $color-slate-600;
+  color: var(--heading-color);
   flex: 1;
 }
 
@@ -1072,7 +1171,7 @@ pre {
 
 .modal-footer {
   padding: $space-3 $space-6;
-  border-top: 1px solid $color-gray-border-pale;
+  border-top: 1px solid var(--surface-border);
   display: flex;
   justify-content: flex-end;
   gap: $space-3;
@@ -1110,8 +1209,8 @@ pre {
 }
 
 .editor-section {
-  background: $color-bg-near-white;
-  border: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg-muted);
+  border: 1px solid var(--surface-border);
   border-radius: $radius-lg;
   padding: $space-5;
   flex: 1;
@@ -1121,7 +1220,7 @@ pre {
 .editor-section h4 {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
-  color: $color-slate-600;
+  color: var(--heading-color);
   margin: 0 0 $space-4 0;
   padding-bottom: $space-3;
   border-bottom: 2px solid $color-blue;
@@ -1130,7 +1229,7 @@ pre {
 .simple-editor .form-label {
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   margin-bottom: $space-6;
   display: block;
 }
@@ -1138,7 +1237,7 @@ pre {
 .simple-editor .form-control,
 .simple-editor .form-select {
   font-size: $font-size-md;
-  border-color: $color-gray-border;
+  border-color: var(--input-border);
 }
 
 .simple-editor .form-control:focus,
@@ -1170,20 +1269,21 @@ input[type="number"] {
 .json-editor-simple {
   font-family: $font-family-mono;
   font-size: $font-size-base;
-  background: $color-bg-near-white;
-  border: 1px solid $color-gray-border;
+  background: var(--surface-bg-muted);
+  border: 1px solid var(--input-border);
   border-radius: $radius-md;
   padding: $space-3;
   line-height: $line-height-normal;
   resize: vertical;
   min-height: $size-stubs-panel;
+  color: var(--body-color);
 }
 
 .json-editor-simple:focus {
   outline: none;
   border-color: $color-blue;
   box-shadow: 0 0 0 3px $color-blue-shadow;
-  background: white;
+  background: var(--surface-bg);
 }
 
 .advanced-editor {
@@ -1204,17 +1304,17 @@ input[type="number"] {
   grid-template-columns: 180px 1fr;
   gap: $space-4;
   padding: $space-2 0;
-  border-bottom: 1px solid $color-bg-card;
+  border-bottom: 1px solid var(--surface-border);
 }
 
 .info-label {
   font-weight: $font-weight-semibold;
-  color: $color-gray-text;
+  color: var(--text-secondary);
   font-size: $font-size-base;
 }
 
 .info-value {
-  color: $color-slate-800;
+  color: var(--body-color);
   font-size: $font-size-base;
   word-break: break-all;
 }
@@ -1247,8 +1347,8 @@ input[type="number"] {
   padding: $space-3 $space-5;
   font-size: $font-size-sm;
   color: $color-gray-500;
-  background: $color-bg-near-white;
-  border-bottom: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg-muted);
+  border-bottom: 1px solid var(--surface-border);
 }
 
 .stub-item.active {
@@ -1285,7 +1385,7 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
 }
 
 .requester-content {
@@ -1299,9 +1399,9 @@ input[type="number"] {
 
 .requester-panel,
 .response-panel {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-lg;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
   overflow-y: auto;
   padding: $space-5;
 }
@@ -1310,7 +1410,7 @@ input[type="number"] {
 .response-panel h4 {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
-  color: $color-slate-600;
+  color: var(--heading-color);
   margin-bottom: $space-5;
   padding-bottom: $space-3;
   border-bottom: 2px solid $color-blue;
@@ -1326,7 +1426,7 @@ input[type="number"] {
 .response-panel .form-label {
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   margin-bottom: $space-6;
   display: block;
 }
@@ -1339,7 +1439,7 @@ input[type="number"] {
 .requester-panel .form-control,
 .requester-panel .form-select {
   font-size: $font-size-md;
-  border-color: $color-gray-border;
+  border-color: var(--input-border);
 }
 
 .requester-panel .form-control:focus,
@@ -1351,7 +1451,6 @@ input[type="number"] {
 .requester-panel .btn-primary {
   background-color: $color-blue;
   border-color: $color-blue;
-  padding: $space-10 $space-6;
 }
 
 .requester-panel .btn-primary:hover {
@@ -1368,7 +1467,7 @@ input[type="number"] {
 .response-panel h5 {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   margin-bottom: $space-3;
 }
 
@@ -1423,7 +1522,7 @@ input[type="number"] {
 
 .expandable-section {
   margin-top: $space-4;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
   border-radius: $radius-md;
   overflow: hidden;
 }
@@ -1433,20 +1532,20 @@ input[type="number"] {
   align-items: center;
   justify-content: space-between;
   padding: $space-3 $space-4;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   cursor: pointer;
   user-select: none;
   transition: background 0.2s;
 }
 
 .expandable-header:hover {
-  background: $color-bg-softer;
+  background: var(--hover-bg);
 }
 
 .expandable-title {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   gap: $space-2;
@@ -1464,8 +1563,8 @@ input[type="number"] {
 
 .expandable-content {
   padding: $space-4;
-  background: white;
-  border-top: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg);
+  border-top: 1px solid var(--surface-border);
 }
 
 .expandable-content.collapsed {
@@ -1564,7 +1663,7 @@ input[type="number"] {
   cursor: pointer;
   font-weight: $font-weight-semibold;
   font-size: $font-size-sm;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   user-select: none;
 }
 
@@ -1575,8 +1674,8 @@ input[type="number"] {
   padding: $space-10 $space-5;
   font-size: $font-size-sm;
   color: $color-gray-500;
-  background: $color-bg-near-white;
-  border-bottom: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg-muted);
+  border-bottom: 1px solid var(--surface-border);
 }
 
 
@@ -1608,8 +1707,8 @@ input[type="number"] {
 }
 
 .near-miss-inline-item {
-  background: $color-bg-near-white;
-  border: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg-muted);
+  border: 1px solid var(--surface-border);
   border-radius: $radius-lg;
   padding: $space-3-5;
   transition: all 0.2s ease;
@@ -1653,7 +1752,7 @@ input[type="number"] {
 .near-miss-stub-info .stub-name,
 .near-miss-stub-info .stub-id {
   font-size: $font-size-base;
-  color: $color-slate-500;
+  color: var(--text-secondary);
   font-weight: $font-weight-medium;
   margin-bottom: $space-1;
 }
@@ -1665,10 +1764,10 @@ input[type="number"] {
 }
 
 .near-miss-pattern {
-  background: white;
+  background: var(--surface-bg);
   padding: $space-2;
   border-radius: $radius-md;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
   margin-bottom: $space-5;
 }
 
@@ -1681,7 +1780,7 @@ input[type="number"] {
 .pattern-url {
   font-family: $font-family-mono;
   font-size: $font-size-sm;
-  color: $color-slate-600;
+  color: var(--heading-color);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;

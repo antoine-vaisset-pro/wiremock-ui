@@ -12,9 +12,9 @@
   flex-direction: column;
   gap: $space-3;
   padding: $space-3-5;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   border-radius: $radius-lg;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
 }
 
 .scenario-field {

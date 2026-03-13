@@ -8,7 +8,7 @@
   border-radius: $radius-lg;
   padding: $space-8 $space-5;
   text-align: center;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   transition: border-color 0.2s, background 0.2s;
   cursor: default;
 }
@@ -41,10 +41,10 @@
 .file-selection-list {
   max-height: $size-scenarios-panel;
   overflow-y: auto;
-  border: 1px solid $color-gray-border-light;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-sm;
   padding: $space-10;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
 }
 
 .file-selection-list::-webkit-scrollbar {
@@ -52,7 +52,7 @@
 }
 
 .file-selection-list::-webkit-scrollbar-track {
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
   border-radius: $radius-sm;
 }
 
@@ -67,15 +67,15 @@
 
 .file-selection-item {
   padding: $space-2;
-  border-bottom: 1px solid $color-gray-border-pale;
-  background: $color-white;
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-bg);
   margin-bottom: $space-1;
   border-radius: $radius-sm;
   transition: background-color 0.2s;
 }
 
 .file-selection-item:hover {
-  background: $color-bg-softer;
+  background: var(--surface-bg-muted);
 }
 
 .file-selection-item:last-child {
@@ -100,10 +100,10 @@
 .preview-list-scrollable {
   max-height: $size-min-range;
   overflow-y: auto;
-  border: 1px solid $color-gray-border-light;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-sm;
   padding: $space-10;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
 }
 
 .preview-list-scrollable::-webkit-scrollbar {
@@ -111,7 +111,7 @@
 }
 
 .preview-list-scrollable::-webkit-scrollbar-track {
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
   border-radius: $radius-sm;
 }
 
@@ -129,8 +129,8 @@
   align-items: center;
   gap: $space-10;
   padding: $space-2 $space-10;
-  border-bottom: 1px solid $color-gray-border-pale;
-  background: $color-white;
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-bg);
   margin-bottom: $space-1;
   border-radius: $radius-sm;
 }

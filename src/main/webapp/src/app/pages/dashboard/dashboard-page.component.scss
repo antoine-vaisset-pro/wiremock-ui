@@ -5,7 +5,7 @@
 $gap: $space-5;
 
 .dashboard-container {
-  padding: $space-10;
+  padding: $space-5;
   background-color: var(--bg-secondary);
   min-height: 100vh;
 }
@@ -42,12 +42,12 @@ $gap: $space-5;
   align-items: center;
   gap: $space-1;
   padding: $space-2 $space-6;
-  background: white;
-  border: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
-  color: $color-slate-800;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: $size-icon-3xl;
@@ -55,7 +55,7 @@ $gap: $space-5;
 
 .time-range-display:hover {
   border-color: var(--primary-color);
-  background: $color-bg-light;
+  background: var(--surface-bg-muted);
 }
 
 .time-range-display .fa-clock {
@@ -66,7 +66,7 @@ $gap: $space-5;
 .time-range-display .fa-chevron-down {
   margin-left: auto;
   font-size: $font-size-rem-sm;
-  color: $color-gray-text;
+  color: var(--text-secondary);
   transition: transform 0.2s ease;
 }
 
@@ -78,10 +78,10 @@ $gap: $space-5;
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  background: white;
-  border: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
   border-radius: $radius-lg;
-  box-shadow: 0 10px 40px $color-shadow-lg;
+  box-shadow: 0 10px 40px var(--shadow-lg);
   min-width: $size-min-range;
   max-height: $size-vh-60;
   overflow-y: auto;
@@ -104,7 +104,7 @@ $gap: $space-5;
 /* Quick Ranges */
 .quick-ranges {
   flex: 1;
-  border-right: 1px solid $color-gray-border-pale;
+  border-right: 1px solid var(--surface-border);
   padding: $space-3 0;
 }
 
@@ -112,7 +112,7 @@ $gap: $space-5;
   padding: $space-2 $space-6;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  color: $color-gray-text;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -124,19 +124,19 @@ $gap: $space-5;
   border: none;
   text-align: left;
   font-size: $font-size-rem-base;
-  color: $color-slate-800;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
   position: relative;
 }
 
 .quick-range-item:hover {
-  background: $color-bg-card;
+  background: var(--surface-bg-muted);
   color: var(--primary-color);
 }
 
 .quick-range-item.active {
-  background: $color-primary-bg;
+  background: var(--hover-bg-primary);
   color: var(--primary-color);
   font-weight: $font-weight-medium;
 }
@@ -161,7 +161,7 @@ $gap: $space-5;
 .absolute-time-header {
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-semibold;
-  color: $color-gray-text;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: $space-6;
@@ -177,27 +177,27 @@ $gap: $space-5;
 .date-input-group label {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-medium;
-  color: $color-slate-400;
+  color: var(--text-secondary);
 }
 
 .date-input {
   padding: $space-2 $space-3;
-  border: 1px solid $color-gray-mid;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-sm;
   font-size: $font-size-rem-base;
-  color: $color-slate-800;
-  background: white;
+  color: var(--text-primary);
+  background: var(--surface-bg);
   transition: all 0.2s ease;
 }
 
 .date-input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px $color-primary-shadow;
+  box-shadow: 0 0 0 3px var(--icon-bg-primary);
 }
 
 .date-input::placeholder {
-  color: $color-gray-muted;
+  color: var(--text-secondary);
   font-size: $font-size-rem-base;
 }
 
@@ -207,67 +207,7 @@ $gap: $space-5;
   justify-content: flex-end;
   margin-top: $space-6;
   padding-top: $space-6;
-  border-top: 1px solid $color-gray-border-pale;
-}
-
-.action-btn {
-  padding: $space-2 $space-6;
-  border-radius: $radius-sm;
-  font-size: $font-size-rem-base;
-  font-weight: $font-weight-medium;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.action-btn.secondary {
-  background: transparent;
-  border-color: $color-gray-mid;
-  color: $color-slate-400;
-}
-
-.action-btn.secondary:hover {
-  background: $color-bg-card;
-  border-color: $color-gray-muted;
-}
-
-.action-btn.primary {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-.action-btn.primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-}
-
-.refresh-button {
-  padding: $space-3 $space-6;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: $radius-md;
-  font-size: $font-size-rem-base;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: $space-1;
-  transition: all 0.2s ease;
-}
-
-.refresh-button:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.refresh-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.refresh-button i.spinning {
-  animation: spin 1s linear infinite;
+  border-top: 1px solid var(--surface-border);
 }
 
 @keyframes spin {
@@ -322,13 +262,13 @@ $gap: $space-5;
 }
 
 .stat-card {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-2xl;
   padding: $space-1;
   display: flex;
   align-items: center;
   gap: $space-2;
-  box-shadow: 0 2px 8px $color-shadow-md;
+  box-shadow: 0 2px 8px var(--shadow-md);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
@@ -339,7 +279,7 @@ $gap: $space-5;
 
 .stat-card.clickable:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px $color-shadow-lg;
+  box-shadow: 0 6px 16px var(--shadow-lg);
 }
 
 .stat-card.clickable .card-arrow {
@@ -368,28 +308,28 @@ $gap: $space-5;
 }
 
 .stat-card-primary .stat-icon {
-  background-color: $color-primary-shadow;
-  color: $color-primary;
+  background-color: var(--icon-bg-primary);
+  color: var(--primary-color);
 }
 
 .stat-card-success .stat-icon {
-  background-color: $color-success-shadow;
-  color: $color-success;
+  background-color: var(--icon-bg-success);
+  color: var(--success-color);
 }
 
 .stat-card-warning .stat-icon {
-  background-color: $color-warning-shadow;
-  color: $color-warning;
+  background-color: var(--icon-bg-warning);
+  color: var(--warning-color);
 }
 
 .stat-card-danger .stat-icon {
-  background-color: $color-danger-shadow;
-  color: $color-danger;
+  background-color: var(--icon-bg-danger);
+  color: var(--danger-color);
 }
 
 .stat-card-info .stat-icon {
-  background-color: $color-blue-shadow;
-  color: $color-blue;
+  background-color: var(--icon-bg-info);
+  color: var(--info-color);
 }
 
 .stat-info {
@@ -417,16 +357,17 @@ $gap: $space-5;
 
 /* Recording Status Icons */
 .status-recording {
-  color: $color-danger !important;
+  color: var(--danger-color) !important;
   animation: pulse 2s ease-in-out infinite;
 }
 
 .status-stopped {
-  color: $color-gray-muted !important;
+  color: var(--text-secondary) !important;
 }
 
 .status-never-started {
-  color: $color-gray-mid !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.6;
 }
 
 @keyframes pulse {
@@ -442,10 +383,10 @@ $gap: $space-5;
 }
 
 .dashboard-panel {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-2xl;
   padding: $space-1;
-  box-shadow: 0 2px 8px $color-shadow-md;
+  box-shadow: 0 2px 8px var(--shadow-md);
 
   &.chart-panel {
     margin-bottom: $space-5;
@@ -475,7 +416,7 @@ $gap: $space-5;
   margin-left: auto;
   font-size: $font-size-rem-sm;
   font-weight: $font-weight-normal;
-  color: $color-gray-muted;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   gap: $space-1;
@@ -484,7 +425,7 @@ $gap: $space-5;
 
 .chart-hint i {
   font-size: $font-size-rem-xs;
-  color: $color-gray-muted;
+  color: var(--text-secondary);
 }
 
 /* Chart Panel */
@@ -507,7 +448,8 @@ $gap: $space-5;
 .stub-list {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
+  gap: $space-2;
+  padding: $space-1;
 }
 
 /* Clickable items */
@@ -527,14 +469,14 @@ $gap: $space-5;
 }
 
 .endpoint-item:hover {
-  background-color: $color-gray-border-pale;
+  background-color: var(--hover-bg);
   transform: translateX(4px);
 }
 
 .endpoint-item.clickable:hover {
-  background-color: $color-blue-bg;
+  background-color: var(--hover-bg-blue);
   transform: translateX(6px);
-  box-shadow: 0 2px 8px $color-primary-shadow-md;
+  box-shadow: 0 2px 8px var(--icon-bg-primary);
 }
 
 .endpoint-rank {
@@ -573,23 +515,23 @@ $gap: $space-5;
 }
 
 .method-get {
-  background-color: $color-success-shadow;
-  color: $color-success;
+  background-color: var(--icon-bg-success);
+  color: var(--success-color);
 }
 
 .method-post {
-  background-color: $color-blue-shadow;
-  color: $color-blue;
+  background-color: var(--icon-bg-info);
+  color: var(--info-color);
 }
 
 .method-put {
-  background-color: $color-warning-shadow;
-  color: $color-warning;
+  background-color: var(--icon-bg-warning);
+  color: var(--warning-color);
 }
 
 .method-delete {
-  background-color: $color-danger-shadow;
-  color: $color-danger;
+  background-color: var(--icon-bg-danger);
+  color: var(--danger-color);
 }
 
 .method-patch {
@@ -598,8 +540,8 @@ $gap: $space-5;
 }
 
 .method-any {
-  background-color: $color-slate-shadow;
-  color: $color-gray-text;
+  background-color: var(--icon-bg-neutral);
+  color: var(--text-secondary);
 }
 
 .url-text {
@@ -629,28 +571,28 @@ $gap: $space-5;
   display: flex;
   align-items: center;
   gap: $space-6;
-  padding: $space-6;
+  padding: $space-2;
   background-color: var(--bg-secondary);
   border-radius: $radius-lg;
   transition: all 0.2s ease;
 }
 
 .stub-item:hover {
-  background-color: $color-gray-border-pale;
-  transform: translateX(4px);
+  background-color: var(--hover-bg);
+  transform: translateX(2px);
 }
 
 .stub-item.clickable:hover {
-  background-color: $color-warning-bg;
+  background-color: var(--hover-bg-warning);
   transform: translateX(6px);
-  box-shadow: 0 2px 8px $color-warning-shadow-md;
+  box-shadow: 0 2px 8px var(--icon-bg-warning);
 }
 
 .stub-icon {
   width: $size-icon-4xl;
   height: $size-icon-4xl;
-  background-color: $color-slate-shadow;
-  color: $color-gray-text;
+  background-color: var(--icon-bg-neutral);
+  color: var(--text-secondary);
   border-radius: $radius-lg;
   display: flex;
   align-items: center;
@@ -682,7 +624,7 @@ $gap: $space-5;
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: $space-6;
+  gap: $space-2;
 }
 
 .info-item {
@@ -738,10 +680,10 @@ $gap: $space-5;
 /* Active Scenarios Section */
 .scenarios-section {
   margin-bottom: $space-5;
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-2xl;
   padding: $space-1;
-  box-shadow: 0 1px 3px $color-shadow;
+  box-shadow: 0 1px 3px var(--shadow-sm);
 }
 
 .scenarios-header {
@@ -762,7 +704,7 @@ $gap: $space-5;
 }
 
 .scenarios-header h2 i {
-  color: $color-primary;
+  color: var(--primary-color);
 }
 
 .scenarios-cards {
@@ -772,8 +714,8 @@ $gap: $space-5;
 }
 
 .scenario-card {
-  background: $color-bg-near-white;
-  border: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg-muted);
+  border: 1px solid var(--surface-border);
   border-radius: $radius-lg;
   padding: $space-6;
   cursor: pointer;
@@ -781,9 +723,9 @@ $gap: $space-5;
 }
 
 .scenario-card:hover {
-  border-color: $color-primary;
-  background: $color-primary-bg-light;
-  box-shadow: 0 2px 8px $color-primary-shadow-md;
+  border-color: var(--primary-color);
+  background: var(--hover-bg-primary);
+  box-shadow: 0 2px 8px var(--icon-bg-primary);
 }
 
 .scenario-card-header {
@@ -794,13 +736,13 @@ $gap: $space-5;
 }
 
 .scenario-card-header i {
-  color: $color-primary;
+  color: var(--primary-color);
   font-size: $font-size-rem-base;
 }
 
 .scenario-card-name {
   font-weight: $font-weight-semibold;
-  color: $color-slate-600;
+  color: var(--heading-color);
   font-size: $font-size-rem-base;
 }
 
@@ -822,13 +764,13 @@ $gap: $space-5;
 
 .scenario-states-count {
   font-size: $font-size-rem-sm;
-  color: $color-gray-500;
+  color: var(--text-secondary);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: $space-6;
+    padding: $space-3;
   }
 
   .dashboard-header h1 {

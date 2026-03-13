@@ -4,6 +4,7 @@ import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SidebarMenuComponent, ViewType } from './components/sidebar-menu/sidebar-menu.component';
 import { BackendSelectorComponent } from './components/backend-selector/backend-selector.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { BackendSelectorComponent } from './components/backend-selector/backend-
   imports: [
     RouterOutlet,
     SidebarMenuComponent,
-    BackendSelectorComponent
+    BackendSelectorComponent,
+    ThemeToggleComponent
   ],
   template: `
     <div class="wiremock-ui">
@@ -27,6 +29,7 @@ import { BackendSelectorComponent } from './components/backend-selector/backend-
         <header class="app-top-bar">
           <div class="app-top-bar-right">
             <app-backend-selector></app-backend-selector>
+            <app-theme-toggle></app-theme-toggle>
           </div>
         </header>
 
