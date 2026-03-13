@@ -26,12 +26,12 @@
 
 /* Mapping card */
 .mapping-card {
-  border: 1px solid $color-gray-border-light;
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-lg;
   padding: $space-3-5;
   cursor: pointer;
   transition: all 0.2s;
-  background: $color-white;
+  background: var(--surface-bg);
 }
 
 .mapping-card:hover {
@@ -42,8 +42,8 @@
 
 /* JSON preview in modals */
 .json-preview {
-  background: $color-bg-light;
-  border: 1px solid $color-gray-border-light;
+  background: var(--surface-bg-alt);
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-sm;
   padding: $space-3-5;
   font-family: $font-family-mono-alt;

@@ -10,7 +10,7 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: $color-bg-light;
+  background: var(--surface-bg-alt);
 }
 
 .help-layout {
@@ -27,8 +27,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: $color-white;
-  border-bottom: 1px solid $color-gray-border-pale;
+  background: var(--surface-bg);
+  border-bottom: 1px solid var(--surface-border);
   padding: $space-3 $space-6;
   box-shadow: 0 2px 6px $color-shadow-md;
 }
@@ -52,18 +52,18 @@
 .search-input {
   width: 100%;
   padding: $space-2 $space-10 $space-2 $space-8;
-  border: 2px solid $color-gray-border-pale;
+  border: 2px solid var(--surface-border);
   border-radius: $radius-3xl;
   font-size: $font-size-rem-base;
   transition: border-color 0.2s, box-shadow 0.2s;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   outline: none;
 }
 
 .search-input:focus {
   border-color: $color-blue-legacy;
   box-shadow: 0 0 0 3px $color-blue-legacy-shadow-md;
-  background: $color-white;
+  background: var(--surface-bg);
 }
 
 .search-clear {
@@ -90,12 +90,12 @@
   width: $size-toc-width;
   flex-shrink: 0;
   position: sticky;
-  top: $size-toc-top; /* height of search bar */
+  top: $size-toc-top;
   height: calc(100vh - #{$size-toc-top});
   overflow-y: auto;
   padding: $space-6 $space-3-5 $space-10;
-  border-right: 1px solid $color-gray-border-pale;
-  background: $color-white;
+  border-right: 1px solid var(--surface-border);
+  background: var(--surface-bg);
 }
 
 .toc-title {
@@ -123,7 +123,7 @@
   padding: $space-2 $space-2-5;
   border-radius: $radius-md;
   font-size: $font-size-rem-base;
-  color: $color-text-nav;
+  color: var(--body-color-muted);
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
   cursor: pointer;
@@ -131,13 +131,13 @@
 
 .help-toc nav ul li a:hover,
 .toc-external ul li a:hover {
-  background: $color-bg-blue-tint;
-  color: $color-blue-legacy;
+  background: var(--hover-bg);
+  color: var(--link-color);
 }
 
 .help-toc nav ul li a.active {
-  background: $color-blue-google-bg;
-  color: $color-blue-darker;
+  background: var(--surface-bg-muted);
+  color: var(--link-color);
   font-weight: $font-weight-semibold;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .toc-external {
-  border-top: 1px solid $color-gray-border-subtle;
+  border-top: 1px solid var(--surface-border);
   padding-top: $space-6;
 }
 
@@ -165,7 +165,7 @@
   flex: 1;
   padding: $space-10 $space-10;
   overflow-y: auto;
-  max-width: $size-max-content;
+  max-width: $size-max-container;
 }
 
 .help-intro {
@@ -175,17 +175,17 @@
 .help-intro h1 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-bold;
-  color: $color-slate-navy;
+  color: var(--heading-color-dark);
   margin-bottom: $space-2;
 }
 
 .help-intro h1 i {
-  color: $color-blue-legacy;
+  color: var(--link-color);
   margin-right: $space-2;
 }
 
 .help-intro p {
-  color: $color-text-dark;
+  color: var(--body-color-secondary);
   font-size: $font-size-rem-base;
   line-height: $line-height-normal;
 }
@@ -194,12 +194,12 @@
    Sections
 ───────────────────────────────────────── */
 .help-section {
-  background: $color-white;
+  background: var(--surface-bg);
   border-radius: $radius-xl;
-  border: 1px solid $color-gray-divider;
+  border: 1px solid var(--surface-border);
   padding: $space-7 $space-10;
   margin-bottom: $space-5;
-  scroll-margin-top: $size-scroll-offset; /* offset for sticky search bar */
+  scroll-margin-top: $size-scroll-offset;
   transition: box-shadow 0.2s;
 }
 
@@ -220,52 +220,52 @@
   border-bottom: 2px solid $color-bg-blue-tint;
 }
 
-.section-heading i {
-  color: $color-blue-legacy;
-  font-size: 1.2rem;
-}
-
 .section-heading h2 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-bold;
-  color: $color-slate-navy;
+  color: var(--heading-color-dark);
   margin: 0;
+}
+
+.section-heading i {
+  color: var(--link-color);
+  font-size: 1.2rem;
 }
 
 .help-section h3 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
-  color: $color-text-section;
+  color: var(--heading-color);
   margin: $space-6 0 $space-2-5;
 }
 
 .help-section h4 {
   font-size: $font-size-rem-base;
   font-weight: $font-weight-semibold;
-  color: $color-text-subsection;
+  color: var(--heading-color);
   margin: $space-6 0 $space-2;
   padding-left: $space-3;
-  border-left: 3px solid $color-blue-legacy;
+  border-left: 3px solid var(--link-color);
 }
 
 .help-section h5 {
   font-size: 0.88rem;
   font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  color: var(--body-color-secondary);
   margin: $space-6 0 $space-1-5;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .help-section p {
-  color: $color-text-body;
+  color: var(--body-color-muted);
   font-size: $font-size-rem-base;
   line-height: $line-height-relaxed;
   margin-bottom: $space-3;
 }
 
 .help-section a {
-  color: $color-blue-legacy;
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -275,8 +275,8 @@
 
 .help-section code {
   font-size: $font-size-rem-base;
-  background: $color-bg-code;
-  color: $color-danger-carmine;
+  background: var(--code-inline-bg);
+  color: var(--code-inline-color);
   padding: $space-0-5 $space-1-5;
   border-radius: $radius-sm;
   font-family: $font-family-code;
@@ -286,7 +286,7 @@
    Option table
 ───────────────────────────────────────── */
 .option-table {
-  border: 1px solid $color-gray-divider;
+  border: 1px solid var(--surface-border-divider);
   border-radius: $radius-lg;
   overflow: hidden;
   margin: $space-2 0 $space-6;
@@ -297,7 +297,7 @@
   grid-template-columns: 200px 1fr;
   gap: $space-6;
   padding: $space-3 $space-6;
-  border-bottom: 1px solid $color-bg-muted;
+  border-bottom: 1px solid var(--surface-border);
   align-items: start;
 }
 
@@ -306,13 +306,13 @@
 }
 
 .option-row:nth-child(even) {
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
 }
 
 .option-label {
   font-weight: $font-weight-semibold;
   font-size: $font-size-rem-base;
-  color: $color-text-section;
+  color: var(--heading-color);
   padding-top: $space-0-5;
   display: flex;
   align-items: center;
@@ -322,7 +322,7 @@
 
 .option-desc {
   font-size: $font-size-rem-base;
-  color: $color-text-body;
+  color: var(--body-color-muted);
   line-height: $line-height-normal;
 }
 
@@ -336,7 +336,7 @@
 
 .help-list li {
   font-size: $font-size-rem-base;
-  color: $color-text-body;
+  color: var(--body-color-muted);
   line-height: $line-height-relaxed;
   margin-bottom: $space-1;
 }
@@ -369,7 +369,7 @@
 ───────────────────────────────────────── */
 .subsection {
   padding-left: $space-3;
-  border-left: 3px solid $color-gray-divider;
+  border-left: 3px solid var(--surface-border-divider);
   margin-bottom: $space-2;
 }
 
@@ -488,7 +488,7 @@
 
   .option-label {
     font-size: $font-size-rem-base;
-    color: $color-blue-legacy;
+    color: var(--link-color);
   }
 }
 

@@ -17,11 +17,11 @@
 .backend-selector-select {
   appearance: auto;
   padding: $space-1-5 $space-2-5;
-  border: 1px solid $color-gray-border-pale;
+  border: 1px solid var(--surface-border);
   border-radius: $radius-md;
   font-size: $font-size-rem-base;
-  color: $color-slate-800;
-  background: $color-bg-light;
+  color: var(--text-primary);
+  background: var(--surface-bg);
   cursor: pointer;
   min-width: $size-min-field;
   max-width: $size-max-selector;

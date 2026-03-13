@@ -7,8 +7,8 @@
 /* Filters Section */
 .filters-section {
   padding: $space-6 $space-10;
-  background: $color-bg-light;
-  border-bottom: 1px solid $color-gray-border-light;
+  background: var(--surface-bg-alt);
+  border-bottom: 1px solid var(--surface-border-md);
   display: flex;
   flex-direction: column;
   gap: $space-1;
@@ -46,8 +46,8 @@
   padding: $space-0-5 $space-2;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  background: $color-white;
-  border: 1px solid $color-gray-border-light;
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border-md);
   border-radius: $radius-xl;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -57,7 +57,7 @@
 }
 
 .filter-chip:hover {
-  background: $color-gray-divider;
+  background: var(--surface-bg-muted);
   border-color: $color-gray-pale;
 }
 
@@ -95,18 +95,13 @@
   padding-top: $space-2;
 }
 
-.filter-actions .btn {
-  font-size: $font-size-sm;
-  padding: $space-2 $space-10;
-}
-
 /* Scroll horizontal smooth pour les chips */
 .filter-chips::-webkit-scrollbar {
   height: 3px;
 }
 
 .filter-chips::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--surface-bg-muted);
   border-radius: $radius-xs;
 }
 
@@ -127,4 +122,3 @@
   border-radius: $radius-sm;
   margin-right: $space-1;
 }
-

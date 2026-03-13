@@ -5,7 +5,7 @@
 
 /* Step cards */
 .step-card {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-2xl;
   box-shadow: 0 2px 8px $color-shadow-md;
   padding: $space-6;
@@ -65,7 +65,7 @@
   border-radius: $radius-lg;
   padding: $space-3-5;
   resize: vertical;
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   color: var(--text-primary);
   transition: border-color 0.2s;
 }
@@ -73,12 +73,12 @@
 .spec-textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  background: white;
+  background: var(--surface-bg);
 }
 
 .spec-textarea--preview {
   margin-top: $space-3;
-  background: $color-gray-border-subtle;
+  background: var(--surface-bg-alt);
   color: var(--text-secondary);
 }
 
@@ -123,103 +123,21 @@
   align-items: center;
 }
 
-/* Buttons */
-.btn-primary {
-  background: var(--primary-color);
-  color: white;
-  border-radius: $radius-lg;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  display: inline-flex;
-  align-items: center;
-  gap: $space-2;
-  transition: all 0.2s;
-  border: none;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  padding: $space-2 $space-4;
-  border-radius: $radius-md;
-  font-size: $font-size-md;
-  transition: all 0.2s;
-}
-
-.btn-secondary:hover {
-  background: var(--bg-secondary);
-}
-
-.btn-sm {
-  font-size: $font-size-base;
-}
-
-.btn-export {
-  background: var(--success-color);
-  color: white;
-  border-radius: $radius-lg;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  display: inline-flex;
-  align-items: center;
-  gap: $space-2;
-  transition: all 0.2s;
-}
-
-.btn-export:hover:not(:disabled) {
-  background: $color-success-deeper;
-}
-
-.btn-icon {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  width: $size-icon-3xl;
-  height: $size-icon-3xl;
-  border-radius: $radius-md;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  padding: 0;
-}
-
-.btn-icon:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-}
-
-.btn-icon--sm {
-  width: $size-icon-2xl;
-  height: $size-icon-2xl;
-  font-size: $font-size-md;
-}
-
-.btn-icon--danger:hover {
-  border-color: var(--danger-color);
-  color: var(--danger-color);
-}
-
 .col-actions {
   display: flex;
   gap: $space-1;
-  justify-content: flex-end;
-}
 
-.btn-close-modal:hover {
-  border-color: var(--danger-color);
-  color: var(--danger-color);
+  .btn-icon--sm {
+    width: $size-icon-2xl;
+    height: $size-icon-2xl;
+    font-size: $font-size-sm;
+    padding: $space-1;
+  }
 }
-
 
 /* Spec summary */
 .spec-summary {
-  background: white;
+  background: var(--surface-bg);
   border-radius: $radius-2xl;
   padding: $space-4 $space-5;
   margin-bottom: $space-5;
@@ -391,7 +309,7 @@
   border: 1px solid var(--border-color);
   border-radius: $radius-md;
   font-size: $font-size-base;
-  background: white;
+  background: var(--surface-bg);
   color: var(--text-primary);
 }
 
@@ -476,31 +394,6 @@
 .error-type-tag--fault {
   background: $color-danger-bg-light;
   color: $color-danger-deep;
-}
-
-/* Import WireMock button */
-.btn-import-wm {
-  display: inline-flex;
-  align-items: center;
-  gap: $space-2;
-  background: var(--success-color, $color-success-deeper);
-  color: white;
-  border: none;
-  border-radius: $radius-lg;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-import-wm:hover:not(:disabled) {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.btn-import-wm:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .import-error {
@@ -643,7 +536,7 @@
   font-size: $font-size-base;
   line-height: $line-height-normal;
   color: var(--text-primary);
-  background: $color-bg-near-white;
+  background: var(--surface-bg-muted);
   padding: $space-5;
   margin: 0;
   white-space: pre-wrap;
@@ -687,5 +580,4 @@
     flex-direction: column;
   }
 }
-
 
