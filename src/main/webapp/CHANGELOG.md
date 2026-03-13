@@ -1,5 +1,16 @@
 # Changelog - WireMock UI
 
+## [0.5.6](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.5.5...v0.5.6) (2026-03-13)
+
+
+### Features
+
+* implement theme toggle functionality and update styles for consistency ([#39](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/39)) ([12324d6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/12324d66539cf6705b6e166d562f621e1036bc93))
+* Netlify deploy via /deploy PR comment (collaborators only) ([#35](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/35)) ([3143d07](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3143d07a7e93f02fa3455efc3781eeebb07a39a6))
+* **openapi-generator:** multiple stub variants per endpoint + edit generated stubs before import ([#31](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/31)) ([d7e2288](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/d7e228898d67b290b9ae3b1e623b0b28567495ac))
+* **openapi:** add version-aware badge and documentation for supported OpenAPI versions ([#27](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/27)) ([55690c9](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/55690c95b4c19a1a644b743a76a815a460167d12))
+* update sidebar menu with new logo and improved styling ([fde2d8e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/fde2d8e128573c22b1e4313f9fcdce4ce96fd965))
+
 ## [0.5.5](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.5.4...v0.5.5) (2026-03-10)
 
 
