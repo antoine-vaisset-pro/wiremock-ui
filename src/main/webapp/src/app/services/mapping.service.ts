@@ -17,7 +17,7 @@ export class MappingService {
     private configService: ConfigService
   ) {}
 
-  getMappings(page: number = 0, size: number = 20, search: string = ''): Observable<MappingsResponse> {
+  getMappings(page = 0, size = 20, search = ''): Observable<MappingsResponse> {
     // The standard WireMock API returns all mappings, pagination is done client-side
     return this.http.get<any>(this.apiUrl).pipe(
       map(response => {

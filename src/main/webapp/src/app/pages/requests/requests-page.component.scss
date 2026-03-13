@@ -35,8 +35,7 @@
   gap: $space-1;
   flex-wrap: nowrap;
   align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
 
 .filter-chip {

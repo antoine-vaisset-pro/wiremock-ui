@@ -9,7 +9,11 @@
     "prebuild": "node generate-config.js",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch=false"
+    "test": "ng test --watch=false",
+    "lint": "ng lint && stylelint \"src/**/*.scss\"",
+    "lint:ts": "ng lint",
+    "lint:styles": "stylelint \"src/**/*.scss\"",
+    "lint:fix": "ng lint --fix && stylelint \"src/**/*.scss\" --fix"
   },
   "license": "AGPL-3.0-only",
   "private": true,
@@ -40,14 +44,21 @@
     "zone.js": "~0.16.1"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "^21.3.0",
+    "@angular-eslint/eslint-plugin": "^21.3.0",
+    "@angular-eslint/eslint-plugin-template": "^21.3.0",
+    "@angular-eslint/schematics": "^21.3.0",
+    "@angular-eslint/template-parser": "^21.3.0",
     "@angular/build": "^21.2.1",
     "@angular/cli": "^21.2.1",
     "@angular/compiler-cli": "^21.2.1",
+    "@eslint/js": "^10.0.1",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~6.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/jszip": "^3.4.1",
     "dotenv": "^17.3.1",
+    "eslint": "^10.0.3",
     "jasmine-core": "~6.1.0",
     "karma": "~6.4.3",
     "karma-chrome-launcher": "~3.2.0",
@@ -55,6 +66,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.2.0",
     "sass": "^1.97.3",
-    "typescript": "~5.9.3"
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.0"
   }
 }

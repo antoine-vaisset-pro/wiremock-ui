@@ -22,7 +22,7 @@ export class StubListComponent implements OnChanges {
   @Input() currentPage = 1;
   @Input() pageSize = 20;
   @Input() totalMappings = 0;
-  @Input() selectedStubIds: Set<string> = new Set();
+  @Input() selectedStubIds = new Set<string>();
 
   @Output() stubSelected = new EventEmitter<StubMapping>();
   @Output() searchChanged = new EventEmitter<string>();

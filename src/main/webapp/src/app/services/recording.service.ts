@@ -12,9 +12,9 @@ export interface RecordingConfig {
   filters?: {
     urlPathPattern?: string;
     method?: string;
-    headers?: { [key: string]: any };
+    headers?: Record<string, any>;
   };
-  captureHeaders?: { [key: string]: any };
+  captureHeaders?: Record<string, any>;
   requestBodyPattern?: {
     matcher?: string;
     ignoreArrayOrder?: boolean;
@@ -27,7 +27,7 @@ export interface RecordingConfig {
   persist?: boolean;
   repeatsAsScenarios?: boolean;
   transformers?: string[];
-  transformerParameters?: { [key: string]: any };
+  transformerParameters?: Record<string, any>;
 }
 
 export interface SnapshotConfig {
@@ -36,7 +36,7 @@ export interface SnapshotConfig {
     method?: string;
     ids?: string[];
   };
-  captureHeaders?: { [key: string]: any };
+  captureHeaders?: Record<string, any>;
   requestBodyPattern?: {
     matcher?: string;
     ignoreArrayOrder?: boolean;

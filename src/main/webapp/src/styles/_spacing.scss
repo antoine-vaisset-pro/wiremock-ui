@@ -14,110 +14,112 @@
 // ============================================================
 
 // ── Spacing scale ─────────────────────────────────────────────
-$space-0-5:  2px;   //  2px – hairline, border offset
-$space-1:    4px;   //  4px – micro gap, badge padding
-$space-1-5:  6px;   //  6px – tight badge / icon gap
-$space-2:    8px;   //  8px – compact inner padding
-$space-2-5:  10px;  // 10px – compact gap
-$space-3:    12px;  // 12px – small padding
-$space-3-5:  14px;  // 14px – form element padding
-$space-4:    16px;  // 16px – standard base unit
-$space-5:    20px;  // 20px – medium padding
-$space-6:    24px;  // 24px – section inner padding
-$space-7:    28px;  // 28px – card padding
-$space-7-5:  30px;  // 30px – page padding
-$space-8:    32px;  // 32px – large padding
-$space-10:   40px;  // 40px – XL padding
-$space-12:   48px;  // 48px – 2XL
-$space-15:   60px;  // 60px – empty state / hero padding
-$space-16:   64px;  // 64px – hero section
+$space-0-5: 2px;   //  2px – hairline, border offset
+$space-1: 4px;   //  4px – micro gap, badge padding
+$space-1-5: 6px;   //  6px – tight badge / icon gap
+$space-2: 8px;   //  8px – compact inner padding
+$space-2-5: 10px;  // 10px – compact gap
+$space-3: 12px;  // 12px – small padding
+$space-3-5: 14px;  // 14px – form element padding
+$space-4: 16px;  // 16px – standard base unit
+$space-5: 20px;  // 20px – medium padding
+$space-6: 24px;  // 24px – section inner padding
+$space-7: 28px;  // 28px – card padding
+$space-7-5: 30px;  // 30px – page padding
+$space-8: 32px;  // 32px – large padding
+$space-10: 40px;  // 40px – XL padding
+$space-12: 48px;  // 48px – 2XL
+$space-15: 60px;  // 60px – empty state / hero padding
+$space-16: 64px;  // 64px – hero section
 
 // ── Sticky / scroll offsets ───────────────────────────────────
-$size-toc-top:       57px;
+$size-toc-top: 57px;
 $size-scroll-offset: 70px;
 $size-header-offset: 80px;
 
 // ── Border radius ─────────────────────────────────────────────
-$radius-xs:   2px;
-$radius-sm:   4px;
-$radius-md:   6px;
-$radius-lg:   8px;
-$radius-xl:   10px;
-$radius-2xl:  12px;
-$radius-3xl:  24px;
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+$radius-xl: 10px;
+$radius-2xl: 12px;
+$radius-3xl: 24px;
 $radius-full: 50%;
+
 // Asymmetric top-only variants (collapsed headers)
 $radius-top-sm: 4px 4px 0 0;
 $radius-top-md: 6px 6px 0 0;
+
 // Bootstrap shorthand (.2rem)
 $radius-bs-sm: .2rem;
 
 // ── Fixed component sizes ─────────────────────────────────────
 // Icons / avatars / small controls
-$size-icon-xs:    14px;
-$size-icon-sm:    16px;
-$size-icon-md:    18px;
-$size-icon-lg:    20px;
-$size-icon-xl:    22px;
-$size-icon-2xl:   28px;
-$size-icon-3xl:   32px;
-$size-icon-4xl:   36px;
-$size-icon-5xl:   48px;
-$size-icon-6xl:   50px;
-$size-icon-7xl:   60px;
-$size-icon-8xl:   90px;   // min-width for certain buttons
+$size-icon-xs: 14px;
+$size-icon-sm: 16px;
+$size-icon-md: 18px;
+$size-icon-lg: 20px;
+$size-icon-xl: 22px;
+$size-icon-2xl: 28px;
+$size-icon-3xl: 32px;
+$size-icon-4xl: 36px;
+$size-icon-5xl: 48px;
+$size-icon-6xl: 50px;
+$size-icon-7xl: 60px;
+$size-icon-8xl: 90px;   // min-width for certain buttons
 
 // Scrollbar tracks
-$size-scrollbar:      8px;
-$size-scrollbar-sm:   6px;
-$size-scrollbar-xs:   3px;
+$size-scrollbar: 8px;
+$size-scrollbar-sm: 6px;
+$size-scrollbar-xs: 3px;
 
 // Sidebar
-$size-sidebar-width:  70px;
+$size-sidebar-width: 70px;
 
 // Stubs panel
-$size-stubs-panel:    500px;
+$size-stubs-panel: 500px;
 
 // Scenarios panel
 $size-scenarios-panel: 350px;
 
 // Modal widths
-$size-modal-sm:   500px;
-$size-modal-md:   700px;
-$size-modal-lg:   800px;
-$size-modal-xl:   900px; // max-width for content
+$size-modal-sm: 500px;
+$size-modal-md: 700px;
+$size-modal-lg: 800px;
+$size-modal-xl: 900px; // max-width for content
 $size-modal-full: 1800px;
 $size-modal-height: 94vh;
 
 // TOC sidebar
-$size-toc-width:  220px;
+$size-toc-width: 220px;
 
 // Min content widths
-$size-min-field:  160px;
-$size-min-date:   280px;
-$size-min-range:  400px;
-$size-min-check:  48px;
+$size-min-field: 160px;
+$size-min-date: 280px;
+$size-min-range: 400px;
+$size-min-check: 48px;
 
 // Max content widths
 $size-max-container: 1400px;
-$size-max-content:   900px;
-$size-max-config:    800px;
-$size-max-search:    600px;
-$size-max-selector:  260px;
+$size-max-content: 900px;
+$size-max-config: 800px;
+$size-max-search: 600px;
+$size-max-selector: 260px;
 
 // Panel heights (viewport-relative)
-$size-vh-half:   50vh;
-$size-vh-60:     60vh;
-$size-vh-80:     80vh;
-$size-vh-85:     85vh;
-$size-vh-90:     90vh;
+$size-vh-half: 50vh;
+$size-vh-60: 60vh;
+$size-vh-80: 80vh;
+$size-vh-85: 85vh;
+$size-vh-90: 90vh;
 
 // Fixed heights
-$size-h-topbar:    48px;
-$size-h-collapse:  36px;
+$size-h-topbar: 48px;
+$size-h-collapse: 36px;
 $size-h-panel-hdr: 38px;
-$size-h-input-sm:  22px;
-$size-h-spinner:   50px;
+$size-h-input-sm: 22px;
+$size-h-spinner: 50px;
 $size-h-stat-icon: 60px;
 
 // ── Additional max/min-height aliases ─────────────────────────

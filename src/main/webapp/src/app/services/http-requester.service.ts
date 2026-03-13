@@ -5,14 +5,14 @@ import {Observable} from 'rxjs';
 export interface HttpRequestConfig {
   method: string;
   url: string;
-  headers: { [key: string]: string };
+  headers: Record<string, string>;
   body?: string;
 }
 
 export interface HttpResponseData {
   status: number;
   statusText: string;
-  headers: { [key: string]: string };
+  headers: Record<string, string>;
   body: string;
   timing: number;
 }

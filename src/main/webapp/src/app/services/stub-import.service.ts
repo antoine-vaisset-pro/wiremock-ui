@@ -123,7 +123,7 @@ export class StubImportService {
     const errors: string[] = [];
     const warnings: string[] = [];
     const processedStubs: ProcessedStub[] = [];
-    let totalFiles = selectedBodyFilePaths.length;
+    const totalFiles = selectedBodyFilePaths.length;
     let substitutedFiles = 0;
 
     try {

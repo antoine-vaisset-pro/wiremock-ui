@@ -40,10 +40,12 @@
   --input-bg:            #{$color-white};
   --input-border:        #{$color-gray-border};
   --hover-bg:            #{$color-gray-border-pale};
+
   // Shadows
   --shadow-sm:           #{$color-shadow-sm};
   --shadow-md:           #{$color-shadow-md};
   --shadow-lg:           #{$color-shadow-lg};
+
   // Stat icon backgrounds (semantic tinted bg for icons)
   --icon-bg-primary:     #{$color-primary-shadow};
   --icon-bg-success:     #{$color-success-shadow};
@@ -51,6 +53,7 @@
   --icon-bg-danger:      #{$color-danger-shadow};
   --icon-bg-info:        #{$color-blue-shadow};
   --icon-bg-neutral:     #{rgba(100, 116, 139, 0.12)};
+
   // Colored hover backgrounds
   --hover-bg-primary:    #{$color-primary-bg-light};
   --hover-bg-blue:       #{$color-blue-bg};
@@ -94,21 +97,24 @@
   --input-bg:              #263043;
   --input-border:          #334155;
   --hover-bg:              #2d3f55;
+
   // Shadows (slightly stronger in dark to stay visible)
-  --shadow-sm:             rgba(0, 0, 0, 0.2);
-  --shadow-md:             rgba(0, 0, 0, 0.3);
-  --shadow-lg:             rgba(0, 0, 0, 0.5);
+  --shadow-sm:             rgb(0 0 0 / 20%);
+  --shadow-md:             rgb(0 0 0 / 30%);
+  --shadow-lg:             rgb(0 0 0 / 50%);
+
   // Stat icon backgrounds
-  --icon-bg-primary:       rgba(129, 140, 248, 0.15);
-  --icon-bg-success:       rgba(34, 197, 94, 0.15);
-  --icon-bg-warning:       rgba(251, 146, 60, 0.15);
-  --icon-bg-danger:        rgba(239, 68, 68, 0.15);
-  --icon-bg-info:          rgba(59, 130, 246, 0.15);
-  --icon-bg-neutral:       rgba(100, 116, 139, 0.2);
+  --icon-bg-primary:       rgb(129 140 248 / 15%);
+  --icon-bg-success:       rgb(34 197 94 / 15%);
+  --icon-bg-warning:       rgb(251 146 60 / 15%);
+  --icon-bg-danger:        rgb(239 68 68 / 15%);
+  --icon-bg-info:          rgb(59 130 246 / 15%);
+  --icon-bg-neutral:       rgb(100 116 139 / 20%);
+
   // Colored hover backgrounds
-  --hover-bg-primary:      rgba(129, 140, 248, 0.12);
-  --hover-bg-blue:         rgba(59, 130, 246, 0.12);
-  --hover-bg-warning:      rgba(251, 146, 60, 0.12);
+  --hover-bg-primary:      rgb(129 140 248 / 12%);
+  --hover-bg-blue:         rgb(59 130 246 / 12%);
+  --hover-bg-warning:      rgb(251 146 60 / 12%);
 }
 
 /* Hidden attribute support */
@@ -787,7 +793,7 @@ pre {
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   color: var(--text-secondary);
-  margin: 0 0 $space-4 0;
+  margin: 0 0 $space-4;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1033,7 +1039,7 @@ pre {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .wiremock-content {
     flex-direction: column;
   }
@@ -1082,10 +1088,7 @@ pre {
 /* Create Stub Modal */
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: $color-overlay-dark;
   z-index: 1000;
   animation: fadeIn 0.2s;
@@ -1113,6 +1116,7 @@ pre {
     opacity: 0;
     transform: translate(-50%, -48%);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%);
@@ -1221,7 +1225,7 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: var(--heading-color);
-  margin: 0 0 $space-4 0;
+  margin: 0 0 $space-4;
   padding-bottom: $space-3;
   border-bottom: 2px solid $color-blue;
 }
@@ -1249,12 +1253,12 @@ pre {
 /* Remove number input arrows */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .status-input {
@@ -1506,7 +1510,7 @@ input[type="number"] {
 }
 
 /* Responsive Requester */
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .requester-content {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
@@ -1684,6 +1688,7 @@ input[type="number"] {
   opacity: 0.5;
   pointer-events: none;
 }
+
 .disabled-section .form-control,
 .disabled-section .form-select,
 .disabled-section .btn {

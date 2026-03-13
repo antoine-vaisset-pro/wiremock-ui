@@ -10,7 +10,7 @@ export interface WiremockRequest {
     absoluteUrl: string;
     method: string;
     clientIp?: string;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
     body?: string;
     bodyAsBase64?: string;
     loggedDate: number;
@@ -18,7 +18,7 @@ export interface WiremockRequest {
   };
   response?: {
     status: number;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
     body?: string;
     bodyAsBase64?: string;
   };
@@ -26,7 +26,7 @@ export interface WiremockRequest {
     status: number;
     body?: string;
     jsonBody?: any;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
   };
   wasMatched: boolean;
   stubMapping?: {
@@ -48,7 +48,7 @@ export interface NearMiss {
     url: string;
     absoluteUrl: string;
     method: string;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
     body?: string;
     loggedDate: number;
     loggedDateString: string;
@@ -87,7 +87,7 @@ export class RequestService {
     return this.configService.wiremockApiUrl;
   }
 
-  getRequests(limit: number = 50, offset: number = 0): Observable<RequestsResponse> {
+  getRequests(limit = 50, offset = 0): Observable<RequestsResponse> {
     return this.http.get<RequestsResponse>(`${this.baseUrl}/requests?limit=${limit}&offset=${offset}`);
   }
 

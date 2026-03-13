@@ -42,9 +42,9 @@ export class ScenariosPageComponent implements OnInit, OnDestroy {
   // Flow diagram
   flowNodes: FlowNode[] = [];
   flowTransitions: FlowTransition[] = [];
-  flowTransitionPaths: Map<string, string> = new Map(); // Cache of pre-computed SVG paths
+  flowTransitionPaths = new Map<string, string>(); // Cache of pre-computed SVG paths
   selectedTransition: FlowTransition | null = null; // Selected transition (edge click)
-  highlightedStubIds: Set<string> = new Set(); // IDs of stubs to highlight
+  highlightedStubIds = new Set<string>(); // IDs of stubs to highlight
 
   // Change state modal
   showChangeStateModal = false;

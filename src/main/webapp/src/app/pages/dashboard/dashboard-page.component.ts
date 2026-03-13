@@ -35,8 +35,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   // Time range selection - Grafana style
   selectedTimeRange: TimeRange = '24h';
-  customStartDate: string = '';
-  customEndDate: string = '';
+  customStartDate = '';
+  customEndDate = '';
   showTimeRangePicker = false;
 
   // Highcharts

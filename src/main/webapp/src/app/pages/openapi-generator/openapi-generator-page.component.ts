@@ -14,7 +14,7 @@ import {IOpenApiParserService, OPENAPI_PARSER_SERVICE} from "../../services/open
 interface EndpointEntry extends StubConfig {
     preview?: any;
     /** All response examples across all status codes */
-    allResponseExamples: Array<{ key: string; statusCode: string }>;
+    allResponseExamples: { key: string; statusCode: string }[];
     /** Available request body example keys */
     requestExampleKeys: string[];
     /** Single WireMock fault type to generate as additional stub ('' = none) */
@@ -522,7 +522,7 @@ export class OpenApiGeneratorPageComponent implements OnDestroy {
     }
 
     getMethodClass(method: string): string {
-        const map: { [k: string]: string } = {
+        const map: Record<string, string> = {
             GET: 'method-get',
             POST: 'method-post',
             PUT: 'method-put',

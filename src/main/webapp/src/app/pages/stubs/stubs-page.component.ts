@@ -36,7 +36,7 @@ export class StubsPageComponent implements OnInit {
   error: string | null = null;
 
   // Selection & Export/Import
-  selectedStubIds: Set<string> = new Set();
+  selectedStubIds = new Set<string>();
 
   // Scenarios for auto-completion
   availableScenarios: string[] = [];
@@ -158,7 +158,7 @@ export class StubsPageComponent implements OnInit {
     this.loadMappings();
   }
 
-  selectStub(mapping: StubMapping, updateUrl: boolean = true): void {
+  selectStub(mapping: StubMapping, updateUrl = true): void {
     this.selectedMapping = mapping;
     if (this.stubDetail) {
       this.stubDetail.resetTabs();
@@ -307,7 +307,7 @@ export class StubsPageComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  exportStubs(exportSelected: boolean = false): void {
+  exportStubs(exportSelected = false): void {
     this.loading = true;
     this.error = null;
 

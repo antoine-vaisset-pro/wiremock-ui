@@ -155,7 +155,7 @@
 }
 
 .node-circle.node-started.node-current {
-  fill: url(#currentGradient);
+  fill: url("#currentGradient");
   stroke: $color-blue-dark;
   stroke-width: 4;
 }
@@ -167,7 +167,7 @@
 
 /* Current state (all states) - blue gradient */
 .node-circle.node-current:not(.node-started) {
-  fill: url(#currentGradient);
+  fill: url("#currentGradient");
   stroke: $color-blue-dark;
   stroke-width: 4;
   animation: pulse-glow 2s ease-in-out infinite;
@@ -184,6 +184,7 @@
 .node-circle:hover {
   stroke-width: 4;
   filter: drop-shadow(0 4px 12px $color-blue-shadow-lg);
+
   /* Suppression du transform: scale(1.05) */
 }
 
@@ -264,6 +265,7 @@
   0%, 100% {
     filter: drop-shadow(0 4px 8px $color-blue-shadow-lg);
   }
+
   50% {
     filter: drop-shadow(0 6px 12px $color-blue-shadow-xl);
   }
@@ -274,6 +276,7 @@
   0% {
     stroke-dashoffset: 0;
   }
+
   100% {
     stroke-dashoffset: -20;
   }
@@ -283,6 +286,7 @@
   0%, 100% {
     box-shadow: 0 0 0 2px $color-warning-amber-shadow, 0 4px 12px $color-warning-amber-shadow-sm;
   }
+
   50% {
     box-shadow: 0 0 0 4px $color-warning-amber-shadow-lg, 0 6px 16px $color-warning-amber-shadow-md;
   }

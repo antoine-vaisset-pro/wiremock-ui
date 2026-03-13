@@ -145,7 +145,7 @@ export class RequesterPageComponent implements OnInit {
     this.requesterError = '';
     this.requesterResponse = null;
 
-    const headers: { [key: string]: string } = {};
+    const headers: Record<string, string> = {};
     this.requesterForm.headers.forEach(h => {
       if (h.key && h.value) {
         headers[h.key] = h.value;
@@ -175,7 +175,7 @@ export class RequesterPageComponent implements OnInit {
       next: (response: HttpResponse<any>) => {
         const timing = Date.now() - startTime;
 
-        const responseHeaders: { [key: string]: string } = {};
+        const responseHeaders: Record<string, string> = {};
         response.headers.keys().forEach(key => {
           responseHeaders[key] = response.headers.get(key) || '';
         });
@@ -193,7 +193,7 @@ export class RequesterPageComponent implements OnInit {
         const timing = Date.now() - startTime;
 
         if (err.status) {
-          const responseHeaders: { [key: string]: string } = {};
+          const responseHeaders: Record<string, string> = {};
           if (err.headers) {
             err.headers.keys().forEach((key: string) => {
               responseHeaders[key] = err.headers.get(key) || '';
@@ -226,7 +226,7 @@ export class RequesterPageComponent implements OnInit {
     }
   }
 
-  getResponseHeadersArray(): Array<{key: string, value: string}> {
+  getResponseHeadersArray(): {key: string, value: string}[] {
     if (!this.requesterResponse) return [];
 
     return Object.keys(this.requesterResponse.headers).map(key => ({

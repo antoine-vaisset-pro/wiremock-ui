@@ -22,15 +22,15 @@ export interface EndpointOption {
 })
 export class SettingsPageComponent implements OnInit {
   options: EndpointOption[] = [];
-  selectedOptionId: string = '';
+  selectedOptionId = '';
 
   // Saved custom backends management
   savedCustomBackends: CustomBackend[] = [];
-  newBackendLabel: string = '';
-  newBackendUrl: string = '';
+  newBackendLabel = '';
+  newBackendUrl = '';
   editingBackendId: string | null = null;
-  editingBackendLabel: string = '';
-  editingBackendUrl: string = '';
+  editingBackendLabel = '';
+  editingBackendUrl = '';
 
   constructor(private configService: ConfigService) {}
 

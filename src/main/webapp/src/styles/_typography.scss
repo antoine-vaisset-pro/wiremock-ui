@@ -17,50 +17,50 @@
 // ============================================================
 
 // ── Font families ─────────────────────────────────────────────
-$font-family-base:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-$font-family-mono:     'Monaco', 'Courier New', monospace;
-$font-family-mono-alt: 'Courier New', Courier, monospace;
-$font-family-code:     'SFMono-Regular', Consolas, monospace;
+$font-family-base: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
+$font-family-mono: 'Monaco', 'Courier New', monospace;
+$font-family-mono-alt: 'Courier New', courier, monospace;
+$font-family-code: 'SFMono-Regular', consolas, monospace;
 
 // ── Font weights ──────────────────────────────────────────────
-$font-weight-normal:   400;
-$font-weight-medium:   500;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
 $font-weight-semibold: 600;
-$font-weight-bold:     700;
+$font-weight-bold: 700;
 
 // ── Line heights ──────────────────────────────────────────────
-$line-height-tight:   1;    // stat values, single-line labels
-$line-height-snug:    1.5;  // code blocks, monospace
-$line-height-normal:  1.6;  // body text default
+$line-height-tight: 1;    // stat values, single-line labels
+$line-height-snug: 1.5;  // code blocks, monospace
+$line-height-normal: 1.6;  // body text default
 $line-height-relaxed: 1.7;  // help paragraphs
-$line-height-loose:   1.8;  // ordered lists
+$line-height-loose: 1.8;  // ordered lists
 
 // ── Font sizes (px) ───────────────────────────────────────────
 // Use for fixed-layout elements: badges, tags, table rows, icons.
-$font-size-xs:   10px;  // micro labels, hint text
-$font-size-sm:   12px;  // tags, badges, secondary labels
+$font-size-xs: 10px;  // micro labels, hint text
+$font-size-sm: 12px;  // tags, badges, secondary labels
 $font-size-base: 13px;  // app default UI text
-$font-size-md:   14px;  // buttons, inputs, body
-$font-size-lg:   15px;  // slightly larger body (kept for compat)
-$font-size-xl:   18px;  // section headings
-$font-size-2xl:  20px;  // page-level headings
-$font-size-3xl:  24px;  // large headings
-$font-size-4xl:  28px;  // display / hero
-$font-size-5xl:  48px;  // icon-size display (drop zone)
-$font-size-6xl:  64px;  // stat values
+$font-size-md: 14px;  // buttons, inputs, body
+$font-size-lg: 15px;  // slightly larger body (kept for compat)
+$font-size-xl: 18px;  // section headings
+$font-size-2xl: 20px;  // page-level headings
+$font-size-3xl: 24px;  // large headings
+$font-size-4xl: 28px;  // display / hero
+$font-size-5xl: 48px;  // icon-size display (drop zone)
+$font-size-6xl: 64px;  // stat values
 
 // ── Font sizes (rem) ──────────────────────────────────────────
 // Use for scalable text content.
-$font-size-rem-xs:   0.625rem;   // 10px – TOC category labels
-$font-size-rem-sm:   0.75rem;    // 12px – badges, small labels
+$font-size-rem-xs: 0.625rem;   // 10px – TOC category labels
+$font-size-rem-sm: 0.75rem;    // 12px – badges, small labels
 $font-size-rem-base: 0.8125rem;  // 13px – dense UI default
-$font-size-rem-md:   0.875rem;   // 14px – body, buttons, table
-$font-size-rem-lg:   1rem;       // 16px – card/section headings
-$font-size-rem-xl:   1.125rem;   // 18px – section headings
-$font-size-rem-2xl:  1.25rem;    // 20px – page headings
-$font-size-rem-3xl:  1.5rem;     // 24px – large headings
-$font-size-rem-4xl:  1.75rem;    // 28px – display
-$font-size-rem-5xl:  2rem;       // 32px – hero/dashboard h1
+$font-size-rem-md: 0.875rem;   // 14px – body, buttons, table
+$font-size-rem-lg: 1rem;       // 16px – card/section headings
+$font-size-rem-xl: 1.125rem;   // 18px – section headings
+$font-size-rem-2xl: 1.25rem;    // 20px – page headings
+$font-size-rem-3xl: 1.5rem;     // 24px – large headings
+$font-size-rem-4xl: 1.75rem;    // 28px – display
+$font-size-rem-5xl: 2rem;       // 32px – hero/dashboard h1
 
 // ── Font sizes (em) ───────────────────────────────────────────
 // Only for inline elements that must scale with parent text.

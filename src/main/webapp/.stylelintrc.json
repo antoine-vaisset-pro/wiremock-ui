@@ -1,0 +1,16 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "import-notation": null,
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["ng-deep"]
+    }],
+    "keyframes-name-pattern": null,
+    "scss/comment-no-empty": null,
+    "declaration-property-value-keyword-no-deprecated": null
+  }
+}
+

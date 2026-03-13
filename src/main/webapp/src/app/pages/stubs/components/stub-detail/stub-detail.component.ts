@@ -43,8 +43,8 @@ export class StubDetailComponent {
       || '/';
   }
 
-  getHeaders(mapping: StubMapping): Array<{ key: string; value: string }> {
-    const headers: Array<{ key: string; value: string }> = [];
+  getHeaders(mapping: StubMapping): { key: string; value: string }[] {
+    const headers: { key: string; value: string }[] = [];
     if (mapping.response?.headers) {
       Object.keys(mapping.response.headers).forEach(key => {
         const value = mapping.response!.headers![key];

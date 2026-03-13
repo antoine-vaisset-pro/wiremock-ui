@@ -45,7 +45,7 @@ export interface StubSavedEvent {
 export class StubEditorComponent {
   @Input() availableScenarios: string[] = [];
   /** When true, Save does not call the WireMock API — instead it emits the mapping via mappingReady. */
-  @Input() localOnly: boolean = false;
+  @Input() localOnly = false;
 
   @Output() saved = new EventEmitter<StubSavedEvent>();
   @Output() cancelled = new EventEmitter<void>();
@@ -71,18 +71,18 @@ export class StubEditorComponent {
     urlType: 'url' as 'url' | 'urlPath' | 'urlPattern' | 'urlPathPattern',
     priority: 5,
     persistent: false,
-    queryParameters: [] as Array<{ key: string; predicate: string; value: string }>,
-    requestHeaders: [] as Array<{ key: string; predicate: string; value: string }>,
-    bodyPatterns: [] as Array<{ predicate: string; value: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }>,
-    cookies: [] as Array<{ key: string; predicate: string; value: string }>,
+    queryParameters: [] as { key: string; predicate: string; value: string }[],
+    requestHeaders: [] as { key: string; predicate: string; value: string }[],
+    bodyPatterns: [] as { predicate: string; value: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }[],
+    cookies: [] as { key: string; predicate: string; value: string }[],
     basicAuthEnabled: false,
     basicAuthUsername: '',
     basicAuthPassword: '',
-    formParameters: [] as Array<{ key: string; predicate: string; value: string }>,
+    formParameters: [] as { key: string; predicate: string; value: string }[],
     responseMode: 'direct' as 'direct' | 'proxy' | 'fault',
     status: 200,
     statusMessage: '',
-    responseHeaders: [{ key: 'Content-Type', value: 'application/json' }] as Array<{ key: string; value: string }>,
+    responseHeaders: [{ key: 'Content-Type', value: 'application/json' }] as { key: string; value: string }[],
     body: '{}',
     bodyType: 'json',
     bodyFileName: '',
@@ -98,7 +98,7 @@ export class StubEditorComponent {
     chunkedDuration: 1000,
     proxyBaseUrl: '',
     proxyUrlPrefixToRemove: '',
-    additionalProxyRequestHeaders: [] as Array<{ key: string; value: string }>,
+    additionalProxyRequestHeaders: [] as { key: string; value: string }[],
     removeProxyRequestHeaders: [] as string[],
     scenarioName: '',
     requiredScenarioState: '',
@@ -178,7 +178,7 @@ export class StubEditorComponent {
     try {
       const parsed = new URL('http://placeholder' + rawUrl);
       const path = parsed.pathname;
-      const queryParams: Array<{ key: string; predicate: string; value: string }> = [];
+      const queryParams: { key: string; predicate: string; value: string }[] = [];
       parsed.searchParams.forEach((value, key) => {
         queryParams.push({ key, predicate: 'equalTo', value });
       });
@@ -354,7 +354,7 @@ export class StubEditorComponent {
   removeProxyHeaderToRemove(i: number): void { this.simpleForm.removeProxyRequestHeaders.splice(i, 1); }
 
   onBodyTypeChange(): void {
-    const contentTypeMap: { [key: string]: string } = {
+    const contentTypeMap: Record<string, string> = {
       json: 'application/json',
       html: 'text/html',
       xml: 'application/xml',
@@ -483,7 +483,7 @@ export class StubEditorComponent {
     this.isResponsePanelCollapsed = false;
   }
 
-  private objectToKVMatcherArray(obj: any): Array<{ key: string; predicate: string; value: string }> {
+  private objectToKVMatcherArray(obj: any): { key: string; predicate: string; value: string }[] {
     if (!obj) return [];
     return Object.entries(obj).map(([key, pattern]: [string, any]) => {
       const predicate = this.detectStringPredicate(pattern);
@@ -654,7 +654,7 @@ export class StubEditorComponent {
     this.isResponseHeadersExpanded = false;
   }
 
-  private buildKVMatchers(items: Array<{ key: string; predicate: string; value: string }>): Record<string, any> {
+  private buildKVMatchers(items: { key: string; predicate: string; value: string }[]): Record<string, any> {
     const result: Record<string, any> = {};
     for (const item of items) {
       if (!item.key.trim()) continue;
@@ -665,7 +665,7 @@ export class StubEditorComponent {
     return result;
   }
 
-  private buildBodyPatterns(items: Array<{ predicate: string; value: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }>): any[] {
+  private buildBodyPatterns(items: { predicate: string; value: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }[]): any[] {
     return items
       .filter(p => p.value.trim() !== '' || p.predicate === 'absent')
       .map(p => {
@@ -678,7 +678,7 @@ export class StubEditorComponent {
       });
   }
 
-  private buildHeadersObject(items: Array<{ key: string; value: string }>): Record<string, string> {
+  private buildHeadersObject(items: { key: string; value: string }[]): Record<string, string> {
     const result: Record<string, string> = {};
     for (const item of items) {
       if (item.key.trim()) {

@@ -21,7 +21,7 @@ interface SelectorOption {
 })
 export class BackendSelectorComponent implements OnInit, OnDestroy {
   options: SelectorOption[] = [];
-  selectedValue: string = '';
+  selectedValue = '';
 
   private subscription: Subscription | null = null;
   private customBackendsSubscription: Subscription | null = null;

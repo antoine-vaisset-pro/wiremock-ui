@@ -23,14 +23,14 @@ export interface ParsedParameter {
 
 export interface ParsedRequestBody {
   required?: boolean;
-  content: { [mediaType: string]: { schema?: any; example?: any; examples?: any } };
+  content: Record<string, { schema?: any; example?: any; examples?: any }>;
 }
 
 export interface ParsedResponse {
   statusCode: string;
   description?: string;
-  headers?: { [name: string]: any };
-  content?: { [mediaType: string]: { schema?: any; example?: any; examples?: any } };
+  headers?: Record<string, any>;
+  content?: Record<string, { schema?: any; example?: any; examples?: any }>;
 }
 
 export interface ParsedSpec {
@@ -269,8 +269,8 @@ export class OpenApiParserService implements IOpenApiParserService {
    * Returns ALL named response examples across all status codes,
    * as { key, statusCode } entries — used to populate the response example selector.
    */
-  getAllResponseExamples(operation: ParsedOperation, fullSpec?: any): Array<{ key: string; statusCode: string }> {
-    const result: Array<{ key: string; statusCode: string }> = [];
+  getAllResponseExamples(operation: ParsedOperation, fullSpec?: any): { key: string; statusCode: string }[] {
+    const result: { key: string; statusCode: string }[] = [];
     for (const response of operation.responses) {
       if (!response?.content) continue;
       const types = Object.keys(response.content);

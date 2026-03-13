@@ -21,9 +21,9 @@ export class RequestsPageComponent implements OnInit {
   nearMisses: NearMiss[] = [];
   loadingNearMisses = false;
   totalRequests = 0;
-  nearMissCache: Map<string, NearMiss[]> = new Map(); // Near-miss cache by request ID
+  nearMissCache = new Map<string, NearMiss[]>(); // Near-miss cache by request ID
   requestHeadersExpanded = false;
-  selectedRequestIds: Set<string> = new Set();
+  selectedRequestIds = new Set<string>();
   selectAllRequests = false;
   loading = false;
   error: string | null = null;
@@ -31,18 +31,18 @@ export class RequestsPageComponent implements OnInit {
 
   // Filters
   statusFilter: 'all' | 'matched' | 'unmatched' | 'near-miss-90' = 'all';
-  methodFilters: Set<string> = new Set();
+  methodFilters = new Set<string>();
   responseCodeFilter: 'all' | '2xx' | '3xx' | '4xx' | '5xx' = 'all';
   dateRangeFilter: 'all' | 'last-hour' | 'last-24h' | 'last-7d' | 'today' | 'custom' = 'all';
-  customDateFrom: string = '';
-  customDateTo: string = '';
+  customDateFrom = '';
+  customDateTo = '';
   availableMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];
 
   // Derived / cached state for template binding (avoids ExpressionChangedAfterChecked)
   filteredRequests: WiremockRequest[] = [];
   activeFiltersCount = 0;
-  selectedRequestHeaders: Array<{key: string, value: string}> = [];
-  selectedResponseHeaders: Array<{key: string, value: string}> = [];
+  selectedRequestHeaders: {key: string, value: string}[] = [];
+  selectedResponseHeaders: {key: string, value: string}[] = [];
   selectedRequestBody = '';
   selectedResponseBody = '';
   selectedResponseStatus: number | null = null;
@@ -172,7 +172,7 @@ export class RequestsPageComponent implements OnInit {
     });
   }
 
-  selectRequest(request: WiremockRequest, updateUrl: boolean = true): void {
+  selectRequest(request: WiremockRequest, updateUrl = true): void {
     this.selectedRequest = request;
     this.requestHeadersExpanded = false;
     this.activeRequestViewTab = 'details';
@@ -389,8 +389,8 @@ export class RequestsPageComponent implements OnInit {
     });
   }
 
-  private computeRequestHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
-    const headers: Array<{key: string, value: string}> = [];
+  private computeRequestHeaders(request: WiremockRequest): {key: string, value: string}[] {
+    const headers: {key: string, value: string}[] = [];
     if (request.request?.headers) {
       Object.keys(request.request.headers).forEach(key => {
         const value = request.request.headers![key];
@@ -403,8 +403,8 @@ export class RequestsPageComponent implements OnInit {
     return headers;
   }
 
-  private computeResponseHeaders(request: WiremockRequest): Array<{key: string, value: string}> {
-    const headers: Array<{key: string, value: string}> = [];
+  private computeResponseHeaders(request: WiremockRequest): {key: string, value: string}[] {
+    const headers: {key: string, value: string}[] = [];
     const responseHeaders = request.response?.headers || request.responseDefinition?.headers;
 
     if (responseHeaders) {

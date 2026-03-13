@@ -9,7 +9,7 @@ export interface IOpenApiParserService {
   parse(rawSpec: string): Promise<ParsedSpec>;
   resolveRef(obj: any, fullSpec: any): any;
   getResponseExampleKeys(operation: ParsedOperation, statusCode: string, fullSpec?: any): string[];
-  getAllResponseExamples(operation: ParsedOperation, fullSpec?: any): Array<{ key: string; statusCode: string }>;
+  getAllResponseExamples(operation: ParsedOperation, fullSpec?: any): { key: string; statusCode: string }[];
   getRequestBodyExampleKeys(operation: ParsedOperation, fullSpec?: any): string[];
   extractExample(mediaTypeEntry: { schema?: any; example?: any; examples?: any } | undefined, fullSpec?: any): any;
   generateFromSchema(schema: any, fullSpec?: any, depth?: number): any;

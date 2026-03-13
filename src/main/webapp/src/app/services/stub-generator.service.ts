@@ -45,13 +45,13 @@ export interface WireMockMapping {
     url?: string;
     urlPattern?: string;
     urlPath?: string;
-    queryParameters?: { [key: string]: any };
-    headers?: { [key: string]: any };
-    bodyPatterns?: Array<{ equalToJson: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }>;
+    queryParameters?: Record<string, any>;
+    headers?: Record<string, any>;
+    bodyPatterns?: { equalToJson: string; ignoreArrayOrder?: boolean; ignoreExtraElements?: boolean }[];
   };
   response: {
     status: number;
-    headers?: { [key: string]: string };
+    headers?: Record<string, string>;
     jsonBody?: any;
     bodyFileName?: string;
     body?: string;
@@ -198,7 +198,7 @@ export class StubGeneratorService {
     }
 
     // Build response
-    const responseHeaders: { [key: string]: string } = {};
+    const responseHeaders: Record<string, string> = {};
     const primaryMediaType = this.getPrimaryMediaType(matchedResponse);
     if (primaryMediaType) {
       responseHeaders['Content-Type'] = primaryMediaType;
@@ -283,7 +283,7 @@ export class StubGeneratorService {
       || 'root';
 
     const suffix = isError ? `-${statusCode}-error` : statusCode !== '200' ? `-${statusCode}` : '';
-    let name = `${method}-${pathPart}${suffix}`;
+    const name = `${method}-${pathPart}${suffix}`;
 
     // Deduplicate
     let counter = 1;
@@ -295,7 +295,7 @@ export class StubGeneratorService {
   }
 
   private buildErrorBody(status: number, path: string): any {
-    const messages: { [key: number]: string } = {
+    const messages: Record<number, string> = {
       400: 'Bad Request',
       401: 'Unauthorized',
       403: 'Forbidden',

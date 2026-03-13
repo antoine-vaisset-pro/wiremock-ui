@@ -232,7 +232,7 @@ export class MockWiremockService {
     return of({}).pipe(delay(100));
   }
 
-  getRequests(limit: number = 50, offset: number = 0): Observable<any> {
+  getRequests(limit = 50, offset = 0): Observable<any> {
     const requests = this.mockRequests.slice(offset, offset + limit);
     return of({
       requests,
