@@ -1,6 +1,6 @@
 {
   "name": "wiremock-ui",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "prestart": "node generate-config.js",
