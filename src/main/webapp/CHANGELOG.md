@@ -1,6 +1,6 @@
 # Changelog - WireMock UI
 
-## [2.0.0](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v1.0.0...v2.0.0) (2026-03-13)
+## [1.0.0](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.0.5...v1.0.0) (2026-03-13)
 
 
 ### ⚠ BREAKING CHANGES
