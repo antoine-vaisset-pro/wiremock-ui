@@ -105,16 +105,6 @@
             </button>
           </div>
         </div>
-        <!-- Current State -->
-        <div class="detail-section">
-          <label class="detail-label">Current State</label>
-          <div class="current-state-display">
-            <span class="badge bg-primary state-badge-large">
-              <i class="fas fa-check-circle"></i>
-              {{ selectedScenario.state }}
-            </span>
-          </div>
-        </div>
         <!-- Possible States -->
         <div class="detail-section">
           <label class="detail-label">All Possible States</label>
@@ -125,6 +115,9 @@
                 [class.bg-primary]="state === selectedScenario.state"
                 [class.bg-secondary]="state !== selectedScenario.state"
                 >
+                  @if (state === selectedScenario.state) {
+                    <i class="fas fa-check-circle"></i>
+                  }
                 {{ state }}
               </span>
             }
@@ -329,20 +322,18 @@
   </div>
 </div>
 
-<!-- Change State Modal -->
+<!-- Change State Modal (custom non-Bootstrap dialog) -->
 @if (showChangeStateModal) {
-  <div class="modal-backdrop" (click)="closeChangeStateModal()"></div>
-}
-@if (showChangeStateModal) {
-  <div class="modal-dialog modal-sm" (click)="$event.stopPropagation()">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="wm-modal-backdrop" (click)="closeChangeStateModal()"></div>
+  <div class="wm-modal-dialog wm-modal-sm" (click)="$event.stopPropagation()">
+    <div class="wm-modal-content">
+      <div class="wm-modal-header">
         <h3>Change Scenario State</h3>
         <button type="button" class="btn btn-sm btn-link" (click)="closeChangeStateModal()">
           <i class="fas fa-times"></i>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="wm-modal-body">
         <p class="text-muted mb-3">
           Change the state of scenario <strong>{{ selectedScenario?.name }}</strong>
         </p>
@@ -350,9 +341,7 @@
           <label class="form-label">New State</label>
           <select class="form-select" [(ngModel)]="newStateValue">
             @for (state of selectedScenario?.possibleStates; track state) {
-              <option [value]="state">
-                {{ state }}
-              </option>
+              <option [value]="state">{{ state }}</option>
             }
           </select>
         </div>
@@ -363,10 +352,8 @@
           </div>
         }
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="closeChangeStateModal()">
-          Cancel
-        </button>
+      <div class="wm-modal-footer">
+        <button class="btn btn-secondary" (click)="closeChangeStateModal()">Cancel</button>
         <button class="btn btn-primary" (click)="submitStateChange()">
           <i class="fas fa-check"></i> Change State
         </button>

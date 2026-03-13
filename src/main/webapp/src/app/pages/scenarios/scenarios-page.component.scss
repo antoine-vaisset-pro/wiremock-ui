@@ -48,7 +48,7 @@
 
 .scenario-item.selected {
   border-color: $color-blue;
-  background: $color-blue-bg-light;
+  background: var(--selected-bg-blue);
   box-shadow: 0 2px 8px $color-blue-shadow-md;
 }
 
@@ -74,7 +74,7 @@
 
 .state-badge {
   font-size: $font-size-sm;
-  padding: $space-1 $space-10;
+  padding: $space-2 $space-2;
   font-weight: $font-weight-medium;
 }
 
@@ -86,7 +86,7 @@
 
 .scenario-info {
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 .scenario-states-count {
@@ -146,7 +146,7 @@
 }
 
 .node-circle-inner:not(.node-current) {
-  stroke: $color-gray-border;
+  stroke: var(--node-border-inactive);
 }
 
 /* Started state - same style as others but with inner circle */
@@ -162,7 +162,7 @@
 
 .node-circle.node-started.node-inactive {
   fill: var(--surface-bg-muted);
-  stroke: $color-gray-border;
+  stroke: var(--node-border-inactive);
 }
 
 /* Current state (all states) - blue gradient */
@@ -176,7 +176,7 @@
 /* Inactive states */
 .node-circle.node-inactive:not(.node-started) {
   fill: var(--surface-bg-muted);
-  stroke: $color-gray-border;
+  stroke: var(--node-border-inactive);
   stroke-width: 2;
 }
 
@@ -205,7 +205,7 @@
 }
 
 .node-inactive .node-icon {
-  fill: $color-slate-300;
+  fill: var(--node-text-inactive);
 }
 
 /* Texte des noeuds */
@@ -223,13 +223,13 @@
 }
 
 .node-inactive .node-text {
-  fill: $color-slate-300;
+  fill: var(--node-text-inactive);
 }
 
 /* Transitions (arrows) */
 .transition-path {
   fill: none;
-  stroke: $color-gray-light;
+  stroke: var(--transition-path-color);
   stroke-width: 2.5;
   stroke-dasharray: 8, 4;
   transition: all 0.3s ease;
@@ -297,7 +297,7 @@
   gap: $space-5;
   margin-top: $space-3-5;
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 .legend-item {
@@ -315,9 +315,9 @@
 
 .legend-started {
   background: var(--surface-bg-muted);
-  border: 2px solid $color-gray-border;
+  border: 2px solid var(--node-border-inactive);
   position: relative;
-  box-shadow: inset 0 0 0 8px var(--surface-bg-muted), inset 0 0 0 10px $color-gray-border;
+  box-shadow: inset 0 0 0 8px var(--surface-bg-muted), inset 0 0 0 10px var(--node-border-inactive);
 }
 
 .legend-started::after {
@@ -326,7 +326,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: $color-slate-300;
+  color: var(--node-text-inactive);
   font-size: $font-size-xs;
 }
 
@@ -337,7 +337,7 @@
 
 .legend-inactive {
   background: var(--surface-bg-alt);
-  border: 2px solid $color-gray-border;
+  border: 2px solid var(--node-border-inactive);
 }
 
 .legend-arrow {
@@ -346,7 +346,7 @@
   border: none;
   font-size: $font-size-xl;
   font-weight: bold;
-  color: $color-gray-bs;
+  color: var(--body-color-muted);
 }
 
 /* Stubs List Compact */
@@ -370,13 +370,13 @@
 
 .stub-item-compact:hover {
   border-color: $color-blue;
-  background: $color-blue-bg-light;
+  background: var(--selected-bg-blue);
   box-shadow: 0 2px 4px $color-blue-shadow;
 }
 
 .stub-item-compact.stub-highlighted {
   border-color: $color-warning-amber;
-  background: $color-warning-bg-orange;
+  background: var(--hover-bg-warning-orange);
   box-shadow: 0 0 0 2px $color-warning-amber-shadow, 0 4px 12px $color-warning-amber-shadow-sm;
   animation: pulse-highlight 1.5s ease-in-out 2;
 }
@@ -401,7 +401,7 @@
 
 .stub-item-compact .stub-name {
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   margin-top: $space-2;
 }
 
@@ -420,11 +420,61 @@
   align-items: center;
   gap: $space-10;
   padding: $space-10;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   font-size: $font-size-md;
 }
 
-/* Modal Customization */
-.modal-sm {
-  max-width: $size-stubs-panel;
+/* Custom modal (non-Bootstrap) — uses wm-modal-* prefix to avoid conflicts */
+.wm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: $color-overlay-dark;
+  z-index: 1040;
+}
+
+.wm-modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 1050;
+
+  &.wm-modal-sm {
+    max-width: $size-stubs-panel;
+  }
+}
+
+.wm-modal-content {
+  background: var(--surface-bg);
+  border-radius: $radius-lg;
+  box-shadow: 0 10px 40px $color-overlay-medium;
+  overflow: hidden;
+}
+
+.wm-modal-header {
+  padding: $space-3 $space-6;
+  border-bottom: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: var(--heading-color);
+  }
+}
+
+.wm-modal-body {
+  padding: $space-3 $space-6;
+}
+
+.wm-modal-footer {
+  padding: $space-3 $space-6;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
 }

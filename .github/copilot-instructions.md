@@ -13,3 +13,4 @@
 - Never define a color or a size in a component styles, instead use the theme variables defined in `src/styles.scss` or in `src/styles/*.scss` files
 - if possible use bootstrap component and use associated classes instead of defining custom styles, this will ensure consistency across the application
 - Html templates should use angular 22 syntax and best practices, such as using `@for` for loops and `@if` for conditionals
+- Application use theme `scss` for styles, so all styles should be defined in `scss` files and colors should be defined using theme variables, avoid using inline styles in html templates

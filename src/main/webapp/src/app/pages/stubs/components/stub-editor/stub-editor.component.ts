@@ -255,7 +255,8 @@ export class StubEditorComponent {
     this._createModalRef = this.modalService.open(this.createModalTpl, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
+      windowClass: 'stub-editor-modal'
     });
     this._createModalRef.dismissed.subscribe(() => {
       this.showCreateModal = false;

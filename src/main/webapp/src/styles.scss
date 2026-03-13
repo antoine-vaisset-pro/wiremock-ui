@@ -58,6 +58,47 @@
   --hover-bg-primary:    #{$color-primary-bg-light};
   --hover-bg-blue:       #{$color-blue-bg};
   --hover-bg-warning:    #{$color-warning-bg};
+
+  // Selected / highlighted backgrounds
+  --selected-bg-blue:    #{$color-blue-bg-light};
+  --hover-bg-warning-orange: #{$color-warning-bg-orange};
+
+  // Flow diagram node colors
+  --node-text-inactive:  #{$color-slate-300};
+  --node-border-inactive:#{$color-gray-border};
+  --transition-path-color:#{$color-gray-light};
+
+  // Bootstrap pagination theming
+  --bs-pagination-color:          #{$color-gray-text};
+  --bs-pagination-bg:             #{$color-white};
+  --bs-pagination-border-color:   #{$color-gray-border-pale};
+  --bs-pagination-hover-color:    #{$color-slate-600};
+  --bs-pagination-hover-bg:       #{$color-gray-border-pale};
+  --bs-pagination-hover-border-color: #{$color-gray-border-light};
+  --bs-pagination-active-color:   #{$color-white};
+  --bs-pagination-active-bg:      #{$color-blue};
+  --bs-pagination-active-border-color: #{$color-blue};
+  --bs-pagination-font-size:      #{$font-size-base};
+
+  // Bootstrap form theming
+  --bs-body-bg:             #{$color-white};
+  --bs-body-color:          #{$color-text-darkest};
+  --bs-border-color:        #{$color-gray-border-pale};
+  --bs-form-control-bg:     #{$color-white};
+  --bs-form-select-bg:      #{$color-white};
+  --bs-input-focus-border-color: #{$color-primary};
+  --bs-input-focus-box-shadow: 0 0 0 0.25rem #{$color-primary-shadow-md};
+
+  // Bootstrap modal theming
+  --bs-modal-bg:            #{$color-white};
+  --bs-modal-border-color:  #{$color-gray-border-light};
+  --bs-modal-header-border-color: #{$color-gray-border-light};
+  --bs-modal-footer-border-color: #{$color-gray-border-light};
+
+  // Bootstrap card theming
+  --bs-card-bg:             #{$color-white};
+  --bs-card-border-color:   #{$color-gray-border-pale};
+  --bs-card-cap-bg:         #{$color-bg-near-white};
 }
 
 [data-bs-theme="dark"] {
@@ -115,6 +156,46 @@
   --hover-bg-primary:      rgb(129 140 248 / 12%);
   --hover-bg-blue:         rgb(59 130 246 / 12%);
   --hover-bg-warning:      rgb(251 146 60 / 12%);
+
+  // Selected / highlighted backgrounds
+  --selected-bg-blue:      rgb(59 130 246 / 15%);
+  --hover-bg-warning-orange: rgb(251 146 60 / 12%);
+
+  // Flow diagram node colors
+  --node-text-inactive:    #94a3b8;
+  --node-border-inactive:  #334155;
+  --transition-path-color: #4b5563;
+
+  // Bootstrap pagination theming (dark)
+  --bs-pagination-color:          #94a3b8;
+  --bs-pagination-bg:             #1e293b;
+  --bs-pagination-border-color:   #334155;
+  --bs-pagination-hover-color:    #e2e8f0;
+  --bs-pagination-hover-bg:       #2d3f55;
+  --bs-pagination-hover-border-color: #3e4f66;
+  --bs-pagination-active-color:   #fff;
+  --bs-pagination-active-bg:      #{$color-blue};
+  --bs-pagination-active-border-color: #{$color-blue};
+
+  // Bootstrap form theming (dark)
+  --bs-body-bg:             #1e293b;
+  --bs-body-color:          #e2e8f0;
+  --bs-border-color:        #334155;
+  --bs-form-control-bg:     #263043;
+  --bs-form-select-bg:      #263043;
+  --bs-input-focus-border-color: #{$color-primary-light};
+  --bs-input-focus-box-shadow: 0 0 0 0.25rem rgb(129 140 248 / 15%);
+
+  // Bootstrap modal theming (dark)
+  --bs-modal-bg:            #1e293b;
+  --bs-modal-border-color:  #334155;
+  --bs-modal-header-border-color: #334155;
+  --bs-modal-footer-border-color: #334155;
+
+  // Bootstrap card theming (dark)
+  --bs-card-bg:             #1e293b;
+  --bs-card-border-color:   #334155;
+  --bs-card-cap-bg:         #263043;
 }
 
 /* Hidden attribute support */
@@ -164,6 +245,7 @@ button:disabled {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="search"] {
   padding: $space-2 $space-3;
   border: 1px solid var(--input-border);
@@ -177,25 +259,7 @@ input[type="search"] {
 input[type="text"]:focus,
 input[type="search"]:focus {
   outline: none;
-  border-color: $color-green-legacy;
-}
-
-/* In the modal, normalize all inputs to compact padding (form-control-sm) */
-.modal-content input[type="text"],
-.modal-content input[type="number"],
-.modal-content input[type="password"],
-.modal-content input[type="search"] {
-  padding: $space-1 $space-2;
-  font-size: $font-size-rem-base;
-  border-radius: $radius-bs-sm;
-}
-
-.card {
-  background: var(--surface-bg);
-  border-radius: $radius-lg;
-  box-shadow: 0 2px 4px $color-shadow;
-  padding: $space-5;
-  margin-bottom: $space-5;
+  border-color: $color-primary;
 }
 
 .loading {
@@ -204,7 +268,7 @@ input[type="search"]:focus {
   align-items: center;
   min-height: $size-stubs-panel;
   font-size: $font-size-xl;
-  color: $color-text-medium;
+  color: var(--body-color-muted);
 }
 
 .error {
@@ -224,20 +288,6 @@ pre {
   line-height: $line-height-snug;
 }
 
-.btn-primary {
-  background-color: $color-green-legacy;
-  color: white;
-}
-
-.btn-secondary {
-  background-color: $color-legacy-gray-750;
-  color: white;
-}
-
-.btn-danger {
-  background-color: $color-legacy-red;
-  color: white;
-}
 
 /* WireMock UI Main Container */
 .wiremock-ui {
@@ -264,11 +314,10 @@ pre {
 }
 
 .sidebar-header {
-  padding: $space-5 0;
+  padding: $space-3 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $space-3;
   border-bottom: 1px solid $color-white-overlay;
 }
 
@@ -410,12 +459,12 @@ pre {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   margin: 0;
-  color: $color-slate-600;
+  color: var(--heading-color);
 }
 
 .header-subtitle {
   font-size: $font-size-base;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   margin: 0;
 }
 
@@ -541,7 +590,7 @@ pre {
   left: 32px;
   top: 50%;
   transform: translateY(-50%);
-  color: $color-gray-light;
+  color: var(--body-color-muted);
   font-size: $font-size-md;
   pointer-events: none;
 }
@@ -551,14 +600,14 @@ pre {
   right: 32px;
   top: 50%;
   transform: translateY(-50%);
-  color: $color-gray-light;
+  color: var(--body-color-muted);
   font-size: $font-size-md;
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .search-clear-icon:hover {
-  color: $color-gray-500;
+  color: var(--body-color-secondary);
 }
 
 .search-bar input {
@@ -598,7 +647,7 @@ pre {
 }
 
 .stub-item.selected {
-  background: $color-blue-bg-light;
+  background: var(--selected-bg-blue);
   border-left: 3px solid $color-blue;
 }
 
@@ -676,7 +725,7 @@ pre {
 
 .stub-name {
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   margin-top: $space-2;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -690,8 +739,8 @@ pre {
 .status-code {
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: $color-success-teal;
-  background: $color-success-teal-bg;
+  color: var(--success-color);
+  background: var(--icon-bg-success);
   padding: $space-1 $space-2;
   border-radius: $radius-sm;
 }
@@ -710,7 +759,7 @@ pre {
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: $color-gray-light;
+  color: var(--body-color-muted);
 }
 
 .no-selection i {
@@ -759,7 +808,7 @@ pre {
   padding: $space-2;
   font-size: $font-size-md;
   font-weight: $font-weight-medium;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   cursor: pointer;
   border-bottom: 3px solid transparent;
   margin-bottom: -$space-2;
@@ -777,7 +826,7 @@ pre {
 }
 
 .view-tab:hover:not(.active) {
-  color: $color-slate-500;
+  color: var(--body-color-secondary);
   background: var(--hover-bg);
 }
 
@@ -802,7 +851,7 @@ pre {
   display: block;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   margin-bottom: $space-2;
 }
 
@@ -834,7 +883,7 @@ pre {
   padding: $space-2 $space-4;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.15s;
@@ -846,7 +895,7 @@ pre {
 }
 
 .tab:hover:not(.active) {
-  color: $color-slate-500;
+  color: var(--body-color-secondary);
 }
 
 .headers-list {
@@ -942,7 +991,7 @@ pre {
   align-items: center;
   justify-content: center;
   padding: $space-15 $space-5;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 .loading-state p {
@@ -979,7 +1028,7 @@ pre {
   align-items: center;
   justify-content: center;
   padding: $space-15 $space-5;
-  color: $color-gray-light;
+  color: var(--body-color-muted);
 }
 
 .empty-state i {
@@ -1011,7 +1060,7 @@ pre {
 
 .pagination-info {
   font-size: $font-size-base;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 /* Override ng-bootstrap pagination styles */
@@ -1019,24 +1068,6 @@ pre {
   margin: 0;
 }
 
-::ng-deep .page-link {
-  color: var(--text-secondary);
-  border-color: var(--surface-border);
-  font-size: $font-size-base;
-  padding: $space-6 $space-3;
-  background-color: var(--pagination-bg);
-}
-
-::ng-deep .page-link:hover {
-  background-color: var(--hover-bg);
-  border-color: var(--surface-border-md);
-  color: var(--heading-color);
-}
-
-::ng-deep .page-item.active .page-link {
-  background-color: $color-blue;
-  border-color: $color-blue;
-}
 
 /* Responsive */
 @media (width <= 768px) {
@@ -1085,70 +1116,29 @@ pre {
   background: $color-gray-muted;
 }
 
-/* Create Stub Modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: $color-overlay-dark;
-  z-index: 1000;
-  animation: fadeIn 0.2s;
-}
-
-.modal-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) !important;
-  width: 98%;
-  max-width: $size-modal-full;
-  height: $size-modal-height;
-  z-index: 1001;
-  animation: slideIn 0.3s;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.modal-content {
-  background: var(--surface-bg);
-  border-radius: $radius-lg;
-  box-shadow: 0 20px 60px $color-overlay-medium;
+/* ── Stub editor layout: full-height modal body ── */
+.stub-editor-modal .modal-body {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  padding: $space-3 $space-6;
+  overflow-y: auto;
 }
 
-.modal-header {
-  padding: $space-3 $space-6;
-  border-bottom: 1px solid var(--surface-border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.stub-editor-modal .modal-header {
   gap: $space-4;
   flex-shrink: 0;
 }
 
-.modal-header h3 {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  margin: 0;
-  color: var(--heading-color);
-  flex: 1;
+.stub-editor-modal .modal-dialog {
+  height: $size-modal-height;
+  max-width: $size-modal-full;
+}
+
+.stub-editor-modal .modal-content {
+  height: 100%;
+  overflow: hidden;
 }
 
 .mode-toggle {
@@ -1158,27 +1148,6 @@ pre {
 
 .mode-toggle .btn {
   min-width: 100px;
-}
-
-.modal-body {
-  padding: $space-3 $space-6;
-  overflow-y: auto;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-footer {
-  flex-shrink: 0;
-}
-
-.modal-footer {
-  padding: $space-3 $space-6;
-  border-top: 1px solid var(--surface-border);
-  display: flex;
-  justify-content: flex-end;
-  gap: $space-3;
 }
 
 .json-editor {
@@ -1238,17 +1207,6 @@ pre {
   display: block;
 }
 
-.simple-editor .form-control,
-.simple-editor .form-select {
-  font-size: $font-size-md;
-  border-color: var(--input-border);
-}
-
-.simple-editor .form-control:focus,
-.simple-editor .form-select:focus {
-  border-color: $color-blue;
-  box-shadow: 0 0 0 3px $color-blue-shadow;
-}
 
 /* Remove number input arrows */
 input[type="number"]::-webkit-inner-spin-button,
@@ -1326,7 +1284,7 @@ input[type="number"] {
 .stub-date {
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
-  color: $color-slate-400;
+  color: var(--body-color-secondary);
   display: flex;
   align-items: center;
   gap: $space-1;
@@ -1350,13 +1308,13 @@ input[type="number"] {
 .list-info {
   padding: $space-3 $space-5;
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   background: var(--surface-bg-muted);
   border-bottom: 1px solid var(--surface-border);
 }
 
 .stub-item.active {
-  background: $color-blue-bg-light;
+  background: var(--selected-bg-blue);
   border-left: 3px solid $color-blue;
 }
 
@@ -1368,7 +1326,7 @@ input[type="number"] {
 
 .empty-details {
   text-align: center;
-  color: $color-gray-muted;
+  color: var(--body-color-muted);
 }
 
 .empty-details i {
@@ -1440,33 +1398,6 @@ input[type="number"] {
   margin-right: $space-1;
 }
 
-.requester-panel .form-control,
-.requester-panel .form-select {
-  font-size: $font-size-md;
-  border-color: var(--input-border);
-}
-
-.requester-panel .form-control:focus,
-.requester-panel .form-select:focus {
-  border-color: $color-blue;
-  box-shadow: 0 0 0 3px $color-blue-shadow;
-}
-
-.requester-panel .btn-primary {
-  background-color: $color-blue;
-  border-color: $color-blue;
-}
-
-.requester-panel .btn-primary:hover {
-  background-color: $color-blue-dark;
-  border-color: $color-blue-dark;
-}
-
-.requester-panel .btn-primary:disabled {
-  background-color: $color-gray-light;
-  border-color: $color-gray-light;
-  cursor: not-allowed;
-}
 
 .response-panel h5 {
   font-size: $font-size-md;
@@ -1481,7 +1412,7 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   min-height: $size-min-range;
-  color: $color-gray-light;
+  color: var(--body-color-muted);
 }
 
 .response-panel .no-selection i {
@@ -1501,7 +1432,7 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   min-height: $size-min-range;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 .response-panel .loading-state p {
@@ -1557,7 +1488,7 @@ input[type="number"] {
 
 .expandable-icon {
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   transition: transform 0.2s;
 }
 
@@ -1677,7 +1608,7 @@ input[type="number"] {
   align-items: center;
   padding: $space-10 $space-5;
   font-size: $font-size-sm;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   background: var(--surface-bg-muted);
   border-bottom: 1px solid var(--surface-border);
 }
@@ -1701,7 +1632,7 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   padding: $space-7-5 $space-5;
-  color: $color-gray-500;
+  color: var(--body-color-muted);
 }
 
 .near-misses-inline-list {
@@ -1763,7 +1694,7 @@ input[type="number"] {
 }
 
 .near-miss-stub-info i {
-  color: $color-gray-500;
+  color: var(--body-color-muted);
   margin-right: $space-1;
   font-size: $font-size-sm;
 }
@@ -1795,14 +1726,14 @@ input[type="number"] {
 .no-near-misses {
   text-align: center;
   padding: $space-7-5 $space-5;
-  color: $color-gray-light;
+  color: var(--body-color-muted);
   grid-column: 1 / -1;
 }
 
 .no-near-misses i {
   font-size: $font-size-xl;
   margin-bottom: $space-5;
-  color: $color-gray-border;
+  color: var(--surface-border-md);
 }
 
 .no-near-misses p {

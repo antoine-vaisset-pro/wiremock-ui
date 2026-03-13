@@ -82,16 +82,8 @@
   border-bottom: none;
 }
 
-.file-selection-item .form-check {
-  margin: 0;
-}
-
-.file-selection-item .form-check-label {
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  width: 100%;
+/* Mono filename label inside file selection items */
+.file-selection-item label {
   font-family: $font-family-mono-alt;
   font-size: $font-size-em-sm;
 }

@@ -691,7 +691,7 @@ $gap: $space-5;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-6;
+  margin-bottom: $space-2;
 }
 
 .scenarios-header h2 {
@@ -711,14 +711,15 @@ $gap: $space-5;
 .scenarios-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: $space-6;
+  gap: $space-3;
+  padding: 0 $space-2 $space-2;
 }
 
 .scenario-card {
   background: var(--surface-bg-muted);
   border: 1px solid var(--surface-border);
   border-radius: $radius-lg;
-  padding: $space-6;
+  padding: $space-2;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -758,10 +759,6 @@ $gap: $space-5;
   align-items: center;
 }
 
-.scenario-current-state .badge {
-  font-size: $font-size-rem-base;
-  padding: $space-1 $space-3;
-}
 
 .scenario-states-count {
   font-size: $font-size-rem-sm;
