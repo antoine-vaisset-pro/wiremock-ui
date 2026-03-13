@@ -1,5 +1,39 @@
 # Changelog - WireMock UI
 
+## [2.0.0](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v1.0.0...v2.0.0) (2026-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* add ESLint and Stylelint configuration for improved code quality
+
+### Features
+
+* add ESLint and Stylelint configuration for improved code quality ([4254cc3](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/4254cc35a23a7728133b192b656eb3afca15f627))
+* app shell and Angular routing setup ([f8f079b](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f8f079b24857b213413b507d802a1882567074d7))
+* core WireMock domain models ([96c30ae](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/96c30aec9bcdbdded7048d78f29234b2b38622d6))
+* dashboard page with Highcharts metrics and time-range picker ([f290bb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f290bb576876c292f495031d27d300419e62e88d))
+* dashboard stats aggregation service ([9540f11](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9540f11537e2070103edb903052c653be957c815))
+* HTTP requester page and service ([5083bba](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/5083bbad90d63bb2860481816700e72b052505ae))
+* implement theme toggle functionality and update styles for consistency ([#39](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/39)) ([12324d6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/12324d66539cf6705b6e166d562f621e1036bc93))
+* multi-backend selector component and config service ([3ebf000](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3ebf000ff7d427b3af38fcf4634eab34cbfa3175))
+* Netlify deploy via /deploy PR comment (collaborators only) ([#35](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/35)) ([3143d07](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3143d07a7e93f02fa3455efc3781eeebb07a39a6))
+* OpenAPI specification parser service ([2d06fea](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/2d06fea64b3d3e1020adf2de8466cbdd303ff6dc))
+* **openapi-generator:** multiple stub variants per endpoint + edit generated stubs before import ([#31](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/31)) ([d7e2288](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/d7e228898d67b290b9ae3b1e623b0b28567495ac))
+* OpenAPI-to-WireMock stub generator service and page ([4acef27](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/4acef275c757d368ddbf7b4d7fdb70321270f534))
+* **openapi:** add version-aware badge and documentation for supported OpenAPI versions ([#27](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/27)) ([55690c9](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/55690c95b4c19a1a644b743a76a815a460167d12))
+* recording service and Recording Studio page ([a27f7ec](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/a27f7ec6265fcbb2b71be3efe341e3e243534e5d))
+* request log service with near-miss support ([820d6d6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/820d6d6ca97a1ea433aea6696f54e0328e92a12a))
+* requests browser page with advanced filtering ([496cffd](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/496cffd35435ec26b74cadd831c11eaf8d94180c))
+* scenarios page with state-flow diagram ([66d2af9](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/66d2af9b0250ece70acc8d46207b690d4fe3e918))
+* settings page and help page ([387cbf6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/387cbf625d1231d0cfe96482b918cbe13569268e))
+* sidebar navigation component ([5f6f8a0](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/5f6f8a0c7c9002988e09091ee3c9650c9f26e667))
+* stubs management page ([43d06a6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/43d06a64d25ef8c8f13b6ed91690ef41492eabad))
+* update sidebar menu with new logo and improved styling ([fde2d8e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/fde2d8e128573c22b1e4313f9fcdce4ce96fd965))
+* WireMock mapping service ([e0a4d2b](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e0a4d2b7d57468fee04694578f94fed29743e3af))
+* WireMock scenario service ([ad39df4](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/ad39df462c51ee08cab91484b4e7918267a94928))
+* ZIP and directory stub import with bodyFileName substitution ([3e59692](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3e596924eb9e977d7f16576171d870a360f3d8db))
+
 ## [1.0.0](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.0.5...v1.0.0) (2026-03-13)
 
 
