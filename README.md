@@ -115,11 +115,25 @@ Stop with:
 make docker-down
 ```
 
+### Docker image with WireMock bundled
+
+The `docker-publish` workflow now also publishes a bundled image containing:
+
+- WireMock standalone on **port 8080**
+- WireMock UI on **port 8081**
+
+```bash
+docker run --rm -p 8080:8080 -p 8081:8081 ghcr.io/antoine-vaisset-pro/wiremock-ui-with-wiremock:latest
+```
+
+Then open **http://localhost:8081** for the UI (it proxies to the local WireMock instance in the same container).
+
 ## Service URLs
 
 | Service           | URL                                    | Description              |
 |-------------------|----------------------------------------|--------------------------|
 | **Web UI**        | http://localhost:4200                  | Angular interface        |
+| Web UI (bundled)  | http://localhost:8081                  | UI from combined image   |
 | WireMock Admin    | http://localhost:8080/__admin/         | WireMock Admin REST API  |
 | WireMock Mappings | http://localhost:8080/__admin/mappings | Raw JSON stub list       |
 | Mock endpoints    | http://localhost:8080/...              | Your mocked API routes   |

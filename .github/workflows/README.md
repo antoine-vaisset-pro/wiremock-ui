@@ -54,7 +54,9 @@ Builds, tests, and attaches the release archive to the GitHub Release created by
 Lint, security audit, unit tests with coverage on every push/PR to `main`.
 
 ### 4. docker-publish.yml
-Builds and pushes the Docker image to GHCR on every published release.
+Builds and pushes Docker images to GHCR on every published release:
+- `ghcr.io/<owner>/wiremock-ui` (UI only)
+- `ghcr.io/<owner>/wiremock-ui-with-wiremock` (WireMock + UI in one container, ports 8080 and 8081)
 
 ### 5. deploy-github-pages.yml
 Builds and deploys the Angular application to GitHub Pages.
