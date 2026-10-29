@@ -1,235 +1,147 @@
-# WireMock Web UI
+# WireMock UI — Web GUI for WireMock
 
-A modern web interface for managing and testing [WireMock](https://wiremock.org/) mock servers — built with Angular.
+WireMock UI is an open-source, self-hosted web UI/GUI for WireMock. Manage stub mappings, inspect matched and unmatched requests, record from a live API, and test with a built-in HTTP client—without hand-editing JSON or calling the Admin API.
 
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
-![Version](https://img.shields.io/badge/version-1.0.0-orange)
-![Angular](https://img.shields.io/badge/Angular-21-red)
-![WireMock](https://img.shields.io/badge/WireMock-3.10-green)
-![Node](https://img.shields.io/badge/Node.js-%3E%3D22-brightgreen)
+![WireMock UI dashboard](docs/screenshots/dashboard.png)
 
-## Overview
+[![Latest release](https://img.shields.io/github/v/release/antoine-vaisset-pro/wiremock-ui)](https://github.com/antoine-vaisset-pro/wiremock-ui/releases)
+[![CI](https://github.com/antoine-vaisset-pro/wiremock-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/antoine-vaisset-pro/wiremock-ui/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Angular](https://img.shields.io/badge/Angular-22-red)](https://angular.dev/)
+[![WireMock](https://img.shields.io/badge/WireMock-3.10-green)](https://wiremock.org/)
 
-**WireMock Web UI** is a graphical interface for [WireMock](https://wiremock.org/), the leading HTTP mock server. Instead of editing raw JSON files or calling the Admin API directly, this app gives you a clean web interface with search, filtering, real-time request inspection, and an integrated HTTP testing client.
+## Try it in 30 seconds
 
-### Architecture
+Run the published multi-architecture image and point it at WireMock:
 
+```bash
+docker run --rm -p 4200:8080 \
+  -e WIREMOCK_BACKEND=http://host.docker.internal:8080 \
+  ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
 ```
-┌─────────────────────┐
-│   Angular Web UI    │  http://localhost:4200
-│   (Port 4200)       │
-└─────────┬───────────┘
-          │ REST API
-          ▼
-┌─────────────────────┐
-│  WireMock Server    │  http://localhost:8080
-│  (Port 8080)        │
-│  Docker/Standalone  │
-└─────────────────────┘
+
+Open <http://localhost:4200>. Multiple backends can be supplied as a semicolon-separated list. They appear in the selector with an `[ENV]` badge and cannot be edited in the UI.
+
+For a complete local stack:
+
+```yaml
+services:
+  wiremock:
+    image: wiremock/wiremock:3.10.0
+    ports: ["8080:8080"]
+  ui:
+    image: ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
+    ports: ["4200:8080"]
+    environment:
+      WIREMOCK_BACKEND: http://wiremock:8080
 ```
+
+## Why WireMock UI?
+
+| Option | Best suited for | Trade-off |
+|---|---|---|
+| WireMock UI | Self-hosted visual management and testing | You operate the UI and WireMock server |
+| Raw Admin API | Automation and scripts | No visual browsing or interactive workflow |
+| WireMock Studio | Visual WireMock workflows | Proprietary product and discontinued |
+| WireMock Cloud | Hosted WireMock environments | SaaS service and hosted deployment model |
+
+WireMock UI is Apache-2.0 licensed and free for commercial and enterprise use.
 
 ## Features
 
-### 📊 Dashboard
-- Overview of active stubs and recent request statistics
-- Time-range filters (Last Hour, Last 24h, Today, Last 7 days)
-- Charts and counters powered by Chart.js
+### Dashboard
+Overview of active stubs and recent request statistics, with time-range filters and Chart.js charts.
 
-### 📋 Stub Mappings
-- Paginated list of stub mappings (20 per page)
-- Real-time search by URL, method, name, or JSON body
-- Color-coded HTTP method badges (GET, POST, PUT, DELETE, etc.)
-- Detailed view with formatted JSON for request and response
-- **Import stubs** from a JSON file — supports both `[...]` and `{"mappings": [...]}` formats, with preview before applying
-- **Export stubs** — export all stubs or a selection to a JSON file
-- **Bulk selection** — select individual stubs to export or delete in one action
+![Dashboard](docs/screenshots/dashboard.png)
 
-### 📜 Request Logs
-- Full history of requests received by WireMock
-- Filter by match status: Matched / Unmatched / Near-miss (>90%)
-- Filter by time range, HTTP method, and response code
-- Smart status badges: 🟢 MATCHED, 🔵 NEAR-MISS, 🟡 UNMATCHED
-- Expandable headers, bulk selection, and bulk delete
-- One-click navigation from a request to its matching stub
+### Stub mappings
+Paginated search, detailed request/response inspection, JSON import/export, and bulk selection.
 
-### 🚀 HTTP Requester
-- Built-in HTTP client to test your stubs directly from the UI
-- Supports all HTTP methods
-- Pre-fill from an existing stub for fast testing
-- Custom headers support
-- Full response display: status, headers, body, and response time
+![Stub list](docs/screenshots/stub-list.png)
+![Stub detail](docs/screenshots/stub-detail.png)
 
-### 🎙️ Recording Studio
-- Automatically record stubs from a real API target
-- Advanced configuration: URL filters, methods, headers
-- Real-time recording status with automatic polling
-- Save and reload named recording configurations
-- Export recorded mappings
+### Request logs
+Browse matched, unmatched, and near-miss requests with filters, expandable headers, bulk deletion, and direct navigation to matching stubs.
 
-### 🎭 Scenarios
-- View and manage WireMock stateful scenarios
-- Reset scenario state
+![Request logs](docs/screenshots/request-logs.png)
 
-### ⚙️ Settings & Help
-- Runtime configuration management
-- In-app help and documentation
+### HTTP requester
+Test any stub with all HTTP methods, custom headers, request bodies, and full response details.
 
-## Quick Start
+![HTTP requester](docs/screenshots/http-requester.png)
+
+### Recording Studio
+Record stubs from a live API with URL, method, and header filters, then review and export the mappings.
+
+![Recording Studio](docs/screenshots/recording-studio.png)
+
+### OpenAPI stub generator
+Parse OpenAPI 2 and 3 specifications, generate multiple WireMock stub variants, edit them, and import the results.
+
+### Scenarios, settings, and help
+Manage stateful WireMock scenarios, select local/environment/custom backends, and use the in-app documentation.
+
+## Development
 
 ### Prerequisites
 
-- **Node.js** ≥ 22.12.0 and npm
-- **Docker** (for running WireMock)
-
-### Installation
+- Node.js >= 22.12.0 and npm
+- Docker (for WireMock and the Docker image)
 
 ```bash
-# Clone the repository
 git clone https://github.com/antoine-vaisset-pro/wiremock-ui.git
 cd wiremock-ui
-
-# Install npm dependencies
 make install
 ```
 
-### Run (recommended)
-
-Start WireMock and the Angular UI together:
+Start the full development stack with `make dev-full`, or use `make docker-up` for the production-like Nginx image. The UI is at <http://localhost:4200> and WireMock's Admin API is at <http://localhost:8080/__admin/>.
 
 ```bash
-make dev-full
-```
-
-Then open your browser at **http://localhost:4200**.
-
-### Alternative: Docker Compose
-
-```bash
-make docker-up
-```
-
-Access the UI at **http://localhost:4200** and the WireMock Admin API at **http://localhost:8080/__admin/**.
-
-Stop with:
-```bash
+make help
+make build
+make test
+make docker-build
 make docker-down
 ```
 
-## Service URLs
+### Configuration
 
-| Service           | URL                                    | Description              |
-|-------------------|----------------------------------------|--------------------------|
-| **Web UI**        | http://localhost:4200                  | Angular interface        |
-| WireMock Admin    | http://localhost:8080/__admin/         | WireMock Admin REST API  |
-| WireMock Mappings | http://localhost:8080/__admin/mappings | Raw JSON stub list       |
-| Mock endpoints    | http://localhost:8080/...              | Your mocked API routes   |
+The Angular development proxy routes `/__admin` and `/api` to `http://localhost:8080`. For a production image, set `WIREMOCK_BACKEND` at container runtime:
 
-## Project Structure
-
+```bash
+WIREMOCK_BACKEND=https://staging.example.com;https://prod.example.com make docker-up
 ```
+
+The build-time variable remains supported by `npm run build` and `docker build --build-arg WIREMOCK_BACKEND=...`; a runtime value takes precedence.
+
+See [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) and [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
+
+## Project structure
+
+```text
 wiremock-ui/
-├── src/main/webapp/          # Angular application
-│   └── src/app/
-│       ├── components/       # Shared components (sidebar, etc.)
-│       ├── pages/            # Feature pages (stubs, requests, requester, ...)
-│       ├── services/         # Angular services (WireMock API calls)
-│       └── models/           # TypeScript interfaces
-├── mappings/                 # Example WireMock stub mappings
-├── docker/                   # Dockerfile and Nginx configuration
-├── docs/                     # Developer and deployment guides
+├── src/main/webapp/          # Angular application and CHANGELOG.md
+│   ├── src/app/              # Components, pages, services, and models
+│   └── public/               # Runtime configuration defaults
+├── docker/                   # Dockerfile, Compose, and Nginx template
+├── docs/                     # Deployment, developer guide, API reference, screenshots
+├── scripts/                  # Screenshot and maintenance scripts
 ├── Makefile                  # Development commands
-└── CHANGELOG.md              # Version history
+├── LICENSE                   # Apache License 2.0
+└── NOTICE                    # Copyright and project notice
 ```
-
-## Make Commands
-
-```bash
-make help           # List all available commands
-make install        # Install npm dependencies
-make dev            # Start Angular dev server (WireMock must already be running)
-make wiremock       # Start WireMock standalone via Docker
-make dev-full       # Start WireMock + Angular together (recommended)
-make build          # Production build
-make test           # Run unit tests
-make clean          # Remove generated files
-make docker-build   # Build the Docker image
-make docker-up      # Start via Docker Compose
-make docker-down    # Stop Docker Compose services
-```
-
-## Configuration
-
-### Development
-
-The Angular dev server proxies all `/__admin` and `/api` calls to `http://localhost:8080` via `proxy.conf.js`. No extra configuration is needed.
-
-### Selecting a WireMock backend at runtime
-
-The **server selector** in the top-right corner of the app lets you switch between backends without restarting. The choice is persisted in `localStorage`. You can manage custom backends in **Settings → Custom Backends**.
-
-> **Note:** enter base URLs **without** the `/__admin` suffix (e.g. `http://my-server:8080`). The UI appends `/__admin` automatically.
-
-### Production / Custom WireMock URL
-
-Set the `WIREMOCK_BACKEND` environment variable to a semicolon-separated list of base URLs before building:
-
-```bash
-# Single backend
-export WIREMOCK_BACKEND=https://your-wiremock-host:8080
-npm run build
-
-# Multiple backends
-export WIREMOCK_BACKEND=https://staging.example.com;https://prod.example.com
-npm run build
-```
-
-These URLs appear in the backend selector with an `[ENV]` badge and cannot be edited from the UI.
-
-See [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) for full Docker and Nginx deployment instructions.
-
-## Troubleshooting
-
-**UI shows "Connection error"**
-
-Verify WireMock is running and reachable:
-```bash
-curl http://localhost:8080/__admin/mappings
-```
-
-**CORS errors in development**
-
-Make sure the Angular proxy is active. Restart with `make dev` and verify `proxy.conf.js` is referenced in `angular.json`.
-
-**Port already in use**
-
-Stop the process occupying port 4200 (Angular dev server) or 8080 (WireMock) before starting.
-
-## Documentation
-
-- [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) — Local setup, architecture, and contribution guidelines
-- [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) — Docker, Nginx, and environment variables
-- [CHANGELOG.md](CHANGELOG.md) — Version history
 
 ## Contributing
 
-Contributions are welcome!
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m 'Add my feature'`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a Pull Request
-
-Please follow the existing code style and add tests for new features where applicable.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Please use Conventional Commits and include tests for new behavior.
 
 ## License
 
-This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+WireMock UI is licensed under the [Apache License 2.0](LICENSE). Versions from 1.1.0 onward are Apache-2.0 licensed.
 
 ## Acknowledgements
 
-- [WireMock](https://wiremock.org/) — the HTTP mock server this UI is built on top of
-- [MockServer](https://www.mock-server.com/) — another open-source mock server (no longer maintained) that inspired the idea of generating stubs from an OpenAPI specification
+- [WireMock](https://wiremock.org/) — the HTTP mock server this UI is built on
 - [Angular](https://angular.dev/) — the frontend framework
 - [Bootstrap](https://getbootstrap.com/) — UI components
 - [Chart.js](https://www.chartjs.org/) — dashboard charts (MIT License)
