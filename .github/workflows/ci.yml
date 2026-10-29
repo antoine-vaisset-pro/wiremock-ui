@@ -39,6 +39,12 @@ jobs:
         working-directory: src/main/webapp
         run: npm audit --audit-level=high
 
+      - name: Check production dependency licenses
+        working-directory: src/main/webapp
+        # caniuse-lite is browser compatibility data pulled by Angular's
+        # production ng-bootstrap peer dependency and is not executable code.
+        run: npx --yes license-checker-rseidelsohn --production --excludePrivatePackages --excludePackages "caniuse-lite" --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD;Python-2.0;CC0-1.0"
+
       - name: Unit tests with coverage
         working-directory: src/main/webapp
         run: npm run test -- --no-progress --browsers=ChromeHeadless --watch=false --code-coverage
@@ -95,4 +101,3 @@ jobs:
       - name: Build (production)
         working-directory: src/main/webapp
         run: npm run build
-
