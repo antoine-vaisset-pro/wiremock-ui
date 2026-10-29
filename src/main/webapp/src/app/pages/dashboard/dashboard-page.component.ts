@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -49,7 +49,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
     private dashboardService: DashboardService,
     private scenarioService: ScenarioService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -110,8 +111,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
           unmatchedRequests: stats.unmatchedRequests,
           requestsByHour: stats.requestsByHour
         });
-        this.updateChart(stats);
         this.loading = false;
+        this.changeDetectorRef.detectChanges();
+        this.updateChart(stats);
 
         // Load active scenarios
         this.loadActiveScenarios();
@@ -151,8 +153,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
       .subscribe({
         next: (stats) => {
           this.stats = stats;
-          this.updateChart(stats);
           this.loading = false;
+          this.changeDetectorRef.detectChanges();
+          this.updateChart(stats);
         },
         error: (err) => {
           console.error('Error refreshing dashboard:', err);
