@@ -101,5 +101,26 @@ describe('ConfigService', () => {
       expect(service.getEndpointConfig().type).toBe('local');
       expect(service.getEndpointConfig().url).toBe('');
     });
+
+    describe('environment backends', () => {
+      it('parses semicolon-separated backends and derives labels', async () => {
+        const loadPromise = service.loadConfig();
+        const req = httpMock.expectOne('/config.json');
+        req.flush({
+          wiremockApiUrl: '/__admin',
+          wiremockBackend: 'http://staging.example:8080; https://production.example'
+        });
+        await loadPromise;
+
+        expect(service.getWiremockBackends()).toEqual([
+          { label: 'staging.example:8080', url: 'http://staging.example:8080' },
+          { label: 'production.example', url: 'https://production.example' }
+        ]);
+        expect(service.getEndpointConfig()).toEqual({
+          type: 'env',
+          url: 'http://staging.example:8080'
+        });
+      });
+    });
   });
 });

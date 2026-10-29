@@ -52,14 +52,31 @@ All Docker files are in `docker/`:
 | `docker/docker-compose.yml` | Orchestration UI + WireMock |
 | `docker/nginx.conf` | Nginx config: proxy `/__admin/`, `/api/`, SPA fallback |
 
-## ⚙️ Nginx Configuration (docker/nginx.conf)
+## ⚙️ Runtime backend configuration
+
+The published image is configured when the container starts. Set
+`WIREMOCK_BACKEND` to one or more base URLs separated by semicolons:
+
+```bash
+docker run --rm -p 4200:8080 \
+  -e WIREMOCK_BACKEND=http://host.docker.internal:8080 \
+  ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
+```
+
+The URLs are returned by `/config.json`, listed in the selector with an
+`[ENV]` badge, and cannot be edited in the UI. A value supplied at container
+runtime takes precedence over the value baked into an image with
+`--build-arg WIREMOCK_BACKEND=...`. If no value is supplied, the UI uses its
+local `/__admin` proxy.
+
+## ⚙️ Nginx Configuration (docker/nginx.conf.template)
 
 The Nginx proxy handles two types of requests:
 - `/__admin/*` → WireMock Admin API
 - `/api/*` → Mocked endpoints (for the Requester)
 - Everything else → `index.html` (SPA fallback)
 
-To add other mocked endpoint prefixes, edit `docker/nginx.conf`:
+To add other mocked endpoint prefixes, edit `docker/nginx.conf.template`:
 
 ```nginx
 location /v1/ {
