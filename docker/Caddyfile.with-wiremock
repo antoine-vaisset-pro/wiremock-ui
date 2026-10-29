@@ -1,0 +1,27 @@
+:8081 {
+    header {
+        X-Frame-Options SAMEORIGIN
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src *;"
+    }
+
+    handle /__admin* {
+        reverse_proxy {$WIREMOCK_BACKEND}
+    }
+
+    handle /api* {
+        reverse_proxy {$WIREMOCK_BACKEND}
+    }
+
+    handle /config.json {
+        header Content-Type application/json
+        header Cache-Control "no-store"
+        respond "{\"wiremockApiUrl\":\"{$WIREMOCK_API_URL}\",\"wiremockBackend\":\"{$WIREMOCK_BACKEND}\"}" 200
+    }
+
+    root * /srv/ui
+    try_files {path} /index.html
+    file_server
+}

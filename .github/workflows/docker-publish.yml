@@ -16,6 +16,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME_WITH_WIREMOCK: ${{ github.repository }}-with-wiremock
 
 jobs:
   build-and-push:
@@ -65,3 +66,22 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Extract Docker metadata (wiremock bundled image)
+        id: meta-wiremock
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_WITH_WIREMOCK }}
+          tags: |
+            type=raw,value=latest
+            type=raw,value=${{ steps.version.outputs.tag }}
+
+      - name: Build and push image (wiremock bundled)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile.with-wiremock
+          push: true
+          tags: ${{ steps.meta-wiremock.outputs.tags }}
+          labels: ${{ steps.meta-wiremock.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

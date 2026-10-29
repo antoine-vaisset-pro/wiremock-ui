@@ -1,0 +1,28 @@
+# Build stage - Angular UI
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+COPY src/main/webapp/package*.json ./
+RUN npm ci
+
+COPY src/main/webapp/ ./
+RUN npm run build
+
+# Runtime stage - WireMock + UI in one container
+FROM caddy:2.10-alpine AS caddy
+
+FROM wiremock/wiremock:3.10.0
+
+USER root
+COPY --from=builder /app/dist/wiremock-ui/browser /srv/ui
+COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
+COPY docker/Caddyfile.with-wiremock /etc/caddy/Caddyfile
+RUN chown -R 1000:1000 /srv/ui
+USER 1000
+
+ENV WIREMOCK_API_URL=/__admin
+ENV WIREMOCK_BACKEND=http://127.0.0.1:8080
+EXPOSE 8080 8081
+
+CMD ["sh", "-c", "caddy run --config /etc/caddy/Caddyfile --adapter caddyfile & exec /docker-entrypoint.sh --port 8080 --global-response-templating --verbose ${WIREMOCK_OPTIONS:-}"]
