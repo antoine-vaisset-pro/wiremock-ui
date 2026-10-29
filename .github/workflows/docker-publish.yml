@@ -53,7 +53,7 @@ jobs:
             type=raw,value=${{ steps.version.outputs.tag }}
             type=semver,pattern={{major}}.{{minor}},value=${{ steps.version.outputs.tag }}
           labels: |
-            org.opencontainers.image.source=https://github.com/antoine-vaisset-pro/wiremock-ui
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.description=Self-hosted web UI for WireMock
             org.opencontainers.image.licenses=Apache-2.0
             org.opencontainers.image.version=${{ steps.version.outputs.tag }}
