@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -40,7 +40,8 @@ export interface StubSavedEvent {
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './stub-editor.component.html',
-  styleUrls: ['./stub-editor.component.scss']
+  styleUrls: ['./stub-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StubEditorComponent {
   @Input() availableScenarios: string[] = [];

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +17,8 @@ interface SelectorOption {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './backend-selector.component.html',
-  styleUrls: ['./backend-selector.component.scss']
+  styleUrls: ['./backend-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class BackendSelectorComponent implements OnInit, OnDestroy {
   options: SelectorOption[] = [];

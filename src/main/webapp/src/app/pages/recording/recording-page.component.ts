@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
@@ -10,7 +10,8 @@ import { RecordingService, RecordingStatus, RecordingConfig, SnapshotConfig, Rec
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './recording-page.component.html',
-  styleUrls: ['./recording-page.component.scss']
+  styleUrls: ['./recording-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RecordingPageComponent implements OnInit, OnDestroy {
   // Mode Read-only (Work in Progress)

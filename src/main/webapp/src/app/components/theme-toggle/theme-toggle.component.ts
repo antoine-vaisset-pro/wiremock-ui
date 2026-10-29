@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 
@@ -28,7 +28,8 @@ import { ThemeService } from '../../services/theme.service';
       display: inline-flex;
       align-items: center;
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ThemeToggleComponent {
   protected readonly themeService = inject(ThemeService);

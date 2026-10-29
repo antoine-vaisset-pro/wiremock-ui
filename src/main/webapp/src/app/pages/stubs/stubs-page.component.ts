@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,8 @@ import { StubImportComponent } from './components/stub-import/stub-import.compon
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule, StubListComponent, StubDetailComponent, StubEditorComponent, StubImportComponent],
   templateUrl: './stubs-page.component.html',
-  styleUrls: ['./stubs-page.component.scss']
+  styleUrls: ['./stubs-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StubsPageComponent implements OnInit {
   // Stubs

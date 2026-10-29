@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConfigService, WiremockEndpointConfig, CustomBackend } from '../../services/config.service';
@@ -18,7 +18,8 @@ export interface EndpointOption {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.scss']
+  styleUrls: ['./settings-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class SettingsPageComponent implements OnInit {
   options: EndpointOption[] = [];

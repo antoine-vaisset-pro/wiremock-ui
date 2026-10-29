@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +19,8 @@ export type TimeRange = '5m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '24h
   standalone: true,
   imports: [FormsModule],
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss']
+  styleUrls: ['./dashboard-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('chartContainer', { static: false }) chartContainer?: ElementRef<HTMLCanvasElement>;
@@ -382,6 +383,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     const timestamps = stats.requestsByHour?.map(h => h.timestamp) || [];
+    const css = getComputedStyle(document.documentElement);
+    const themeColor = (name: string, fallback: string): string => css.getPropertyValue(name).trim() || fallback;
+    const textColor = themeColor('--text-secondary', '#64748b');
+    const gridColor = themeColor('--border-color', '#334155');
     const config: ChartConfiguration<'bar'> = {
       type: 'bar',
       data: {
@@ -389,8 +394,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
         datasets: [{
           label: 'Requests',
           data: stats.requestsByHour?.map(h => h.count) || [],
-          backgroundColor: '#6366f1',
-          hoverBackgroundColor: '#4f46e5',
+          backgroundColor: themeColor('--primary-color', '#6366f1'),
+          hoverBackgroundColor: themeColor('--primary-hover', '#4f46e5'),
           borderRadius: 4,
           barPercentage: 0.9,
           categoryPercentage: 0.9
@@ -417,14 +422,16 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
         },
         scales: {
           x: {
-            grid: { color: '#e2e8f0' },
-            ticks: { color: '#64748b', font: { size: 11 } }
+            grid: { display: false },
+            border: { display: false },
+            ticks: { color: textColor, font: { size: 11 } }
           },
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Requests', color: '#64748b', font: { size: 12 } },
-            grid: { color: '#f1f5f9' },
-            ticks: { color: '#64748b' }
+            title: { display: true, text: 'Requests', color: textColor, font: { size: 12 } },
+            grid: { color: gridColor, lineWidth: 0.5 },
+            border: { display: false },
+            ticks: { color: textColor }
           }
         },
         onHover: (_event, elements) => {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,8 @@ import { ProcessedStub, StubImportService, ZipStructure } from '../../../../serv
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './stub-import.component.html',
-  styleUrls: ['./stub-import.component.scss']
+  styleUrls: ['./stub-import.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StubImportComponent {
   @Output() importCompleted = new EventEmitter<void>();
