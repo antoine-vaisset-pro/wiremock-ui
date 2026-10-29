@@ -24,7 +24,7 @@ server {
 
     # Proxy to WireMock - Admin API
     location /__admin/ {
-        proxy_pass ${WIREMOCK_BACKEND};
+        proxy_pass ${WIREMOCK_PROXY_BACKEND};
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -39,7 +39,7 @@ server {
 
     # Proxy to WireMock - Mocked API endpoints (for the Requester)
     location /api/ {
-        proxy_pass ${WIREMOCK_BACKEND};
+        proxy_pass ${WIREMOCK_PROXY_BACKEND};
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

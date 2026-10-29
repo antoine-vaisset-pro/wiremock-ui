@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Nginx can proxy to one upstream, while Angular can list several selectable
+# backends. Use the first configured URL for the local proxy fallback.
+if [ -n "${WIREMOCK_BACKEND:-}" ]; then
+  WIREMOCK_PROXY_BACKEND="${WIREMOCK_BACKEND%%;*}"
+else
+  WIREMOCK_PROXY_BACKEND="http://127.0.0.1:8080"
+fi
+export WIREMOCK_PROXY_BACKEND

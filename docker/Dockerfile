@@ -18,6 +18,7 @@ FROM nginxinc/nginx-unprivileged:alpine@sha256:b5047b9b76845eac124358373c6852377
 
 ARG WIREMOCK_BACKEND=""
 ENV WIREMOCK_BACKEND=$WIREMOCK_BACKEND
+ENV WIREMOCK_API_URL=/__admin
 
 # Copy built Angular app
 COPY --from=builder /app/dist/wiremock-ui/browser /usr/share/nginx/html
@@ -25,7 +26,10 @@ COPY --from=builder /app/dist/wiremock-ui/browser /usr/share/nginx/html
 # The nginx image applies this template at container start. This makes
 # WIREMOCK_BACKEND a runtime setting while the build ARG above preserves the
 # existing build-time configuration for deployments that bake it into the image.
+USER root
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY docker/05-wiremock-backend.envsh /docker-entrypoint.d/05-wiremock-backend.envsh
+RUN chmod +x /docker-entrypoint.d/05-wiremock-backend.envsh
 
 EXPOSE 8080
 
