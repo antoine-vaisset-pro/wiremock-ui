@@ -15,7 +15,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: antoine-vaisset-pro/wiremock-ui
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
