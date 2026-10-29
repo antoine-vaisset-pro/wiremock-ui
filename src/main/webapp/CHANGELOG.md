@@ -1,5 +1,7 @@
 # Changelog - WireMock UI
 
+Versions from 1.1.0 onward are licensed under Apache-2.0.
+
 ## [1.0.0](https://github.com/antoine-vaisset-pro/wiremock-ui/compare/v0.0.5...v1.0.0) (2026-03-13)
 
 
@@ -12,7 +14,7 @@
 * add ESLint and Stylelint configuration for improved code quality ([4254cc3](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/4254cc35a23a7728133b192b656eb3afca15f627))
 * app shell and Angular routing setup ([f8f079b](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f8f079b24857b213413b507d802a1882567074d7))
 * core WireMock domain models ([96c30ae](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/96c30aec9bcdbdded7048d78f29234b2b38622d6))
-* dashboard page with Highcharts metrics and time-range picker ([f290bb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f290bb576876c292f495031d27d300419e62e88d))
+* dashboard page with Chart.js metrics and time-range picker ([f290bb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f290bb576876c292f495031d27d300419e62e88d))
 * dashboard stats aggregation service ([9540f11](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9540f11537e2070103edb903052c653be957c815))
 * HTTP requester page and service ([5083bba](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/5083bbad90d63bb2860481816700e72b052505ae))
 * implement theme toggle functionality and update styles for consistency ([#39](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/39)) ([12324d6](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/12324d66539cf6705b6e166d562f621e1036bc93))
@@ -41,7 +43,7 @@
 
 * app shell and Angular routing setup ([f8f079b](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f8f079b24857b213413b507d802a1882567074d7))
 * core WireMock domain models ([96c30ae](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/96c30aec9bcdbdded7048d78f29234b2b38622d6))
-* dashboard page with Highcharts metrics and time-range picker ([f290bb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f290bb576876c292f495031d27d300419e62e88d))
+* dashboard page with Chart.js metrics and time-range picker ([f290bb5](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/f290bb576876c292f495031d27d300419e62e88d))
 * dashboard stats aggregation service ([9540f11](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9540f11537e2070103edb903052c653be957c815))
 * HTTP requester page and service ([5083bba](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/5083bbad90d63bb2860481816700e72b052505ae))
 * multi-backend selector component and config service ([3ebf000](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/3ebf000ff7d427b3af38fcf4634eab34cbfa3175))
@@ -69,11 +71,11 @@
 * Add response delay configuration support ([ec161d2](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/ec161d2581c16debd7af1389e9e1c2abeb8f0d82))
 * Ajout écran Recording Studio (mode read-only WIP) ([aac0895](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/aac0895a078515b06b8ffdb30e92fc138b7a6c5b))
 * **changelog:** add initial changelog for WireMock UI with version history and credits ([2581000](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/25810006c1aed914b0d423b2aef7a937c607fede))
-* Dashboard avec graphique Highcharts et filtrage temporel (v1.2.9.1) ([e74a2eb](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e74a2eb6a6696fca7ab248d882c0be8781674053))
+* Dashboard avec graphique Chart.js et filtrage temporel (v1.2.9.1) ([e74a2eb](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e74a2eb6a6696fca7ab248d882c0be8781674053))
 * **help:** add Help page with search functionality and navigation ([#42](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/42)) ([d1feb26](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/d1feb26ebaafee0c23b8fc12af900470d60e66bc))
 * Import ZIP avec sélection de fichiers et support format bulk WireMock ([1ad9431](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/1ad9431196f2c947110597b62fc5f644836a109d))
 * **import:** drop zone unifiée avec détection automatique ZIP/JSON/répertoire ([31d6485](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/31d6485de2fdab2781ddfd9c4212bbfeb58690ef))
-* **license:** add License & Credits section to Help page and include AGPL license file ([9ef3694](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9ef36940d37afbf2206395692a819682cad23e0d))
+* **license:** add License & Credits section to Help page and include Apache-2.0 license file ([9ef3694](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9ef36940d37afbf2206395692a819682cad23e0d))
 * **navigation:** Implémentation complète de l'historique de navigation avec Router Angular (v1.4.0) ([9eaf7a8](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/9eaf7a843ed401714c0ccf47c2990d7409963469))
 * OpenAPI → WireMock stub generator page ([#51](https://github.com/antoine-vaisset-pro/wiremock-ui/issues/51)) ([e8657ee](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/e8657ee667cf276e0c17f22ee96ba7c165cac769))
 * Refactorisation complète de l'architecture frontend Angular ([12b746e](https://github.com/antoine-vaisset-pro/wiremock-ui/commit/12b746ea405a598e06d7fb1c2cf37638bf7d552d))
@@ -1086,7 +1088,7 @@ Le graphique adapte automatiquement sa granularité :
 
 ### 🐛 Correction : Graphique de Timeserie du Dashboard
 
-**Problème** : Bien que le filtrage des requêtes fonctionnait correctement (visible dans les logs), le graphique Highcharts n'affichait pas correctement la timeserie des requêtes filtrées.
+**Problème** : Bien que le filtrage des requêtes fonctionnait correctement (visible dans les logs), le graphique Chart.js n'affichait pas correctement la timeserie des requêtes filtrées.
 
 **Cause** : La méthode `calculateHourlyStats` utilisait des clés string basées sur `date.getDate()` ce qui causait :
 - Des collisions de clés quand la période s'étendait sur plusieurs mois
@@ -1192,7 +1194,7 @@ Inspiré de Grafana, possibilité de zoomer sur le graphique pour explorer une p
 
 #### Implémentation Technique
 
-**Highcharts** :
+**Chart.js** :
 ```typescript
 chart: {
   zoomType: 'x',  // Active le zoom horizontal
@@ -1240,7 +1242,7 @@ chart: {
 
 ### 🐛 Correction : Graphique qui disparaît lors du changement de plage de temps
 
-**Problème** : Quand on changeait la plage de temps, le graphique Highcharts disparaissait au lieu de se mettre à jour.
+**Problème** : Quand on changeait la plage de temps, le graphique Chart.js disparaissait au lieu de se mettre à jour.
 
 **Cause** :
 - La méthode `updateChart()` retournait prématurément si aucune donnée
@@ -1325,12 +1327,12 @@ Refonte complète du sélecteur de période temporelle inspiré de l'interface G
 
 ## [Version 1.2.3] - 2026-02-12
 
-### 🎨 Amélioration Majeure : Graphique Highcharts
+### 🎨 Amélioration Majeure : Graphique Chart.js
 
-Remplacement du graphique CSS personnalisé par un graphique professionnel Highcharts.
+Remplacement du graphique CSS personnalisé par un graphique professionnel Chart.js.
 
 #### Nouvelle Fonctionnalité
-**Graphique interactif Highcharts** au lieu du graphique CSS statique.
+**Graphique interactif Chart.js** au lieu du graphique CSS statique.
 
 **Avantages** :
 - ✅ **Tooltips interactifs** : Affichage détaillé au survol (heure + nombre de requêtes)
@@ -1352,28 +1354,28 @@ Remplacement du graphique CSS personnalisé par un graphique professionnel Highc
 
 **Installation** :
 ```bash
-npm install highcharts --save
+npm install chart.js --save
 ```
 
 **Approche** :
-- Intégration directe de Highcharts (pas de wrapper Angular)
+- Intégration directe de Chart.js (pas de wrapper Angular)
 - Utilisation de `ViewChild` et `ElementRef`
 - Mise à jour incrémentale avec `setData()`
 - Destruction propre dans `ngOnDestroy()`
 
 **Impact sur le bundle** :
-- +52KB (gzippé) pour Highcharts
+- +52KB (gzippé) pour Chart.js
 - -2KB de CSS supprimé
 - Impact net : +50KB (négligeable)
 
 #### Fichiers Modifiés
-- `dashboard-page.component.ts` - Intégration Highcharts
+- `dashboard-page.component.ts` - Intégration Chart.js
 - `dashboard-page.component.html` - Remplacement du template
 - `dashboard-page.component.css` - Simplification (suppression ~60 lignes)
-- `package.json` - Ajout de `highcharts`
+- `package.json` - Ajout de `chart.js`
 
 #### Documentation Ajoutée
-- `DASHBOARD_HIGHCHARTS_v1.2.3.md` - Guide complet d'intégration
+- `DASHBOARD_CHARTJS_v1.2.3.md` - Guide complet d'intégration
 
 #### Améliorations Futures Possibles
 - Export de graphiques (PNG, PDF, SVG)
