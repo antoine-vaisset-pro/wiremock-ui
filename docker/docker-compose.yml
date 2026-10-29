@@ -3,9 +3,9 @@ version: '3.8'
 services:
   # WireMock standalone
   wiremock:
-    image: wiremock/wiremock:3.10.0
+    image: wiremock/wiremock:3.10.0@sha256:052f7d05b585d5cc956ecf2f1543b1a721858ec83baf0d11b507a113e3b023ee
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     volumes:
       - ../mappings:/home/wiremock/mappings
       - ../files:/home/wiremock/__files
@@ -34,7 +34,7 @@ services:
 
   # Angular UI - image publiée sur GitHub Container Registry
   ui-from-github:
-    image: ghcr.io/antoine-vaisset-pro/wiremock-ui:latest
+    image: ghcr.io/antoine-vaisset-pro/wiremock-ui@sha256:e78012549c3329212c3d7ec3535ab8930836a7928b44c627cf56e44f7300ad03
     pull_policy: always
     ports:
       - "4200:8080"

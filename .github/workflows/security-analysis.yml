@@ -71,7 +71,7 @@ jobs:
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v /tmp:/tmp \
-            aquasec/trivy:latest image \
+            aquasec/trivy@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c image \
             --format table \
             --severity CRITICAL,HIGH,MEDIUM \
             --no-progress \
@@ -81,7 +81,7 @@ jobs:
         run: |
           docker run --rm \
             -v "${{ github.workspace }}:/workspace" \
-            aquasec/trivy:latest config \
+            aquasec/trivy@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c config \
             --format table \
             --severity CRITICAL,HIGH,MEDIUM \
             --no-progress \
