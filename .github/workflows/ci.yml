@@ -41,7 +41,9 @@ jobs:
 
       - name: Check production dependency licenses
         working-directory: src/main/webapp
-        run: npx --yes license-checker-rseidelsohn --production --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD;Python-2.0;CC0-1.0"
+        # caniuse-lite is browser compatibility data pulled by Angular's
+        # production ng-bootstrap peer dependency and is not executable code.
+        run: npx --yes license-checker-rseidelsohn --production --excludePrivatePackages --excludePackages "caniuse-lite" --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD;Python-2.0;CC0-1.0"
 
       - name: Unit tests with coverage
         working-directory: src/main/webapp
