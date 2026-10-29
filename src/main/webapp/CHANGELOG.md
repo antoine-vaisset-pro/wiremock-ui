@@ -1621,7 +1621,7 @@ Ajout d'un tableau de bord complet offrant une vue d'ensemble en temps réel de 
 
 #### Fix : Requester - Problème CORS résolu (Dev + Prod)
 - **Problème** : Le Requester ne pouvait pas envoyer de requêtes HTTP à cause d'erreurs CORS
-- **Cause** : Tentative d'envoyer des requêtes depuis `localhost:4200` vers `localhost:3001` (origines différentes)
+- **Cause** : Tentative d'envoyer des requêtes depuis `localhost:4200` vers `localhost:8080` (origines différentes)
 - **Solution Développement** : 
   - Ajout de configurations proxy dans `proxy.conf.js` pour tous les endpoints
   - Modification de `HttpRequesterService` pour utiliser le proxy Angular au lieu d'URLs absolues

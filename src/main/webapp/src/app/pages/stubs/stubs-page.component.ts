@@ -118,7 +118,7 @@ export class StubsPageComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.error = 'Failed to load mappings. Please check if WireMock is running on port 3001.';
+          this.error = 'Failed to load mappings. Please check if WireMock is running on port 8080.';
           console.error('Error loading mappings:', err);
           this.loading = false;
         }
