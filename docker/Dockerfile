@@ -1,5 +1,5 @@
 # Build stage - Angular
-FROM node:22-alpine AS builder
+FROM node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY src/main/webapp/ ./
 RUN npm run build
 
 # Production stage - Nginx (unprivileged for Kubernetes read-only filesystem support)
-FROM nginxinc/nginx-unprivileged:alpine
+FROM nginxinc/nginx-unprivileged:alpine@sha256:b5047b9b76845eac124358373c6852377c52e4b05834a47647e955dd91cb8f1e
 
 # Copy built Angular app
 COPY --from=builder /app/dist/wiremock-ui/browser /usr/share/nginx/html
@@ -23,5 +23,7 @@ COPY --from=builder /app/dist/wiremock-ui/browser /usr/share/nginx/html
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 8080
+
+USER 101
 
 CMD ["nginx", "-g", "daemon off;"]
