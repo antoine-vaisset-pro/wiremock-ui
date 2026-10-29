@@ -24,4 +24,6 @@ COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 8080
 
+USER 101
+
 CMD ["nginx", "-g", "daemon off;"]

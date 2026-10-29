@@ -23,6 +23,8 @@ spec:
         runAsNonRoot: true
         runAsUser: 101
         runAsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: wiremock-ui
           image: ghcr.io/antoine-vaisset-pro/wiremock-ui@sha256:e78012549c3329212c3d7ec3535ab8930836a7928b44c627cf56e44f7300ad03
