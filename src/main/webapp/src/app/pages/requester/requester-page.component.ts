@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {HttpResponse} from '@angular/common/http';
@@ -12,7 +12,8 @@ import {MappingsResponse, StubMapping} from '../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './requester-page.component.html',
-  styleUrls: ['./requester-page.component.scss']
+  styleUrls: ['./requester-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RequesterPageComponent implements OnInit {
   requesterForm = {

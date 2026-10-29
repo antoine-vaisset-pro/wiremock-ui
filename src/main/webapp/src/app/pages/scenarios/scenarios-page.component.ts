@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,7 +27,8 @@ interface FlowTransition {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './scenarios-page.component.html',
-  styleUrls: ['./scenarios-page.component.scss']
+  styleUrls: ['./scenarios-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ScenariosPageComponent implements OnInit, OnDestroy {
   scenarios: Scenario[] = [];

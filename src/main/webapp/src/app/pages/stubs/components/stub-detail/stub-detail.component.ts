@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StubMapping } from '../../../../models/stub-mapping.model';
@@ -8,7 +8,8 @@ import { StubMapping } from '../../../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, NgbModule],
   templateUrl: './stub-detail.component.html',
-  styleUrls: ['./stub-detail.component.scss']
+  styleUrls: ['./stub-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StubDetailComponent {
   @Input() selectedMapping: StubMapping | null = null;

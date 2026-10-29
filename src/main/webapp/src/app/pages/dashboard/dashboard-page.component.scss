@@ -439,9 +439,10 @@ $gap: $space-5;
   padding: $space-6 0;
 }
 
-.highcharts-container {
+.chart-canvas {
   width: 100%;
   min-height: $size-h-spinner;
+  height: 280px;
 }
 
 /* Endpoint List */
@@ -799,4 +800,3 @@ $gap: $space-5;
     font-size: $font-size-rem-xs;
   }
 }
-

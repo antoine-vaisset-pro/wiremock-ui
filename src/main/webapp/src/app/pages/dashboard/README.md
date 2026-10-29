@@ -35,7 +35,7 @@ Accessible via the "Dashboard" button in the side menu.
 ### Dependencies
 - `@angular/common` - Standard Angular directives
 - `rxjs` - Reactive data management
-- `highcharts` - Chart library
+- `chart.js` - Chart library (MIT License)
 ## Responsive
 The component is fully responsive:
 - Grid layout adapts to screen width

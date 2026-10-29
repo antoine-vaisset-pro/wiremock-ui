@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -40,7 +40,8 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
       </div>
     </div>
   `,
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class AppComponent implements OnInit {
   title = 'WireMock UI';

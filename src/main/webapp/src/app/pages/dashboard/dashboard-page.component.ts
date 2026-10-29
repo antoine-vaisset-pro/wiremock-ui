@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,7 +7,9 @@ import { switchMap, startWith } from 'rxjs/operators';
 import { DashboardService, DashboardStats } from '../../services/dashboard.service';
 import { ScenarioService } from '../../services/scenario.service';
 import { Scenario } from '../../models/scenario.model';
-import * as Highcharts from 'highcharts';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 // Time range presets - Grafana style
 export type TimeRange = '5m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '24h' | '2d' | '7d' | '30d' | 'custom';
@@ -17,10 +19,11 @@ export type TimeRange = '5m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '24h
   standalone: true,
   imports: [FormsModule],
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss']
+  styleUrls: ['./dashboard-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('chartContainer', { static: false }) chartContainer?: ElementRef;
+  @ViewChild('chartContainer', { static: false }) chartContainer?: ElementRef<HTMLCanvasElement>;
   @Output() navigateToStubs = new EventEmitter<string | null>();
   @Output() navigateToRequests = new EventEmitter<void>();
 
@@ -39,14 +42,16 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
   customEndDate = '';
   showTimeRangePicker = false;
 
-  // Highcharts
-  private chart?: Highcharts.Chart;
+  // Chart.js
+  private chart?: Chart;
+  private chartDragStart?: number;
 
   constructor(
     private dashboardService: DashboardService,
     private scenarioService: ScenarioService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -83,9 +88,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngOnDestroy(): void {
     this.stopAutoRefresh();
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    this.destroyChart();
   }
 
   loadDashboard(): void {
@@ -109,8 +112,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
           unmatchedRequests: stats.unmatchedRequests,
           requestsByHour: stats.requestsByHour
         });
-        this.updateChart(stats);
         this.loading = false;
+        this.changeDetectorRef.detectChanges();
+        this.updateChart(stats);
 
         // Load active scenarios
         this.loadActiveScenarios();
@@ -150,8 +154,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
       .subscribe({
         next: (stats) => {
           this.stats = stats;
-          this.updateChart(stats);
           this.loading = false;
+          this.changeDetectorRef.detectChanges();
+          this.updateChart(stats);
         },
         error: (err) => {
           console.error('Error refreshing dashboard:', err);
@@ -371,164 +376,75 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
-  // Highcharts Methods
+  // Chart.js Methods
   private initializeChart(stats: DashboardStats): void {
     if (!this.chartContainer) {
       return;
     }
 
-    const categories = stats.requestsByHour?.map(h => h.hour) || [];
-    const data = stats.requestsByHour?.map(h => h.count) || [];
     const timestamps = stats.requestsByHour?.map(h => h.timestamp) || [];
-
-    this.chart = Highcharts.chart(this.chartContainer.nativeElement, {
-      chart: {
-        type: 'column',
-        backgroundColor: 'transparent',
-        height: 280,
-        zoomType: 'x' as any, // Enable horizontal zoom
-        resetZoomButton: {
-          theme: {
-            fill: '#6366f1',
-            stroke: '#6366f1',
-            style: {
-              color: 'white',
-              fontWeight: '500'
-            },
-            r: 4,
-            states: {
-              hover: {
-                fill: '#4f46e5',
-                stroke: '#4f46e5'
-              }
-            }
-          },
-          position: {
-            align: 'right',
-            verticalAlign: 'top',
-            x: -10,
-            y: 10
-          }
-        },
-        events: {
-          selection: (event: any) => {
-            if (event.xAxis) {
-              // User selected a zone to zoom into
-              const xAxis = event.xAxis[0];
-              const minIndex = Math.floor(xAxis.min);
-              const maxIndex = Math.ceil(xAxis.max);
-
-              // Update time filter with indices
-              this.onChartZoom(minIndex, maxIndex);
-
-              // Prevent default zoom (data will be reloaded)
-              return false;
-            }
-            return true;
-          }
-        }
-      } as any,
-      title: {
-        text: ''
-      },
-      xAxis: {
-        categories: categories,
-        labels: {
-          style: {
-            color: '#64748b',
-            fontSize: '11px'
-          }
-        },
-        lineColor: '#e2e8f0',
-        tickColor: '#e2e8f0'
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Requests',
-          style: {
-            color: '#64748b',
-            fontSize: '12px'
-          }
-        },
-        gridLineColor: '#f1f5f9',
-        labels: {
-          style: {
-            color: '#64748b'
-          }
-        }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        column: {
+    const css = getComputedStyle(document.documentElement);
+    const themeColor = (name: string, fallback: string): string => css.getPropertyValue(name).trim() || fallback;
+    const textColor = themeColor('--text-secondary', '#64748b');
+    const gridColor = themeColor('--border-color', '#334155');
+    const config: ChartConfiguration<'bar'> = {
+      type: 'bar',
+      data: {
+        labels: stats.requestsByHour?.map(h => h.hour) || [],
+        datasets: [{
+          label: 'Requests',
+          data: stats.requestsByHour?.map(h => h.count) || [],
+          backgroundColor: themeColor('--primary-color', '#6366f1'),
+          hoverBackgroundColor: themeColor('--primary-hover', '#4f46e5'),
           borderRadius: 4,
-          pointPadding: 0.1,
-          groupPadding: 0.1,
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontSize: '10px',
-              fontWeight: 'bold',
-              color: '#1e293b',
-              textOutline: 'none'
-            },
-            formatter: function() {
-              return this.y && this.y > 0 ? this.y.toString() : '';
+          barPercentage: 0.9,
+          categoryPercentage: 0.9
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 500 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1e293b',
+            titleColor: '#94a3b8',
+            bodyColor: '#ffffff',
+            callbacks: {
+              title: (items) => {
+                const timestamp = timestamps[items[0].dataIndex];
+                return this.formatChartTimestamp(timestamp);
+              },
+              label: (item) => `Requests: ${item.raw}`
             }
           }
         },
-        series: {
-          animation: {
-            duration: 500
+        scales: {
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { color: textColor, font: { size: 11 } }
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Requests', color: textColor, font: { size: 12 } },
+            grid: { color: gridColor, lineWidth: 0.5 },
+            border: { display: false },
+            ticks: { color: textColor }
           }
-        }
-      },
-      series: [{
-        type: 'column',
-        name: 'Requests',
-        data: data,
-        color: {
-          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-          stops: [
-            [0, '#6366f1'],
-            [1, '#4f46e5']
-          ]
-        }
-      }],
-      credits: {
-        enabled: false
-      },
-      tooltip: {
-        backgroundColor: '#1e293b',
-        borderColor: '#1e293b',
-        borderRadius: 8,
-        style: {
-          color: '#ffffff'
         },
-        formatter: function(this: any) {
-          // Retrieve the data point timestamp
-          const pointIndex = this.point.index;
-          const timestamp = timestamps[pointIndex];
-
-          // Format datetime with millisecond precision
-          const date = new Date(timestamp);
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const day = String(date.getDate()).padStart(2, '0');
-          const hours = String(date.getHours()).padStart(2, '0');
-          const minutes = String(date.getMinutes()).padStart(2, '0');
-          const seconds = String(date.getSeconds()).padStart(2, '0');
-          const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
-
-          const fullDatetime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-
-          return `<b style="font-size:11px;color:#94a3b8;">${fullDatetime}</b><br/>` +
-                 `Requests: <b>${this.y}</b>`;
+        onHover: (_event, elements) => {
+          if (this.chartContainer) {
+            this.chartContainer.nativeElement.style.cursor = elements.length ? 'pointer' : 'default';
+          }
         }
       }
-    });
+    };
+
+    this.chart = new Chart(this.chartContainer.nativeElement, config);
+    this.chartContainer.nativeElement.addEventListener('pointerdown', this.onChartPointerDown);
+    this.chartContainer.nativeElement.addEventListener('pointerup', this.onChartPointerUp);
   }
 
   private updateChart(stats: DashboardStats): void {
@@ -538,24 +454,43 @@ export class DashboardPageComponent implements OnInit, OnDestroy, AfterViewInit 
         return;
       }
 
-      // Always destroy the existing chart to ensure a clean re-initialization
-      if (this.chart) {
-        try {
-          this.chart.destroy();
-        } catch (e) {
-          console.warn('Error destroying chart:', e);
-        }
-        this.chart = undefined;
-      }
-
-      // Clear the HTML container to avoid artifacts
-      if (this.chartContainer.nativeElement) {
-        this.chartContainer.nativeElement.innerHTML = '';
-      }
-
-      // Always reinitialize the chart
+      this.destroyChart();
       this.initializeChart(stats);
     }, 50);
   }
-}
 
+  private destroyChart(): void {
+    if (this.chartContainer) {
+      this.chartContainer.nativeElement.removeEventListener('pointerdown', this.onChartPointerDown);
+      this.chartContainer.nativeElement.removeEventListener('pointerup', this.onChartPointerUp);
+    }
+    this.chart?.destroy();
+    this.chart = undefined;
+  }
+
+  private readonly onChartPointerDown = (event: PointerEvent): void => {
+    this.chartDragStart = this.chart?.scales['x']?.getValueForPixel(event.offsetX);
+  };
+
+  private readonly onChartPointerUp = (event: PointerEvent): void => {
+    if (this.chartDragStart === undefined || !this.chart) {
+      return;
+    }
+
+    const dragEnd = this.chart.scales['x']?.getValueForPixel(event.offsetX);
+    const startIndex = Math.floor(Math.min(this.chartDragStart, dragEnd ?? this.chartDragStart));
+    const endIndex = Math.ceil(Math.max(this.chartDragStart, dragEnd ?? this.chartDragStart));
+    this.chartDragStart = undefined;
+
+    if (endIndex > startIndex) {
+      this.onChartZoom(startIndex, endIndex);
+    }
+  };
+
+  private formatChartTimestamp(timestamp: number): string {
+    const date = new Date(timestamp);
+    const pad = (value: number, length = 2) => String(value).padStart(length, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ` +
+      `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${pad(date.getMilliseconds(), 3)}`;
+  }
+}

@@ -33,7 +33,7 @@ A modern web interface for managing and testing [WireMock](https://wiremock.org/
 ### 📊 Dashboard
 - Overview of active stubs and recent request statistics
 - Time-range filters (Last Hour, Last 24h, Today, Last 7 days)
-- Charts and counters powered by Highcharts
+- Charts and counters powered by Chart.js
 
 ### 📋 Stub Mappings
 - Paginated list of stub mappings (20 per page)
@@ -232,4 +232,4 @@ This project is licensed under the [GNU Affero General Public License v3.0](LICE
 - [MockServer](https://www.mock-server.com/) — another open-source mock server (no longer maintained) that inspired the idea of generating stubs from an OpenAPI specification
 - [Angular](https://angular.dev/) — the frontend framework
 - [Bootstrap](https://getbootstrap.com/) — UI components
-- [Highcharts](https://www.highcharts.com/) — dashboard charts
+- [Chart.js](https://www.chartjs.org/) — dashboard charts (MIT License)

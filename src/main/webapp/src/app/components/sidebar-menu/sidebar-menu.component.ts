@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 export type ViewType = 'dashboard' | 'stubs' | 'scenarios' | 'requests' | 'requester' | 'recording' | 'generator' | 'settings' | 'help';
@@ -8,7 +8,8 @@ export type ViewType = 'dashboard' | 'stubs' | 'scenarios' | 'requests' | 'reque
   standalone: true,
   imports: [],
   templateUrl: './sidebar-menu.component.html',
-  styleUrls: ['./sidebar-menu.component.scss']
+  styleUrls: ['./sidebar-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class SidebarMenuComponent {
   @Input() activeView: ViewType = 'stubs';

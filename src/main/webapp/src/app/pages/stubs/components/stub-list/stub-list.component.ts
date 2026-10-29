@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +9,8 @@ import { StubMapping } from '../../../../models/stub-mapping.model';
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './stub-list.component.html',
-  styleUrls: ['./stub-list.component.scss']
+  styleUrls: ['./stub-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StubListComponent implements OnChanges {
   Math = Math;
