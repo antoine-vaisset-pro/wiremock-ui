@@ -31,6 +31,7 @@ module.exports = tseslint.config(
       ],
       // Downgrade stylistic rules to warnings to avoid blocking workflow on existing code
       "@angular-eslint/prefer-inject": "warn",
+      "@angular-eslint/prefer-on-push-component-change-detection": "warn",
       "@angular-eslint/no-empty-lifecycle-method": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-inferrable-types": "warn",
