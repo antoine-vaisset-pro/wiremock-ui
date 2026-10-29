@@ -99,8 +99,6 @@ jobs:
     needs: [parse, check-permission]
     if: needs.parse.outputs.command == 'deploy' && needs.check-permission.outputs.allowed == 'true'
     uses: ./.github/workflows/deploy-netlify.yml
-    with:
-      ref: ${{ needs.parse.outputs.pr_sha }}
     secrets: inherit
 
   # ── Post the deploy result back as a PR comment ───────────────────────────────
