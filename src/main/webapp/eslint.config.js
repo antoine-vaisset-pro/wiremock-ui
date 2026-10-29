@@ -1,9 +1,7 @@
 // @ts-check
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
-const angularEslintPlugin = require("@angular-eslint/eslint-plugin");
-const angularEslintPluginTemplate = require("@angular-eslint/eslint-plugin-template");
-const angularTemplateParser = require("@angular-eslint/template-parser");
+const angular = require("angular-eslint");
 
 module.exports = tseslint.config(
   {
@@ -12,12 +10,9 @@ module.exports = tseslint.config(
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
     ],
-    plugins: {
-      "@angular-eslint": angularEslintPlugin,
-    },
     rules: {
-      ...angularEslintPlugin.configs.recommended.rules,
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -49,18 +44,11 @@ module.exports = tseslint.config(
       "preserve-caught-error": "warn",
     },
   },
-  {
+  ...angular.configs.templateRecommended.map((config) => ({
+    ...config,
     files: ["**/*.html"],
-    languageOptions: {
-      parser: angularTemplateParser,
-    },
-    plugins: {
-      "@angular-eslint/template": angularEslintPluginTemplate,
-    },
-    rules: {
-      ...angularEslintPluginTemplate.configs["recommended"].rules,
-      "@angular-eslint/template/prefer-control-flow": "warn",
-    },
-  }
+    rules: Object.fromEntries(
+      Object.keys(config.rules ?? {}).map((rule) => [rule, "warn"]),
+    ),
+  })),
 );
-
