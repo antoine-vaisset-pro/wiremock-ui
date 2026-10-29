@@ -239,9 +239,11 @@
             }
           </h2>
           <div class="chart-container">
-            <!-- The container must always be present and visible for Highcharts -->
-            <div #chartContainer class="highcharts-container"></div>
-            <!-- Empty state affiché seulement quand il n'y a pas de données -->
+            <!-- The canvas must always be present and visible for Chart.js -->
+            <div class="chart-canvas">
+              <canvas #chartContainer></canvas>
+            </div>
+            <!-- Empty state displayed only when there is no data -->
             @if (!stats || !stats.requestsByHour || stats.requestsByHour.length === 0) {
               <div class="empty-state">
                 <i class="fas fa-chart-bar"></i>
@@ -357,4 +359,3 @@
     </div>
   }
 </div>
-
