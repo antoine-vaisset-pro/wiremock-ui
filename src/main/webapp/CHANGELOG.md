@@ -1373,7 +1373,7 @@ npm install highcharts --save
 - `package.json` - Ajout de `highcharts`
 
 #### Documentation Ajoutée
-- `DASHBOARD_CHARTJS_v1.2.3.md` - Guide complet d'intégration
+- `DASHBOARD_HIGHCHARTS_v1.2.3.md` - Guide complet d'intégration
 
 #### Améliorations Futures Possibles
 - Export de graphiques (PNG, PDF, SVG)
